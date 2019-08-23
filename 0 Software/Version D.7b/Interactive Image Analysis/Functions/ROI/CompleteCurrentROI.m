@@ -6,8 +6,9 @@ function CompleteCurrentROI(tab,axnum)
 global IMAGEANLZ
 
 if not(isempty(IMAGEANLZ.(tab)(axnum).movefunction))
-    error;          % shouldn't get here
+    return
 end
+
 if IMAGEANLZ.(tab)(axnum).GETROIS == 0
     error;          % shouldn't get here
 end
@@ -77,6 +78,9 @@ switch IMAGEANLZ.(tab)(axnum).presentation
             IMAGEANLZ.(tab)(r).PlotImage;
             IMAGEANLZ.(tab)(r).DrawSavedROIs([]);
             IMAGEANLZ.(tab)(r).ResetStatus;
+            if IMAGEANLZ.(tab)(r).TestSavedLines
+                IMAGEANLZ.(tab)(r).DrawSavedLines;
+            end
         end
         IMAGEANLZ.(tab)(1).SetSavedROIValues;
         IMAGEANLZ.(tab)(1).FIGOBJS.NewROIbutton.BackgroundColor = [0.8,0.8,0.8];

@@ -75,7 +75,8 @@ IMAGEANLZ.COLORORDER = {[0 1 1],[0.1 1 0.5],[0.5 0.4 0.2],[1 1 0.5],[1 0.5 0.1],
                    [0 1 1],[0.1 1 0.5],[0.5 0.4 0.2],[1 1 0.5],[1 0.5 0.1],[1 0.2 1],[0.3 0.3 1] ...
                    [0.2 1 1],[0.2 1 0.6],[0.5 0.5 0.3],[1 1 0.7],[1 0.7 0.1],[1 0.4 1],[0.4 0.4 1]};         
 %-- line
-IMAGEANLZ.GETLINE = 0;               
+IMAGEANLZ.GETLINE = 0;
+IMAGEANLZ.LineToolActive = 0;
 %-- tieing
 IMAGEANLZ.ALLTIE = 0;
 IMAGEANLZ.DATVALTIE = 0;

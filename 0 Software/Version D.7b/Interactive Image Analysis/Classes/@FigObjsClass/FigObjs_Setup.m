@@ -229,6 +229,16 @@ if isfield(FIGOBJS.(tab),'ROILAB')
         IMOBJS.ROILAB = FIGOBJS.(tab).ROILAB(axnum,:);
     end
 end
+if isfield(FIGOBJS.(tab),'LINELAB')
+    if axnum <= length(FIGOBJS.(tab).LINELAB(:,1))
+        IMOBJS.LINELAB = FIGOBJS.(tab).LINELAB(axnum,:);
+    end
+end
+if isfield(FIGOBJS.(tab),'ActivateLineTool')
+    if axnum <= length(FIGOBJS.(tab).ActivateLineTool(:,1))
+        IMOBJS.ActivateLineTool = FIGOBJS.(tab).ActivateLineTool(axnum,:);
+    end
+end
 if isfield(FIGOBJS.(tab),'CURRENT')
     if axnum <= length(FIGOBJS.(tab).CURRENT(:,1))
         IMOBJS.CURRENT = FIGOBJS.(tab).CURRENT(axnum,:);
@@ -244,6 +254,11 @@ if isfield(FIGOBJS.(tab),'SAVEDLINES')
         IMOBJS.SAVEDLINES = squeeze(FIGOBJS.(tab).SAVEDLINES(axnum,:,:));
     end
 end
+if isfield(FIGOBJS.(tab),'DeleteLine')
+    if axnum <= length(FIGOBJS.(tab).DeleteLine(:,1))
+        IMOBJS.DeleteLine = FIGOBJS.(tab).DeleteLine(axnum,:);
+    end
+end  
 if isfield(FIGOBJS.(tab),'ROICreateSel')
     if axnum <= length(FIGOBJS.(tab).ROICreateSel)
         IMOBJS.ROICreateSel = FIGOBJS.(tab).ROICreateSel(axnum);

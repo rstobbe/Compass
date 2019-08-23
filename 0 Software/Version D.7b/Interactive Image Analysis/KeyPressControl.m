@@ -6,11 +6,11 @@ function KeyPressControl(currentax,tab,axnum,event)
 global IMAGEANLZ
 
 GETROIS = IMAGEANLZ.(tab)(axnum).GETROIS;
-GETLINE = IMAGEANLZ.(tab)(axnum).GETLINE;
+LineToolActive = IMAGEANLZ.(tab)(axnum).LineToolActive;
 
 switch event.Character  
     case 'z'                                        % New current ROI
-        if GETROIS == 1
+        if GETROIS == 1 || LineToolActive == 1
             return
         end       
         NewROI(tab,axnum);
@@ -26,10 +26,13 @@ switch event.Character
         end
         CompleteCurrentROI(tab,axnum);
     case 'v'                                        % Complete current ROI / don't save
-        if GETROIS == 0
+        if GETROIS == 1
+            DiscardCurrentROI(tab,axnum); 
+        elseif LineToolActive == 1
+            EndLineTool(tab,axnum);
+        else
             return
-        end
-        DiscardCurrentROI(tab,axnum);      
+        end  
     case 'b'                                        % Complete current ROI / don't save
         if GETROIS == 0
             return
@@ -92,9 +95,9 @@ switch event.Character
         if GETROIS == 1
             return
         end  
-%         if GETLINE == 1
-%             return
-%         end  
+        if LineToolActive == 1
+            return
+        end  
         NewLine(tab,axnum);
 %     case 'g'
 %         %Show_All_ROIs;

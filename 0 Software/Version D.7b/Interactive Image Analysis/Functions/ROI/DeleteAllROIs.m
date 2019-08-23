@@ -34,6 +34,9 @@ switch IMAGEANLZ.(tab)(axnum).presentation
             IMAGEANLZ.(tab)(r).DeleteAllSavedROIs;
             IMAGEANLZ.(tab)(r).PlotImage;
             IMAGEANLZ.(tab)(r).DrawCurrentROI([]); 
+            if IMAGEANLZ.(tab)(r).TestSavedLines
+                IMAGEANLZ.(tab)(r).DrawSavedLines;
+            end
         end
         for roinum = 1:35
             IMAGEANLZ.(tab)(1).ROISOFINTEREST(roinum) = 0;

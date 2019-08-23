@@ -32,6 +32,9 @@ switch IMAGEANLZ.(tab)(axnum).presentation
             IMAGEANLZ.(tab)(r).PlotImage;
             IMAGEANLZ.(tab)(r).DrawSavedROIs([]);
             IMAGEANLZ.(tab)(r).DrawCurrentROI([]); 
+            if IMAGEANLZ.(tab)(r).TestSavedLines
+                IMAGEANLZ.(tab)(r).DrawSavedLines;
+            end
         end
         DrawOrthoLines(tab);
 end

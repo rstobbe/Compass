@@ -52,10 +52,13 @@ classdef FigObjsClass < handle
         ImAxes;
         OUTPUT;
         ROINAME;
-        ROILAB; 
+        ROILAB;
+        LINELAB;
         CURRENT;
         CURRENTLINE;
         SAVEDLINES;
+        DeleteLine;
+        ActivateLineTool;
         ROICreateSel;
         ROITab;
         Colours;

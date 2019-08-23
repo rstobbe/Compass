@@ -14,9 +14,12 @@ if err.flag
     ErrDisp(err)
     return
 end
-abort = IMAGEANLZ.(tab)(axnum).RoiSizeTest(totgblnum);
-if abort == 1
-    return
+samedims = IMAGEANLZ.(tab)(axnum).ImageDimsCompare(totgblnum);
+if samedims == 0
+    abort = IMAGEANLZ.(tab)(axnum).RoiSizeTest(totgblnum);
+    if abort == 1
+        return
+    end
 end
 for axnum = 1:3
     IMAGEANLZ.(tab)(axnum).AssignData(totgblnum);
@@ -41,15 +44,19 @@ end
 %----------------------------------------
 % Set Slice 
 %----------------------------------------
-for axnum = 1:3
-    IMAGEANLZ.(tab)(axnum).SetMiddleSlice;
+if samedims == 0
+    for axnum = 1:3
+        IMAGEANLZ.(tab)(axnum).SetMiddleSlice;
+    end
 end
 
 %----------------------------------------
 % Set Zoom (if necessary/available)
 %----------------------------------------
-for axnum = 1:3
-    IMAGEANLZ.(tab)(axnum).ResetScale;
+if samedims == 0
+    for axnum = 1:3
+        IMAGEANLZ.(tab)(axnum).ResetScale;
+    end
 end
 
 %----------------------------------------
@@ -97,16 +104,39 @@ for axnum = 1:3
     IMAGEANLZ.(tab)(axnum).PlotImage;
     if IMAGEANLZ.(tab)(axnum).SAVEDROISFLAG == 1
         IMAGEANLZ.(tab)(axnum).DrawSavedROIs([]);
-        IMAGEANLZ.(tab)(1).ComputeAllSavedROIs;
-        IMAGEANLZ.(tab)(1).SetSavedROIValues;
+        if axnum == 1
+            IMAGEANLZ.(tab)(1).ComputeAllSavedROIs;
+            IMAGEANLZ.(tab)(1).SetSavedROIValues;
+        end
     end
     if IMAGEANLZ.(tab)(axnum).GETROIS == 1
         IMAGEANLZ.(tab)(axnum).DrawCurrentROI([]);
-        IMAGEANLZ.(tab)(1).ComputeCurrentROI;
-        IMAGEANLZ.(tab)(1).SetCurrentROIValue;
+        if axnum == 1
+            IMAGEANLZ.(tab)(1).ComputeCurrentROI;
+            IMAGEANLZ.(tab)(1).SetCurrentROIValue;
+        end
     end
 end
 DrawOrthoLines(tab);
+
+%-----------------------------------
+% Lines
+%-----------------------------------
+if samedims == 1
+    for axnum = 1:3
+        if IMAGEANLZ.(tab)(axnum).TestSavedLines
+            IMAGEANLZ.(tab)(axnum).DrawSavedLines;
+        end
+    end
+else
+    for linenum = 1:3
+        for r = 1:3
+            GlobalSavedLinesInd = IMAGEANLZ.(tab)(r).DeleteSavedLine(linenum);
+            IMAGEANLZ.(tab)(r).UpdateGlobalSavedLinesInd(GlobalSavedLinesInd); 
+        end
+        IMAGEANLZ.(tab)(1).DeleteSavedLineData(linenum); 
+    end
+end
 
 %-----------------------------------
 % Finish up

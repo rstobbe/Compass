@@ -25,14 +25,16 @@ end
 for p = 1:3
     IMOBJS.CURRENT(p).Visible = 'off';
 end
-for p = 1:2
+for p = 1:4
     IMOBJS.CURRENTLINE(p).Visible = 'off';
 end
 sz = size(IMOBJS.SAVEDLINES);
 for n = 1:sz(1)
-    for p = 1:2
+    for p = 1:4
         IMOBJS.SAVEDLINES(n,p).Visible = 'off';
+        IMOBJS.LINELAB(n).ForegroundColor = [0.8 0.8 0.8];
     end
+    IMOBJS.DeleteLine(n).Visible = 'off';
 end
 
 IMOBJS.ImageName.Visible = 'Off';
@@ -78,6 +80,9 @@ IMOBJS.TieCursor.Enable = 'on';
 IMOBJS.HoldContrast.Value = 0;
 IMOBJS.ShadeROI.Value = 0;
 IMOBJS.NewROIbutton.BackgroundColor = [0.8 0.8 0.8];
+IMOBJS.NewROIbutton.ForegroundColor = [0.149 0.149 0.241];
+IMOBJS.ActivateLineTool.BackgroundColor = [0.8 0.8 0.8];
+IMOBJS.ActivateLineTool.ForegroundColor = [0.149 0.149 0.241];
 
 colormap(IMOBJS.ImAxes,IMOBJS.Options.GrayMap);    
 IMOBJS.ImColour.Value = 1;

@@ -6,8 +6,9 @@ function DeleteLastRegion(tab,axnum)
 global IMAGEANLZ
 
 if not(isempty(IMAGEANLZ.(tab)(axnum).movefunction))
-    error;          % shouldn't get here
+    return
 end
+
 if IMAGEANLZ.(tab)(axnum).GETROIS == 0
     error;          % shouldn't get here
 end

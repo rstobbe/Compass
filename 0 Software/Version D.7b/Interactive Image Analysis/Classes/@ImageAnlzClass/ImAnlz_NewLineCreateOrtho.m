@@ -6,15 +6,14 @@ function IMAGEANLZ = ImAnlz_NewLineCreateOrtho(IMAGEANLZ)
 %---------------------------------------------
 % Create
 %---------------------------------------------
-IMAGEANLZ.GETLINE = 1;
+IMAGEANLZ.LineToolActive = 1;
 IMAGEANLZ.CURRENTLINE = ImageLineClass(IMAGEANLZ);
 
 IMAGEANLZ.buttonfunction = 'CreateLine';
 IMAGEANLZ.movefunction = '';
 
-% IMAGEANLZ.TEMPROI.AddNewRegion(ROITOOL);
-% IMAGEANLZ.TEMPROI.InitializeRegion;
 IMAGEANLZ.pointer = IMAGEANLZ.CURRENTLINE.GetPointer;
+set(gcf,'pointer',IMAGEANLZ.pointer);
 
 if IMAGEANLZ.GETLINE
     for n = 1:length(IMAGEANLZ.ortholine)
@@ -25,7 +24,7 @@ if IMAGEANLZ.GETLINE
 end
 
 Status(1).state = 'busy';
-Status(1).string = 'New Line Active';       
+Status(1).string = 'Draw Line';       
 Status(2).state = 'busy';  
 Status(2).string = IMAGEANLZ.CURRENTLINE.GetStatus;   
 Status(3).state = 'info';  

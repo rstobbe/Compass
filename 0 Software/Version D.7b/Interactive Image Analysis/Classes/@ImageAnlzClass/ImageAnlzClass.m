@@ -51,6 +51,7 @@ classdef ImageAnlzClass < handle
         complexaverageroi;
         %-- line
         GETLINE;
+        LineToolActive;
         %-- tieing
         ALLTIE;
         DATVALTIE;
@@ -220,6 +221,14 @@ classdef ImageAnlzClass < handle
         function UnHighlightROI(IMAGEANLZ,roinum)
             IMAGEANLZ.FIGOBJS.ROILAB(roinum).ForegroundColor = [0.8,0.8,0.8];
         end
+        % HighlightLine
+        function HighlightLine(IMAGEANLZ,linenum)
+            IMAGEANLZ.FIGOBJS.LINELAB(linenum).ForegroundColor = [1,1,0.5];
+        end
+        % UnHighlightLine
+        function UnHighlightLine(IMAGEANLZ,linenum)
+            IMAGEANLZ.FIGOBJS.LINELAB(linenum).ForegroundColor = [0.8,0.8,0.8];
+        end
         % GetFigureAspectRatio
         function aspectratio = GetFigureAspectRatio(IMAGEANLZ)
             aspectratio = IMAGEANLZ.FIGOBJS.AspectRatio;
@@ -232,7 +241,7 @@ classdef ImageAnlzClass < handle
         function err = TestForImage(~,totgblnum) 
             global TOTALGBL
             err.flag = 0; err.msg = '';
-            if not(isfield(TOTALGBL{2,totgblnum},'Im'));
+            if not(isfield(TOTALGBL{2,totgblnum},'Im'))
                 err.flag = 1;
                 err.msg = 'Selection does not contain an image';
             end
@@ -888,8 +897,10 @@ classdef ImageAnlzClass < handle
         end
         % WriteCurrentLineData
         function WriteCurrentLineData(IMAGEANLZ,CurrentLine)
-            set(IMAGEANLZ.FIGOBJS.CURRENTLINE(1),'visible','on','string',num2str(CurrentLine.length,'%3.3f'),'foregroundcolor','r');
-            set(IMAGEANLZ.FIGOBJS.CURRENTLINE(2),'visible','on','string',num2str(CurrentLine.angle,'%2.5f'),'foregroundcolor','r'); 
+            set(IMAGEANLZ.FIGOBJS.CURRENTLINE(1),'visible','on','string',num2str(CurrentLine.lengthTot,'%3.3f'),'foregroundcolor','r');
+            set(IMAGEANLZ.FIGOBJS.CURRENTLINE(2),'visible','on','string',num2str(CurrentLine.lengthIP,'%3.3f'),'foregroundcolor','r');
+            set(IMAGEANLZ.FIGOBJS.CURRENTLINE(3),'visible','on','string',num2str(CurrentLine.anglePol,'%2.5f'),'foregroundcolor','r'); 
+            set(IMAGEANLZ.FIGOBJS.CURRENTLINE(4),'visible','on','string',num2str(CurrentLine.angleAzi,'%2.5f'),'foregroundcolor','r'); 
         end
         % CurrentLineDrawError
         function CurrentLineDrawError(IMAGEANLZ) 
@@ -899,12 +910,15 @@ classdef ImageAnlzClass < handle
         function CurrentLineDrawErrorWrite(IMAGEANLZ) 
             set(IMAGEANLZ.FIGOBJS.CURRENTLINE(1),'visible','off');
             set(IMAGEANLZ.FIGOBJS.CURRENTLINE(2),'visible','off');
+            set(IMAGEANLZ.FIGOBJS.CURRENTLINE(3),'visible','off');
+            set(IMAGEANLZ.FIGOBJS.CURRENTLINE(4),'visible','off');      
         end
         % SaveLine
         function [n,GlobalSavedLinesInd] = SaveLine(IMAGEANLZ)
             for n = 1:3
-                if IMAGEANLZ.SavedLinesInd(n) == 0
-                    IMAGEANLZ.SAVEDLINES(n) = ImageLineClass(IMAGEANLZ);
+                if IMAGEANLZ.GlobalSavedLinesInd(n) == 0
+                    test = ImageLineClass(IMAGEANLZ);
+                    IMAGEANLZ.SAVEDLINES(n) = test;
                     IMAGEANLZ.SAVEDLINES(n).CopyLineInfo(IMAGEANLZ.CURRENTLINE);
                     axhand = IMAGEANLZ.GetAxisHandle;
                     IMAGEANLZ.SAVEDLINES(n).DrawLine(axhand,IMAGEANLZ.LineClrOrder(n));
@@ -916,18 +930,28 @@ classdef ImageAnlzClass < handle
             GlobalSavedLinesInd = IMAGEANLZ.GlobalSavedLinesInd;
         end
         % UpdateGlobalSavedLinesInd
-        function UpdateSavedLinesInd(IMAGEANLZ,GlobalSavedLinesInd) 
+        function UpdateGlobalSavedLinesInd(IMAGEANLZ,GlobalSavedLinesInd) 
             IMAGEANLZ.GlobalSavedLinesInd = GlobalSavedLinesInd;
         end
         % WriteSavedLineData
         function WriteSavedLineData(IMAGEANLZ,SAVEDLINES,SavedLine)
-            set(IMAGEANLZ.FIGOBJS.SAVEDLINES(SavedLine,1),'visible','on','string',num2str(SAVEDLINES(SavedLine).length,'%3.3f'),'foregroundcolor',IMAGEANLZ.LineClrOrder(SavedLine));
-            set(IMAGEANLZ.FIGOBJS.SAVEDLINES(SavedLine,2),'visible','on','string',num2str(SAVEDLINES(SavedLine).angle,'%2.5f'),'foregroundcolor',IMAGEANLZ.LineClrOrder(SavedLine)); 
+            set(IMAGEANLZ.FIGOBJS.SAVEDLINES(SavedLine,1),'visible','on','string',num2str(SAVEDLINES(SavedLine).lengthTot,'%3.3f'),'foregroundcolor',IMAGEANLZ.LineClrOrder(SavedLine));
+            set(IMAGEANLZ.FIGOBJS.SAVEDLINES(SavedLine,2),'visible','on','string',num2str(SAVEDLINES(SavedLine).lengthIP,'%3.3f'),'foregroundcolor',IMAGEANLZ.LineClrOrder(SavedLine));
+            set(IMAGEANLZ.FIGOBJS.SAVEDLINES(SavedLine,3),'visible','on','string',num2str(SAVEDLINES(SavedLine).anglePol,'%3.3f'),'foregroundcolor',IMAGEANLZ.LineClrOrder(SavedLine));
+            set(IMAGEANLZ.FIGOBJS.SAVEDLINES(SavedLine,4),'visible','on','string',num2str(SAVEDLINES(SavedLine).angleAzi,'%2.5f'),'foregroundcolor',IMAGEANLZ.LineClrOrder(SavedLine)); 
+            set(IMAGEANLZ.FIGOBJS.DeleteLine(SavedLine),'visible','on'); 
+        end
+        % ClearCurrentLine
+        function ClearCurrentLine(IMAGEANLZ)
+            IMAGEANLZ.CURRENTLINE.DeleteGraphicObjects;
+            IMAGEANLZ.GETLINE = 0;
         end
         % ClearCurrentLineData
         function ClearCurrentLineData(IMAGEANLZ)
             set(IMAGEANLZ.FIGOBJS.CURRENTLINE(1),'visible','off');
             set(IMAGEANLZ.FIGOBJS.CURRENTLINE(2),'visible','off'); 
+            set(IMAGEANLZ.FIGOBJS.CURRENTLINE(3),'visible','off');
+            set(IMAGEANLZ.FIGOBJS.CURRENTLINE(4),'visible','off'); 
             IMAGEANLZ.GETLINE = 0;
         end
         % TestSavedLines
@@ -940,12 +964,38 @@ classdef ImageAnlzClass < handle
          % DrawSavedLines
         function DrawSavedLines(IMAGEANLZ)
             axhand = IMAGEANLZ.GetAxisHandle;
-            test = IMAGEANLZ.SavedLinesInd
             for n = 1:3
                 if IMAGEANLZ.SavedLinesInd(n) == 1
-                    IMAGEANLZ.SAVEDLINES(n).DrawLine(axhand,IMAGEANLZ.LineClrOrder(n));
+                    if IMAGEANLZ.SAVEDLINES(n).TestLineInSlice(IMAGEANLZ.SLICE)
+                        IMAGEANLZ.SAVEDLINES(n).DrawLine(axhand,IMAGEANLZ.LineClrOrder(n));
+                    end
                 end
             end
+        end
+        % DeleteSavedLine
+        function [GlobalSavedLinesInd] = DeleteSavedLine(IMAGEANLZ,SavedLine)
+            if length(IMAGEANLZ.SAVEDLINES) >= SavedLine
+                IMAGEANLZ.SAVEDLINES(SavedLine).DeleteGraphicObjects;
+            end 
+            IMAGEANLZ.SavedLinesInd(SavedLine) = 0;
+            IMAGEANLZ.GlobalSavedLinesInd(SavedLine) = 0;
+            GlobalSavedLinesInd = IMAGEANLZ.GlobalSavedLinesInd;
+        end    
+        % DeleteSavedLineData
+        function DeleteSavedLineData(IMAGEANLZ,SavedLine)
+            set(IMAGEANLZ.FIGOBJS.SAVEDLINES(SavedLine,1),'visible','off');
+            set(IMAGEANLZ.FIGOBJS.SAVEDLINES(SavedLine,2),'visible','off');
+            set(IMAGEANLZ.FIGOBJS.SAVEDLINES(SavedLine,3),'visible','off');
+            set(IMAGEANLZ.FIGOBJS.SAVEDLINES(SavedLine,4),'visible','off');
+            set(IMAGEANLZ.FIGOBJS.DeleteLine(SavedLine),'visible','off'); 
+        end  
+        % EndLineTool
+        function EndLineTool(IMAGEANLZ)
+            IMAGEANLZ.LineToolActive = 0;
+            IMAGEANLZ.buttonfunction = '';
+            IMAGEANLZ.movefunction = '';
+            IMAGEANLZ.pointer = 'arrow';
+            set(gcf,'pointer',IMAGEANLZ.pointer);
         end
         
 %==================================================================
@@ -1195,6 +1245,10 @@ classdef ImageAnlzClass < handle
         % RoiSizeTest
         function abort = RoiSizeTest(IMAGEANLZ,totgblnum)
             abort = ImAnlz_RoiSizeTest(IMAGEANLZ,totgblnum);
+        end
+        % ImageDimsCompare
+        function abort = ImageDimsCompare(IMAGEANLZ,totgblnum)
+            abort = ImAnlz_ImageDimsCompare(IMAGEANLZ,totgblnum);
         end
         
 %==================================================================

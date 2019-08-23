@@ -6,7 +6,7 @@ function DiscardCurrentROI(tab,axnum)
 global IMAGEANLZ
 
 if not(isempty(IMAGEANLZ.(tab)(axnum).movefunction))
-    error;          % shouldn't get here
+    return
 end
 
 switch IMAGEANLZ.(tab)(axnum).presentation
@@ -42,6 +42,9 @@ switch IMAGEANLZ.(tab)(axnum).presentation
             IMAGEANLZ.(tab)(r).DiscardCurrentROI;
             IMAGEANLZ.(tab)(r).PlotImage;
             IMAGEANLZ.(tab)(r).DrawSavedROIs([]);
+            if IMAGEANLZ.(tab)(r).TestSavedLines
+                IMAGEANLZ.(tab)(r).DrawSavedLines;
+            end
         end
         IMAGEANLZ.(tab)(1).EnableOrient;
         IMAGEANLZ.(tab)(1).ResetStatus;

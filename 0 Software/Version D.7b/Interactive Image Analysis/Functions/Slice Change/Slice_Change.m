@@ -74,7 +74,7 @@ end
 for axnum = start:stop
     if IMAGEANLZ.(tab)(axnum).TestAxisActive
         if IMAGEANLZ.(tab)(axnum).GETLINE == 1  
-            IMAGEANLZ.(tab)(axnum).DrawCurrentLine;
+            DrawLine(tab,axnum,x,y); 
         end   
         if IMAGEANLZ.(tab)(axnum).TestSavedLines
             IMAGEANLZ.(tab)(axnum).DrawSavedLines;
