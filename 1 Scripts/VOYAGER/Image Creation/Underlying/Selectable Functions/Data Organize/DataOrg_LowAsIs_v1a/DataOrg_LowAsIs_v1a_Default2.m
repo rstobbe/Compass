@@ -1,0 +1,10 @@
+%====================================================
+%
+%====================================================
+
+function [default] = DataOrg_LowAsIs_v1a_Default2(SCRPTPATHS)
+
+m = 1;
+default{m,1}.entrytype = 'Input';
+default{m,1}.labelstr = 'kmaxRel (%)';
+default{m,1}.entrystr = '50';
