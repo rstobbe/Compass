@@ -56,7 +56,7 @@ RWSUIGBL.ActiveScript.panelnum = 0;
 %-----------------------------------
 if doPaths
     disp('Loading Paths');
-    addpath(genpath(LOCS.defrootloc));
+    addpath(genpath(COMPASSINFO.USERGBL.defrootloc));
     addpath(genpath(LOCS.newhorizonsloc));
     addpath(genpath(LOCS.pioneerloc));
     addpath(genpath(LOCS.voyagerloc));
@@ -76,8 +76,8 @@ for tab = 1:length(Tabs)
     for n = 1:5
         SCRPTPATHS.(Tabs{tab})(n).loc = LOCS.scriptloc;
         SCRPTPATHS.(Tabs{tab})(n).rootloc = LOCS.scriptloc;
-        SCRPTPATHS.(Tabs{tab})(n).defloc = LOCS.defloc;
-        SCRPTPATHS.(Tabs{tab})(n).defrootloc = LOCS.defrootloc;
+        SCRPTPATHS.(Tabs{tab})(n).defloc = COMPASSINFO.USERGBL.defloc;
+        SCRPTPATHS.(Tabs{tab})(n).defrootloc = COMPASSINFO.USERGBL.defrootloc;
         SCRPTPATHS.(Tabs{tab})(n).pioneerloc = LOCS.pioneerloc;
         SCRPTPATHS.(Tabs{tab})(n).newhorizonsloc = LOCS.newhorizonsloc;
         SCRPTPATHS.(Tabs{tab})(n).voyagerloc = LOCS.voyagerloc;
@@ -90,9 +90,9 @@ for tab = 1:length(Tabs)
         SCRPTPATHS.(Tabs{tab})(n).scrptshareloc = LOCS.scrptshareloc;
         SCRPTPATHS.(Tabs{tab})(n).experimentsloc = COMPASSINFO.USERGBL.experimentsloc;
         SCRPTPATHS.(Tabs{tab})(n).tempdataloc = COMPASSINFO.USERGBL.tempdataloc;
-        SCRPTPATHS.(Tabs{tab})(n).invfiltloc = LOCS.invfiltloc;
-        SCRPTPATHS.(Tabs{tab})(n).imkernloc = LOCS.imkernloc;
-        SCRPTPATHS.(Tabs{tab})(n).sysresploc = LOCS.sysresploc;        
+        SCRPTPATHS.(Tabs{tab})(n).invfiltloc = COMPASSINFO.USERGBL.invfiltloc;
+        SCRPTPATHS.(Tabs{tab})(n).imkernloc = COMPASSINFO.USERGBL.imkernloc;
+        SCRPTPATHS.(Tabs{tab})(n).sysresploc = COMPASSINFO.USERGBL.sysresploc;        
     end
 end
 Tabs = {'IM','IM2','IM3','IM4'};
@@ -100,8 +100,8 @@ for tab = 1:length(Tabs)
     for n = 1:4
         SCRPTPATHS.(Tabs{tab})(n).loc = LOCS.scriptloc;
         SCRPTPATHS.(Tabs{tab})(n).rootloc = LOCS.scriptloc;
-        SCRPTPATHS.(Tabs{tab})(n).defloc = LOCS.defloc;
-        SCRPTPATHS.(Tabs{tab})(n).defrootloc = LOCS.defrootloc;
+        SCRPTPATHS.(Tabs{tab})(n).defloc = COMPASSINFO.USERGBL.defloc;
+        SCRPTPATHS.(Tabs{tab})(n).defrootloc = COMPASSINFO.USERGBL.defrootloc;
         SCRPTPATHS.(Tabs{tab})(n).pioneerloc = LOCS.pioneerloc;
         SCRPTPATHS.(Tabs{tab})(n).newhorizonsloc = LOCS.newhorizonsloc;
         SCRPTPATHS.(Tabs{tab})(n).voyagerloc = LOCS.voyagerloc;
@@ -115,9 +115,9 @@ for tab = 1:length(Tabs)
         SCRPTPATHS.(Tabs{tab})(n).experimentsloc = COMPASSINFO.USERGBL.experimentsloc;
         SCRPTPATHS.(Tabs{tab})(n).roisloc = COMPASSINFO.USERGBL.experimentsloc;
         SCRPTPATHS.(Tabs{tab})(n).tempdataloc = COMPASSINFO.USERGBL.tempdataloc;
-        SCRPTPATHS.(Tabs{tab})(n).invfiltloc = LOCS.invfiltloc;
-        SCRPTPATHS.(Tabs{tab})(n).imkernloc = LOCS.imkernloc;
-        SCRPTPATHS.(Tabs{tab})(n).sysresploc = LOCS.sysresploc;        
+        SCRPTPATHS.(Tabs{tab})(n).invfiltloc = COMPASSINFO.USERGBL.invfiltloc;
+        SCRPTPATHS.(Tabs{tab})(n).imkernloc = COMPASSINFO.USERGBL.imkernloc;
+        SCRPTPATHS.(Tabs{tab})(n).sysresploc = COMPASSINFO.USERGBL.sysresploc;        
     end
 end
 
