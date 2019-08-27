@@ -75,7 +75,8 @@ FIGOBJS.(SCRPTGBL.RWSUI.tab).Info.String = ExpDisp;
 %--------------------------------------------
 SCRPTipt(SCRPTGBL.RWSUI.curpanipt).entrystruct.display = ExpDisp; 
 
-saveData.TwixObj = DataInfo;
+saveData.TwixObj = twix;
+saveData.DataInfo = DataInfo;
 saveData.MrProt = MrProt;
 saveData.ExpPars = ExpPars;
 saveData.ExpDisp = ExpDisp;

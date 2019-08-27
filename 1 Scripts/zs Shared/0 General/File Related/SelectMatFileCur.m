@@ -12,6 +12,8 @@ INPUT.Extension = '*.mat*';
 INPUT.CurFunc = 'SelectMatFileCur';
 INPUT.DropExt = 'Yes';
 INPUT.Type = 'MatFile';
+INPUT.AssignPath = 'Yes';
+
 [SCRPTipt,SCRPTGBL,saveData,err] = SelectGeneralFileCur_v5(SCRPTipt,SCRPTGBL,INPUT);
 
 Status('done','');

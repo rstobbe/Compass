@@ -110,7 +110,14 @@ if strcmp(IMG.function,'PopCreate')
                 Default = [ExpPars.seqfil,'_',ExpPars.comment];
             end
         end
-
+        
+        %---------------------------------------------
+        % Determine Front of Chain
+        %---------------------------------------------         
+        if not(exist([Totalfolders{n},'\params'],'file'))
+            continue
+        end
+        
         %---------------------------------------------
         % Determine If Previous Recon
         %---------------------------------------------    
