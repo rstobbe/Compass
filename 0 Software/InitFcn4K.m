@@ -9,17 +9,17 @@ softwarefolder = curfolder(1:ind(end)-1);
 addpath(genpath(softwarefolder));
 ind = strfind(softwarefolder,'\');
 compassfolder = softwarefolder(1:ind(end));
+addpath(compassfolder);
 
 %-----------------------------------
 % General
 %-----------------------------------
 global COMPASSINFO
 COMPASSINFO.CUDA = GraphicCard_Info(doCuda);
-COMPASSINFO.USERGBL = User_Info;
+COMPASSINFO.USERGBL = CompassUserInfo;
 COMPASSINFO.USERGBL.softwaredrive = compassfolder(1:3);
-LOCS = ScriptPath_Info(compassfolder);
+LOCS = ScriptPath_Info([softwarefolder,'\']);
 COMPASSINFO.LOCS = LOCS;
-COMPASSINFO.CONSOLEGBL = Console_Info;
 
 if not(isfield(COMPASSINFO.USERGBL,'trajdevloc'))
     COMPASSINFO.USERGBL.trajdevloc = COMPASSINFO.USERGBL.experimentsloc;

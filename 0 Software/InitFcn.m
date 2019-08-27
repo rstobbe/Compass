@@ -1,4 +1,4 @@
-function init_fcn(doCuda,doPaths)
+function InitFcn(doCuda,doPaths)
 
 %-----------------------------------
 % Local Paths
@@ -9,17 +9,17 @@ softwarefolder = curfolder(1:ind(end)-1);
 addpath(genpath(softwarefolder));
 ind = strfind(softwarefolder,'\');
 compassfolder = softwarefolder(1:ind(end));
+addpath(compassfolder);
 
 %-----------------------------------
 % General
 %-----------------------------------
 global COMPASSINFO
 COMPASSINFO.CUDA = GraphicCard_Info(doCuda);
-COMPASSINFO.USERGBL = User_Info;
+COMPASSINFO.USERGBL = CompassUserInfo;
 COMPASSINFO.USERGBL.softwaredrive = compassfolder(1:3);
-LOCS = ScriptPath_Info(compassfolder);
+LOCS = ScriptPath_Info([softwarefolder,'\']);
 COMPASSINFO.LOCS = LOCS;
-COMPASSINFO.CONSOLEGBL = Console_Info;
 
 if not(isfield(COMPASSINFO.USERGBL,'trajdevloc'))
     COMPASSINFO.USERGBL.trajdevloc = COMPASSINFO.USERGBL.experimentsloc;
@@ -56,7 +56,7 @@ RWSUIGBL.ActiveScript.panelnum = 0;
 %-----------------------------------
 if doPaths
     disp('Loading Paths');
-    addpath(genpath(LOCS.defrootloc));
+    addpath(genpath(COMPASSINFO.USERGBL.defrootloc));
     addpath(genpath(LOCS.newhorizonsloc));
     addpath(genpath(LOCS.pioneerloc));
     addpath(genpath(LOCS.voyagerloc));
@@ -75,8 +75,8 @@ for tab = 1:length(Tabs)
     for n = 1:5
         SCRPTPATHS.(Tabs{tab})(n).loc = LOCS.scriptloc;
         SCRPTPATHS.(Tabs{tab})(n).rootloc = LOCS.scriptloc;
-        SCRPTPATHS.(Tabs{tab})(n).defloc = LOCS.defloc;
-        SCRPTPATHS.(Tabs{tab})(n).defrootloc = LOCS.defrootloc;
+        SCRPTPATHS.(Tabs{tab})(n).defloc = COMPASSINFO.USERGBL.defloc;
+        SCRPTPATHS.(Tabs{tab})(n).defrootloc = COMPASSINFO.USERGBL.defrootloc;
         SCRPTPATHS.(Tabs{tab})(n).pioneerloc = LOCS.pioneerloc;
         SCRPTPATHS.(Tabs{tab})(n).newhorizonsloc = LOCS.newhorizonsloc;
         SCRPTPATHS.(Tabs{tab})(n).voyagerloc = LOCS.voyagerloc;
@@ -96,8 +96,8 @@ for tab = 1:length(Tabs)
     for n = 1:4
         SCRPTPATHS.(Tabs{tab})(n).loc = LOCS.scriptloc;
         SCRPTPATHS.(Tabs{tab})(n).rootloc = LOCS.scriptloc;
-        SCRPTPATHS.(Tabs{tab})(n).defloc = LOCS.defloc;
-        SCRPTPATHS.(Tabs{tab})(n).defrootloc = LOCS.defrootloc;
+        SCRPTPATHS.(Tabs{tab})(n).defloc = COMPASSINFO.USERGBL.defloc;
+        SCRPTPATHS.(Tabs{tab})(n).defrootloc = COMPASSINFO.USERGBL.defrootloc;
         SCRPTPATHS.(Tabs{tab})(n).pioneerloc = LOCS.pioneerloc;
         SCRPTPATHS.(Tabs{tab})(n).newhorizonsloc = LOCS.newhorizonsloc;
         SCRPTPATHS.(Tabs{tab})(n).voyagerloc = LOCS.voyagerloc;

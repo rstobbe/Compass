@@ -12,7 +12,7 @@ if nargin==0
     doCuda = 1;
     doPaths = 1;
 end
-init_fcn(doCuda,doPaths);
+InitFcn(doCuda,doPaths);
 
 %------------------------------------------------
 % Figure Properties
