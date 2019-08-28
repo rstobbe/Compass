@@ -15,11 +15,11 @@ global iKern
 %--------------------------------------
 % Reset Gpus
 %--------------------------------------
-reset = 0;
+reset = 1;
 if reset == 1
     GpuTot = gpuDeviceCount;
     for n = 1:GpuTot
-        gpuDevice(n);               
+        GpuParams = gpuDevice(n);               
     end
 end
 
@@ -40,7 +40,7 @@ ClientDataTot.ClientData = ClientData;
 %   - things that can be done when server started (before data arrives from client)   
 %--------------------------------------    
 GpuTot = gpuDeviceCount;
-RECON = RwsImageRecon(GpuTot);
+RECON = RwsImageRecon(GpuTot,GpuParams);
 disp('Load Kernel All GPUs');
 tic
 RECON.LoadKernelGpuMem(Kern,iKern,chW);
@@ -51,6 +51,7 @@ toc
 %   - client will do Nacq writes to server
 %--------------------------------------  
 Counter = 0;
+ChunkNumber = 1;
 for n = 1:ClientDataTot.Nacq
             
     Counter = Counter + 1;
@@ -74,8 +75,7 @@ for n = 1:ClientDataTot.Nacq
         tic
         RECON.AllocateSampDatGpuMem(SampDatSizeGpu);  
         toc
-        ImageMatrixSize = [Info.Ksz Info.Ksz Info.Ksz Info.Nchan];
-        %ImageMatrix = single(complex(zeros(ImageMatrixSize),zeros(ImageMatrixSize)));      
+        ImageMatrixSize = [Info.Ksz Info.Ksz Info.Ksz Info.Nchan];  
         ImageMatrixSizeGpu = ImageMatrixSize(1:3);
         disp('Allocate Image Matrix GPU Memory');
         tic
@@ -95,36 +95,39 @@ for n = 1:ClientDataTot.Nacq
     %--------------------------------------  
     if Counter == Info.Chunk
         
-        disp(['Load ReconInfo Traj ',num2str(Counter)]);
+        disp(['Load ReconInfo Chunk ',num2str(ChunkNumber)]);
         tic
         RECON.LoadReconInfoGpuMemAsync(ReconInfo);   % will write to all GPUs
         toc
         
-        for m = 1:1
+        for m = 1:2
             GpuNum = m-1;
             SampDat0 = SampDat(:,:,m);                          % this operation is a bit slow...
+            disp(['Load Sampdat GPU ',num2str(m)]);
             tic
             RECON.LoadSampDatGpuMemAsync(GpuNum,SampDat0);      % write different channels to different GPUs
             toc
+            disp(['Grid GPU ',num2str(m)]);
             tic
             RECON.GridSampDat(GpuNum);
             toc
         end
         Counter = 0;
+        ChunkNumber = ChunkNumber+1;
     end 
     %pause(0.001);
 end
 
+disp('CudaWait');
 tic
 RECON.CudaDeviceWait(GpuNum);
 toc
 
 
-
-
 %--------------------------------------
 % Finish
 %-------------------------------------- 
+ImageMatrix = single(complex(zeros(ImageMatrixSize),zeros(ImageMatrixSize)));    
 for m = 1:Info.Nchan
     GpuNum = m-1;
     ImageMatrix(:,:,:,m) = RECON.ReturnImageMatrixGpuMem(GpuNum);
@@ -134,7 +137,7 @@ end
 %--------------------------------------
 % Test
 %-------------------------------------- 
-TestImage = 2;
+TestImage = 1;
 ImageMatrix = ImageMatrix(:,:,:,TestImage);
 figure(12341235);
 test = max(abs(ImageMatrix(:)))

@@ -5,7 +5,7 @@
 classdef RwsImageRecon < handle
 
     properties (SetAccess = private)                    
-        NumGpuUsed;        
+        NumGpuUsed; GpuParams;       
         HSampDat; SampDatMemDims;
         HReconInfo; ReconInfoMemDims;
         HKernel; iKern; KernHw; KernelMemDims;
@@ -17,8 +17,9 @@ classdef RwsImageRecon < handle
 %==================================================================
 % Init
 %==================================================================   
-        function RECON = RwsImageRecon(NumGpuUsed)
+        function RECON = RwsImageRecon(NumGpuUsed,GpuParams)
             RECON.NumGpuUsed = uint64(NumGpuUsed);
+            RECON.GpuParams = GpuParams;
         end
 
 %==================================================================
@@ -169,8 +170,13 @@ classdef RwsImageRecon < handle
                 error('Specified ''LoadGpuNum'' beyond number of GPUs used');
             end
             GpuNum = uint64(GpuNum);
-            [Error] = GridSampDat(GpuNum,RECON.HSampDat,RECON.HReconInfo,RECON.HKernel,RECON.HImageMatrix,...
-                                    RECON.SampDatMemDims,RECON.KernelMemDims,RECON.ImageMatrixMemDims,RECON.iKern,RECON.KernHw);
+            if str2double(RECON.GpuParams.ComputeCapability) == 7.5
+                [Error] = GridSampDat75(GpuNum,RECON.HSampDat,RECON.HReconInfo,RECON.HKernel,RECON.HImageMatrix,...
+                                        RECON.SampDatMemDims,RECON.KernelMemDims,RECON.ImageMatrixMemDims,RECON.iKern,RECON.KernHw);
+            elseif str2double(RECON.GpuParams.ComputeCapability) == 6.1
+                [Error] = GridSampDat61(GpuNum,RECON.HSampDat,RECON.HReconInfo,RECON.HKernel,RECON.HImageMatrix,...
+                                        RECON.SampDatMemDims,RECON.KernelMemDims,RECON.ImageMatrixMemDims,RECON.iKern,RECON.KernHw);
+            end
             if not(strcmp(Error,'no error'))
                 error(Error);
             end
