@@ -4,18 +4,28 @@
 
 function TestRwsImageRecon_Total
 
+global ClientData
+global Ksz
+global Kern
+global chW
+global iKern
+
+%addpath('D:\CompassRelated\4 OtherFiles\CudaDLL');
+
 %--------------------------------------
 % Reset Gpus
 %--------------------------------------
-GpuTot = gpuDeviceCount;
-for n = 1:GpuTot
-    gpuDevice(n);               
+reset = 0;
+if reset == 1
+    GpuTot = gpuDeviceCount;
+    for n = 1:GpuTot
+        gpuDevice(n);               
+    end
 end
 
 %--------------------------------------
 % Simulated Data 
-%--------------------------------------  
-load('TestData_N6272','ClientData','Ksz');        
+%--------------------------------------   
 sz = size(ClientData);                 
 ClientDataTot.Np = sz(1);
 ClientDataTot.Nacq = sz(2);                                
@@ -31,8 +41,10 @@ ClientDataTot.ClientData = ClientData;
 %--------------------------------------    
 GpuTot = gpuDeviceCount;
 RECON = RwsImageRecon(GpuTot);
-load('TestData_N6272','Kern','chW','iKern');
+disp('Load Kernel All GPUs');
+tic
 RECON.LoadKernelGpuMem(Kern,iKern,chW);
+toc
 
 %--------------------------------------
 % Simulated Server
@@ -51,15 +63,24 @@ for n = 1:ClientDataTot.Nacq
         ReconInfoSize = [Info.Np Info.Chunk 4];
         ReconInfo = single(zeros(ReconInfoSize)); 
         ReconInfoSizeGpu = ReconInfoSize;
+        disp('Allocate Recon Info GPU Memory');
+        tic
         RECON.AllocateReconInfoGpuMem(ReconInfoSizeGpu);                        % allocate on all GPUs     
+        toc
         SampDatSize = [Info.Np Info.Chunk Info.Nchan];
         SampDat = single(complex(zeros(SampDatSize),zeros(SampDatSize))); 
         SampDatSizeGpu = SampDatSize(1:2);
+        disp('Allocate SampDat GPU Memory');
+        tic
         RECON.AllocateSampDatGpuMem(SampDatSizeGpu);  
+        toc
         ImageMatrixSize = [Info.Ksz Info.Ksz Info.Ksz Info.Nchan];
-        ImageMatrix = single(complex(zeros(ImageMatrixSize),zeros(ImageMatrixSize)));      
+        %ImageMatrix = single(complex(zeros(ImageMatrixSize),zeros(ImageMatrixSize)));      
         ImageMatrixSizeGpu = ImageMatrixSize(1:3);
+        disp('Allocate Image Matrix GPU Memory');
+        tic
         RECON.AllocateImageMatrixGpuMem(ImageMatrixSizeGpu);
+        toc
     end
     
     %--------------------------------------
@@ -74,11 +95,12 @@ for n = 1:ClientDataTot.Nacq
     %--------------------------------------  
     if Counter == Info.Chunk
         
+        disp(['Load ReconInfo Traj ',num2str(Counter)]);
         tic
         RECON.LoadReconInfoGpuMemAsync(ReconInfo);   % will write to all GPUs
         toc
         
-        for m = 1:2
+        for m = 1:1
             GpuNum = m-1;
             SampDat0 = SampDat(:,:,m);                          % this operation is a bit slow...
             tic
@@ -90,7 +112,7 @@ for n = 1:ClientDataTot.Nacq
         end
         Counter = 0;
     end 
-    pause(0.001);
+    %pause(0.001);
 end
 
 tic
