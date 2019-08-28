@@ -15,7 +15,7 @@ err.msg = '';
 % Get Input
 %---------------------------------------------
 FID.method = FIDipt.Func;
-PanelLabel = 'Data_File';
+PanelLabel = 'PreProcessed_File';
 CallingLabel = FIDipt.Struct.labelstr;
 
 %---------------------------------------------
