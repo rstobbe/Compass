@@ -2,7 +2,7 @@
 % 
 %=====================================================
 
-function [FIDR,err] = FidRearrange_UserMash_v1a_Func(FIDR,INPUT)
+function [FIDR,err] = FidProc_UserMash_v1a_Func(FIDR,INPUT)
 
 Status2('busy','Data Organization',2);
 Status2('done','',3);
@@ -14,7 +14,7 @@ err.msg = '';
 % Get Input
 %---------------------------------------------
 DATA = INPUT.FID.DATA;
-twix = DATA.twix;
+twix = DATA.TwixObj;
 clear INPUT
 
 %---------------------------------------------

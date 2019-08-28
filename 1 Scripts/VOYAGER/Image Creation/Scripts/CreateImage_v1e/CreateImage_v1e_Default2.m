@@ -10,7 +10,7 @@ if strcmp(filesep,'\')
     imscalepath = [SCRPTPATHS.voyagerloc,'Image Creation\Underlying\Selectable Functions\Image Scale\'];
 elseif strcmp(filesep,'/')
 end
-importfunc = 'ImportFID_SiemensYBDefault_v2f';
+importfunc = 'ImportFID_SiemensYB_v2h';
 imconfunc = 'ImConst_3DNonCart_v1g';
 imscalefunc = 'ImScaleSiemens_v1a';
 

@@ -21,6 +21,8 @@ if err.flag
     return
 end
 
+error;      % probably don't use this function (update...)
+
 if isfield(saveData0,'structname')
     %------------------------------------------
     % Show Info

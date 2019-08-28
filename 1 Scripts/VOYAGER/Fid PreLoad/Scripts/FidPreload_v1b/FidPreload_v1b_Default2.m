@@ -6,11 +6,11 @@ function [default] = FidPreload_v1b_Default2(SCRPTPATHS)
 
 if strcmp(filesep,'\')
     fidloadpath = [SCRPTPATHS.voyagerloc,'Fid PreLoad\Underlying\Selectable Functions\Fid Load\'];
-    fidprocpath = [SCRPTPATHS.voyagerloc,'Fid PreLoad\Underlying\Selectable Functions\Fid Rearrange\'];
+    fidprocpath = [SCRPTPATHS.voyagerloc,'Fid PreLoad\Underlying\Selectable Functions\Fid Process\'];
 elseif strcmp(filesep,'/')
 end
 fidloadfunc = 'FidLoad_SiemensYB_v1a';
-fidprocfunc = 'FidRearrange_UserMash_v1a';
+fidprocfunc = 'FidProc_UserMash_v1a';
 
 m = 1;
 default{m,1}.entrytype = 'OutputName';
