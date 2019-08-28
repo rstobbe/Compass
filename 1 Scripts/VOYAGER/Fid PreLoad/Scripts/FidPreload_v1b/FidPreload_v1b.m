@@ -128,11 +128,12 @@ PLFID.type = 'Fid';
 % Return
 %---------------------------------------------
 SCRPTipt(indnum).entrystr = name;
-SCRPTGBL.RWSUI.SaveVariables = {PLFID};
-SCRPTGBL.RWSUI.SaveVariableNames = {'PLFID'};
+SCRPTGBL.RWSUI.SaveVariables = PLFID;
+SCRPTGBL.RWSUI.SaveVariableNames = 'PLFID';
 SCRPTGBL.RWSUI.SaveGlobalNames = name;
 SCRPTGBL.RWSUI.SaveScriptPath = PLFID.path;
-SCRPTGBL.RWSUI.SaveScriptName = [name,'.mat'];
+%SCRPTGBL.RWSUI.SaveScriptName = [name,'.mat'];
+SCRPTGBL.RWSUI.SaveScriptName = name;
 
 Status('done','');
 Status2('done','',2);
