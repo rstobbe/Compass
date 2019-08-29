@@ -1,9 +1,9 @@
 %====================================================
-% (v1c)
-%      - Add 'run' options
+% (v1a)
+%    
 %====================================================
 
-function [SCRPTipt,SCRPTGBL,err] = PopCreateV_v1c(SCRPTipt,SCRPTGBL)
+function [SCRPTipt,SCRPTGBL,err] = PopCreateVarian_v1a(SCRPTipt,SCRPTGBL)
 
 Status('busy','Select Create Image');
 Status2('done','',2);

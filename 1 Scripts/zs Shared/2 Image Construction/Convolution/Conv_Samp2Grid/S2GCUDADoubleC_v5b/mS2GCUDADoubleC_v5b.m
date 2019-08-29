@@ -91,7 +91,11 @@ Kz(1:Len0) = Kz0;
 % Convolve
 %------------------------------------
 tic
-[CDat,Test,Error] = S2GCUDADoubleC_v5b(SampDat,Kx,Ky,Kz,Kern,iKern,chW,Ksz,chunklen,Stathands);
+if ComputeCapability == 6.1 || ComputeCapability == 6.2 
+    [CDat,Test,Error] = S2GCUDADoubleC61_v5b(SampDat,Kx,Ky,Kz,Kern,iKern,chW,Ksz,chunklen,Stathands);
+elseif ComputeCapability == 7.5
+    [CDat,Test,Error] = S2GCUDADoubleC75_v5b(SampDat,Kx,Ky,Kz,Kern,iKern,chW,Ksz,chunklen,Stathands);
+end
 toc
 %Test
 %DataSumTest = sum(CDat(:))/1e6
