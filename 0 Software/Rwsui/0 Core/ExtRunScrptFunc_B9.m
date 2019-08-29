@@ -247,7 +247,14 @@ if isfield(RWSUI,'SaveGlobal')
     %--------------------------------------------     
     if isfield(RWSUI,'CompassDisplay')
         if strcmp(RWSUI.CompassDisplay.do,'Yes')
-            Gbl2Image(RWSUI.CompassDisplay.tab,RWSUI.CompassDisplay.axnum,totgblnum)
+            CurTab = FIGOBJS.IM.CurrentImage;
+            CurTab = CurTab + 1;
+            if CurTab > 10
+                CurTab = 1;
+            end
+            FIGOBJS.IM.CurrentImage = CurTab;
+            FIGOBJS.IM.TabGroup.SelectedTab = FIGOBJS.IM.ImTab(CurTab);
+            Gbl2Image('IM',CurTab,totgblnum);
         end
     end
 end

@@ -124,7 +124,8 @@ if NumberGpus >= 2
             [GrdDat,err] = mS2GCUDADoubleR_v5b(ZF,Kx,Ky,Kz,KERN,SampDat,CONV,StatLev,CUDA);
             toc
         elseif strcmp(GRD.type,'complex')
-            [GrdDat,err] = mS2GCUDADoubleC_v5b(ZF,Kx,Ky,Kz,KERN,SampDat,CONV,StatLev,CUDA);
+            %[GrdDat,err] = mS2GCUDADoubleC_v5b(ZF,Kx,Ky,Kz,KERN,SampDat,CONV,StatLev,CUDA);
+            [GrdDat,err] = mS2GCUDADoubleC_v5c(ZF,Kx,Ky,Kz,KERN,SampDat,CONV,StatLev,CUDA);                 % should be identical
         end
     else
         err.flag = 1;

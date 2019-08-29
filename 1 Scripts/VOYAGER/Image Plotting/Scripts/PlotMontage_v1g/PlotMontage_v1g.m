@@ -83,6 +83,19 @@ if err.flag
 end
 
 %--------------------------------------------
+% Determine if for Compass Display
+%--------------------------------------------
+Struct = 'PLOT';
+if isfield(PLOT,'CompassDisplay')
+    if strcmp(PLOT.CompassDisplay,'Yes')
+        SCRPTGBL.RWSUI.CompassDisplay.do = 'Yes';
+        SCRPTGBL.RWSUI.CompassDisplay.tab = 'IM';
+        SCRPTGBL.RWSUI.CompassDisplay.axnum = 1;
+    end
+    Struct = 'MONT';
+end
+
+%--------------------------------------------
 % Output to TextBox
 %--------------------------------------------
 PLOT.ExpDisp = PanelStruct2Text(PLOT.PanelOutput);
@@ -110,7 +123,7 @@ if isfield(RWSUI,'ExtRunInfo')
         SCRPTGBL.RWSUI.SaveScript = 'no';
         SCRPTGBL.RWSUI.SaveGlobal = 'yes';
     end
-    name = ['PLOT_',PLOT.name];
+    name = [Struct,'_',PLOT.name];
 else
     SCRPTGBL.RWSUI.SaveScriptOption = 'yes';
     SCRPTGBL.RWSUI.SaveGlobal = 'yes';
@@ -120,7 +133,7 @@ end
 % Name
 %--------------------------------------------
 if auto == 0
-    name = inputdlg('Name Plot:','Name Plot',1,{['PLOT_',PLOT.name]});
+    name = inputdlg('Name Plot:','Name Plot',1,{[Struct,'_',PLOT.name]});
     name = cell2mat(name);
     if isempty(name)
         SCRPTGBL.RWSUI.SaveVariables = {PLOT};
@@ -146,20 +159,13 @@ if strcmp(PLOT.saveoption,'No')
 else
     SCRPTGBL.RWSUI.SaveScriptOption = 'yes';    
 end
-if isfield(PLOT,'CompassDisplay')
-    if strcmp(PLOT.CompassDisplay,'Yes')
-        SCRPTGBL.RWSUI.CompassDisplay.do = 'Yes';
-        SCRPTGBL.RWSUI.CompassDisplay.tab = 'IM';
-        SCRPTGBL.RWSUI.CompassDisplay.axnum = 1;
-    end
-end
         
 %--------------------------------------------
 % Return
 %--------------------------------------------
 SCRPTipt(indnum).entrystr = PLOT.name;
 SCRPTGBL.RWSUI.SaveVariables = PLOT;
-SCRPTGBL.RWSUI.SaveVariableNames = 'PLOT';
+SCRPTGBL.RWSUI.SaveVariableNames = Struct;
 SCRPTGBL.RWSUI.SaveGlobalNames = PLOT.name;
 SCRPTGBL.RWSUI.SaveScriptPath = PLOT.path;
 SCRPTGBL.RWSUI.SaveScriptName = PLOT.name;

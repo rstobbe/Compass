@@ -98,8 +98,10 @@ if isfield(IMG,'name')
 else
     PLOT.name = '';
 end
-PLOT.Figure.hFig.Name = ['PLOT_',PLOT.name];
-PLOT.Figure.Name = ['PLOT_',PLOT.name];
+if isfield(PLOT,'Figure')
+    PLOT.Figure.hFig.Name = ['PLOT_',PLOT.name];
+    PLOT.Figure.Name = ['PLOT_',PLOT.name];
+end
 
 %---------------------------------------------
 % Get Input

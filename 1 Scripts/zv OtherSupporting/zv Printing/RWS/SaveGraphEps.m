@@ -4,6 +4,9 @@
 
 function SaveGraphEps(Figure,pathfile)
 
+if strcmp(Figure.hFig.Visible,'off')
+    return
+end
 figure(Figure.hFig);
 labels = Figure.hAx.XTickLabels;
 for n = 1:length(labels)

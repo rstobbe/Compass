@@ -32,9 +32,9 @@ for ncolumns = 1:20
 end
 ncolumns = find(abs(ratio-Ratio0) == min(abs(ratio-Ratio0)),1);    
 nrows = ceil(num/MSTRCT.ncolumns);
-if (ncolumns*nrows-num)/ncolumns < (1/3)
-    MSTRCT.ncolumns = ncolumns - 1;
-end
+% if (ncolumns*nrows-num)/ncolumns < (1/3)
+%     MSTRCT.ncolumns = ncolumns - 1;
+% end
     
 %---------------------------------------------
 % Create Montage Matrix

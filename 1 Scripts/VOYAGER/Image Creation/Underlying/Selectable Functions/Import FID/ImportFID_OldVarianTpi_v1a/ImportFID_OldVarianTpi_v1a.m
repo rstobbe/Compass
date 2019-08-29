@@ -60,10 +60,41 @@ else
 end
 
 %---------------------------------------------
+% Determine Front of Chain
+%---------------------------------------------         
+if not(exist([FID.path,'\params'],'file'))
+    err.flag = 1;
+    err.msg = 'Not at front of Varian image folder chain';
+    return
+end
+
+%---------------------------------------------
+% Get Default Naming Info
+%---------------------------------------------   
+[Text,err] = Load_ProcparV_v1a([FID.path,'\procpar']);
+if err.flag 
+    return
+end
+params = {'seqfil','acqtype','protocol','comment','recondef','savename'};
+out = Parse_ProcparV_v1a(Text,params);
+ExpPars = cell2struct(out,params,2);
+if strcmp(ExpPars.acqtype,'RWS') || strcmp(ExpPars.acqtype,'NaPA_v1')           % NaPA_v1 for old sodium
+    if isempty(ExpPars.recondef)
+        ExpPars.recondef = 'NaPA_v1';
+    end
+    if isempty(ExpPars.savename)
+        ExpPars.savename = ExpPars.protocol;
+    end
+    SaveName = ExpPars.savename;                 
+else
+    SaveName = [ExpPars.seqfil,'_',ExpPars.comment];
+end
+
+%---------------------------------------------
 % Return Panel Input
 %---------------------------------------------
 FID.method = FIDipt.Func;
-FID.DatName = FIDipt.('FIDpath').EntryStr;
+FID.DatName = SaveName;
 FID.dccorfunc = FIDipt.('DCcorfunc').Func;
 FID.visuals = FIDipt.('Visuals');
 
