@@ -18,8 +18,8 @@ err.msg = '';
 global COMPASSINFO
 LOCS = COMPASSINFO.LOCS;
 trajreconloc = COMPASSINFO.USERGBL.trajreconloc;
-imkernloc = LOCS.imkernloc;
-invfiltloc = LOCS.invfiltloc;
+imkernloc = COMPASSINFO.USERGBL.imkernloc;
+invfiltloc = COMPASSINFO.USERGBL.invfiltloc;
 CallingLabel = ICipt.Struct.labelstr;
 ReturnData = struct();
 
