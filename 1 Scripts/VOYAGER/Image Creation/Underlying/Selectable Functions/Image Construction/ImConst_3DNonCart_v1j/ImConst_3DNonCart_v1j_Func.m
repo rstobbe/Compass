@@ -46,7 +46,7 @@ switch process
         %--------------------------------------
         % Reset Gpus
         %--------------------------------------
-        ResetGpus = 'Yes';
+        ResetGpus = 'No';
         if strcmp(ResetGpus,'Yes')
             Status2('busy','Reset GPUs',3);
             NoGPUs = gpuDeviceCount;
