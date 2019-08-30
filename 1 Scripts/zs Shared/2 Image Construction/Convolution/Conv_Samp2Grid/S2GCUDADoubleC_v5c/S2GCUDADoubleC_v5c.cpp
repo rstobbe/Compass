@@ -138,7 +138,7 @@ if (strcmp(Error,"no error") != 0) {
 //-------------------------------------
 // Display                  
 //-------------------------------------	
-sprintf(Status,"CUDA Memory Load: %i GPUs",*DevCnt);
+sprintf(Status,"CUDA Memory Load: %i GPUs",GpuNum);
 mxSetProperty(prhs[9],0,"String",mxCreateString(Status));
 mexEvalString("drawnow");
 	
