@@ -28,6 +28,7 @@ IMAGEANLZ.shaderoi = 0;
 IMAGEANLZ.autoupdateroi = 0;
 IMAGEANLZ.drawroionall = 0;
 IMAGEANLZ.temproiclr = [];
+IMAGEANLZ.roievent = 'Add';
 
 IMAGEANLZ.imslice = [];
 IMAGEANLZ.imvol = [];

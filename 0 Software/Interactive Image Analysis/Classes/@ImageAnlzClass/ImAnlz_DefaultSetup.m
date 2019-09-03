@@ -17,8 +17,8 @@ IMAGEANLZ.FIGOBJS.ROICreateSel.Value = IMAGEANLZ.(IMAGEANLZ.activeroi).roicreate
 % IMAGEANLZ.FIGOBJS.TieROIs.Value = 1;
 
 
-IMAGEANLZ.shaderoi = 1;
-IMAGEANLZ.FIGOBJS.ShadeROI.Value = 1;
+IMAGEANLZ.shaderoi = 0;
+IMAGEANLZ.FIGOBJS.ShadeROI.Value = 0;
 IMAGEANLZ.autoupdateroi = 1;
 IMAGEANLZ.FIGOBJS.AutoUpdateROI.Value = 1;
 

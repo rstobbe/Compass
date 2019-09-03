@@ -13,6 +13,7 @@ IMAGEANLZ.CURRENTROI = ImageRoiClass.empty;
 IMAGEANLZ.buttonfunction = '';
 IMAGEANLZ.movefunction = '';
 IMAGEANLZ.pointer = 'arrow';
+IMAGEANLZ.roievent = 'Add';
 set(gcf,'pointer',IMAGEANLZ.pointer);
 
 

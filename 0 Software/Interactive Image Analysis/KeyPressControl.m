@@ -20,6 +20,11 @@ switch event.Character
             return
         end
         DeleteLastRegion(tab,axnum);
+    case 'e'                                        % Delete last drawing
+        if GETROIS == 0
+            return
+        end
+        EraseROI(tab,axnum);
     case 'c'                                        % Complete current ROI / save
         if GETROIS == 0
             return

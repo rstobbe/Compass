@@ -85,6 +85,7 @@ classdef FigObjsClass < handle
         DrawROIonAll;
         ComplexAverage;
         NewROIbutton;
+        EraseROIbutton;
     end
     
 %==================================================================

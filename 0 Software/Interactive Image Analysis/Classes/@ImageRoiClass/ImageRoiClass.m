@@ -5,7 +5,8 @@
 classdef ImageRoiClass < handle
 
     properties (SetAccess = private)                                                                             
-        locnum;                             
+        locnum;
+        lastlocnumadded;
         xloc0arr;                      
         yloc0arr;                      
         zloc0arr;
@@ -119,6 +120,9 @@ classdef ImageRoiClass < handle
                 delete(IMAGEROI.contextmenu);
                 delete(IMAGEROI.linehandles);
                 delete(IMAGEROI.shadehandle);
+                if IMAGEROI.lastlocnumadded == IMAGEROI.locnum
+                    IMAGEROI.lastlocnumadded = IMAGEROI.lastlocnumadded-1;
+                end
                 IMAGEROI.locnum = IMAGEROI.locnum-1;
             end
         end
@@ -131,7 +135,7 @@ classdef ImageRoiClass < handle
                 IMAGEROI.xlocarr{IMAGEROI.locnum+n} = IMAGEROI2.xlocarr{n};    
                 IMAGEROI.ylocarr{IMAGEROI.locnum+n} = IMAGEROI2.ylocarr{n};  
                 IMAGEROI.zlocarr{IMAGEROI.locnum+n} = IMAGEROI2.zlocarr{n};
-                IMAGEROI.eventarr(IMAGEROI.locnum+n) = event;
+                IMAGEROI.eventarr{IMAGEROI.locnum+n} = event;
                 switch IMAGEROI2.CREATEMETHOD{n}.roicreatesel
                 case 1
                     IMAGEROI.CREATEMETHOD{IMAGEROI.locnum+n} = RoiFreeHandClass;
@@ -244,9 +248,32 @@ classdef ImageRoiClass < handle
 %==================================================================
 % Compute ROI
 %==================================================================           
+        % AddROIMask
+        function AddROIMask(IMAGEROI) 
+            if strcmp(IMAGEROI.baseroiorient,'Axial')
+                if strcmp(IMAGEROI.drawroiorient,'Axial')
+                    drawroiimsize = IMAGEROI.roiimsize;
+                elseif strcmp(IMAGEROI.drawroiorient,'Sagittal')
+                    drawroiimsize = IMAGEROI.roiimsize([3 1 2]);
+                elseif strcmp(IMAGEROI.drawroiorient,'Coronal')
+                    drawroiimsize = IMAGEROI.roiimsize([3 2 1]);
+                end
+            end
+            for m = IMAGEROI.lastlocnumadded+1:IMAGEROI.locnum                                
+                if isempty(IMAGEROI.zloc0arr(m))
+                    continue
+                end
+                IMroimask0 = roipoly(ones(drawroiimsize(1),drawroiimsize(2)),IMAGEROI.xloc0arr{m},IMAGEROI.yloc0arr{m});
+                if strcmp(IMAGEROI.eventarr(m),'Add') 
+                    IMAGEROI.roimask(:,:,IMAGEROI.zloc0arr{m}) = or(IMAGEROI.roimask(:,:,IMAGEROI.zloc0arr{m}),IMroimask0);
+                elseif strcmp(IMAGEROI.eventarr(m),'Erase')
+                    IMAGEROI.roimask(:,:,IMAGEROI.zloc0arr{m}) = IMAGEROI.roimask(:,:,IMAGEROI.zloc0arr{m}) - and(IMAGEROI.roimask(:,:,IMAGEROI.zloc0arr{m}),IMroimask0);
+                end
+            end
+            IMAGEROI.lastlocnumadded = IMAGEROI.locnum; 
+        end
         % CreateBaseROIMask
         function CreateBaseROIMask(IMAGEROI) 
-            %error;              % old full xor version - use updated.
             if strcmp(IMAGEROI.baseroiorient,'Axial')
                 if strcmp(IMAGEROI.drawroiorient,'Axial')
                     drawroiimsize = IMAGEROI.roiimsize;
@@ -256,39 +283,23 @@ classdef ImageRoiClass < handle
                     drawroiimsize = IMAGEROI.roiimsize([3 2 1]);
                 end
             end
-            IMAGEROI.roimask = zeros(drawroiimsize);                        % to speed could just add last 
-            tzloc0arr = cell2mat(IMAGEROI.zloc0arr);
-            for m = 1:length(tzloc0arr)                                 
-                if isempty(tzloc0arr)
+            IMAGEROI.roimask = zeros(drawroiimsize);                % to ensure start from scratch
+            for m = 1:IMAGEROI.locnum
+                if isempty(IMAGEROI.zloc0arr(m))
                     continue
                 end
                 IMroimask0 = roipoly(ones(drawroiimsize(1),drawroiimsize(2)),IMAGEROI.xloc0arr{m},IMAGEROI.yloc0arr{m});
-                %if IMAGEROI. 
-                %IMAGEROI.roimask(:,:,tzloc0arr(m)) = xor(IMAGEROI.roimask(:,:,tzloc0arr(m)),IMroimask0);                    % old - check for event and use if missing
-            end
-        end
-        % CreateBaseROIMaskErase
-        function CreateBaseROIMaskErase(IMAGEROI) 
-            if strcmp(IMAGEROI.baseroiorient,'Axial')
-                if strcmp(IMAGEROI.drawroiorient,'Axial')
-                    drawroiimsize = IMAGEROI.roiimsize;
-                elseif strcmp(IMAGEROI.drawroiorient,'Sagittal')
-                    drawroiimsize = IMAGEROI.roiimsize([3 1 2]);
-                elseif strcmp(IMAGEROI.drawroiorient,'Coronal')
-                    drawroiimsize = IMAGEROI.roiimsize([3 2 1]);
+                if isempty(IMAGEROI.eventarr)
+                    IMAGEROI.roimask(:,:,IMAGEROI.zloc0arr{m}) = xor(IMAGEROI.roimask(:,:,IMAGEROI.zloc0arr{m}),IMroimask0);                % accomodate old saved ROIs
+                else
+                    if strcmp(IMAGEROI.eventarr(m),'Add') 
+                        IMAGEROI.roimask(:,:,IMAGEROI.zloc0arr{m}) = or(IMAGEROI.roimask(:,:,IMAGEROI.zloc0arr{m}),IMroimask0);
+                    elseif strcmp(IMAGEROI.eventarr(m),'Erase')
+                        IMAGEROI.roimask(:,:,IMAGEROI.zloc0arr{m}) = IMAGEROI.roimask(:,:,IMAGEROI.zloc0arr{m}) - and(IMAGEROI.roimask(:,:,IMAGEROI.zloc0arr{m}),IMroimask0);
+                    end
                 end
             end
-            IMAGEROI.roimask = zeros(drawroiimsize);                        % to speed could just add last 
-            tzloc0arr = cell2mat(IMAGEROI.zloc0arr);
-            for m = 1:length(tzloc0arr)                                 
-                if isempty(tzloc0arr)
-                    continue
-                end
-                IMroimask0 = roipoly(ones(drawroiimsize(1),drawroiimsize(2)),IMAGEROI.xloc0arr{m},IMAGEROI.yloc0arr{m});
-                erase = and(IMAGEROI.roimask(:,:,tzloc0arr(m)),IMroimask0);
-                IMAGEROI.roimask(:,:,tzloc0arr(m)) = xor(IMAGEROI.roimask(:,:,tzloc0arr(m)),erase);                    % it's the matrix indexing into this array that's slow
-            end
-        end        
+        end      
         % ComputeROI
         function ComputeROI(IMAGEROI,IMAGEANLZ)
             ImRoi_ComputeROI(IMAGEROI,IMAGEANLZ);

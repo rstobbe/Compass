@@ -1,5 +1,5 @@
 %============================================
-% New_ROI
+% Initialize
 %============================================
 function IMAGEROI = ImRoi_Initialize(IMAGEROI,IMAGEANLZ)
 
@@ -15,13 +15,14 @@ IMAGEROI.roivol = [];
 IMAGEROI.roiname = '';
 
 IMAGEROI.locnum = 0;
+IMAGEROI.lastlocnumadded = 0;
 IMAGEROI.xlocarr = [];                      
 IMAGEROI.ylocarr = [];                         
 IMAGEROI.zlocarr = [];    
 IMAGEROI.xloc0arr = [];                      
 IMAGEROI.yloc0arr = [];                         
 IMAGEROI.zloc0arr = []; 
-IMAGEROI.eventarr = [];                     % 1 = add / 2 = erase
+IMAGEROI.eventarr = [];                     
 IMAGEROI.linehandles = gobjects(0); 
 IMAGEROI.shadehandle = gobjects(0); 
 IMAGEROI.contextmenu = gobjects(0); 

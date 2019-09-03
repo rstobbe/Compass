@@ -49,6 +49,7 @@ classdef ImageAnlzClass < handle
         drawroionall;
         temproiclr;
         complexaverageroi;
+        roievent;
         %-- line
         GETLINE;
         LineToolActive;
@@ -672,11 +673,9 @@ classdef ImageAnlzClass < handle
         end
         % Add2CurrentROI
         function Add2CurrentROI(IMAGEANLZ,TEMPROI)
-            event = 1;
-            IMAGEANLZ.CURRENTROI.Concatenate(TEMPROI,event);
+            IMAGEANLZ.CURRENTROI.Concatenate(TEMPROI,IMAGEANLZ.roievent);
             if IMAGEANLZ.shaderoi || IMAGEANLZ.autoupdateroi
-                IMAGEANLZ.CURRENTROI.CreateBaseROIMask;
-                %IMAGEANLZ.CURRENTROI.CreateBaseROIMaskErase;
+                IMAGEANLZ.CURRENTROI.AddROIMask;
             end
         end
         % TestUpdateCurrentROIValue
@@ -853,11 +852,20 @@ classdef ImageAnlzClass < handle
         end   
         % ShadeROIChange
         function ShadeROIChange(IMAGEANLZ,val)
-            if IMAGEANLZ.GETROIS == 1 && val == 1
-                IMAGEANLZ.CURRENTROI.CreateBaseROIMask;
-            end
+%             if IMAGEANLZ.GETROIS == 1 && val == 1
+%                 IMAGEANLZ.CURRENTROI.CreateBaseROIMask;           % should already be created
+%             end
             IMAGEANLZ.shaderoi = val;
             IMAGEANLZ.FIGOBJS.ShadeROI.Value = val;
+        end
+        % ToggleROIEvent
+        function Event = ToggleROIEvent(IMAGEANLZ)
+            if strcmp(IMAGEANLZ.roievent,'Add')
+                IMAGEANLZ.roievent = 'Erase';
+            else
+                IMAGEANLZ.roievent = 'Add';
+            end
+            Event = IMAGEANLZ.roievent;
         end
         
         

@@ -1,7 +1,7 @@
 %===================================================
 % 
 %===================================================
-function ButtonUpdateValue(src,event)
+function ButtonEraseROI(src,event)
 
 global IMAGEANLZ
 
@@ -15,16 +15,15 @@ switch IMAGEANLZ.(tab)(axnum).presentation
         SetFocus(tab,axnum);
 end
        
-if not(IMAGEANLZ.(tab)(axnum).TestAxisActive);
+if not(IMAGEANLZ.(tab)(axnum).TestAxisActive)
     return
 end
 
 if IMAGEANLZ.(tab)(axnum).GETROIS ~= 1
     return
 end       
-UpdateCurrentROI(tab,axnum);
+EraseROI(tab,axnum);
 
 
-RedrawROI(tab,axnum);                  % - continue
-        
+
 
