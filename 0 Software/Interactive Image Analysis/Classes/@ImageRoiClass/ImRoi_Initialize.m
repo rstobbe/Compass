@@ -20,17 +20,27 @@ IMAGEROI.ylocarr = [];
 IMAGEROI.zlocarr = [];    
 IMAGEROI.xloc0arr = [];                      
 IMAGEROI.yloc0arr = [];                         
-IMAGEROI.zloc0arr = [];  
+IMAGEROI.zloc0arr = []; 
+IMAGEROI.eventarr = [];                     % 1 = add / 2 = erase
 IMAGEROI.linehandles = gobjects(0); 
 IMAGEROI.shadehandle = gobjects(0); 
 IMAGEROI.contextmenu = gobjects(0); 
-IMAGEROI.roimask = [];  
 IMAGEROI.CREATEMETHOD = cell(0);
 
 %IMAGEROI.CREATEMETHOD = IMAGEANLZ.(IMAGEANLZ.activeroi);
 %IMAGEROI.CREATEMETHOD.Initialize;
 
-
+%IMAGEROI.roimask = [];  
+if strcmp(IMAGEROI.baseroiorient,'Axial')
+    if strcmp(IMAGEROI.drawroiorient,'Axial')
+        drawroiimsize = IMAGEROI.roiimsize;
+    elseif strcmp(IMAGEROI.drawroiorient,'Sagittal')
+        drawroiimsize = IMAGEROI.roiimsize([3 1 2]);
+    elseif strcmp(IMAGEROI.drawroiorient,'Coronal')
+        drawroiimsize = IMAGEROI.roiimsize([3 2 1]);
+    end
+end
+IMAGEROI.roimask = zeros(drawroiimsize);                        
 
 
 

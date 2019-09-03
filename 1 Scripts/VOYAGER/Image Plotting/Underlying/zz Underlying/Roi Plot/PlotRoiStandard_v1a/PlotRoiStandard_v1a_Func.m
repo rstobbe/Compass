@@ -14,27 +14,30 @@ err.msg = '';
 %----------------------------------------------
 Image = INPUT.Image;
 MSTRCT = INPUT.MSTRCT;
-PLOT = INPUT.PLOT;
 ROIarr = INPUT.ROIarr;
 clear INPUT
 
 %---------------------------------------------
 % Test ROI
 %---------------------------------------------
-sz = size(Image);
-for n = 1:length(ROIarr)
-    ROI = ROIarr(n);
-    if sz(1) ~= ROI.roiimsize(1) || sz(2) ~= ROI.roiimsize(2) || sz(3) ~= ROI.roiimsize(3)
-        err.flag = 1;
-        err.msg = 'ROI and Image not compatible';
-        return
-    end
-end
-clr = 'r';
-slice = MSTRCT.start;
+% sz = size(Image);
+% for n = 1:length(ROIarr)
+%     ROI = ROIarr(n);
+%     if sz(1) ~= ROI.roiimsize(1) || sz(2) ~= ROI.roiimsize(2) || sz(3) ~= ROI.roiimsize(3)
+%         err.flag = 1;
+%         err.msg = 'ROI and Image not compatible';
+%         return
+%     end
+% end
 
+%---------------------------------------------
+% Plot
+%---------------------------------------------
+clr = 'rbgcm';
 for n = 1:length(ROIarr)
-    ROIarr(n).OutsideDrawROI(slice,PLOT.handles.ahand,clr); 
+    for m = 1:length(MSTRCT.SliceArray)
+        ROIarr(n).OutsideOffsetsDrawROI(MSTRCT.Vadd(m),MSTRCT.Hadd(m),MSTRCT.SliceArray(m),MSTRCT.ahand,clr(n));
+    end
 end
 
 Status2('done','',3);

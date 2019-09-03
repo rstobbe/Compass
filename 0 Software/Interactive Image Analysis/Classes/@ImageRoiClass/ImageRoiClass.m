@@ -23,6 +23,7 @@ classdef ImageRoiClass < handle
         contextmenu;
         shadehandle;
         roimask;
+        eventarr;
         CREATEMETHOD;
     end
     
@@ -122,7 +123,7 @@ classdef ImageRoiClass < handle
             end
         end
         % Concatenate
-        function Concatenate(IMAGEROI,IMAGEROI2)
+        function Concatenate(IMAGEROI,IMAGEROI2,event)
             for n = 1:IMAGEROI2.locnum
                 IMAGEROI.xloc0arr{IMAGEROI.locnum+n} = IMAGEROI2.xloc0arr{n};    
                 IMAGEROI.yloc0arr{IMAGEROI.locnum+n} = IMAGEROI2.yloc0arr{n};  
@@ -130,6 +131,7 @@ classdef ImageRoiClass < handle
                 IMAGEROI.xlocarr{IMAGEROI.locnum+n} = IMAGEROI2.xlocarr{n};    
                 IMAGEROI.ylocarr{IMAGEROI.locnum+n} = IMAGEROI2.ylocarr{n};  
                 IMAGEROI.zlocarr{IMAGEROI.locnum+n} = IMAGEROI2.zlocarr{n};
+                IMAGEROI.eventarr(IMAGEROI.locnum+n) = event;
                 switch IMAGEROI2.CREATEMETHOD{n}.roicreatesel
                 case 1
                     IMAGEROI.CREATEMETHOD{IMAGEROI.locnum+n} = RoiFreeHandClass;
@@ -188,6 +190,10 @@ classdef ImageRoiClass < handle
         function OutsideDrawROI(IMAGEROI,slice,axhand,clr) 
             ImRoi_OutsideDrawROI(IMAGEROI,slice,axhand,clr);
         end        
+        % OutsideOffsetsDrawROI
+        function OutsideOffsetsDrawROI(IMAGEROI,voff,hoff,slice,axhand,clr) 
+            ImRoi_OutsideOffsetsDrawROI(IMAGEROI,voff,hoff,slice,axhand,clr);
+        end  
         
 %==================================================================
 % Nudge
@@ -240,6 +246,7 @@ classdef ImageRoiClass < handle
 %==================================================================           
         % CreateBaseROIMask
         function CreateBaseROIMask(IMAGEROI) 
+            %error;              % old full xor version - use updated.
             if strcmp(IMAGEROI.baseroiorient,'Axial')
                 if strcmp(IMAGEROI.drawroiorient,'Axial')
                     drawroiimsize = IMAGEROI.roiimsize;
@@ -256,9 +263,32 @@ classdef ImageRoiClass < handle
                     continue
                 end
                 IMroimask0 = roipoly(ones(drawroiimsize(1),drawroiimsize(2)),IMAGEROI.xloc0arr{m},IMAGEROI.yloc0arr{m});
-                IMAGEROI.roimask(:,:,tzloc0arr(m)) = xor(IMAGEROI.roimask(:,:,tzloc0arr(m)),IMroimask0);                    % it's the matrix indexing into this array that's slow
+                %if IMAGEROI. 
+                %IMAGEROI.roimask(:,:,tzloc0arr(m)) = xor(IMAGEROI.roimask(:,:,tzloc0arr(m)),IMroimask0);                    % old - check for event and use if missing
             end
         end
+        % CreateBaseROIMaskErase
+        function CreateBaseROIMaskErase(IMAGEROI) 
+            if strcmp(IMAGEROI.baseroiorient,'Axial')
+                if strcmp(IMAGEROI.drawroiorient,'Axial')
+                    drawroiimsize = IMAGEROI.roiimsize;
+                elseif strcmp(IMAGEROI.drawroiorient,'Sagittal')
+                    drawroiimsize = IMAGEROI.roiimsize([3 1 2]);
+                elseif strcmp(IMAGEROI.drawroiorient,'Coronal')
+                    drawroiimsize = IMAGEROI.roiimsize([3 2 1]);
+                end
+            end
+            IMAGEROI.roimask = zeros(drawroiimsize);                        % to speed could just add last 
+            tzloc0arr = cell2mat(IMAGEROI.zloc0arr);
+            for m = 1:length(tzloc0arr)                                 
+                if isempty(tzloc0arr)
+                    continue
+                end
+                IMroimask0 = roipoly(ones(drawroiimsize(1),drawroiimsize(2)),IMAGEROI.xloc0arr{m},IMAGEROI.yloc0arr{m});
+                erase = and(IMAGEROI.roimask(:,:,tzloc0arr(m)),IMroimask0);
+                IMAGEROI.roimask(:,:,tzloc0arr(m)) = xor(IMAGEROI.roimask(:,:,tzloc0arr(m)),erase);                    % it's the matrix indexing into this array that's slow
+            end
+        end        
         % ComputeROI
         function ComputeROI(IMAGEROI,IMAGEANLZ)
             ImRoi_ComputeROI(IMAGEROI,IMAGEANLZ);

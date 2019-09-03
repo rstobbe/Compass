@@ -672,9 +672,11 @@ classdef ImageAnlzClass < handle
         end
         % Add2CurrentROI
         function Add2CurrentROI(IMAGEANLZ,TEMPROI)
-            IMAGEANLZ.CURRENTROI.Concatenate(TEMPROI);
+            event = 1;
+            IMAGEANLZ.CURRENTROI.Concatenate(TEMPROI,event);
             if IMAGEANLZ.shaderoi || IMAGEANLZ.autoupdateroi
                 IMAGEANLZ.CURRENTROI.CreateBaseROIMask;
+                %IMAGEANLZ.CURRENTROI.CreateBaseROIMaskErase;
             end
         end
         % TestUpdateCurrentROIValue

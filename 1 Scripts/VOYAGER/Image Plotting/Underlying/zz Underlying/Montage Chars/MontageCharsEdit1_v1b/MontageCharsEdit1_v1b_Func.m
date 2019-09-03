@@ -57,6 +57,15 @@ insetarr(5) = str2double(insets(inds(4)+1:inds(5)-1));
 insetarr(6) = str2double(insets(inds(5)+1:length(insets))); 
 
 %---------------------------------------------
+% Determine Columns
+%---------------------------------------------
+if isempty(MCHRS.ncolumns)
+    ncolumns = [];
+else
+    ncolumns = str2double(MCHRS.ncolumns);
+end
+
+%---------------------------------------------
 % Return Chars
 %---------------------------------------------
 INPUT.orient = orient;
@@ -68,9 +77,10 @@ INPUT.step = step;
 INPUT.stop = stop;
 INPUT.numberslices = [];
 INPUT.Image = Image;
-INPUT.usencolumns = MCHRS.ncolumns;
+INPUT.usencolumns = ncolumns;
 INPUT.MSTRCT = MSTRCT;
-[MCHRS,err] = DefaultMontageChars_v1a(INPUT);
+%[MCHRS,err] = DefaultMontageChars_v1a(INPUT);
+[MCHRS,err] = DefaultMontageChars_v1b(INPUT);               % not changes just additions
 
 Status2('done','',3);
 

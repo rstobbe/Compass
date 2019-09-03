@@ -19,6 +19,6 @@ MCHRS.orient = MCHRSipt.('Orientation');
 MCHRS.rotation = MCHRSipt.('Rotation');
 MCHRS.slices = MCHRSipt.('Slices');
 MCHRS.insets = MCHRSipt.('Inset'); 
-MCHRS.ncolumns = str2double(MCHRSipt.('NumColumns')); 
+MCHRS.ncolumns = MCHRSipt.('NumColumns'); 
 
 

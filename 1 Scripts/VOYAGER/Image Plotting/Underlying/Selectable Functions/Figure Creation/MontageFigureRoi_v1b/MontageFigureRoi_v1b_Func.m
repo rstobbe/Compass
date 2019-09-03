@@ -2,7 +2,7 @@
 % 
 %=========================================================
 
-function [MONT,err] = MontageFigure_v1c_Func(MONT,INPUT)
+function [MONT,err] = MontageFigureRoi_v1b_Func(MONT,INPUT)
 
 Status2('busy','Create Montage Figure',2);
 Status2('done','',3);
@@ -17,6 +17,8 @@ Image = INPUT.Image;
 Name = INPUT.Name;
 MSTRCT = INPUT.MSTRCT;
 IMSCL = MONT.IMSCL;
+ROILOAD = MONT.ROILOAD;
+ROIPLOT = MONT.ROIPLOT;
 clear INPUT
 
 %----------------------------------------------
@@ -85,6 +87,33 @@ INPUT.Image = Image;
 [FIGDATA,err] = PlotMontageImage_v1e(INPUT);
 MSTRCT.fhand.Name = Name;
 MSTRCT.fhand.NumberTitle = 'off';
+
+%----------------------------------------------
+% Roi Load
+%----------------------------------------------
+for n = 1:length(ROILOAD.Files)
+	ROI = [];
+    load(ROILOAD.Files{n}.loc)
+    if isempty(ROI)
+        err.flag = 1;
+        err.msg = 'File selected does not contain an ROI';
+        return
+    end
+    ROIarr(n) = ROI;
+end
+
+%----------------------------------------------
+% Roi Plot
+%----------------------------------------------
+func = str2func([MONT.roiplotfunc,'_Func']);  
+INPUT.Image = Image;
+INPUT.MSTRCT = MSTRCT;
+INPUT.ROIarr = ROIarr;
+[ROIPLOT,err] = func(ROIPLOT,INPUT);
+if err.flag
+    return
+end
+clear INPUT;
 
 %---------------------------------------------
 % Return for Save
