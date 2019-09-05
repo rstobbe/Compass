@@ -4,7 +4,11 @@
 function Slice_Change(AX,tab,axnum0,val)
 
 global IMAGEANLZ
-   
+
+if strcmp(IMAGEANLZ.(tab)(axnum0).movefunction,'DrawROI')
+    return
+end
+
 %----------------------------------------
 % Change Slice
 %----------------------------------------

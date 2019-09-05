@@ -44,7 +44,8 @@ classdef ImageAnlzClass < handle
         COLORORDER;
         roipanelobs;
         activeroi;
-        shaderoi;
+        shaderoi; shaderoivalue; shaderoiintensities;
+        linesroi;
         autoupdateroi;
         drawroionall;
         temproiclr;
@@ -612,11 +613,13 @@ classdef ImageAnlzClass < handle
             if not(isempty(clr))
                 IMAGEANLZ.temproiclr = clr;
             end
-            if strcmp(IMAGEANLZ.ORIENT,IMAGEANLZ.TEMPROI.drawroiorient)
-                IMAGEANLZ.TEMPROI.DrawROI(IMAGEANLZ,axhand,IMAGEANLZ.temproiclr,0);
+            if IMAGEANLZ.linesroi
+                if strcmp(IMAGEANLZ.ORIENT,IMAGEANLZ.TEMPROI.drawroiorient)
+                    IMAGEANLZ.TEMPROI.DrawROI(IMAGEANLZ,axhand,IMAGEANLZ.temproiclr,0);
+                end
             end
             if IMAGEANLZ.shaderoi
-                IMAGEANLZ.TEMPROI.ShadeROI(IMAGEANLZ,axhand,IMAGEANLZ.temproiclr);
+                IMAGEANLZ.TEMPROI.ShadeROI(IMAGEANLZ,axhand,IMAGEANLZ.temproiclr,IMAGEANLZ.shaderoiintensities(IMAGEANLZ.shaderoivalue));
             end
         end
         % UpdateTempROI
@@ -707,11 +710,13 @@ classdef ImageAnlzClass < handle
             if isempty(IMAGEANLZ.CURRENTROI.xlocarr) 
                 return
             end
-            if strcmp(IMAGEANLZ.ORIENT,IMAGEANLZ.CURRENTROI.drawroiorient)
-                IMAGEANLZ.CURRENTROI.DrawROI(IMAGEANLZ,axhand,[1 0 0],0);
+            if IMAGEANLZ.linesroi
+                if strcmp(IMAGEANLZ.ORIENT,IMAGEANLZ.CURRENTROI.drawroiorient)
+                    IMAGEANLZ.CURRENTROI.DrawROI(IMAGEANLZ,axhand,[1 0 0],0);
+                end
             end
             if IMAGEANLZ.shaderoi
-                IMAGEANLZ.CURRENTROI.ShadeROI(IMAGEANLZ,axhand,[1 0 0]);
+                IMAGEANLZ.CURRENTROI.ShadeROI(IMAGEANLZ,axhand,[1 0 0],IMAGEANLZ.shaderoiintensities(IMAGEANLZ.shaderoivalue));
             end
         end
         % CompleteCurrentROI
@@ -749,11 +754,13 @@ classdef ImageAnlzClass < handle
                 return
             end
             for n = 1:length(IMAGEANLZ.SAVEDROIS)
-                if strcmp(IMAGEANLZ.ORIENT,IMAGEANLZ.SAVEDROIS(n).drawroiorient)
-                    IMAGEANLZ.SAVEDROIS(n).DrawROI(IMAGEANLZ,axhand,IMAGEANLZ.COLORORDER{n},1);
+                if IMAGEANLZ.linesroi
+                    if strcmp(IMAGEANLZ.ORIENT,IMAGEANLZ.SAVEDROIS(n).drawroiorient)
+                        IMAGEANLZ.SAVEDROIS(n).DrawROI(IMAGEANLZ,axhand,IMAGEANLZ.COLORORDER{n},1);
+                    end
                 end
                 if IMAGEANLZ.shaderoi
-                    IMAGEANLZ.SAVEDROIS(n).ShadeROI(IMAGEANLZ,axhand,IMAGEANLZ.COLORORDER{n});
+                    IMAGEANLZ.SAVEDROIS(n).ShadeROI(IMAGEANLZ,axhand,IMAGEANLZ.COLORORDER{n},IMAGEANLZ.shaderoiintensities(IMAGEANLZ.shaderoivalue));
                 end
             end
         end
@@ -763,11 +770,13 @@ classdef ImageAnlzClass < handle
                 return
             end
             for n = 1:length(IMAGEANLZ.SAVEDROIS)
-                if strcmp(IMAGEANLZ.ORIENT,IMAGEANLZ.SAVEDROIS(n).drawroiorient)
-                    IMAGEANLZ.SAVEDROIS(n).DrawROI(IMAGEANLZ,axhand,IMAGEANLZ.COLORORDER{n},0);
+                if IMAGEANLZ.linesroi
+                    if strcmp(IMAGEANLZ.ORIENT,IMAGEANLZ.SAVEDROIS(n).drawroiorient)
+                        IMAGEANLZ.SAVEDROIS(n).DrawROI(IMAGEANLZ,axhand,IMAGEANLZ.COLORORDER{n},0);
+                    end
                 end
                 if IMAGEANLZ.shaderoi
-                    IMAGEANLZ.SAVEDROIS(n).ShadeROI(IMAGEANLZ,axhand,IMAGEANLZ.COLORORDER{n});
+                    IMAGEANLZ.SAVEDROIS(n).ShadeROI(IMAGEANLZ,axhand,IMAGEANLZ.COLORORDER{n},IMAGEANLZ.shaderoiintensities(IMAGEANLZ.shaderoivalue));
                 end
             end
         end
@@ -785,7 +794,7 @@ classdef ImageAnlzClass < handle
                 IMAGEANLZ.CURRENTROI.CreateBaseROIMask;
             end
             if IMAGEANLZ.shaderoi 
-                IMAGEANLZ.CURRENTROI.ShadeROI(IMAGEANLZ,[],'r');
+                IMAGEANLZ.CURRENTROI.ShadeROI(IMAGEANLZ,[],'r',IMAGEANLZ.shaderoiintensities(IMAGEANLZ.shaderoivalue));
             end
         end
         % DeleteROI
@@ -858,6 +867,38 @@ classdef ImageAnlzClass < handle
             IMAGEANLZ.shaderoi = val;
             IMAGEANLZ.FIGOBJS.ShadeROI.Value = val;
         end
+        % ShadeROIChangeValue
+        function ShadeROIChangeValue(IMAGEANLZ,val)
+            IMAGEANLZ.shaderoivalue = val;
+        end
+        % LinesROIChange
+        function LinesROIChange(IMAGEANLZ,val)
+            IMAGEANLZ.linesroi = val;
+            IMAGEANLZ.FIGOBJS.LinesROI.Value = val;
+        end
+        % ToggleShadeROI
+        function Shade = ToggleShadeROI(IMAGEANLZ)
+%             if IMAGEANLZ.GETROIS == 1 && val == 1
+%                 IMAGEANLZ.CURRENTROI.CreateBaseROIMask;           % should already be created
+%             end
+            if IMAGEANLZ.shaderoi == 1
+                IMAGEANLZ.shaderoi = 0;
+            elseif IMAGEANLZ.shaderoi == 0
+                IMAGEANLZ.shaderoi = 1;
+            end
+            IMAGEANLZ.FIGOBJS.ShadeROI.Value = IMAGEANLZ.shaderoi;
+            Shade = IMAGEANLZ.shaderoi;
+        end    
+        % ToggleLinesROI
+        function Lines = ToggleLinesROI(IMAGEANLZ)
+            if IMAGEANLZ.linesroi == 1
+                IMAGEANLZ.linesroi = 0;
+            elseif IMAGEANLZ.linesroi == 0
+                IMAGEANLZ.linesroi = 1;
+            end
+            IMAGEANLZ.FIGOBJS.LinesROI.Value = IMAGEANLZ.linesroi;
+            Lines = IMAGEANLZ.linesroi;
+        end   
         % ToggleROIEvent
         function Event = ToggleROIEvent(IMAGEANLZ)
             if strcmp(IMAGEANLZ.roievent,'Add')

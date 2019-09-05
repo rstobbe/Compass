@@ -165,8 +165,8 @@ classdef ImageRoiClass < handle
             ImRoi_DrawROIwOffset(IMAGEROI,IMAGEANLZ,axhand,clr,xoff,yoff);
         end
         % ShadeROI
-        function ShadeROI(IMAGEROI,IMAGEANLZ,axhand,clr) 
-            ImRoi_ShadeROI(IMAGEROI,IMAGEANLZ,axhand,clr);
+        function ShadeROI(IMAGEROI,IMAGEANLZ,axhand,clr,intensity) 
+            ImRoi_ShadeROI(IMAGEROI,IMAGEANLZ,axhand,clr,intensity);
         end
         % ShadeROIwOffset
         function ShadeROIwOffset(IMAGEROI,IMAGEANLZ,axhand,clr,xoff,yoff)

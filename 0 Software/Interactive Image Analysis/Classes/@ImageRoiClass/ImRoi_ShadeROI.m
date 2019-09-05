@@ -1,7 +1,7 @@
 %==========================================================
 % 
 %==========================================================
-function IMAGEROI = ImRoi_ShadeROI(IMAGEROI,IMAGEANLZ,axhand,clr)
+function IMAGEROI = ImRoi_ShadeROI(IMAGEROI,IMAGEANLZ,axhand,clr,intensity)
 
 if isempty(IMAGEROI.roimask)
     IMAGEROI.CreateBaseROIMask;
@@ -64,7 +64,8 @@ IMAGEROI.shadehandle.Interruptible = 'off';
 IMAGEROI.shadehandle.CDataMapping = 'scaled';
 IMAGEROI.shadehandle.PickableParts = 'none';
 IMAGEROI.shadehandle.HitTest = 'off';
-alphadata = 0.125*ones(size(roimaskslice));
+%alphadata = 0.125*ones(size(roimaskslice));
+alphadata = intensity*ones(size(roimaskslice));
 alphadata(roimaskslice==0) = 0;
 IMAGEROI.shadehandle.AlphaData = alphadata;
 drawnow;

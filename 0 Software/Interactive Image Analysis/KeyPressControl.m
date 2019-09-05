@@ -8,6 +8,10 @@ global IMAGEANLZ
 GETROIS = IMAGEANLZ.(tab)(axnum).GETROIS;
 LineToolActive = IMAGEANLZ.(tab)(axnum).LineToolActive;
 
+if not(isempty(IMAGEANLZ.(tab)(axnum).movefunction))
+    return
+end
+
 switch event.Character  
     case 'z'                                        % New current ROI
         if GETROIS == 1 || LineToolActive == 1
@@ -20,11 +24,15 @@ switch event.Character
             return
         end
         DeleteLastRegion(tab,axnum);
-    case 'e'                                        % Delete last drawing
+    case 'e'                                        % Toggle Erase Function
         if GETROIS == 0
             return
         end
         EraseROI(tab,axnum);
+    case 's'                                        % Toggle Shading
+        ToggleShadeROI(tab,axnum);
+    case 'a'                                        % Toggle ROI Line Drawing
+        ToggleLinesROI(tab,axnum);
     case 'c'                                        % Complete current ROI / save
         if GETROIS == 0
             return
@@ -74,28 +82,6 @@ switch event.Character
             return
         end
         NudgeOut(tab,axnum); 
-%     case 's'
-%         IMAGEANLZ.(tab)(axnum).ClearROIPanel;
-%         ROISETUP = IMAGEANLZ.(tab)(axnum).ROISEED.Setup(IMAGEANLZ.(tab)(axnum)); 
-%         IMAGEANLZ.(tab)(axnum).SetupROI(ROISETUP);
-%         RWSUIGBL.Key = '';
-%         RWSUIGBL.Character = '';
-%     case 'S'
-%         if GETROIS == 0
-%             Status('error','No current ROI active');
-%             return
-%         end
-%         ROI_Seeded_N(tab,axnum);
-%     case 'f'
-%         if GETROIS == 0
-%             return
-%         end
-%     case 'o'
-%         IMAGEANLZ.(tab)(axnum).ClearROIPanel;
-%         ROISETUP = IMAGEANLZ.(tab)(axnum).ROISPHERE.Setup(IMAGEANLZ.(tab)(axnum)); 
-%         IMAGEANLZ.(tab)(axnum).SetupROI(ROISETUP);
-%     case 'p'
-%         PlotMontage(tab,axnum);
      case 'l'
         if GETROIS == 1
             return

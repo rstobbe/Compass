@@ -1,19 +1,17 @@
 %============================================
-% 
+% ToggleShadeROI
 %============================================
-function UpdateCurrentROI(tab,axnum)
+function ToggleShadeROI(tab,axnum)
 
 global IMAGEANLZ
-
 if not(isempty(IMAGEANLZ.(tab)(axnum).movefunction))
     error;          % shouldn't get here
 end
-if IMAGEANLZ.(tab)(axnum).GETROIS == 0
-    error;          % shouldn't get here
-end
 
+currentax = gca;
 switch IMAGEANLZ.(tab)(axnum).presentation
     case 'Standard'
+        Shade = IMAGEANLZ.(tab)(axnum).ToggleShadeROI;
         if IMAGEANLZ.(tab)(axnum).ROITIE == 1
             start = 1;    
             stop = IMAGEANLZ.(tab)(1).axeslen;
@@ -22,13 +20,15 @@ switch IMAGEANLZ.(tab)(axnum).presentation
             stop = axnum;
         end
         for r = start:stop
-            IMAGEANLZ.(tab)(r).CreateCurrentROIMask;
-            IMAGEANLZ.(tab)(r).ComputeCurrentROI;
-            IMAGEANLZ.(tab)(r).SetCurrentROIValue;
+            IMAGEANLZ.(tab)(r).ShadeROIChange(Shade);
+            Slice_Change(currentax,tab,r,0);
         end
     case 'Ortho'
-        IMAGEANLZ.(tab)(1).CreateCurrentROIMask;
-        IMAGEANLZ.(tab)(1).ComputeCurrentROI;
-        IMAGEANLZ.(tab)(1).SetCurrentROIValue;
+        for r = 1:3
+            IMAGEANLZ.(tab)(r).ToggleShadeROI;
+            Slice_Change(currentax,tab,r,0);
+        end
 end
         
+
+

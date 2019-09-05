@@ -349,6 +349,16 @@ if isfield(FIGOBJS.(tab),'ShadeROI')
         IMOBJS.ShadeROI = FIGOBJS.(tab).ShadeROI(axnum);
     end
 end
+if isfield(FIGOBJS.(tab),'ShadeROIValue')
+    if axnum <= length(FIGOBJS.(tab).ShadeROIValue)
+        IMOBJS.ShadeROIValue = FIGOBJS.(tab).ShadeROIValue(axnum);
+    end
+end
+if isfield(FIGOBJS.(tab),'LinesROI')
+    if axnum <= length(FIGOBJS.(tab).LinesROI)
+        IMOBJS.LinesROI = FIGOBJS.(tab).LinesROI(axnum);
+    end
+end
 if isfield(FIGOBJS.(tab),'AutoUpdateROI')
     if axnum <= length(FIGOBJS.(tab).AutoUpdateROI)
         IMOBJS.AutoUpdateROI = FIGOBJS.(tab).AutoUpdateROI(axnum);

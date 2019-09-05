@@ -79,7 +79,8 @@ classdef FigObjsClass < handle
         AspectRatio;
         Orientation;
         ShowOrtho;
-        ShadeROI;
+        ShadeROI; ShadeROIValue;
+        LinesROI;
         GblList;
         AutoUpdateROI;
         DrawROIonAll;

@@ -19,6 +19,7 @@ IMAGEROI.xloc0arr = ROI.xloc0arr;
 IMAGEROI.yloc0arr = ROI.yloc0arr;                        
 IMAGEROI.zloc0arr = ROI.zloc0arr; 
 IMAGEROI.roimask = ROI.roimask;
+IMAGEROI.eventarr = ROI.eventarr;
 IMAGEROI.CREATEMETHOD = ROI.CREATEMETHOD;
 
 
