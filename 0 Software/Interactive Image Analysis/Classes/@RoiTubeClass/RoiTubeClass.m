@@ -32,7 +32,7 @@ classdef RoiTubeClass < handle
         end
         function Setup(DAT,IMAGEANLZ)
             top = 59;
-            horz = 10;
+            horz = 150;
             DAT.panelobs = uicontrol('Parent',IMAGEANLZ.FIGOBJS.ROITab,'Style','text','BackgroundColor',IMAGEANLZ.FIGOBJS.Colours.BGcolour,'Tag',num2str(IMAGEANLZ.axnum),'ForegroundColor',[0.8 0.8 0.8],'String','Circle1 Radius','HorizontalAlignment','right','Fontsize',7,'FontWeight','Bold','Position',[horz+200 top-15 80 15],'Enable','inactive','ButtonDownFcn',@ResetFocus);
             DAT.panelobs(2) = uicontrol('Parent',IMAGEANLZ.FIGOBJS.ROITab,'Style','edit','BackgroundColor',IMAGEANLZ.FIGOBJS.Colours.BGcolour,'Tag',num2str(IMAGEANLZ.axnum),'ForegroundColor',[0.8 0.8 0.8],'String',num2str(DAT.rad1),'HorizontalAlignment','left','Fontsize',6,'FontWeight','Bold','Position',[horz+290 top-13 30 15],'CallBack',@DAT.SetRad1);    
             DAT.panelobs(3) = uicontrol('Parent',IMAGEANLZ.FIGOBJS.ROITab,'Style','checkbox','BackgroundColor',IMAGEANLZ.FIGOBJS.Colours.BGcolour,'Tag',num2str(IMAGEANLZ.axnum),'ForegroundColor',[0.8 0.8 0.8],'Value',DAT.userad1,'HorizontalAlignment','left','Fontsize',6,'FontWeight','Bold','Position',[horz+325 top-13 30 15],'Enable','off','CallBack',@DAT.SetUseRad1); 

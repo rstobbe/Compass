@@ -28,7 +28,7 @@ classdef RoiSphereClass < handle
             DAT.info = 'Left click to start';
         end
         function Setup(DAT,IMAGEANLZ)
-            horz0 = 0.22;
+            horz0 = 0.28;
             top = 47;
             horz = 10;
             DAT.panelobs = uicontrol('Parent',IMAGEANLZ.FIGOBJS.ROITab,'Style','text','BackgroundColor',IMAGEANLZ.FIGOBJS.Colours.BGcolour,'Tag',num2str(IMAGEANLZ.axnum),'ForegroundColor',[0.8 0.8 0.8],'String','Sphere Radius','HorizontalAlignment','right','Fontsize',7,'Units','normalized','Position',[horz0+0.05 0.39 0.08 0.14],'Enable','inactive','ButtonDownFcn',@ResetFocus);
