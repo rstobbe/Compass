@@ -23,7 +23,7 @@ switch IMAGEANLZ.(tab)(axnum).presentation
                     IMAGEANLZ.(tab)(r).NewROICopy(IMAGEANLZ.(tab)(axnum).CURRENTROI,IMAGEANLZ.(tab)(axnum).TEMPROI);
                 end
                 IMAGEANLZ.(tab)(r).CopySavedRoi2Current(roinum);
-                IMAGEANLZ.(tab)(r).DeleteROI(roinum);
+                IMAGEANLZ.(tab)(r).DeactivateROI(roinum);
                 IMAGEANLZ.(tab)(r).PlotImage;
                 IMAGEANLZ.(tab)(r).DrawSavedROIsNoPick([]);
                 IMAGEANLZ.(tab)(r).DrawCurrentROI([]);

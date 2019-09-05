@@ -721,6 +721,7 @@ classdef ImageAnlzClass < handle
         end
         % CompleteCurrentROI
         function CompleteCurrentROI(IMAGEANLZ,roi,roiname)
+            IMAGEANLZ.ActivateROI(roi);
             ImAnlz_CompleteCurrentROI(IMAGEANLZ,roi,roiname);
             IMAGEANLZ.SAVEDROISFLAG = 1;
         end
@@ -754,13 +755,15 @@ classdef ImageAnlzClass < handle
                 return
             end
             for n = 1:length(IMAGEANLZ.SAVEDROIS)
-                if IMAGEANLZ.linesroi
-                    if strcmp(IMAGEANLZ.ORIENT,IMAGEANLZ.SAVEDROIS(n).drawroiorient)
-                        IMAGEANLZ.SAVEDROIS(n).DrawROI(IMAGEANLZ,axhand,IMAGEANLZ.COLORORDER{n},1);
+                if IMAGEANLZ.ROISOFINTEREST(n)
+                    if IMAGEANLZ.linesroi
+                        if strcmp(IMAGEANLZ.ORIENT,IMAGEANLZ.SAVEDROIS(n).drawroiorient)
+                            IMAGEANLZ.SAVEDROIS(n).DrawROI(IMAGEANLZ,axhand,IMAGEANLZ.COLORORDER{n},1);
+                        end
                     end
-                end
-                if IMAGEANLZ.shaderoi
-                    IMAGEANLZ.SAVEDROIS(n).ShadeROI(IMAGEANLZ,axhand,IMAGEANLZ.COLORORDER{n},IMAGEANLZ.shaderoiintensities(IMAGEANLZ.shaderoivalue));
+                    if IMAGEANLZ.shaderoi
+                        IMAGEANLZ.SAVEDROIS(n).ShadeROI(IMAGEANLZ,axhand,IMAGEANLZ.COLORORDER{n},IMAGEANLZ.shaderoiintensities(IMAGEANLZ.shaderoivalue));
+                    end
                 end
             end
         end
@@ -770,13 +773,15 @@ classdef ImageAnlzClass < handle
                 return
             end
             for n = 1:length(IMAGEANLZ.SAVEDROIS)
-                if IMAGEANLZ.linesroi
-                    if strcmp(IMAGEANLZ.ORIENT,IMAGEANLZ.SAVEDROIS(n).drawroiorient)
-                        IMAGEANLZ.SAVEDROIS(n).DrawROI(IMAGEANLZ,axhand,IMAGEANLZ.COLORORDER{n},0);
+                if IMAGEANLZ.ROISOFINTEREST(n)
+                    if IMAGEANLZ.linesroi
+                        if strcmp(IMAGEANLZ.ORIENT,IMAGEANLZ.SAVEDROIS(n).drawroiorient)
+                            IMAGEANLZ.SAVEDROIS(n).DrawROI(IMAGEANLZ,axhand,IMAGEANLZ.COLORORDER{n},0);
+                        end
                     end
-                end
-                if IMAGEANLZ.shaderoi
-                    IMAGEANLZ.SAVEDROIS(n).ShadeROI(IMAGEANLZ,axhand,IMAGEANLZ.COLORORDER{n},IMAGEANLZ.shaderoiintensities(IMAGEANLZ.shaderoivalue));
+                    if IMAGEANLZ.shaderoi
+                        IMAGEANLZ.SAVEDROIS(n).ShadeROI(IMAGEANLZ,axhand,IMAGEANLZ.COLORORDER{n},IMAGEANLZ.shaderoiintensities(IMAGEANLZ.shaderoivalue));
+                    end
                 end
             end
         end
@@ -908,7 +913,16 @@ classdef ImageAnlzClass < handle
             end
             Event = IMAGEANLZ.roievent;
         end
-        
+        % ActivateROI
+        function ActivateROI(IMAGEANLZ,roinum)
+            IMAGEANLZ.ROISOFINTEREST(roinum) = 1;
+            IMAGEANLZ.HighlightROI(roinum);
+        end
+        % DeactivateROI
+        function DeactivateROI(IMAGEANLZ,roinum)
+            IMAGEANLZ.ROISOFINTEREST(roinum) = 0;
+            IMAGEANLZ.UnHighlightROI(roinum);
+        end
         
 %==================================================================
 % Line

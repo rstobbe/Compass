@@ -13,10 +13,11 @@ else
     stop = axnum0;
 end
 
+currentax = gca;
 for axnum = start:stop
     if IMAGEANLZ.(tab)(axnum).TestAxisActive
-        IMAGEANLZ.(tab)(axnum).ROISOFINTEREST(roinum) = 1;
-        IMAGEANLZ.(tab)(axnum).HighlightROI(roinum);
+        IMAGEANLZ.(tab)(axnum).ActivateROI(roinum);
+        Slice_Change(currentax,tab,axnum,0);
     end
 end
 drawnow;

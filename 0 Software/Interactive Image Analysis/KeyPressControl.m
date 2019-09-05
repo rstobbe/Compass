@@ -31,7 +31,7 @@ switch event.Character
         EraseROI(tab,axnum);
     case 's'                                        % Toggle Shading
         ToggleShadeROI(tab,axnum);
-    case 'a'                                        % Toggle ROI Line Drawing
+    case 'd'                                        % Toggle ROI Line Drawing
         ToggleLinesROI(tab,axnum);
     case 'c'                                        % Complete current ROI / save
         if GETROIS == 0
