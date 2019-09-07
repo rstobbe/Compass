@@ -26,28 +26,37 @@ classdef RoiSeedClass < handle
             DAT.roicreatesel = 2;
             DAT.pointer = 'crosshair';
             DAT.status = 'Seed Drawing Tool Active';
-            DAT.info = 'Left click to start';
+            DAT.info = 'Left click';
         end
         function DAT = Setup(DAT,IMAGEANLZ)
             horz = 0.28;
             if isempty(IMAGEANLZ.MAXCONTRAST)
                 DAT.maxval = 100;
-            else
+            elseif IMAGEANLZ.MAXCONTRAST >= 100
                 DAT.maxval = floor(IMAGEANLZ.MAXCONTRAST);
+            else
+                DAT.maxval = (floor(IMAGEANLZ.MAXCONTRAST*100))/100;
             end
             DAT.seed = DAT.maxval/2;
             DAT.panelobs = uicontrol('Parent',IMAGEANLZ.FIGOBJS.ROITab,'Style','text','Tag',num2str(IMAGEANLZ.axnum),'BackgroundColor',IMAGEANLZ.FIGOBJS.Colours.BGcolour,'ForegroundColor',[0.8 0.8 0.8],'String','Seed Value','HorizontalAlignment','right','Fontsize',7,'Units','normalized','Position',[horz+0.05 0.39 0.07 0.14],'Enable','inactive','ButtonDownFcn',@ResetFocus);
-            DAT.panelobs(2) = uicontrol('Parent',IMAGEANLZ.FIGOBJS.ROITab,'Style','slider','Tag',num2str(IMAGEANLZ.axnum),'BackgroundColor',[0.8 0.8 0.8],'ForegroundColor',IMAGEANLZ.FIGOBJS.Colours.BGcolour,'Units','normalized','Position',[horz+0.13 0.4 0.25 0.14],'Value',DAT.seed,'SliderStep',[0.01*DAT.maxval 0.1*DAT.maxval],'Max',DAT.maxval,'CallBack',@DAT.SetSeedSlider);    
-            DAT.panelobs(3) = uicontrol('Parent',IMAGEANLZ.FIGOBJS.ROITab,'Style','edit','Tag',num2str(IMAGEANLZ.axnum),'BackgroundColor',IMAGEANLZ.FIGOBJS.Colours.BGcolour,'ForegroundColor',[0.8 0.8 0.8],'String',num2str(DAT.seed),'HorizontalAlignment','left','Fontsize',6,'FontWeight','Bold','Enable','on','Units','normalized','Position',[horz+0.39 0.4 0.04 0.14],'CallBack',@DAT.SetSeedEdit);    
+            DAT.panelobs(2) = uicontrol('Parent',IMAGEANLZ.FIGOBJS.ROITab,'Style','slider','Tag',num2str(IMAGEANLZ.axnum),'BackgroundColor',[0.8 0.8 0.8],'ForegroundColor',IMAGEANLZ.FIGOBJS.Colours.BGcolour,'Units','normalized','Position',[horz+0.13 0.4 0.25 0.14],'Value',DAT.seed,'SliderStep',[0.01 0.1],'Max',DAT.maxval,'CallBack',@DAT.SetSeedSlider);    
+            DAT.panelobs(3) = uicontrol('Parent',IMAGEANLZ.FIGOBJS.ROITab,'Style','edit','Tag',num2str(IMAGEANLZ.axnum),'BackgroundColor',IMAGEANLZ.FIGOBJS.Colours.BGcolour,'ForegroundColor',[0.8 0.8 0.8],'String',num2str(DAT.seed),'HorizontalAlignment','left','Fontsize',6,'FontWeight','Bold','Enable','on','Units','normalized','Position',[horz+0.39 0.4 0.04 0.14],'CallBack',@DAT.SetSeedEdit,'KeyPressFcn',@DAT.IndSeedEdit);    
             DAT.panelobs(4) = uicontrol('Parent',IMAGEANLZ.FIGOBJS.ROITab,'Style','popupmenu','Tag',num2str(IMAGEANLZ.axnum),'BackgroundColor',IMAGEANLZ.FIGOBJS.Colours.BGcolour,'ForegroundColor',[0.8 0.8 0.8],'String',{'Above','Below'},'Fontsize',6,'Enable','on','Units','normalized','Position',[horz+0.44 0.4 0.07 0.14],'CallBack',@DAT.SetSeedDir,'Enable','on'); 
             DAT.status = 'Seed Drawing Tool Active';
-            DAT.info = 'Left click to start';
+            DAT.info = 'Left click';
+        end
+        function DAT = RedrawSetup(DAT)
+            DAT.state = 'Start';
+            DAT.seed = 0.5;
+            DAT.xloc = []; DAT.yloc = []; DAT.zloc = [];
+            DAT.status = 'Seeding Redraw Tool Active';
+            DAT.info = 'Left click';
         end
         function Initialize(DAT)
             DAT.state = 'Start';
             DAT.xloc = []; DAT.yloc = []; DAT.zloc = [];
             DAT.status = 'Seed Drawing Tool Active';
-            DAT.info = 'Left click to start';
+            DAT.info = 'Left click';
         end
         function Copy(DAT,DAT2)
             DAT.seed = DAT2.seed;
@@ -73,11 +82,11 @@ classdef RoiSeedClass < handle
             end
             if err == 0
                 OUT.buttonfunc = 'updatefinish';
-                OUT.info = 'Left click to start';
+                OUT.info = 'Left click';
                 OUT.xloc{1} = [DAT.xloc DAT.xloc(1)]; OUT.yloc{1} = [DAT.yloc DAT.yloc(1)]; OUT.zloc{1} = DAT.zloc;
             else
                 OUT.buttonfunc = 'return';
-                OUT.info = 'Left click to start';
+                OUT.info = 'Left click';
             end 
         end
         function DAT = SetSeedSlider(DAT,src,event)
@@ -97,9 +106,14 @@ classdef RoiSeedClass < handle
             DAT.panelobs(3).String = num2str(DAT.seed);
             DAT.panelobs(2).Value = DAT.seed;
             ResetFocus(src,event);
+            DAT.panelobs(3).ForegroundColor = [1 1 1];
         end
         function DAT = SetSeedDir(DAT,src,event) 
             DAT.seeddir = src.Value;
+            ResetFocus(src,event);
+        end
+        function DAT = IndSeedEdit(DAT,src,event) 
+            DAT.panelobs(3).ForegroundColor = [0.8 0.5 0.3];
         end
     end
 end

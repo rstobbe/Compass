@@ -46,6 +46,9 @@ test = (MSTRCT.start:MSTRCT.step:MSTRCT.stop);
 if length(test) < MSTRCT.ncolumns
     ncolumns = length(test);
 end
+if not(isfield(MSTRCT,'scale'))
+    MSTRCT.scale = 'auto';
+end
       
 %---------------------------------------------
 % Determine Slice Label
@@ -101,6 +104,8 @@ elseif strcmp(MSTRCT.intensity,'Flat25')
     Mask = 0.25*ones(ImSz);
 elseif strcmp(MSTRCT.intensity,'Flat10')
     Mask = 0.10*ones(ImSz);
+elseif strcmp(MSTRCT.intensity,'Flat5')
+    Mask = 0.05*ones(ImSz);
 elseif strcmp(MSTRCT.intensity,'Flat0')
     Mask = 0*ones(ImSz);
 else
@@ -114,10 +119,20 @@ set(h2,'alphadata',Mask);
 %---------------------------------------------
 % Stretch if Needed
 %--------------------------------------------- 
-if not(isempty(MSTRCT.ImInfo))
-    DataAspectRatio = MSTRCT.ImInfo.pixdim(1:2);
-    DataAspectRatio = DataAspectRatio/max(DataAspectRatio);
-    MSTRCT.ahand.DataAspectRatio = [DataAspectRatio 1];
-end
+DataAspectRatio = MSTRCT.ImInfo.pixdim(1:2);
+DataAspectRatio = DataAspectRatio/max(DataAspectRatio);
+DataAspectRatio = round(DataAspectRatio*200)/200;             % get rid of potential tiny differences in Siemens images 
+IMSTRCT.ahand.DataAspectRatio = [DataAspectRatio 1];
+figdims = DataAspectRatio.*ImSz;
+if strcmp(MSTRCT.scale,'auto')
+    scale1 = ceil(1000/figdims(1));
+    scale2 = ceil(600/figdims(2));
+    scale = min([scale1 scale2]);
+else
+    scale = str2double(MSTRCT.scale);
+end   
+figdims = figdims*scale;
+figdims(1) =  figdims(1)*1.05; 
+truesize(IMSTRCT.fhand,figdims);
 
 

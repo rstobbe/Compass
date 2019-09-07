@@ -384,6 +384,11 @@ if isfield(FIGOBJS.(tab),'EraseROIbutton')
         IMOBJS.EraseROIbutton = FIGOBJS.(tab).EraseROIbutton(axnum);
     end
 end
+if isfield(FIGOBJS.(tab),'RedrawROIbutton')
+    if axnum <= length(FIGOBJS.(tab).RedrawROIbutton)
+        IMOBJS.RedrawROIbutton = FIGOBJS.(tab).RedrawROIbutton(axnum);
+    end
+end
 if isfield(FIGOBJS.(tab),'GblList')
     IMOBJS.GblList = FIGOBJS.(tab).GblList;
 end

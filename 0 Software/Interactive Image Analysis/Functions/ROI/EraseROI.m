@@ -10,6 +10,12 @@ end
 if IMAGEANLZ.(tab)(axnum).GETROIS == 0
     error;          % shouldn't get here
 end
+if IMAGEANLZ.(tab)(axnum).redrawroi == 1
+    return
+end
+if IMAGEANLZ.(tab)(axnum).TestEmptyCurrentROI
+    return
+end
 
 switch IMAGEANLZ.(tab)(axnum).presentation
     case 'Standard'

@@ -18,6 +18,9 @@ MOF.method = MOFipt.Func;
 MOF.imscalefunc = MOFipt.('ImScalefunc').Func;  
 MOF.mapscalefunc = MOFipt.('MapScalefunc').Func;  
 MOF.slclbl = MOFipt.('SliceLabel');
+MOF.scale = MOFipt.('Scale');
+MOF.visible = MOFipt.('FigureVisible');
+MOF.opacity = MOFipt.('Opacity');
 
 CallingLabel = MOFipt.Struct.labelstr;
 %---------------------------------------------

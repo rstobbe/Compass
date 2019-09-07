@@ -53,6 +53,7 @@ switch IMAGEANLZ.(tab)(axnum).presentation
         for r = start:stop
             if IMAGEANLZ.(tab)(r).TestAxisActive
                 IMAGEANLZ.(tab)(r).AddROI2Saved(ROI,roinum);
+                IMAGEANLZ.(tab)(r).ActivateROI(roinum);
                 IMAGEANLZ.(tab)(r).DrawSavedROIs([]);
                 IMAGEANLZ.(tab)(r).ComputeSavedROI(roinum);
                 IMAGEANLZ.(tab)(r).SetSavedROIValues;
@@ -63,6 +64,7 @@ switch IMAGEANLZ.(tab)(axnum).presentation
         for r = 1:3
             IMAGEANLZ.(tab)(r).AddROI2Saved(ROI,roinum);
             IMAGEANLZ.(tab)(r).DrawSavedROIs([]);
+            IMAGEANLZ.(tab)(r).ActivateROI(roinum);
         end
         IMAGEANLZ.(tab)(1).ComputeSavedROI(roinum);
         IMAGEANLZ.(tab)(1).SetSavedROIValues;           

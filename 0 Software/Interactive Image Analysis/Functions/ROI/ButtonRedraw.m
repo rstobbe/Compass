@@ -1,7 +1,7 @@
 %===================================================
 % 
 %===================================================
-function ButtonNewROI(src,event)
+function ButtonRedraw(src,event)
 
 global IMAGEANLZ
 
@@ -15,14 +15,20 @@ switch IMAGEANLZ.(tab)(axnum).presentation
         SetFocus(tab,axnum);
 end
        
-if not(IMAGEANLZ.(tab)(axnum).TestAxisActive);
+if not(IMAGEANLZ.(tab)(axnum).TestAxisActive)
     return
 end
 
-if IMAGEANLZ.(tab)(axnum).GETROIS == 1
+if IMAGEANLZ.(tab)(axnum).GETROIS == 0
+    return
+end 
+if IMAGEANLZ.(tab)(axnum).redrawroi == 1
     DiscardCurrentROI(tab,axnum);
     return
-end       
-NewROI(tab,axnum);
+end 
+
+RedrawROI(tab,axnum);
+
+
 
 

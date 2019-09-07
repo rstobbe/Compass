@@ -68,6 +68,9 @@ MSTRCT.type1 = MSTRCT0.type;
 % Create New Axis
 %---------------------------------------------
 MSTRCT.fhand = figure;
+if strcmp(MOF.visible,'No')
+    MSTRCT.fhand.Visible = 'off';
+end
 MSTRCT.ahand = axes('parent',MSTRCT.fhand);
 MSTRCT.ahand.Position = [0,0,1,1];
 
@@ -93,8 +96,9 @@ end
 %---------------------------------------------
 % Other
 %---------------------------------------------
-MSTRCT.intensity = 'Flat50';
+MSTRCT.intensity = MOF.opacity;
 MSTRCT.slclbl = MOF.slclbl;
+MSTRCT.scale = MOF.scale;
 
 %---------------------------------------------
 % Image
@@ -104,14 +108,6 @@ INPUT.Image = cat(4,Im1,Im2);
 [FIGDATA,err] = PlotMontageOverlay_v1e(INPUT);
 MSTRCT.fhand.Name = Name;
 MSTRCT.fhand.NumberTitle = 'off';
-
-%---------------------------------------------
-% Image Size
-%---------------------------------------------
-if isempty(MSTRCT.imsize)
-   MSTRCT.imsize = [500 600];
-end
-truesize(MSTRCT.fhand,MSTRCT.imsize);
 
 %---------------------------------------------
 % Return for Save

@@ -34,7 +34,9 @@ classdef ImageRoiClass < handle
     methods
         % ImageRoiClass
         function IMAGEROI = ImageRoiClass(IMAGEANLZ)
-            IMAGEROI = ImRoi_Initialize(IMAGEROI,IMAGEANLZ);
+            if exist('IMAGEANLZ','var')
+                IMAGEROI = ImRoi_Initialize(IMAGEROI,IMAGEANLZ);
+            end
         end
         % AddNewRegion
         function AddNewRegion(IMAGEROI,ACTIVEROI)
@@ -45,7 +47,18 @@ classdef ImageRoiClass < handle
         function InitializeRegion(IMAGEROI)
             IMAGEROI.CREATEMETHOD{IMAGEROI.locnum}.Initialize;
         end
-        
+
+%==================================================================
+% External Define
+%==================================================================           
+        % ExternalDefineRoiMask
+        function IMAGEROI = ExternalDefineRoiMask(IMAGEROI,orient,roiimsize,roimask)
+            IMAGEROI.baseroiorient = orient;
+            IMAGEROI.drawroiorient = orient;
+            IMAGEROI.roiimsize = roiimsize;
+            IMAGEROI.roimask = roimask;
+        end
+
 %==================================================================
 % Creation Info
 %==================================================================          

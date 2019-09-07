@@ -28,6 +28,7 @@ IMAGEANLZ.shaderoi = 0;
 IMAGEANLZ.shaderoivalue = 0;
 IMAGEANLZ.shaderoiintensities = [0.04 0.08 0.12];
 IMAGEANLZ.linesroi = 0;
+IMAGEANLZ.redrawroi = 0;
 IMAGEANLZ.autoupdateroi = 0;
 IMAGEANLZ.drawroionall = 0;
 IMAGEANLZ.temproiclr = [];
@@ -113,6 +114,7 @@ IMAGEANLZ.roipanelobs = IMAGEANLZ.(IMAGEANLZ.activeroi).panelobs;
 %---------------------------------------------
 IMAGEANLZ.TEMPROI = ImageRoiClass.empty;
 IMAGEANLZ.CURRENTROI = ImageRoiClass.empty;
+IMAGEANLZ.REDRAWROI = ImageRoiClass.empty;
 IMAGEANLZ.SAVEDROIS = ImageRoiClass.empty;
 
 %---------------------------------------------

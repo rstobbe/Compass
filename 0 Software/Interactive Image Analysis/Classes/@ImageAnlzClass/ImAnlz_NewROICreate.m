@@ -20,7 +20,7 @@ IMAGEANLZ.pointer = IMAGEANLZ.TEMPROI.GetPointer;
 IMAGEANLZ.FIGOBJS.MakeCurrentVisible;
 
 Status(1).state = 'busy';
-Status(1).string = 'New ROI Active';       
+Status(1).string = 'ROI Active';       
 Status(2).state = 'busy';  
 Status(2).string = IMAGEANLZ.TEMPROI.GetStatus;   
 Status(3).state = 'info';  

@@ -51,6 +51,7 @@ classdef ImageAnlzClass < handle
         temproiclr;
         complexaverageroi;
         roievent;
+        redrawroi;
         %-- line
         GETLINE;
         LineToolActive;
@@ -72,6 +73,7 @@ classdef ImageAnlzClass < handle
         FIGOBJS;
         TEMPROI;
         CURRENTROI;
+        REDRAWROI;
         SAVEDROIS;
         ROIFREEHAND;                 
         ROISEED;
@@ -567,10 +569,18 @@ classdef ImageAnlzClass < handle
         end
         % BuildROI
         function OUT = BuildROI(IMAGEANLZ,x,y,event)
-            val = IMAGEANLZ.imslice(round(y),round(x));
-            z = IMAGEANLZ.SLICE;
-            datapoint = [x,y,z,val];
-            OUT = IMAGEANLZ.TEMPROI.BuildROI(datapoint,event,IMAGEANLZ.imslice);
+            if IMAGEANLZ.redrawroi == 1
+                maskslice = IMAGEANLZ.REDRAWROI.roimask(:,:,IMAGEANLZ.SLICE);
+                val = maskslice(round(y),round(x));
+                z = IMAGEANLZ.SLICE;
+                datapoint = [x,y,z,val];
+                OUT = IMAGEANLZ.TEMPROI.BuildROI(datapoint,event,maskslice);
+            else
+                val = IMAGEANLZ.imslice(round(y),round(x));
+                z = IMAGEANLZ.SLICE;
+                datapoint = [x,y,z,val];
+                OUT = IMAGEANLZ.TEMPROI.BuildROI(datapoint,event,IMAGEANLZ.imslice);
+            end
         end
         % AutoUpdateROIChange
         function AutoUpdateROIChange(IMAGEANLZ,val)
@@ -599,6 +609,13 @@ classdef ImageAnlzClass < handle
         function bool = TestEmptyTempROI(IMAGEANLZ)
             bool = 0;
             if isempty(IMAGEANLZ.TEMPROI.xlocarr) 
+                bool = 1;
+            end
+        end
+        % TestEmptyCurrentROI
+        function bool = TestEmptyCurrentROI(IMAGEANLZ)
+            bool = 0;
+            if isempty(IMAGEANLZ.CURRENTROI.xlocarr) 
                 bool = 1;
             end
         end
@@ -704,6 +721,9 @@ classdef ImageAnlzClass < handle
         end
         % DrawCurrentROI
         function DrawCurrentROI(IMAGEANLZ,axhand)
+            if IMAGEANLZ.redrawroi
+                IMAGEANLZ.REDRAWROI.ShadeROI(IMAGEANLZ,axhand,[0 0.3 0.8],IMAGEANLZ.shaderoiintensities(IMAGEANLZ.shaderoivalue));
+            end
             if isempty(IMAGEANLZ.CURRENTROI) 
                 return
             end
@@ -913,6 +933,10 @@ classdef ImageAnlzClass < handle
             end
             Event = IMAGEANLZ.roievent;
         end
+        % SetROIEvent
+        function SetROIEvent(IMAGEANLZ,Event)
+            IMAGEANLZ.roievent = Event;
+        end
         % ActivateROI
         function ActivateROI(IMAGEANLZ,roinum)
             IMAGEANLZ.ROISOFINTEREST(roinum) = 1;
@@ -922,6 +946,28 @@ classdef ImageAnlzClass < handle
         function DeactivateROI(IMAGEANLZ,roinum)
             IMAGEANLZ.ROISOFINTEREST(roinum) = 0;
             IMAGEANLZ.UnHighlightROI(roinum);
+        end
+        % InitiateRedrawROI
+        function InitiateRedrawROI(IMAGEANLZ)
+            IMAGEANLZ.redrawroi = 1;
+            IMAGEANLZ.roievent = 'Add';
+            IMAGEANLZ.REDRAWROI = ImageRoiClass(IMAGEANLZ);
+            IMAGEANLZ.REDRAWROI.CopyRoiInfo(IMAGEANLZ.CURRENTROI);
+            IMAGEANLZ.CURRENTROI = ImageRoiClass(IMAGEANLZ);
+            IMAGEANLZ.TEMPROI = ImageRoiClass(IMAGEANLZ);
+            IMAGEANLZ.TEMPROI.AddNewRegion(IMAGEANLZ.ROISEED);
+            IMAGEANLZ.TEMPROI.CREATEMETHOD{1}.RedrawSetup;
+            IMAGEANLZ.buttonfunction = 'CreateROI';
+            IMAGEANLZ.movefunction = '';
+            IMAGEANLZ.pointer = IMAGEANLZ.TEMPROI.GetPointer;
+            IMAGEANLZ.FIGOBJS.MakeCurrentVisible;
+            Status(1).state = 'busy';
+            Status(1).string = 'Redraw ROI';       
+            Status(2).state = 'busy';  
+            Status(2).string = IMAGEANLZ.TEMPROI.GetStatus;   
+            Status(3).state = 'info';  
+            Status(3).string = IMAGEANLZ.TEMPROI.GetInfo;        
+            IMAGEANLZ.STATUS.SetStatus(Status)                    
         end
         
 %==================================================================
