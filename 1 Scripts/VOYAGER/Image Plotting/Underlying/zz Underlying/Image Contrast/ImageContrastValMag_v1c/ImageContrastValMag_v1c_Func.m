@@ -22,6 +22,7 @@ clear INPUT;
 MSTRCT.dispwid = [IMSCL.minval IMSCL.maxval];
 MSTRCT.type = 'abs';
 MSTRCT.colour = 'No';
+MSTRCT.zero = 'black';
 
 %---------------------------------------------
 % Return

@@ -47,7 +47,9 @@ classdef FigObjsClass < handle
         ContrastMax;    
         ContrastMin;    
         CMaxVal; 
-        CMinVal; 
+        CMinVal;
+        MaxCMaxVal; 
+        MinCMinVal; 
         Compass;
         ImAxes;
         OUTPUT;
@@ -129,6 +131,20 @@ classdef FigObjsClass < handle
             IMOBJS.Compass.WindowKeyReleaseFcn = @RWSUI_KeyReleaseControl;        
             IMOBJS.Compass.WindowScrollWheelFcn = @ScrollWheelControl;
             IMOBJS.Compass.WindowButtonMotionFcn = @RWSUI_MouseMoveControl;
+        end
+
+%==================================================================
+% Enable Contrast
+%==================================================================          
+        function EnableContrast(IMOBJS)
+            IMOBJS.ImColour.Enable = 'on';
+            IMOBJS.ImType.Enable = 'on';
+            IMOBJS.ContrastMax.Enable = 'on';
+            IMOBJS.ContrastMin.Enable = 'on';
+            IMOBJS.CMaxVal.Enable = 'on';
+            IMOBJS.CMinVal.Enable = 'on';
+            IMOBJS.MaxCMaxVal.Enable = 'on';
+            IMOBJS.MinCMinVal.Enable = 'on';
         end
 
 %==================================================================

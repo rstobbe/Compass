@@ -30,14 +30,12 @@ classdef RoiSeedClass < handle
         end
         function DAT = Setup(DAT,IMAGEANLZ)
             horz = 0.28;
-            if isempty(IMAGEANLZ.MAXCONTRAST)
+            if isempty(IMAGEANLZ.FullContrast)
                 DAT.maxval = 100;
-            elseif IMAGEANLZ.MAXCONTRAST >= 100
-                DAT.maxval = floor(IMAGEANLZ.MAXCONTRAST);
             else
-                DAT.maxval = (floor(IMAGEANLZ.MAXCONTRAST*100))/100;
+                DAT.maxval = round(IMAGEANLZ.FullContrast,2,'significant');
             end
-            DAT.seed = DAT.maxval/2;
+            DAT.seed = round(DAT.maxval/2,2,'significant');
             DAT.panelobs = uicontrol('Parent',IMAGEANLZ.FIGOBJS.ROITab,'Style','text','Tag',num2str(IMAGEANLZ.axnum),'BackgroundColor',IMAGEANLZ.FIGOBJS.Colours.BGcolour,'ForegroundColor',[0.8 0.8 0.8],'String','Seed Value','HorizontalAlignment','right','Fontsize',7,'Units','normalized','Position',[horz+0.05 0.39 0.07 0.14],'Enable','inactive','ButtonDownFcn',@ResetFocus);
             DAT.panelobs(2) = uicontrol('Parent',IMAGEANLZ.FIGOBJS.ROITab,'Style','slider','Tag',num2str(IMAGEANLZ.axnum),'BackgroundColor',[0.8 0.8 0.8],'ForegroundColor',IMAGEANLZ.FIGOBJS.Colours.BGcolour,'Units','normalized','Position',[horz+0.13 0.4 0.25 0.14],'Value',DAT.seed,'SliderStep',[0.01 0.1],'Max',DAT.maxval,'CallBack',@DAT.SetSeedSlider);    
             DAT.panelobs(3) = uicontrol('Parent',IMAGEANLZ.FIGOBJS.ROITab,'Style','edit','Tag',num2str(IMAGEANLZ.axnum),'BackgroundColor',IMAGEANLZ.FIGOBJS.Colours.BGcolour,'ForegroundColor',[0.8 0.8 0.8],'String',num2str(DAT.seed),'HorizontalAlignment','left','Fontsize',6,'FontWeight','Bold','Enable','on','Units','normalized','Position',[horz+0.39 0.4 0.04 0.14],'CallBack',@DAT.SetSeedEdit,'KeyPressFcn',@DAT.IndSeedEdit);    
@@ -91,15 +89,11 @@ classdef RoiSeedClass < handle
         end
         function DAT = SetSeedSlider(DAT,src,event)
             DAT.seed = src.Value;
-            if DAT.seed >= 10
-                DAT.panelobs(3).String = num2str(floor(DAT.seed*10)/10);
-            else 
-                DAT.panelobs(3).String = num2str(floor(DAT.seed*100)/100);
-            end
+            DAT.panelobs(3).String = num2str(round(DAT.seed,2,'significant'));
             ResetFocus(src,event);
         end
         function DAT = SetSeedEdit(DAT,src,event)
-            DAT.seed = floor(str2double(src.String)*1000)/1000;
+            DAT.seed = round(str2double(src.String),3,'significant');
             if DAT.seed > DAT.maxval
                 DAT.seed = DAT.maxval;
             end

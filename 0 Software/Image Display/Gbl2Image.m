@@ -26,6 +26,7 @@ end
 IMAGEANLZ.(tab)(axnum).HoldingTest(totgblnum);
 IMAGEANLZ.(tab)(axnum).AssignData(totgblnum);
 IMAGEANLZ.(tab)(axnum).Move2Tab;
+IMAGEANLZ.(tab)(axnum).ResetImType;
 
 %----------------------------------------
 % Remove Script Figure (if any)
@@ -74,7 +75,7 @@ end
 otherax = 0;
 for r = 1:IMAGEANLZ.(tab)(axnum).axeslen
     if r ~= axnum
-        if IMAGEANLZ.(tab)(r).TestAxisActive;
+        if IMAGEANLZ.(tab)(r).TestAxisActive
             otherax = r;
             break
         end
@@ -107,7 +108,8 @@ if IMAGEANLZ.(tab)(axnum).DIMSTIE == 1 && not(IMAGEANLZ.(tab)(axnum).TestAxisAct
 elseif (IMAGEANLZ.(tab)(axnum).DIMSTIE == 1 && not(IMAGEANLZ.(tab)(axnum).TestAxisActive) && otherax == 0) || IMAGEANLZ.(tab)(axnum).DIMSHOLD == 0
     IMAGEANLZ.(tab)(axnum).ResetDims;
 end
-IMAGEANLZ.(tab)(axnum).TestEnableMultiDim;
+colourimage = IMAGEANLZ.(tab)(axnum).TestColourImage;
+IMAGEANLZ.(tab)(axnum).TestEnableMultiDim(colourimage);
 
 %----------------------------------------
 % Load Rois (if necessary/available)
@@ -119,10 +121,11 @@ end
 %-----------------------------------
 % Contrast
 %-----------------------------------
+IMAGEANLZ.(tab)(axnum).SaveContrast;
 if IMAGEANLZ.(tab)(axnum).contrasthold == 0
     IMAGEANLZ.(tab)(axnum).InitializeContrast;
 end
-IMAGEANLZ.(tab)(axnum).SetContrast;
+IMAGEANLZ.(tab)(axnum).LoadContrast
 
 %-----------------------------------
 % Delete 'uicontextmenu' build-up
@@ -130,7 +133,7 @@ IMAGEANLZ.(tab)(axnum).SetContrast;
 delete(findobj('Type','uicontextmenu'));
 test = findobj;
 test = length(test);
-if test > 10000
+if test > 15000
     test
     error;                              % may need to increase if GUI is expanded with more objects
 end

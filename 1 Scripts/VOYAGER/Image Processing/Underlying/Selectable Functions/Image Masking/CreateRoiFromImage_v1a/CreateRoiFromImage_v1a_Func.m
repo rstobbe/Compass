@@ -34,7 +34,8 @@ MASK.Mask(isnan(MASK.Mask)) = 0;
 %--------------------------------------------- 
 ROI = ImageRoiClass;
 ROI.ExternalDefineRoiMask('Axial',size(MASK.Mask),MASK.Mask);
-[file,path] = uiputfile('*.mat','Save ROI',[IMG.path,'ROI_',IMG.file(1:end-4)]);
+%[file,path] = uiputfile('*.mat','Save ROI',[IMG.path,'ROI_',IMG.file(1:end-4)]);
+[file,path] = uiputfile('*.mat','Save ROI',[IMG.path,'ROI_',IMG.name(1:end-4)]);
 save([path,file],'ROI');
 
 %---------------------------------------------

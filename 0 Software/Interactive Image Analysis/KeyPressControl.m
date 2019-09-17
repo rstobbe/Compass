@@ -96,6 +96,6 @@ switch event.Character
 %         %Hide_All_ROIs;
     case 'Q'
         TabReset(tab);  
-    case 'U'
-        AxisReset(tab,axnum);         
+%     case 'U'
+%         AxisReset(tab,axnum);         
 end

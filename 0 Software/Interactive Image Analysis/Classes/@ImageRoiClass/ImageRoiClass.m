@@ -371,7 +371,7 @@ classdef ImageRoiClass < handle
         % TestForSavedROI
         function bool = TestForSavedROI(IMAGEROI)
             bool = 1;
-            if IMAGEROI.locnum == 0
+            if IMAGEROI.locnum == 0 && isempty(IMAGEROI.roiname)
                 if not(isempty(IMAGEROI.xloc0arr))
                     error;
                 end

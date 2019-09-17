@@ -3,16 +3,23 @@ function DeleteAll_TOTALGBL
 global TOTALGBL
 global FIGOBJS
 global IMAGEANLZ
+global COMPASSINFO
 
 TOTALGBL = cell(2,0);
-tablabs = {'ACC','ACC2','ACC3','ACC4'};
-for n = 1:length(tablabs)
-    FIGOBJS.(tablabs{n}).GblList.String = cell(0);
-    FIGOBJS.(tablabs{n}).GblList.UserData = [];
-    FIGOBJS.(tablabs{n}).GblList.Value = [];
-    FIGOBJS.(tablabs{n}).Info.String = '';
+if not(strcmp(COMPASSINFO.USERGBL.setup,'ImageAnalysis'))
+    tablabs = {'ACC','ACC2','ACC3','ACC4'};
+    for n = 1:length(tablabs)
+        FIGOBJS.(tablabs{n}).GblList.String = cell(0);
+        FIGOBJS.(tablabs{n}).GblList.UserData = [];
+        FIGOBJS.(tablabs{n}).GblList.Value = [];
+        FIGOBJS.(tablabs{n}).Info.String = '';
+    end
 end
-tablabs = {'IM','IM2','IM3','IM4'};
+if strcmp(COMPASSINFO.USERGBL.setup,'ImageAnalysis')
+    tablabs = {'IM2','IM3'};
+else
+    tablabs = {'IM','IM2','IM3','IM4'};
+end
 for n = 1:length(tablabs)
     FIGOBJS.(tablabs{n}).GblList.String = cell(0);
     FIGOBJS.(tablabs{n}).GblList.UserData = [];

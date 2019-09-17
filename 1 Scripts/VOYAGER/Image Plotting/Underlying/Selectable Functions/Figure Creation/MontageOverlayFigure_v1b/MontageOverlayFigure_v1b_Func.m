@@ -47,6 +47,11 @@ Im2 = MSCL.Image;
 MSTRCT0 = MSCL.MSTRCT;
 MSTRCT.dispwid2 = MSTRCT0.dispwid;
 MSTRCT.type2 = MSTRCT0.type;
+if isfield(MSTRCT0,'zero')
+    MSTRCT.zero2 = MSTRCT0.zero;
+else
+    MSTRCT.zero2 = 'colour';
+end
 
 %----------------------------------------------
 % Scale Base

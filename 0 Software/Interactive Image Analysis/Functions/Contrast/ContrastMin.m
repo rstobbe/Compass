@@ -16,9 +16,9 @@ SetFocus(tab,axnum);
 % Change Contrast
 %--------------------------------------------
 if strcmp(IMAGEANLZ.(tab)(axnum).presentation,'Standard')
-    IMAGEANLZ.(tab)(axnum).ChangeMinContrast(src.Value);
+    IMAGEANLZ.(tab)(axnum).ChangeMinContrastRel(src.Value);
 elseif strcmp(IMAGEANLZ.(tab)(axnum).presentation,'Ortho')
     for axnum = 1:3
-        IMAGEANLZ.(tab)(axnum).ChangeMinContrast(src.Value); 
+        IMAGEANLZ.(tab)(axnum).ChangeMinContrastRel(src.Value); 
     end
 end

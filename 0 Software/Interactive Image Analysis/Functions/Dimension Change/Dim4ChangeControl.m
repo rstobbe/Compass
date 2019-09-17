@@ -16,9 +16,9 @@ if not(IMAGEANLZ.(tab)(axnum).TestAxisActive);
     return
 end
 
-if not(isempty(IMAGEANLZ.(tab)(axnum).buttonfunction))
-    error;          % shouldn't get here
-end
+% if not(isempty(IMAGEANLZ.(tab)(axnum).buttonfunction))
+%     error;          % shouldn't get here
+% end
 
 %------------------------------------------
 % Dim4 Change

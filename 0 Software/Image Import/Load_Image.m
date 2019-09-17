@@ -5,6 +5,7 @@
 function Load_Image(tab)
 
 global IMAGEANLZ
+global COMPASSINFO
 %---------------------------------------------------------
 % Select Image File
 %---------------------------------------------------------
@@ -14,8 +15,13 @@ DefPath = IMAGEANLZ.(tab)(1).IMPATH;
 if err.flag
     return
 end
-IMAGEANLZ.(tab)(1).IMPATH = impath;
-
+IMAGEANLZ.('IM2')(1).IMPATH = impath;
+IMAGEANLZ.('IM3')(1).IMPATH = impath;
+if not(strcmp(COMPASSINFO.USERGBL.setup,'ImageAnalysis'))
+    IMAGEANLZ.('IM1')(1).IMPATH = impath;
+    IMAGEANLZ.('IM4')(1).IMPATH = impath;
+end
+    
 %---------------------------------------------------------
 % Import Image
 %---------------------------------------------------------

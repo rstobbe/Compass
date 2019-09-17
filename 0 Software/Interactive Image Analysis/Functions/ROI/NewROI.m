@@ -4,6 +4,7 @@
 function NewROI(tab,axnum)
 
 global IMAGEANLZ
+global FIGOBJS
 
 IMAGEANLZ.(tab)(axnum).DisableOrient;
 
@@ -25,6 +26,7 @@ switch IMAGEANLZ.(tab)(axnum).presentation
                 IMAGEANLZ.(tab)(r).DrawSavedROIsNoPick([]);
                 IMAGEANLZ.(tab)(r).FIGOBJS.NewROIbutton.BackgroundColor = [0.12,0.35,0.23];
                 IMAGEANLZ.(tab)(r).FIGOBJS.NewROIbutton.ForegroundColor = [1 1 1]; 
+                FIGOBJS.(tab).ControlTab(r).SelectedTab = FIGOBJS.(tab).ROITab(r);
             end
         end
         for r = 1:IMAGEANLZ.(tab)(axnum).axeslen

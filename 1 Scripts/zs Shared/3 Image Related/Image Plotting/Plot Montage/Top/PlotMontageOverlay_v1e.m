@@ -49,7 +49,18 @@ end
 if not(isfield(MSTRCT,'scale'))
     MSTRCT.scale = 'auto';
 end
-      
+if not(isfield(MSTRCT,'zero2'))
+    MSTRCT.zero2 = 'black';
+end
+
+%---------------------------------------------
+% Zeros
+%---------------------------------------------
+if strcmp(MSTRCT.zero2,'black')
+    Im2(Im2 == 0) = NaN;
+end
+
+
 %---------------------------------------------
 % Determine Slice Label
 %---------------------------------------------
@@ -133,6 +144,9 @@ else
 end   
 figdims = figdims*scale;
 figdims(1) =  figdims(1)*1.05; 
-truesize(IMSTRCT.fhand,figdims);
-
+%--
+if strcmp(IMSTRCT.fhand.Type,'figure')
+    truesize(IMSTRCT.fhand,figdims);
+end
+%--
 

@@ -16,12 +16,16 @@ SetFocus(tab,axnum);
 % Change Image Type
 %--------------------------------------------
 if strcmp(IMAGEANLZ.(tab)(axnum).presentation,'Standard')
+    IMAGEANLZ.(tab)(axnum).SaveContrast;
     IMAGEANLZ.(tab)(axnum).ChangeImType(src.String{src.Value});
     IMAGEANLZ.(tab)(axnum).SetImageSlice;
     IMAGEANLZ.(tab)(axnum).PlotImage;
     IMAGEANLZ.(tab)(axnum).SetContrast;
 elseif strcmp(IMAGEANLZ.(tab)(axnum).presentation,'Ortho')
     for r = 1:3
+        IMAGEANLZ.(tab)(r).SaveContrast;
+    end
+    for r = 1:3        
         IMAGEANLZ.(tab)(r).ChangeImType(src.String{src.Value});
         IMAGEANLZ.(tab)(r).SetImageSlice;
         IMAGEANLZ.(tab)(r).PlotImage;

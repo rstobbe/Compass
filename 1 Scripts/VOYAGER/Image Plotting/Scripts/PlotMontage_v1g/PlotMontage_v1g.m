@@ -100,7 +100,11 @@ end
 %--------------------------------------------
 PLOT.ExpDisp = PanelStruct2Text(PLOT.PanelOutput);
 global FIGOBJS
-FIGOBJS.(SCRPTGBL.RWSUI.tab).Info.String = PLOT.ExpDisp;
+if(isfield(FIGOBJS.(SCRPTGBL.RWSUI.tab),'InfoL'))
+    FIGOBJS.(SCRPTGBL.RWSUI.tab).InfoL.String = PLOT.ExpDisp;
+else    
+    FIGOBJS.(SCRPTGBL.RWSUI.tab).Info.String = PLOT.ExpDisp;
+end
 
 if strcmp(PLOT.saveoption,'No') && not(isfield(PLOT,'IMDISP'))
     return

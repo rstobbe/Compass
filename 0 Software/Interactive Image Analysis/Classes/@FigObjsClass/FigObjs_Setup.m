@@ -196,6 +196,16 @@ if isfield(FIGOBJS.(tab),'CMinVal')
         IMOBJS.CMinVal = FIGOBJS.(tab).CMinVal(axnum);
     end
 end
+if isfield(FIGOBJS.(tab),'MaxCMaxVal')
+    if axnum <= length(FIGOBJS.(tab).MaxCMaxVal)
+        IMOBJS.MaxCMaxVal = FIGOBJS.(tab).MaxCMaxVal(axnum);
+    end
+end
+if isfield(FIGOBJS.(tab),'MinCMinVal')
+    if axnum <= length(FIGOBJS.(tab).MinCMinVal)
+        IMOBJS.MinCMinVal = FIGOBJS.(tab).MinCMinVal(axnum);
+    end
+end
 if isfield(FIGOBJS.(tab),'Dim4')
     if axnum <= length(FIGOBJS.(tab).Dim4)
         IMOBJS.Dim4 = FIGOBJS.(tab).Dim4(axnum);

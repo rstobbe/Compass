@@ -20,32 +20,43 @@ if not(isempty(IMAGEANLZ.(tab)(axnum).buttonfunction))
     error;          % shouldn't get here
 end
 
+  
 %------------------------------------------
-% Set Orientation
+% Set Orientation (Orient all insead of Tieing Let-go) 
 %------------------------------------------
-IMAGEANLZ.(tab)(axnum).SetOrient(src.String{src.Value});
-if strcmp(IMAGEANLZ.(tab)(axnum).presentation,'Ortho')
+if strcmp(IMAGEANLZ.(tab)(axnum).presentation,'Standard')
+    if IMAGEANLZ.(tab)(axnum).TestAllTied
+        start = 1;    
+        stop = IMAGEANLZ.(tab)(axnum).axeslen;
+    else
+        start = axnum;
+        stop = axnum;
+    end
+    for r = start:stop    
+        IMAGEANLZ.(tab)(r).SetOrient(src.String{src.Value});
+    end
+elseif strcmp(IMAGEANLZ.(tab)(axnum).presentation,'Ortho')
     InitializeOrthoPresentation(tab)
 end
 
 %----------------------------------------
 % Tieing Let-go
 %----------------------------------------
-untie = 0;
-for r = 1:IMAGEANLZ.(tab)(axnum).axeslen
-    if not(strcmp(IMAGEANLZ.(tab)(r).ORIENT,IMAGEANLZ.(tab)(axnum).ORIENT))
-        untie = 1;
-        break
-    end
-end
-for r = 1:IMAGEANLZ.(tab)(axnum).axeslen
-    if untie == 1
-        IMAGEANLZ.(tab)(r).TieSlice(0);
-        IMAGEANLZ.(tab)(r).TieZoom(0);
-        IMAGEANLZ.(tab)(r).TieDatVals(0);
-        IMAGEANLZ.(tab)(r).TieCursor(0);
-    end
-end
+% untie = 0;
+% for r = 1:IMAGEANLZ.(tab)(axnum).axeslen
+%     if not(strcmp(IMAGEANLZ.(tab)(r).ORIENT,IMAGEANLZ.(tab)(axnum).ORIENT))
+%         untie = 1;
+%         break
+%     end
+% end
+% for r = 1:IMAGEANLZ.(tab)(axnum).axeslen
+%     if untie == 1
+%         IMAGEANLZ.(tab)(r).TieSlice(0);
+%         IMAGEANLZ.(tab)(r).TieZoom(0);
+%         IMAGEANLZ.(tab)(r).TieDatVals(0);
+%         IMAGEANLZ.(tab)(r).TieCursor(0);
+%     end
+% end   
 
 %----------------------------------------
 % Plot
@@ -53,7 +64,7 @@ end
 if strcmp(IMAGEANLZ.(tab)(axnum).presentation,'Ortho')
     arr = 1:3;
 else
-    arr = axnum;
+    arr = start:stop;
 end
 for n = arr
     IMAGEANLZ.(tab)(n).ResetScale;

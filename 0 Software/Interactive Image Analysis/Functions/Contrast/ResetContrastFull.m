@@ -1,7 +1,7 @@
 %===================================================
 % 
 %===================================================
-function ContrastMax(src,event)
+function ResetContrastFull(src,event)
 
 global IMAGEANLZ
 
@@ -13,13 +13,15 @@ axnum = str2double(src.Tag);
 SetFocus(tab,axnum);
 
 %--------------------------------------------
-% Change Contrast
+% Reset
 %--------------------------------------------
 if strcmp(IMAGEANLZ.(tab)(axnum).presentation,'Standard')
-    IMAGEANLZ.(tab)(axnum).ChangeMaxContrastRel(src.Value);
+    IMAGEANLZ.(tab)(axnum).InitializeContrast;
+    IMAGEANLZ.(tab)(axnum).LoadContrast;
 elseif strcmp(IMAGEANLZ.(tab)(axnum).presentation,'Ortho')
-    for axnum = 1:3
-        IMAGEANLZ.(tab)(axnum).ChangeMaxContrastRel(src.Value); 
+    ContrastSettings = IMAGEANLZ.(tab)(axnum).InitializeContrast;          
+    for r = 1:3
+        IMAGEANLZ.(tab)(r).InitializeContrastSpecify(ContrastSettings);
+        IMAGEANLZ.(tab)(r).LoadContrast;
     end
 end
-

@@ -21,6 +21,7 @@ if samedims == 0
         return
     end
 end
+IMAGEANLZ.(tab)(axnum).ResetImType;
 for axnum = 1:3
     IMAGEANLZ.(tab)(axnum).AssignData(totgblnum);
     IMAGEANLZ.(tab)(axnum).SetAxisActive;
@@ -62,9 +63,11 @@ end
 %----------------------------------------
 % Set Dims (if necessary/available)
 %----------------------------------------
+axnum = 1;
+colourimage = IMAGEANLZ.(tab)(axnum).TestColourImage;
 for axnum = 1:3
     IMAGEANLZ.(tab)(axnum).ResetDims;
-    IMAGEANLZ.(tab)(axnum).TestEnableMultiDim;
+    IMAGEANLZ.(tab)(axnum).TestEnableMultiDim(colourimage);
 end
 
 %----------------------------------------
@@ -78,12 +81,18 @@ end
 % Contrast
 %-----------------------------------
 for axnum = 1:3
-    if IMAGEANLZ.(tab)(axnum).contrasthold == 0
-        IMAGEANLZ.(tab)(axnum).InitializeContrast;
-    end
-    IMAGEANLZ.(tab)(axnum).SetContrast;
+    IMAGEANLZ.(tab)(axnum).SaveContrast;
 end
-    
+if IMAGEANLZ.(tab)(1).contrasthold == 0
+    ContrastSettings = IMAGEANLZ.(tab)(axnum).InitializeContrast;          
+    for axnum = 1:3
+        IMAGEANLZ.(tab)(axnum).InitializeContrastSpecify(ContrastSettings); 
+    end
+end
+for axnum = 1:3
+    IMAGEANLZ.(tab)(axnum).LoadContrast
+end
+
 %-----------------------------------
 % Delete 'uicontextmenu' build-up
 %-----------------------------------

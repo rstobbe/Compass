@@ -26,13 +26,14 @@ IMAGEANLZ.totgblnum = [];
 IMAGEANLZ.axisactive = 0;
 IMAGEANLZ.shaderoi = 0;
 IMAGEANLZ.shaderoivalue = 0;
-IMAGEANLZ.shaderoiintensities = [0.04 0.08 0.12];
+IMAGEANLZ.shaderoiintensities = [0.04 0.08 0.12 0.16 0.2 0.24 0.28 0.32 0.36];
 IMAGEANLZ.linesroi = 0;
 IMAGEANLZ.redrawroi = 0;
 IMAGEANLZ.autoupdateroi = 0;
 IMAGEANLZ.drawroionall = 0;
 IMAGEANLZ.temproiclr = [];
 IMAGEANLZ.roievent = 'Add';
+IMAGEANLZ.colourimage = 0;
 
 IMAGEANLZ.imslice = [];
 IMAGEANLZ.imvol = [];
@@ -51,11 +52,14 @@ IMAGEANLZ.ROIPATH = COMPASSINFO.USERGBL.experimentsloc;
 IMAGEANLZ.buttonfunction = '';
 IMAGEANLZ.movefunction = '';
 %-- contrast
-IMAGEANLZ.IMTYPE = 'abs';
-IMAGEANLZ.RELCONTRAST = [];                               
-IMAGEANLZ.MAXCONTRAST = []; 
-IMAGEANLZ.MaxImVal = [];
-IMAGEANLZ.MinImVal = [];
+IMAGEANLZ.ImType = 'abs';
+IMAGEANLZ.FullContrast = [];       
+IMAGEANLZ.RelContrast = [];                               
+IMAGEANLZ.MaxContrastMax = []; 
+IMAGEANLZ.MaxContrastCurrent = []; 
+IMAGEANLZ.MinContrastMin = []; 
+IMAGEANLZ.MinContrastCurrent = []; 
+IMAGEANLZ.ContrastSettings = struct();
 %-- orient
 IMAGEANLZ.ORIENT = 'Axial';
 %-- navigate
@@ -83,13 +87,13 @@ IMAGEANLZ.COLORORDER = {[0 1 1],[0.1 1 0.5],[0.5 0.4 0.2],[1 1 0.5],[1 0.5 0.1],
 IMAGEANLZ.GETLINE = 0;
 IMAGEANLZ.LineToolActive = 0;
 %-- tieing
-IMAGEANLZ.ALLTIE = 0;
-IMAGEANLZ.DATVALTIE = 0;
+IMAGEANLZ.AllTie = 1;
+IMAGEANLZ.DATVALTIE = 1;
 IMAGEANLZ.CURSORTIE = 0;
-IMAGEANLZ.SLCTIE = 0;
-IMAGEANLZ.DIMSTIE = 0;
-IMAGEANLZ.ZOOMTIE = 0;
-IMAGEANLZ.ROITIE = 0;
+IMAGEANLZ.SLCTIE = 1;
+IMAGEANLZ.DIMSTIE = 1;
+IMAGEANLZ.ZOOMTIE = 1;
+IMAGEANLZ.ROITIE = 1;
 %-- holding
 IMAGEANLZ.SLCHOLD = 0;
 IMAGEANLZ.DIMSHOLD = 0;

@@ -22,11 +22,14 @@ classdef ImageAnlzClass < handle
         movefunction;
         curmat,tinymove;
         %-- contrast
-        IMTYPE;
-        RELCONTRAST;                               
-        MAXCONTRAST;
-        MaxImVal;
-        MinImVal;
+        ImType;
+        RelContrast;
+        FullContrast;
+        MaxContrastMax;
+        MaxContrastCurrent;
+        MinContrastMin;
+        MinContrastCurrent;
+        ContrastSettings;
         %-- orient
         ORIENT;
         %-- navigate
@@ -52,11 +55,12 @@ classdef ImageAnlzClass < handle
         complexaverageroi;
         roievent;
         redrawroi;
+        colourimage;
         %-- line
         GETLINE;
         LineToolActive;
         %-- tieing
-        ALLTIE;
+        AllTie;
         DATVALTIE;
         CURSORTIE;
         SLCTIE;
@@ -116,9 +120,10 @@ classdef ImageAnlzClass < handle
         function Copy4Export(IMAGEANLZ,IMAGEANLZ2)
             IMAGEANLZ.totgblnum = IMAGEANLZ2.totgblnum;
             IMAGEANLZ.IMPATH = IMAGEANLZ2.IMPATH;
-            IMAGEANLZ.IMTYPE = IMAGEANLZ2.IMTYPE;
-            IMAGEANLZ.RELCONTRAST = IMAGEANLZ2.RELCONTRAST;                             
-            IMAGEANLZ.MAXCONTRAST = IMAGEANLZ2.MAXCONTRAST;
+            IMAGEANLZ.ImType = IMAGEANLZ2.ImType;
+            error % finish contrast
+            IMAGEANLZ.RelContrast = IMAGEANLZ2.RelContrast;                             
+            IMAGEANLZ.MaxContrastMax = IMAGEANLZ2.MaxContrastMax;
             IMAGEANLZ.ORIENT = IMAGEANLZ2.ORIENT;
             IMAGEANLZ.SLICE = IMAGEANLZ2.SLICE;
             IMAGEANLZ.DIM4 = IMAGEANLZ2.DIM4;
@@ -159,7 +164,7 @@ classdef ImageAnlzClass < handle
         function Highlight(IMAGEANLZ)
             IMAGEANLZ.highlight = 1;
             IMAGEANLZ.FIGOBJS.ImPan.HighlightColor = 'r';
-            if not(isempty(IMAGEANLZ.FIGOBJS.AnlzTab))
+            if not(isempty(IMAGEANLZ.FIGOBJS.AnlzTab)) && not(isempty(IMAGEANLZ.FIGOBJS.InfoTab))
                 IMAGEANLZ.FIGOBJS.InfoTabGroup.SelectedTab = IMAGEANLZ.FIGOBJS.InfoTab;
                 IMAGEANLZ.FIGOBJS.AnlzTabGroup.SelectedTab = IMAGEANLZ.FIGOBJS.AnlzTab;
                 if isprop(IMAGEANLZ.FIGOBJS,'GeneralTabGroup')
@@ -414,11 +419,48 @@ classdef ImageAnlzClass < handle
             IMAGEANLZ.FIGOBJS.Dim5.Value = IMAGEANLZ.DIM5;
             IMAGEANLZ.FIGOBJS.Dim6.Value = IMAGEANLZ.DIM6;
         end         
-        % TestEnableMultiDim
-        function TestEnableMultiDim(IMAGEANLZ)
+        % TestColourImage
+        function colourimage = TestColourImage(IMAGEANLZ)
+            colourimage = 0;
+            IMAGEANLZ.colourimage = 0;
             imsize = IMAGEANLZ.GetBaseImageSize([]);
             if imsize(4) > 1
-                IMAGEANLZ.FIGOBJS.Dim4.Enable = 'On';
+                if imsize(4) == 3
+                    answer = questdlg('Display Image in Colour');
+                    if strcmp(answer,'Yes')
+                        IMAGEANLZ.colourimage = 1;
+                        colourimage = 1;
+                        IMAGEANLZ.FIGOBJS.Dim4.Enable = 'Off';
+                    else
+                        IMAGEANLZ.FIGOBJS.Dim4.Enable = 'On';
+                    end
+                else
+                    IMAGEANLZ.FIGOBJS.Dim4.Enable = 'On';
+                end
+            else
+                IMAGEANLZ.FIGOBJS.Dim4.Enable = 'Off';
+            end
+            if imsize(5) > 1
+                IMAGEANLZ.FIGOBJS.Dim5.Enable = 'On';
+            else
+                IMAGEANLZ.FIGOBJS.Dim5.Enable = 'Off';
+            end
+            if imsize(6) > 1
+                IMAGEANLZ.FIGOBJS.Dim6.Enable = 'On';
+            else
+                IMAGEANLZ.FIGOBJS.Dim6.Enable = 'Off';
+            end
+        end          
+        % TestEnableMultiDim
+        function colourimage = TestEnableMultiDim(IMAGEANLZ,colourimage)
+            IMAGEANLZ.colourimage = colourimage;
+            imsize = IMAGEANLZ.GetBaseImageSize([]);
+            if imsize(4) > 1
+                if colourimage
+                        IMAGEANLZ.FIGOBJS.Dim4.Enable = 'Off';
+                else
+                    IMAGEANLZ.FIGOBJS.Dim4.Enable = 'On';
+                end
             else
                 IMAGEANLZ.FIGOBJS.Dim4.Enable = 'Off';
             end
@@ -452,60 +494,316 @@ classdef ImageAnlzClass < handle
 %==================================================================
 % Contrast (setup)
 %==================================================================          
-        % GetContrastLimit
-        function clim = GetContrastLimit(IMAGEANLZ)
-            if isempty(IMAGEANLZ.MAXCONTRAST)
-                clim = IMAGEANLZ.RELCONTRAST;                       % no image loaded
-            else
-                clim = IMAGEANLZ.RELCONTRAST*IMAGEANLZ.MAXCONTRAST;
+        %TestMinCMinValUserEditTooBig
+        function bool = TestMinCMinValUserEditTooBig(IMAGEANLZ,mincmin)
+            bool = 0;
+            if mincmin >= IMAGEANLZ.MaxContrastMax
+                bool = 1;
             end
         end
-        % ChangeMaxContrast
-        function ChangeMaxContrast(IMAGEANLZ,cmax)
-            %if cmax > 1
-            %    cmax = 1;
-            %end
-            IMAGEANLZ.RELCONTRAST(2) = cmax;
-            if(IMAGEANLZ.RELCONTRAST(2) <= IMAGEANLZ.RELCONTRAST(1))
-                IMAGEANLZ.RELCONTRAST(2) = IMAGEANLZ.RELCONTRAST(1)+0.01;
+        %TestMaxCMaxValUserEditTooSmall
+        function bool = TestMaxCMaxValUserEditTooSmall(IMAGEANLZ,maxcmax)
+            bool = 0;
+            if maxcmax <= IMAGEANLZ.MinContrastMin
+                bool = 1;
             end
-            IMAGEANLZ.FIGOBJS.ContrastMax.Value = cmax;
-            IMAGEANLZ.FIGOBJS.CMaxVal.String = num2str(IMAGEANLZ.RELCONTRAST(2)*IMAGEANLZ.MAXCONTRAST,5);
-            IMAGEANLZ.SetContrast;
         end
-        % ChangeMinContrast
-        function ChangeMinContrast(IMAGEANLZ,cmin)
-            %if cmin < 0.01
-            %    cmin = 0.01;
-            %end
-            IMAGEANLZ.RELCONTRAST(1) = cmin;
-            if(IMAGEANLZ.RELCONTRAST(1) >= IMAGEANLZ.RELCONTRAST(2))
-                IMAGEANLZ.RELCONTRAST(1) = IMAGEANLZ.RELCONTRAST(2)-0.01;
-            end
-            IMAGEANLZ.FIGOBJS.ContrastMin.Value = cmin;
-            IMAGEANLZ.FIGOBJS.CMinVal.String = num2str(IMAGEANLZ.RELCONTRAST(1)*IMAGEANLZ.MAXCONTRAST,5);
-            IMAGEANLZ.SetContrast;
+        %CMaxValUserEdit
+        function CMaxValUserEdit(IMAGEANLZ)
+            IMAGEANLZ.FIGOBJS.CMaxVal.ForegroundColor = [0.8 0.8 0.8];
+            IMAGEANLZ.FIGOBJS.CMaxVal.Enable = 'off';
+            IMAGEANLZ.FIGOBJS.CMaxVal.Enable = 'on';
         end
-        % ChangeImType
-        function ChangeImType(IMAGEANLZ,imtype)
-            imtypecurrent = IMAGEANLZ.IMTYPE; 
-            IMAGEANLZ.IMTYPE = imtype;
-            IMAGEANLZ.imvol = IMAGEANLZ.GetCurrent3DImage;
-            if IMAGEANLZ.contrasthold == 0
-                ImAnlz_UpdateContrastTypeChange(IMAGEANLZ);
-            else
-                if not((strcmp(imtypecurrent,'real') && strcmp(IMAGEANLZ.IMTYPE,'imag')) || (strcmp(imtypecurrent,'imag') && strcmp(IMAGEANLZ.IMTYPE,'real')))
-                    ImAnlz_UpdateContrastTypeChange(IMAGEANLZ); 
+        %CMinValUserEdit
+        function CMinValUserEdit(IMAGEANLZ)
+            IMAGEANLZ.FIGOBJS.CMinVal.ForegroundColor = [0.8 0.8 0.8];
+            IMAGEANLZ.FIGOBJS.CMinVal.Enable = 'off';
+            IMAGEANLZ.FIGOBJS.CMinVal.Enable = 'on';
+        end
+        %MaxCMaxValUserEdit
+        function MaxCMaxValUserEdit(IMAGEANLZ)
+            IMAGEANLZ.FIGOBJS.MaxCMaxVal.ForegroundColor = [0.8 0.8 0.8];
+            IMAGEANLZ.FIGOBJS.MaxCMaxVal.Enable = 'off';
+            IMAGEANLZ.FIGOBJS.MaxCMaxVal.Enable = 'on';
+        end
+        %MinCMinValUserEdit
+        function MinCMinValUserEdit(IMAGEANLZ)
+            IMAGEANLZ.FIGOBJS.MinCMinVal.ForegroundColor = [0.8 0.8 0.8];
+            IMAGEANLZ.FIGOBJS.MinCMinVal.Enable = 'off';
+            IMAGEANLZ.FIGOBJS.MinCMinVal.Enable = 'on';
+        end
+        %MaxCMaxValTest
+        function maxcmax = MaxCMaxValTest(IMAGEANLZ,cmax)
+            maxcmax = IMAGEANLZ.MaxContrastMax;
+            if str2double(cmax) > maxcmax
+                IMAGEANLZ.MaxContrastMax = str2double(cmax);
+                IMAGEANLZ.FIGOBJS.MaxCMaxVal.String = cmax;
+                maxcmax = IMAGEANLZ.MaxContrastMax;
+                if abs(IMAGEANLZ.MaxContrastMax) < abs(IMAGEANLZ.MinContrastMin)
+                    IMAGEANLZ.FullContrast = abs(IMAGEANLZ.MinContrastMin);
+                else
+                    IMAGEANLZ.FullContrast = abs(IMAGEANLZ.MaxContrastMax);
+                end
+                IMAGEANLZ.FIGOBJS.ContrastMax.Min = IMAGEANLZ.MinContrastMin/IMAGEANLZ.FullContrast;
+                IMAGEANLZ.FIGOBJS.ContrastMin.Min = IMAGEANLZ.MinContrastMin/IMAGEANLZ.FullContrast;
+                IMAGEANLZ.RelContrast(1) = IMAGEANLZ.MinContrastCurrent/IMAGEANLZ.FullContrast;
+                IMAGEANLZ.RelContrast(2) = IMAGEANLZ.MaxContrastCurrent/IMAGEANLZ.FullContrast;
+                if(IMAGEANLZ.RelContrast(2) <= IMAGEANLZ.RelContrast(1))
+                    IMAGEANLZ.RelContrast(2) = IMAGEANLZ.RelContrast(1)+0.01;
                 end
             end
         end
+        %MinCMinValTest
+        function mincmin = MinCMinValTest(IMAGEANLZ,cmin)
+            mincmin = IMAGEANLZ.MinContrastMin;
+            if str2double(cmin) < mincmin
+                IMAGEANLZ.MinContrastMin = str2double(cmin);
+                IMAGEANLZ.FIGOBJS.MinCMinVal.String = cmin;
+                mincmin = IMAGEANLZ.MinContrastMin;
+                if abs(IMAGEANLZ.MaxContrastMax) < abs(IMAGEANLZ.MinContrastMin)
+                    IMAGEANLZ.FullContrast = abs(IMAGEANLZ.MinContrastMin);
+                else
+                    IMAGEANLZ.FullContrast = abs(IMAGEANLZ.MaxContrastMax);
+                end
+                IMAGEANLZ.FIGOBJS.ContrastMax.Min = IMAGEANLZ.MinContrastMin/IMAGEANLZ.FullContrast;
+                IMAGEANLZ.FIGOBJS.ContrastMin.Min = IMAGEANLZ.MinContrastMin/IMAGEANLZ.FullContrast;
+                IMAGEANLZ.RelContrast(1) = IMAGEANLZ.MinContrastCurrent/IMAGEANLZ.FullContrast;
+                IMAGEANLZ.RelContrast(2) = IMAGEANLZ.MaxContrastCurrent/IMAGEANLZ.FullContrast;
+                if(IMAGEANLZ.RelContrast(2) <= IMAGEANLZ.RelContrast(1))
+                    IMAGEANLZ.RelContrast(2) = IMAGEANLZ.RelContrast(1)+0.01;
+                end
+            end
+        end
+        %ReduceCMaxValTest
+        function cmax = ReduceCMaxValTest(IMAGEANLZ,maxcmax)
+            cmax = IMAGEANLZ.MaxContrastCurrent;
+            if str2double(maxcmax) < cmax
+                IMAGEANLZ.MaxContrastCurrent = str2double(maxcmax);
+                IMAGEANLZ.FIGOBJS.CMaxVal.String = maxcmax;
+                if abs(IMAGEANLZ.MaxContrastMax) < abs(IMAGEANLZ.MinContrastMin)
+                    IMAGEANLZ.FullContrast = abs(IMAGEANLZ.MinContrastMin);
+                else
+                    IMAGEANLZ.FullContrast = abs(IMAGEANLZ.MaxContrastMax);
+                end
+                IMAGEANLZ.FIGOBJS.ContrastMax.Min = IMAGEANLZ.MinContrastMin/IMAGEANLZ.FullContrast;
+                IMAGEANLZ.FIGOBJS.ContrastMin.Min = IMAGEANLZ.MinContrastMin/IMAGEANLZ.FullContrast;
+                IMAGEANLZ.RelContrast(1) = IMAGEANLZ.MinContrastCurrent/IMAGEANLZ.FullContrast;
+                IMAGEANLZ.RelContrast(2) = IMAGEANLZ.MaxContrastCurrent/IMAGEANLZ.FullContrast;
+                if(IMAGEANLZ.RelContrast(2) <= IMAGEANLZ.RelContrast(1))
+                    IMAGEANLZ.RelContrast(1) = IMAGEANLZ.RelContrast(2)-0.01;
+                end
+                IMAGEANLZ.MinContrastCurrent = IMAGEANLZ.RelContrast(1)*IMAGEANLZ.FullContrast;
+                IMAGEANLZ.FIGOBJS.CMinVal.String = IMAGEANLZ.MinContrastCurrent;
+                cmax = IMAGEANLZ.MaxContrastCurrent;
+            end
+        end
+        %ReduceCMinValTest
+        function cmin = ReduceCMinValTest(IMAGEANLZ,maxcmax)
+            cmin = IMAGEANLZ.MinContrastCurrent;
+            if str2double(maxcmax) < cmin
+                if abs(IMAGEANLZ.MaxContrastMax) < abs(IMAGEANLZ.MinContrastMin)
+                    IMAGEANLZ.FullContrast = abs(IMAGEANLZ.MinContrastMin);
+                else
+                    IMAGEANLZ.FullContrast = abs(IMAGEANLZ.MaxContrastMax);
+                end
+                IMAGEANLZ.FIGOBJS.ContrastMax.Min = IMAGEANLZ.MinContrastMin/IMAGEANLZ.FullContrast;
+                IMAGEANLZ.FIGOBJS.ContrastMin.Min = IMAGEANLZ.MinContrastMin/IMAGEANLZ.FullContrast;
+                IMAGEANLZ.RelContrast(1) = IMAGEANLZ.MinContrastCurrent/IMAGEANLZ.FullContrast;
+                IMAGEANLZ.RelContrast(2) = IMAGEANLZ.MaxContrastCurrent/IMAGEANLZ.FullContrast;
+                if(IMAGEANLZ.RelContrast(2) <= IMAGEANLZ.RelContrast(1))
+                    IMAGEANLZ.RelContrast(1) = IMAGEANLZ.RelContrast(2)-0.01;
+                end
+                IMAGEANLZ.MinContrastCurrent = IMAGEANLZ.RelContrast(1)*IMAGEANLZ.FullContrast;
+                IMAGEANLZ.FIGOBJS.CMinVal.String = IMAGEANLZ.MinContrastCurrent;
+                cmin = IMAGEANLZ.MinContrastCurrent;
+            end
+        end
+        %IncreaseCMinValTest
+        function cmin = IncreaseCMinValTest(IMAGEANLZ,mincmin)
+            cmin = IMAGEANLZ.MinContrastCurrent;
+            if str2double(mincmin) > cmin
+                IMAGEANLZ.MinContrastCurrent = str2double(mincmin);
+                IMAGEANLZ.FIGOBJS.CMinVal.String = mincmin;
+                if abs(IMAGEANLZ.MaxContrastMax) < abs(IMAGEANLZ.MinContrastMin)
+                    IMAGEANLZ.FullContrast = abs(IMAGEANLZ.MinContrastMin);
+                else
+                    IMAGEANLZ.FullContrast = abs(IMAGEANLZ.MaxContrastMax);
+                end
+                IMAGEANLZ.FIGOBJS.ContrastMax.Min = IMAGEANLZ.MinContrastMin/IMAGEANLZ.FullContrast;
+                IMAGEANLZ.FIGOBJS.ContrastMin.Min = IMAGEANLZ.MinContrastMin/IMAGEANLZ.FullContrast;
+                IMAGEANLZ.RelContrast(1) = IMAGEANLZ.MinContrastCurrent/IMAGEANLZ.FullContrast;
+                IMAGEANLZ.RelContrast(2) = IMAGEANLZ.MaxContrastCurrent/IMAGEANLZ.FullContrast;
+                if(IMAGEANLZ.RelContrast(2) <= IMAGEANLZ.RelContrast(1))
+                    IMAGEANLZ.RelContrast(2) = IMAGEANLZ.RelContrast(1)+0.01;
+                end
+                IMAGEANLZ.MaxContrastCurrent = IMAGEANLZ.RelContrast(2)*IMAGEANLZ.FullContrast;
+                IMAGEANLZ.FIGOBJS.CMaxVal.String = IMAGEANLZ.MaxContrastCurrent;
+                cmin = IMAGEANLZ.MinContrastCurrent;
+            end
+        end
+        %IncreaseCMaxValTest
+        function cmax = IncreaseCMaxValTest(IMAGEANLZ,mincmin)
+            cmax = IMAGEANLZ.MaxContrastCurrent;
+            if str2double(mincmin) > cmax
+                if abs(IMAGEANLZ.MaxContrastMax) < abs(IMAGEANLZ.MinContrastMin)
+                    IMAGEANLZ.FullContrast = abs(IMAGEANLZ.MinContrastMin);
+                else
+                    IMAGEANLZ.FullContrast = abs(IMAGEANLZ.MaxContrastMax);
+                end
+                IMAGEANLZ.FIGOBJS.ContrastMax.Min = IMAGEANLZ.MinContrastMin/IMAGEANLZ.FullContrast;
+                IMAGEANLZ.FIGOBJS.ContrastMin.Min = IMAGEANLZ.MinContrastMin/IMAGEANLZ.FullContrast;
+                IMAGEANLZ.RelContrast(1) = IMAGEANLZ.MinContrastCurrent/IMAGEANLZ.FullContrast;
+                IMAGEANLZ.RelContrast(2) = IMAGEANLZ.MaxContrastCurrent/IMAGEANLZ.FullContrast;
+                if(IMAGEANLZ.RelContrast(2) <= IMAGEANLZ.RelContrast(1))
+                    IMAGEANLZ.RelContrast(2) = IMAGEANLZ.RelContrast(1)+0.01;
+                end
+                IMAGEANLZ.MaxContrastCurrent = IMAGEANLZ.RelContrast(2)*IMAGEANLZ.FullContrast;
+                IMAGEANLZ.FIGOBJS.CMaxVal.String = IMAGEANLZ.MaxContrastCurrent;
+                cmax = IMAGEANLZ.MaxContrastCurrent;
+            end
+        end
+        %MaxContrastMaxUpdate
+        function MaxContrastMaxUpdate(IMAGEANLZ,maxcmax)
+            IMAGEANLZ.MaxContrastMax = maxcmax;
+            if abs(IMAGEANLZ.MaxContrastMax) < abs(IMAGEANLZ.MinContrastMin)
+                IMAGEANLZ.FullContrast = abs(IMAGEANLZ.MinContrastMin);
+            else
+                IMAGEANLZ.FullContrast = abs(IMAGEANLZ.MaxContrastMax);
+            end
+            IMAGEANLZ.FIGOBJS.ContrastMax.Min = IMAGEANLZ.MinContrastMin/IMAGEANLZ.FullContrast;
+            IMAGEANLZ.FIGOBJS.ContrastMin.Min = IMAGEANLZ.MinContrastMin/IMAGEANLZ.FullContrast;
+            if(IMAGEANLZ.RelContrast(2) <= IMAGEANLZ.RelContrast(1))
+                IMAGEANLZ.RelContrast(2) = IMAGEANLZ.RelContrast(1)+0.01;
+            end
+        end
+        %MinContrastMinUpdate
+        function MinContrastMinUpdate(IMAGEANLZ,mincmin)
+            IMAGEANLZ.MinContrastMin = mincmin;
+            if abs(IMAGEANLZ.MaxContrastMax) < abs(IMAGEANLZ.MinContrastMin)
+                IMAGEANLZ.FullContrast = abs(IMAGEANLZ.MinContrastMin);
+            else
+                IMAGEANLZ.FullContrast = abs(IMAGEANLZ.MaxContrastMax);
+            end
+            IMAGEANLZ.FIGOBJS.ContrastMax.Min = IMAGEANLZ.MinContrastMin/IMAGEANLZ.FullContrast;
+            IMAGEANLZ.FIGOBJS.ContrastMin.Min = IMAGEANLZ.MinContrastMin/IMAGEANLZ.FullContrast;
+            IMAGEANLZ.RelContrast(1) = IMAGEANLZ.MinContrastCurrent/IMAGEANLZ.FullContrast;
+            IMAGEANLZ.RelContrast(2) = IMAGEANLZ.MaxContrastCurrent/IMAGEANLZ.FullContrast;
+            if(IMAGEANLZ.RelContrast(2) <= IMAGEANLZ.RelContrast(1))
+                IMAGEANLZ.RelContrast(2) = IMAGEANLZ.RelContrast(1)+0.01;
+            end
+        end
+        % GetContrastLimit
+        function clim = GetContrastLimit(IMAGEANLZ)
+            if isempty(IMAGEANLZ.FullContrast)
+                clim = IMAGEANLZ.RelContrast;                       % no image loaded
+            else
+                clim = IMAGEANLZ.RelContrast*IMAGEANLZ.FullContrast;
+            end
+        end
+        % ChangeMaxContrastVal
+        function ChangeMaxContrastVal(IMAGEANLZ,cmax)
+            IMAGEANLZ.MaxContrastCurrent = cmax;
+            IMAGEANLZ.RelContrast(1) = IMAGEANLZ.MinContrastCurrent/IMAGEANLZ.FullContrast;
+            IMAGEANLZ.RelContrast(2) = IMAGEANLZ.MaxContrastCurrent/IMAGEANLZ.FullContrast;
+            if(IMAGEANLZ.RelContrast(2) <= IMAGEANLZ.RelContrast(1))
+                IMAGEANLZ.RelContrast(2) = IMAGEANLZ.RelContrast(1)+0.01;
+            end
+            IMAGEANLZ.SetContrast;
+        end
+        % ChangeMinContrastVal
+        function ChangeMinContrastVal(IMAGEANLZ,cmax)
+            IMAGEANLZ.MinContrastCurrent = cmax;
+            IMAGEANLZ.RelContrast(1) = IMAGEANLZ.MinContrastCurrent/IMAGEANLZ.FullContrast;
+            IMAGEANLZ.RelContrast(2) = IMAGEANLZ.MaxContrastCurrent/IMAGEANLZ.FullContrast;
+            if(IMAGEANLZ.RelContrast(2) <= IMAGEANLZ.RelContrast(1))
+                IMAGEANLZ.RelContrast(2) = IMAGEANLZ.RelContrast(1)+0.01;
+            end
+            IMAGEANLZ.SetContrast;
+        end
+        % ChangeMaxContrastRel
+        function ChangeMaxContrastRel(IMAGEANLZ,relcmax)
+            IMAGEANLZ.RelContrast(2) = relcmax;
+            if(IMAGEANLZ.RelContrast(2) <= IMAGEANLZ.RelContrast(1))
+                IMAGEANLZ.RelContrast(2) = IMAGEANLZ.RelContrast(1)+0.01;
+            end
+            IMAGEANLZ.FIGOBJS.ContrastMax.Value = relcmax;
+            IMAGEANLZ.FIGOBJS.CMaxVal.String = num2str(IMAGEANLZ.RelContrast(2)*IMAGEANLZ.FullContrast,6);
+            IMAGEANLZ.MaxContrastCurrent = IMAGEANLZ.RelContrast(2)*IMAGEANLZ.FullContrast;
+            IMAGEANLZ.SetContrast;
+        end
+        % ChangeMinContrastRel
+        function ChangeMinContrastRel(IMAGEANLZ,relcmin)
+            IMAGEANLZ.RelContrast(1) = relcmin;
+            if(IMAGEANLZ.RelContrast(1) >= IMAGEANLZ.RelContrast(2))
+                IMAGEANLZ.RelContrast(1) = IMAGEANLZ.RelContrast(2)-0.01;
+            end
+            IMAGEANLZ.FIGOBJS.ContrastMin.Value = relcmin;
+            IMAGEANLZ.FIGOBJS.CMinVal.String = num2str(IMAGEANLZ.RelContrast(1)*IMAGEANLZ.FullContrast,6);
+            IMAGEANLZ.MinContrastCurrent = IMAGEANLZ.RelContrast(1)*IMAGEANLZ.FullContrast;
+            IMAGEANLZ.SetContrast;
+        end
+        % UpdateMaxContrastSlider
+        function UpdateMaxContrastSlider(IMAGEANLZ)
+            IMAGEANLZ.FIGOBJS.ContrastMax.Value = IMAGEANLZ.RelContrast(2);
+        end  
+        % UpdateMinContrastSlider
+        function UpdateMinContrastSlider(IMAGEANLZ)
+            IMAGEANLZ.FIGOBJS.ContrastMin.Value = IMAGEANLZ.RelContrast(1);
+        end 
+        % ChangeImType
+        function ChangeImType(IMAGEANLZ,imtype)
+            IMAGEANLZ.ImType = imtype;
+            IMAGEANLZ.LoadContrast;
+            IMAGEANLZ.imvol = IMAGEANLZ.GetCurrent3DImage;
+        end
+        function ResetImType(IMAGEANLZ)
+            IMAGEANLZ.ImType = IMAGEANLZ.FIGOBJS.ImType.String{IMAGEANLZ.FIGOBJS.ImType.Value};
+        end
         % InitializeContrast
-        function InitializeContrast(IMAGEANLZ)
+        function ContrastSettings = InitializeContrast(IMAGEANLZ)
             ImAnlz_InitializeContrast(IMAGEANLZ);
+            ContrastSettings = IMAGEANLZ.ContrastSettings;
+        end
+        % InitializeContrast
+        function InitializeContrastSpecify(IMAGEANLZ,ContrastSettings)
+            IMAGEANLZ.ContrastSettings = ContrastSettings;
         end
         % DefaultContrast
         function DefaultContrast(IMAGEANLZ)
             ImAnlz_DefaultContrast(IMAGEANLZ);
+        end
+        % LoadContrast
+        function LoadContrast(IMAGEANLZ)
+            IMAGEANLZ.FIGOBJS.MinCMinVal.ForegroundColor = [0.8 0.8 0.8];
+            IMAGEANLZ.FIGOBJS.MaxCMaxVal.ForegroundColor = [0.8 0.8 0.8];
+            IMAGEANLZ.FIGOBJS.CMinVal.ForegroundColor = [0.8 0.8 0.8];
+            IMAGEANLZ.FIGOBJS.CMaxVal.ForegroundColor = [0.8 0.8 0.8];
+            ImAnlz_UpdateContrastTypeChange(IMAGEANLZ); 
+            if abs(IMAGEANLZ.MaxContrastMax) < abs(IMAGEANLZ.MinContrastMin)
+                IMAGEANLZ.FullContrast = abs(IMAGEANLZ.MinContrastMin);
+            else
+                IMAGEANLZ.FullContrast = abs(IMAGEANLZ.MaxContrastMax);
+            end
+            IMAGEANLZ.FIGOBJS.ContrastMax.Min = IMAGEANLZ.MinContrastMin/IMAGEANLZ.FullContrast;
+            IMAGEANLZ.FIGOBJS.ContrastMin.Min = IMAGEANLZ.MinContrastMin/IMAGEANLZ.FullContrast;
+            IMAGEANLZ.RelContrast(1) = IMAGEANLZ.MinContrastCurrent/IMAGEANLZ.FullContrast;
+            IMAGEANLZ.RelContrast(2) = IMAGEANLZ.MaxContrastCurrent/IMAGEANLZ.FullContrast;
+            IMAGEANLZ.FIGOBJS.ContrastMin.Value = IMAGEANLZ.RelContrast(1);
+            IMAGEANLZ.FIGOBJS.ContrastMax.Value = IMAGEANLZ.RelContrast(2);
+            IMAGEANLZ.FIGOBJS.CMaxVal.String = num2str(IMAGEANLZ.MaxContrastCurrent,6);
+            IMAGEANLZ.FIGOBJS.CMinVal.String = num2str(IMAGEANLZ.MinContrastCurrent,6);
+            IMAGEANLZ.FIGOBJS.MaxCMaxVal.String = num2str(IMAGEANLZ.MaxContrastMax,6);
+            IMAGEANLZ.FIGOBJS.MinCMinVal.String = num2str(IMAGEANLZ.MinContrastMin,6);
+            IMAGEANLZ.FIGOBJS.EnableContrast;
+            IMAGEANLZ.SetContrast;
+        end
+        % SaveContrast
+        function SaveContrast(IMAGEANLZ)
+            ImAnlz_SaveContrast(IMAGEANLZ);
+        end
+        % ReturnContrast
+        function ContrastSettings = ReturnContrast(IMAGEANLZ)
+            ContrastSettings = IMAGEANLZ.ContrastSettings;
         end
         
 %==================================================================
@@ -727,7 +1025,7 @@ classdef ImageAnlzClass < handle
             if isempty(IMAGEANLZ.CURRENTROI) 
                 return
             end
-            if isempty(IMAGEANLZ.CURRENTROI.xlocarr) 
+            if isempty(IMAGEANLZ.CURRENTROI.xlocarr) && isempty(IMAGEANLZ.CURRENTROI.roivol)
                 return
             end
             if IMAGEANLZ.linesroi
@@ -896,6 +1194,10 @@ classdef ImageAnlzClass < handle
         function ShadeROIChangeValue(IMAGEANLZ,val)
             IMAGEANLZ.shaderoivalue = val;
         end
+        % ShadeROIChangeSlider
+        function ShadeROIChangeSlider(IMAGEANLZ,val)
+            IMAGEANLZ.FIGOBJS.ShadeROIValue.Value = val;
+        end
         % LinesROIChange
         function LinesROIChange(IMAGEANLZ,val)
             IMAGEANLZ.linesroi = val;
@@ -946,6 +1248,25 @@ classdef ImageAnlzClass < handle
         function DeactivateROI(IMAGEANLZ,roinum)
             IMAGEANLZ.ROISOFINTEREST(roinum) = 0;
             IMAGEANLZ.UnHighlightROI(roinum);
+        end
+        % DeactivateAllROIs
+        function DeactivateAllROIs(IMAGEANLZ)
+            len = length(IMAGEANLZ.ROISOFINTEREST);
+            for n = 1:len
+                IMAGEANLZ.ROISOFINTEREST(n) = 0;
+                IMAGEANLZ.UnHighlightROI(n);
+            end
+        end
+        % TestActiveROIs
+        function roisofinterest = TestActiveROIs(IMAGEANLZ)
+            roisofinterest = IMAGEANLZ.ROISOFINTEREST;
+        end
+        % TestMaskOnlyROI
+        function bool = TestMaskOnlyCurrentROI(IMAGEANLZ)
+            bool = 0;
+            if isempty(IMAGEANLZ.CURRENTROI.xlocarr)
+                bool = 1;
+            end
         end
         % InitiateRedrawROI
         function InitiateRedrawROI(IMAGEANLZ)
@@ -1178,7 +1499,11 @@ classdef ImageAnlzClass < handle
         end
         % GetCurrentPointData
         function Data = GetCurrentPointData(IMAGEANLZ,x,y)        
-            Data.val = IMAGEANLZ.imslice(round(y),round(x));
+            if IMAGEANLZ.colourimage
+                Data.val = squeeze(IMAGEANLZ.imslice(round(y),round(x),:));
+            else
+                Data.val = IMAGEANLZ.imslice(round(y),round(x));
+            end
             pixdim = GetPixelDimensions(IMAGEANLZ);
             imsize = GetImageSize(IMAGEANLZ);
             if strcmp(IMAGEANLZ.ORIENT,'Axial')
@@ -1206,13 +1531,42 @@ classdef ImageAnlzClass < handle
         end
         % SetCurrentPointInfoOrtho
         function SetCurrentPointInfoOrtho(IMAGEANLZ,Data)
-            IMAGEANLZ.FIGOBJS.CURVAL.String = num2str(Data.val);
+            if length(Data.val) > 1
+                IMAGEANLZ.FIGOBJS.CURVAL.String = [num2str(Data.val(1),'%3.2f'),',',num2str(Data.val(2),'%3.2f'),',',num2str(Data.val(3),'%3.2f')];
+            else
+                switch IMAGEANLZ.ImType
+                    case 'abs'
+                        if abs(Data.val) < 0.01
+                            num = num2str(abs(Data.val),3);
+                        else
+                            num = num2str(abs(Data.val),4);
+                        end
+                    case 'real'
+                        if abs(real(Data.val)) < 0.01
+                            num = num2str(real(Data.val),3);
+                        else
+                            num = num2str(real(Data.val),4);
+                        end
+                    case 'imag'
+                        if abs(imag(Data.val)) < 0.01
+                            num = num2str(imag(Data.val),3);
+                        else
+                            num = num2str(imag(Data.val),4);
+                        end
+                    case 'phase'
+                        num = num2str(angle(Data.val),4);
+                    case 'map'
+                        if abs(Data.val) < 0.01
+                            num = num2str(Data.val,3);
+                        else
+                            num = num2str(Data.val,4);
+                        end
+                end
+                IMAGEANLZ.FIGOBJS.CURVAL.String = num;
+            end
             IMAGEANLZ.FIGOBJS.X.String = num2str(Data.loc(1),'%3.1f');
             IMAGEANLZ.FIGOBJS.Y.String = num2str(Data.loc(2),'%3.1f');
             IMAGEANLZ.FIGOBJS.Z.String = num2str(Data.loc(3),'%3.1f');
-%             IMAGEANLZ.FIGOBJS.XPix.String = num2str(IMAGEANLZ.curmat(1),'%3.0f');
-%             IMAGEANLZ.FIGOBJS.YPix.String = num2str(IMAGEANLZ.curmat(2),'%3.0f');
-%             IMAGEANLZ.FIGOBJS.ZPix.String = num2str(IMAGEANLZ.curmat(3),'%3.0f');
             IMAGEANLZ.FIGOBJS.XPix.String = num2str(Data.point(1),'%3.0f');
             IMAGEANLZ.FIGOBJS.YPix.String = num2str(Data.point(2),'%3.0f');
             IMAGEANLZ.FIGOBJS.ZPix.String = num2str(Data.point(3),'%3.0f');
@@ -1237,7 +1591,11 @@ classdef ImageAnlzClass < handle
         end
         % SetImageSlice        
         function SetImageSlice(IMAGEANLZ)
-            IMAGEANLZ.imslice = IMAGEANLZ.imvol(:,:,IMAGEANLZ.SLICE);
+            if IMAGEANLZ.colourimage
+                IMAGEANLZ.imslice = squeeze(IMAGEANLZ.imvol(:,:,IMAGEANLZ.SLICE,:));                
+            else
+                IMAGEANLZ.imslice = IMAGEANLZ.imvol(:,:,IMAGEANLZ.SLICE);
+            end
         end
         % GetCurrent3DImageComplex
         function Image = GetCurrent3DImageComplex(IMAGEANLZ)
@@ -1251,7 +1609,12 @@ classdef ImageAnlzClass < handle
             global TOTALGBL
             Image = TOTALGBL{2,IMAGEANLZ.totgblnum}.Im;
             Image = ImageOrient(IMAGEANLZ,Image);
-            Image = Image(:,:,:,IMAGEANLZ.DIM4,IMAGEANLZ.DIM5,IMAGEANLZ.DIM6);
+            if IMAGEANLZ.colourimage
+                Image = Image(:,:,:,:,IMAGEANLZ.DIM5,IMAGEANLZ.DIM6);
+                IMAGEANLZ.ImType = 'colour';
+            else
+                Image = Image(:,:,:,IMAGEANLZ.DIM4,IMAGEANLZ.DIM5,IMAGEANLZ.DIM6);
+            end
             Image = ImageTypeCreate(IMAGEANLZ,Image);  
         end
         % GetOriented3DImage
@@ -1275,15 +1638,15 @@ classdef ImageAnlzClass < handle
 %==================================================================        
         % ImageTypeCreate
         function Image = ImageTypeCreate(IMAGEANLZ,Image)
-            if strcmp(IMAGEANLZ.IMTYPE,'abs')
+            if strcmp(IMAGEANLZ.ImType,'abs')
                 Image = abs(Image);
-            elseif strcmp(IMAGEANLZ.IMTYPE,'real')
+            elseif strcmp(IMAGEANLZ.ImType,'real')
                 Image = real(Image);
-            elseif strcmp(IMAGEANLZ.IMTYPE,'imag')
+            elseif strcmp(IMAGEANLZ.ImType,'imag')
                 Image = imag(Image);
-            elseif strcmp(IMAGEANLZ.IMTYPE,'phase')
+            elseif strcmp(IMAGEANLZ.ImType,'phase')
                 Image = angle(Image);
-            elseif strcmp(IMAGEANLZ.IMTYPE,'phase90')
+            elseif strcmp(IMAGEANLZ.ImType,'phase90')
                 Image = angle(Image);
                 Image = Image-pi;
                 Image(Image < -pi) = Image(Image < -pi) + 2*pi;
@@ -1387,6 +1750,11 @@ classdef ImageAnlzClass < handle
             IMAGEANLZ.FIGOBJS.TieDims.Value = val;
             IMAGEANLZ.FIGOBJS.TieAll.Value = 0;
         end
+        % UnTieDims
+        function UnTieDims(IMAGEANLZ)
+            IMAGEANLZ.DIMSTIE = 0;
+            IMAGEANLZ.FIGOBJS.TieDims.Value = 0;
+        end
         % TieDatVals
         function TieDatVals(IMAGEANLZ,val)
             IMAGEANLZ.DATVALTIE = val;
@@ -1412,13 +1780,13 @@ classdef ImageAnlzClass < handle
             IMAGEANLZ.TieDims(val);
             IMAGEANLZ.TieDatVals(val);
             IMAGEANLZ.TieRois(val);
-            IMAGEANLZ.TieCursor(val);
-            IMAGEANLZ.ALLTIE = val;
+            %IMAGEANLZ.TieCursor(val);
+            IMAGEANLZ.AllTie = val;
             IMAGEANLZ.FIGOBJS.TieAll.Value = val;
         end           
         % UnTieAll
         function UnTieAll(IMAGEANLZ)
-            IMAGEANLZ.ALLTIE = 0;
+            IMAGEANLZ.AllTie = 0;
             IMAGEANLZ.FIGOBJS.TieAll.Value = 0;
             IMAGEANLZ.TieSlice(0);
             IMAGEANLZ.TieZoom(0);
@@ -1426,7 +1794,11 @@ classdef ImageAnlzClass < handle
             IMAGEANLZ.TieDatVals(0);
             IMAGEANLZ.TieRois(0);
             IMAGEANLZ.TieCursor(0);
-        end   
+        end 
+        % TestAllTied
+        function bool = TestAllTied(IMAGEANLZ)
+            bool = IMAGEANLZ.AllTie;
+        end
         % DisableTieing
         function DisableTieing(IMAGEANLZ)
             IMAGEANLZ.FIGOBJS.TieAll.Enable = 'off';

@@ -57,7 +57,9 @@ else
     if not(IMAGEANLZ.(tab)(axnum).TestForSavedROI(roinum))
         [s,v] = listdlg('PromptString','Action:','SelectionMode','single','ListString',{'Load ROI','Load Old ROI'});
         if isempty(s)
-            FIGOBJS.(tab).ROILAB(axnum,roinum).ForegroundColor = [0.8,0.8,0.8];
+            if ~IMAGEANLZ.(tab)(axnum).ROISOFINTEREST(roinum)
+                FIGOBJS.(tab).ROILAB(axnum,roinum).ForegroundColor = [0.8,0.8,0.8];
+            end
             return
         end
         switch s
@@ -67,7 +69,7 @@ else
                 LoadOldROI(tab,axnum,roinum);
         end
     else
-        [s,v] = listdlg('PromptString','Action:','SelectionMode','single','ListString',{'Save ROI','Save All ROIs','Delete ROI','Delete All ROIs','Export ROI Table','Rename ROI','Edit ROI','Activate ROI' ,'Activate All ROIs','Deactivate ROI' ,'Dectivate All ROIs'});
+        [s,v] = listdlg('PromptString','Action:','SelectionMode','single','ListString',{'Save ROI','Save All ROIs','Delete ROI','Delete All ROIs','Export ROI Table','Rename ROI','Edit ROI','Activate ROI' ,'Activate All ROIs','Deactivate ROI' ,'Dectivate All ROIs','Export ROI'});
         if isempty(s)
             if ~IMAGEANLZ.(tab)(axnum).ROISOFINTEREST(roinum)
                 FIGOBJS.(tab).ROILAB(axnum,roinum).ForegroundColor = [0.8,0.8,0.8];
@@ -97,6 +99,8 @@ else
                 DeactivateROI([],tab,axnum,roinum);
             case 11
                 DeactivateAllROIs(tab,axnum);
+            case 12
+                ExportROI(tab,axnum,roinum);
         end
     end
 end

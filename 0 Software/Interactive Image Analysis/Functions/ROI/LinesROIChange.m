@@ -12,13 +12,7 @@ SetFocus(tab,axnum);
 
 switch IMAGEANLZ.(tab)(axnum).presentation 
     case 'Standard'
-        if IMAGEANLZ.(tab)(axnum).ROITIE == 1
-            for n = 1:IMAGEANLZ.(tab)(axnum).axeslen
-                IMAGEANLZ.(tab)(n).LinesROIChange(src.Value);
-            end
-        else
-            IMAGEANLZ.(tab)(axnum).LinesROIChange(src.Value);
-        end
+        IMAGEANLZ.(tab)(axnum).LinesROIChange(src.Value);
         if IMAGEANLZ.(tab)(axnum).TestAxisActive
             Slice_Change(currentax,tab,axnum,0);
         end

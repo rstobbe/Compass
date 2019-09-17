@@ -2,6 +2,7 @@ function CompassStatus2(state,string,N)
 
 global FIGOBJS
 global RWSUIGBL
+global COMPASSINFO
 Status = FIGOBJS.Status;
 [M,~] = size(Status);
 
@@ -18,8 +19,12 @@ end
 %----------------------------------------
 % Change to clas
 %----------------------------------------
-arr = (1:10);
 tab = strcmp(FIGOBJS.TABGP.SelectedTab.Title,RWSUIGBL.AllTabs);
+if strcmp(COMPASSINFO.USERGBL.setup,'ImageAnalysis')
+    arr = [0 1 2 0 0 0 0 0];
+else
+    arr = (1:10);
+end
 tab = arr(tab);
 
 if strcmp(state,'busy')

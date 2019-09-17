@@ -18,7 +18,7 @@ if src.Value == 1
     otherax = 0;
     for r = 1:IMAGEANLZ.(tab)(axnum).axeslen
         if r ~= axnum
-            if IMAGEANLZ.(tab)(r).TestAxisActive;
+            if IMAGEANLZ.(tab)(r).TestAxisActive
                 otherax = r;
                 break
             end

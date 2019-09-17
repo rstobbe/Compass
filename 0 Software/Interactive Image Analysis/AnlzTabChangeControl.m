@@ -5,6 +5,7 @@ function AnlzTabChangeControl(src,event)
 
 global FIGOBJS
 global IMAGEANLZ
+global COMPASSINFO
 
 TabTitle = event.NewValue.Title;
 axnum = str2double(TabTitle(end));
@@ -12,22 +13,24 @@ if axnum == 0
     axnum = 10;
 end
 
-tab = src.Parent.Parent.Parent.Title;
-if strcmp(tab,'Imaging')
+if isnan(axnum)
+    return
+end
+
+tab = src.Parent.Parent.Parent.Tag;
+if strcmp(tab,'IM')
     FIGOBJS.IM.TabGroup.SelectedTab = FIGOBJS.IM.ImTab(axnum);
     IMAGEANLZ.IM(axnum).UpdateStatus; 
-elseif strcmp(tab,'Imaging2')
-    tab = 'IM2';
+elseif strcmp(tab,'IM2')
     for n = 1:2
         FIGOBJS.(tab).ImPan(n).HighlightColor = 'w';
     end
-    IMAGEANLZ.IM2(axnum).UpdateStatus;     
-elseif strcmp(tab,'Imaging4')
-    tab = 'IM4';
+    IMAGEANLZ.IM2(axnum).UpdateStatus;  
+elseif strcmp(tab,'IM4')
     for n = 1:4
         FIGOBJS.(tab).ImPan(n).HighlightColor = 'w';
     end
-    IMAGEANLZ.IM4(axnum).UpdateStatus;     
+    IMAGEANLZ.IM4(axnum).UpdateStatus;    
 end
 
 % FIGOBJS.Compass.CurrentAxes = FIGOBJS.(tab).ImAxes(axnum);
@@ -35,6 +38,8 @@ end
 FIGOBJS.Compass.CurrentAxes = [];
 FIGOBJS.Compass.CurrentObject = [];
 
-for n = 1:10
-    IMAGEANLZ.IM(n).UnHighlight;
+if not(strcmp(COMPASSINFO.USERGBL.setup,'ImageAnalysis'))
+    for n = 1:10
+        IMAGEANLZ.IM(n).UnHighlight;
+    end
 end

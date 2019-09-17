@@ -30,6 +30,11 @@ end
 %pixdim = dime.pixdim
 %---
 Im = double(out.img);
+if isfield(out.hdr.hist,'descrip')
+    descrip = out.hdr.hist.descrip;
+else
+    descrip = [];
+end
 pixdim = out.hdr.dime.pixdim;
 
 ImInfo.pixdim = [pixdim(3),pixdim(2),pixdim(4)];  % Old NIFTI orientation
@@ -57,4 +62,10 @@ ReconPars.ImvoxIO = round(ImInfo.pixdim(3)*100)/100;
 
 IMG.Im = Im;
 IMG.ReconPars = ReconPars;
-IMG.ExpDisp = [];
+
+Panel(1,:) = {'','','Output'};
+Panel(2,:) = {'File',Imfile,'Output'};
+Panel(3,:) = {'Description',descrip,'Output'};
+%Panel(4,:) = {'Pixdim',pixdim,'Output'};
+IMG.PanelOutput = cell2struct(Panel,{'label','value','type'},2);
+IMG.ExpDisp = PanelStruct2Text(IMG.PanelOutput);

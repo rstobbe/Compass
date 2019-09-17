@@ -12,6 +12,9 @@ IMAGEROI.baseroiorient = ROI.baseroiorient;
 IMAGEROI.drawroiorient = ROI.drawroiorient;
 IMAGEROI.roiname = ROI.roiname;
 IMAGEROI.locnum = ROI.locnum;
+if isempty(IMAGEROI.locnum)
+    IMAGEROI.locnum = 0;
+end
 IMAGEROI.xlocarr = ROI.xlocarr;                      
 IMAGEROI.ylocarr = ROI.ylocarr;                         
 IMAGEROI.zlocarr = ROI.zlocarr;    

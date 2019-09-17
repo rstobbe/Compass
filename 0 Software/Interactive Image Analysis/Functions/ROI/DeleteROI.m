@@ -18,9 +18,18 @@ switch IMAGEANLZ.(tab)(axnum).presentation
             start = axnum;
             stop = axnum;
         end
-        for r = start:stop
+        activerois = IMAGEANLZ.(tab)(axnum).TestActiveROIs;
+        activerois(roinum) = 0;
+        activerois = find(activerois);
+        newactiverois = activerois;
+        newactiverois(newactiverois>roinum) = newactiverois(newactiverois>roinum)-1;
+       for r = start:stop
             if IMAGEANLZ.(tab)(r).TestAxisActive
                 IMAGEANLZ.(tab)(r).DeleteROI(roinum);
+                IMAGEANLZ.(tab)(r).DeactivateAllROIs;
+                for n = 1:length(newactiverois)
+                    IMAGEANLZ.(tab)(r).ActivateROI(newactiverois(n));
+                end
                 IMAGEANLZ.(tab)(r).PlotImage;
                 IMAGEANLZ.(tab)(r).DrawSavedROIs([]);
                 IMAGEANLZ.(tab)(r).DrawCurrentROI([]); 

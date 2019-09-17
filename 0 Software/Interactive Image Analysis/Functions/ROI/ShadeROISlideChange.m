@@ -15,6 +15,7 @@ switch IMAGEANLZ.(tab)(axnum).presentation
         if IMAGEANLZ.(tab)(axnum).ROITIE == 1
             for n = 1:IMAGEANLZ.(tab)(axnum).axeslen
                 IMAGEANLZ.(tab)(n).ShadeROIChangeValue(src.Value);
+                IMAGEANLZ.(tab)(n).ShadeROIChangeSlider(src.Value);
             end
         else
             IMAGEANLZ.(tab)(axnum).ShadeROIChangeValue(src.Value);
@@ -24,7 +25,7 @@ switch IMAGEANLZ.(tab)(axnum).presentation
         end
     case 'Ortho'
         for axnum = 1:3
-            IMAGEANLZ.(tab)(axnum).ShadeROIChangeValus(src.Value);
+            IMAGEANLZ.(tab)(axnum).ShadeROIChangeValue(src.Value);
             IMAGEANLZ.(tab)(axnum).PlotImage;
             if IMAGEANLZ.(tab)(axnum).SAVEDROISFLAG == 1
                 if IMAGEANLZ.(tab)(axnum).GETROIS == 1
