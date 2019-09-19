@@ -69,6 +69,9 @@ end
 if not(isfield(MSTRCT,'scale'))
     MSTRCT.scale = 'auto';
 end
+if not(isfield(MSTRCT,'useimagecolour'))
+    MSTRCT.useimagecolour = 'no';
+end
 
 %---------------------------------------------
 % Columns
@@ -91,7 +94,7 @@ end
 %---------------------------------------------
 ncolumns = MSTRCT.ncolumns;
 test = (MSTRCT.start:MSTRCT.step:MSTRCT.stop);
-if length(test) < MSTRCT.ncolumns;
+if length(test) < MSTRCT.ncolumns
     ncolumns = length(test);
 end
       
@@ -129,8 +132,12 @@ IMSTRCT.rows = ncolumns; IMSTRCT.lvl = [MSTRCT.dispwid(1) MSTRCT.dispwid(2)];
 IMSTRCT.SLab = slclbl; IMSTRCT.lblvals = MSTRCT.lblvals; IMSTRCT.fhand = MSTRCT.fhand; IMSTRCT.ahand = MSTRCT.ahand; 
 IMSTRCT.docolor = clr; IMSTRCT.ColorMap = 'mycolormap3'; IMSTRCT.figsize = MSTRCT.imsize;
 %IMSTRCT.docolor = clr; IMSTRCT.ColorMap = 'ColorMap4'; IMSTRCT.figsize = MSTRCT.imsize;
-[handles,ImSz,Img] = ImageMontage_v2b(Image,IMSTRCT);
-
+if strcmp(MSTRCT.useimagecolour,'no')
+    [handles,ImSz,Img] = ImageMontage_v2b(Image,IMSTRCT);
+else
+    [handles,ImSz,Img] = ColouredImageMontage_v2b(Image,IMSTRCT);
+end
+    
 % - fix up
 % if ImSz(1) < 200
 %     ImSz(1) = 200;

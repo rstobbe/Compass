@@ -27,7 +27,7 @@ INPUT.Im = Im;
 if err.flag
     return
 end
-IMG.Im = MASK.Mask;
+Im = MASK.Mask;
 
 %---------------------------------------------
 % SaveAsNifti
@@ -81,6 +81,7 @@ IMG.IMDISP.ImInfo.info = IMG.ExpDisp;
 %---------------------------------------------
 % Return
 %---------------------------------------------
+IMG.Im;
 if strfind(IMG.name,'.')
     IMG.name = IMG.name(1:end-4);
 end
