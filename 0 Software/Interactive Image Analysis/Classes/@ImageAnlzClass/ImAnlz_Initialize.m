@@ -22,6 +22,7 @@ elseif strcmp(tab,'IM4')
     IMAGEANLZ.presentation = 'Standard';
 end
 IMAGEANLZ.highlight = 0;
+IMAGEANLZ.overtotgblnum = [];
 IMAGEANLZ.totgblnum = [];
 IMAGEANLZ.axisactive = 0;
 IMAGEANLZ.shaderoi = 0;
@@ -37,6 +38,8 @@ IMAGEANLZ.colourimage = 0;
 
 IMAGEANLZ.imslice = [];
 IMAGEANLZ.imvol = [];
+IMAGEANLZ.overimslice = [];
+IMAGEANLZ.overimvol = [];
 IMAGEANLZ.curmat = [1 1 1];
 IMAGEANLZ.tinymove = 0;
 

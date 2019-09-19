@@ -8,11 +8,13 @@ classdef ImageAnlzClass < handle
         %-- general
         tab,axnum,axeslen;
         totgblnum,axisactive;
+        overtotgblnum;
         highlight;
         pointer;
         presentation;
         %-- current images
         imvol,imslice;
+        overimvol,overimslice;
         %-- loading
         IMPATH;
         IMFILETYPE;
@@ -159,7 +161,11 @@ classdef ImageAnlzClass < handle
         % AssignData
         function AssignData(IMAGEANLZ,totgblnum)
             IMAGEANLZ.totgblnum = totgblnum;
-        end             
+        end  
+        % AssignOverlay
+        function AssignOverlay(IMAGEANLZ,totgblnum)
+            IMAGEANLZ.overtotgblnum = totgblnum;
+        end         
         % Highlight
         function Highlight(IMAGEANLZ)
             IMAGEANLZ.highlight = 1;
@@ -1588,6 +1594,9 @@ classdef ImageAnlzClass < handle
         % SetImage        
         function SetImage(IMAGEANLZ)
             IMAGEANLZ.imvol = GetCurrent3DImage(IMAGEANLZ);
+            if not(isempty(IMAGEANLZ.overtotgblnum))
+                IMAGEANLZ.overimvol = GetCurrent3DImageOverlay(IMAGEANLZ);
+            end
         end
         % SetImageSlice        
         function SetImageSlice(IMAGEANLZ)
@@ -1595,6 +1604,9 @@ classdef ImageAnlzClass < handle
                 IMAGEANLZ.imslice = squeeze(IMAGEANLZ.imvol(:,:,IMAGEANLZ.SLICE,:));                
             else
                 IMAGEANLZ.imslice = IMAGEANLZ.imvol(:,:,IMAGEANLZ.SLICE);
+            end
+            if not(isempty(IMAGEANLZ.overtotgblnum))
+                IMAGEANLZ.overimslice = IMAGEANLZ.overimvol(:,:,IMAGEANLZ.SLICE);
             end
         end
         % GetCurrent3DImageComplex
@@ -1616,6 +1628,14 @@ classdef ImageAnlzClass < handle
                 Image = Image(:,:,:,IMAGEANLZ.DIM4,IMAGEANLZ.DIM5,IMAGEANLZ.DIM6);
             end
             Image = ImageTypeCreate(IMAGEANLZ,Image);  
+        end
+        % GetCurrent3DImageOverlay
+        function Image = GetCurrent3DImageOverlay(IMAGEANLZ)
+            global TOTALGBL
+            Image = TOTALGBL{2,IMAGEANLZ.overtotgblnum}.Im;
+            Image = ImageOrient(IMAGEANLZ,Image);
+            Image = Image(:,:,:,IMAGEANLZ.DIM4,IMAGEANLZ.DIM5,IMAGEANLZ.DIM6);
+            Image = real(Image);
         end
         % GetOriented3DImage
         function Image = GetOriented3DImage(IMAGEANLZ,orient)
@@ -1679,6 +1699,15 @@ classdef ImageAnlzClass < handle
             h.CDataMapping = 'scaled';
             h.PickableParts = 'none';
             h.HitTest = 'off';
+            if not(isempty(IMAGEANLZ.overtotgblnum))
+                ho = image('CData',IMAGEANLZ.overimslice,'Parent',IMAGEANLZ.FIGOBJS.ImAxes);                 % note children deleted as part of call
+                ho.BusyAction = 'cancel';
+                ho.Interruptible = 'off';
+                ho.CDataMapping = 'scaled';
+                ho.PickableParts = 'none';
+                ho.HitTest = 'off';
+                ho.AlphaData = 0.2; 
+            end
             drawnow;
         end
         % SetDataAspectRatio

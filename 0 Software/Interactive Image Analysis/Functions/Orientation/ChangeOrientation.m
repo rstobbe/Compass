@@ -67,14 +67,16 @@ else
     arr = start:stop;
 end
 for n = arr
-    IMAGEANLZ.(tab)(n).ResetScale;
-    IMAGEANLZ.(tab)(n).SetMiddleSlice;
-    IMAGEANLZ.(tab)(n).SetImage;
-    IMAGEANLZ.(tab)(n).SetImageSlice;
-    IMAGEANLZ.(tab)(n).PlotImage;
-    IMAGEANLZ.(tab)(n).SetDataAspectRatio;
-    IMAGEANLZ.(tab)(n).DrawSavedROIs([]);
-    IMAGEANLZ.(tab)(n).DrawCurrentROI([]);
+    if IMAGEANLZ.(tab)(n).TestAxisActive
+        IMAGEANLZ.(tab)(n).ResetScale;
+        IMAGEANLZ.(tab)(n).SetMiddleSlice;
+        IMAGEANLZ.(tab)(n).SetImage;
+        IMAGEANLZ.(tab)(n).SetImageSlice;
+        IMAGEANLZ.(tab)(n).PlotImage;
+        IMAGEANLZ.(tab)(n).SetDataAspectRatio;
+        IMAGEANLZ.(tab)(n).DrawSavedROIs([]);
+        IMAGEANLZ.(tab)(n).DrawCurrentROI([]);
+    end
 end
 
 if IMAGEANLZ.(tab)(axnum).showortholine

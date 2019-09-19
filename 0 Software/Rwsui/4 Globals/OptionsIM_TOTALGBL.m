@@ -54,7 +54,7 @@ elseif strcmp(tab,'IM')
 elseif strcmp(tab,'IM2')
     list = {'Display1','Display2','Delete','Delete All','Load Image'}; 
 elseif strcmp(tab,'IM3')
-    list = {'OrthoDisplay','Delete','Delete All','Load Image'};
+    list = {'OrthoDisplay','OrthoDisplayOverlay','Delete','Delete All','Load Image'};
 elseif strcmp(tab,'IM4')
     list = {'Display1','Display2','Display3','Display4','Delete','Delete All','Load Image'}; 
 end
@@ -104,5 +104,7 @@ elseif strcmp(list{s},'Display New')
     Gbl2Image(tab,CurTab,totgblnum);
 elseif strcmp(list{s},'OrthoDisplay')
     Gbl2ImageOrtho(tab,totgblnum);
+elseif strcmp(list{s},'OrthoDisplayOverlay')
+    Gbl2ImageOrthoOverlay(tab,totgblnum);
 end
 

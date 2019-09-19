@@ -7,11 +7,12 @@ function [IMG,ImInfo,err] = Load_Nifti(Imfile)
 err.flag = 0;
 err.msg = '';
 ImInfo = '';
+IMG = struct();
 
-button = questdlg('Load Nifti Method','Load Nifti','Standard','Untouch','Reslice','Standard');
-if strcmp(button,'Standard') 
+button = questdlg('Load Nifti Method','Load Nifti','Untouch','Modify','ExploreDTI','Untouch');
+if strcmp(button,'Modify') 
     out = load_nii(Imfile);                             % load with rotations
-elseif strcmp(button,'Untouch')
+elseif strcmp(button,'Untouch') || strcmp(button,'ExploreDTI')
     out = load_untouch_nii(Imfile); 
 elseif strcmp(button,'Reslice')
     ind = strfind(Imfile,'\');
@@ -21,6 +22,7 @@ elseif strcmp(button,'Reslice')
 else
     err.flag = 4;
     err.msg = '';
+    return
 end          
 %---
 %hdr = out.hdr;
