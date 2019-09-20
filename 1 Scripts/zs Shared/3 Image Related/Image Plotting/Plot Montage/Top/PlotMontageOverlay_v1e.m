@@ -3,17 +3,26 @@
 %       - Use Fig/Axis Handles.
 %=========================================================
 
-function [Img,err] = PlotMontageOverlay_v1e(INPUT)
+function [NotUsed,err] = PlotMontageOverlay_v1e(INPUT)
 
 err.flag = 0;
 err.msg = '';
+NotUsed = [];
 
 %----------------------------------------------
 % Get input
 %----------------------------------------------
 MSTRCT = INPUT.MSTRCT;
-Im2 = squeeze(INPUT.Image(:,:,:,2));
-Im1 = squeeze(INPUT.Image(:,:,:,1));
+sz = size(INPUT.Image);
+if sz(4) == 4
+    Im1 = squeeze(INPUT.Image(:,:,:,1:3));
+    Im2 = squeeze(INPUT.Image(:,:,:,4));
+elseif sz(4) == 2
+    Im1 = squeeze(INPUT.Image(:,:,:,1));
+    Im2 = squeeze(INPUT.Image(:,:,:,2));
+else
+    error
+end
 clear INPUT
 
 %---------------------------------------------
@@ -52,6 +61,12 @@ end
 if not(isfield(MSTRCT,'zero2'))
     MSTRCT.zero2 = 'black';
 end
+if not(isfield(MSTRCT,'useimagecolour1'))
+    MSTRCT.useimagecolour1 = 'no';
+end
+if not(isfield(MSTRCT,'useimagecolour2'))
+    MSTRCT.useimagecolour2 = 'no';
+end
 
 %---------------------------------------------
 % Zeros
@@ -59,7 +74,6 @@ end
 if strcmp(MSTRCT.zero2,'black')
     Im2(Im2 == 0) = NaN;
 end
-
 
 %---------------------------------------------
 % Determine Slice Label
@@ -75,28 +89,49 @@ end
 %---------------------------------------------
 IMSTRCT.start = MSTRCT.start; IMSTRCT.step = MSTRCT.step; IMSTRCT.stop = MSTRCT.stop; 
 IMSTRCT.rows = ncolumns; IMSTRCT.SLab = slclbl; IMSTRCT.fhand = MSTRCT.fhand; IMSTRCT.ahand = MSTRCT.ahand; IMSTRCT.lblvals = MSTRCT.lblvals; 
-IMSTRCT.ColorMap = 'ColorMap5'; IMSTRCT.figsize = MSTRCT.imsize;
+IMSTRCT.figsize = MSTRCT.imsize;
+IMSTRCT.ColorMap = 'ColorMap5'; 
 
 %---------------------------------------------
 % Display ColorBar
 %---------------------------------------------
-IMSTRCT.type = MSTRCT.type2; IMSTRCT.lvl = [MSTRCT.dispwid2(1) MSTRCT.dispwid2(2)]; IMSTRCT.docolor = 1; 
-[h3,ImSz,Img] = ImageMontage_v2b(Im2,IMSTRCT);    
-set(h3.ihand,'alphadata',zeros(ImSz));
-IMSTRCT.ahand = h3.ahand;
-IMSTRCT.fhand = h3.fhand;
+if strcmp(MSTRCT.useimagecolour2,'Yes') || strcmp(MSTRCT.colour2,'Yes')
+    IMSTRCT.type = MSTRCT.type2; IMSTRCT.lvl = [MSTRCT.dispwid2(1) MSTRCT.dispwid2(2)]; IMSTRCT.docolor = 1; 
+    [h3,ImSz] = ImageMontage_v2b(Im2,IMSTRCT);    
+    set(h3.ihand,'alphadata',zeros(ImSz));
+    IMSTRCT.ahand = h3.ahand;
+    IMSTRCT.fhand = h3.fhand;
+end
 
 %---------------------------------------------
 % Display Base Image
 %---------------------------------------------
-IMSTRCT.type = MSTRCT.type1; IMSTRCT.lvl = [MSTRCT.dispwid1(1) MSTRCT.dispwid1(2)]; IMSTRCT.docolor = 0;
-[h1,ImSz] = ImageMontageRGB_v1b(Im1,IMSTRCT);
+if strcmp(MSTRCT.useimagecolour1,'Yes')
+    [h1,ImSz] = ColouredImageMontage_v2b(Im1,IMSTRCT);
+else
+    if strcmp(MSTRCT.colour1,'Yes')
+        IMSTRCT.docolor = 1;
+    else
+        IMSTRCT.docolor = 0;
+    end
+    IMSTRCT.type = MSTRCT.type1; IMSTRCT.lvl = [MSTRCT.dispwid1(1) MSTRCT.dispwid1(2)];
+    [h1,ImSz] = ImageMontageRGB_v1b(Im1,IMSTRCT);
+end
 
 %---------------------------------------------
 % Display Map Image
 %---------------------------------------------
-IMSTRCT.type = MSTRCT.type2; IMSTRCT.lvl = [MSTRCT.dispwid2(1) MSTRCT.dispwid2(2)]; IMSTRCT.docolor = 1;
-[h2,ImSz] = ImageMontageRGB_v1b(Im2,IMSTRCT);
+if strcmp(MSTRCT.useimagecolour2,'Yes')
+    [h2,ImSz] = ColouredImageMontage_v2b(Im2,IMSTRCT);
+else
+    if strcmp(MSTRCT.colour1,'Yes')
+        IMSTRCT.docolor = 1;
+    else
+        IMSTRCT.docolor = 0;
+    end    
+    IMSTRCT.type = MSTRCT.type2; IMSTRCT.lvl = [MSTRCT.dispwid2(1) MSTRCT.dispwid2(2)]; 
+    [h2,ImSz] = ImageMontageRGB_v1b(Im2,IMSTRCT);
+end
 
 %---------------------------------------------
 % Mask and Scale
@@ -111,6 +146,8 @@ elseif strcmp(MSTRCT.intensity,'Flat75')
     Mask = 0.75*ones(ImSz);    
 elseif strcmp(MSTRCT.intensity,'Flat50')
     Mask = 0.5*ones(ImSz);
+elseif strcmp(MSTRCT.intensity,'Flat30')
+    Mask = 0.30*ones(ImSz);
 elseif strcmp(MSTRCT.intensity,'Flat25')
     Mask = 0.25*ones(ImSz);
 elseif strcmp(MSTRCT.intensity,'Flat10')

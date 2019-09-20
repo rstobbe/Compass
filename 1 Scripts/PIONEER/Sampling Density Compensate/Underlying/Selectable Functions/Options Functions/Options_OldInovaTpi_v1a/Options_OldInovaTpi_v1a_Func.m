@@ -56,6 +56,13 @@ elseif strcmp(IMP.PROJimp.orient,'Sagittal')
 elseif strcmp(IMP.PROJimp.orient,'Axial')
     ORNT.ElipDim = 3;
 end
+if isfield(IMP.PROJimp,'hippoangle')
+    thx = (pi*IMP.PROJimp.hippoangle/180);
+    Rx=[1 0 0;
+        0 cos(thx) -sin(thx);
+        0 sin(thx) cos(thx)];
+    ORNT.rotmat = Rx;
+end
 IMP.ORNT = ORNT;
 
 %--------------------------------------

@@ -28,7 +28,7 @@ maxval = IMSCL.maxrelval*maxval0;
 %---------------------------------------------
 MSTRCT.dispwid = [minval maxval];
 MSTRCT.type = 'abs';
-MSTRCT.colour = 'No';
+MSTRCT.colour = IMSCL.colour;
 MSTRCT.zero = 'black';
 
 %---------------------------------------------

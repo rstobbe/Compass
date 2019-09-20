@@ -15,8 +15,10 @@ addpath(compassfolder);
 % General
 %-----------------------------------
 global COMPASSINFO
-COMPASSINFO.CUDA = GraphicCard_Info(doCuda);
 COMPASSINFO.USERGBL = CompassUserInfo;
+if not(strcmp(COMPASSINFO.USERGBL.setup,'ImageAnalysis'))
+    COMPASSINFO.CUDA = GraphicCard_Info(doCuda);
+end
 COMPASSINFO.USERGBL.softwaredrive = compassfolder(1:3);
 LOCS = ScriptPath_Info([softwarefolder,'\']);
 COMPASSINFO.LOCS = LOCS;
@@ -43,7 +45,11 @@ RWSUIGBL.fullwid = 49;
 RWSUIGBL.Character = '';
 RWSUIGBL.Key = '';
 RWSUIGBL.AllTabs = {'Imaging','Imaging2','Imaging3','Imaging4','Script1','Script2','Script3','Script4'};
-RWSUIGBL.TabArray = {'IM','IM2','IM3','IM4','ACC','ACC2','ACC3','ACC4'};
+if not(strcmp(COMPASSINFO.USERGBL.setup,'ImageAnalysis'))
+    RWSUIGBL.TabArray = {'IM','IM2','IM3','IM4','ACC','ACC2','ACC3','ACC4'};
+else
+    RWSUIGBL.TabArray = {'IM2','IM3'};
+end
 
 RWSUIGBL.ActiveScript.treepanipt = [0 0 0 0];
 RWSUIGBL.ActiveScript.curpanipt = 0;
@@ -54,16 +60,19 @@ RWSUIGBL.ActiveScript.panelnum = 0;
 %-----------------------------------
 % Set Paths
 %-----------------------------------
-if doPaths
-    disp('Loading Paths');
-    addpath(genpath(COMPASSINFO.USERGBL.defrootloc));
-    addpath(genpath(LOCS.newhorizonsloc));
-    addpath(genpath(LOCS.pioneerloc));
-    addpath(genpath(LOCS.voyagerloc));
-    addpath(genpath(LOCS.galileoloc));
-    addpath(genpath(LOCS.apolloloc));
-    addpath(genpath(LOCS.vikingloc));
-    addpath(genpath(LOCS.scrptshareloc));
+if not(strcmp(COMPASSINFO.USERGBL.setup,'ImageAnalysis'))
+    if doPaths
+        disp('Loading Paths');
+        addpath(genpath(COMPASSINFO.USERGBL.defrootloc));
+        addpath(genpath(LOCS.newhorizonsloc));
+        addpath(genpath(LOCS.pioneerloc));
+        addpath(genpath(LOCS.voyagerloc));
+        addpath(genpath(LOCS.galileoloc));
+        addpath(genpath(LOCS.mercuryloc));
+        addpath(genpath(LOCS.apolloloc));
+        addpath(genpath(LOCS.vikingloc));
+        addpath(genpath(LOCS.scrptshareloc));
+    end
 end
 
 %-----------------------------------

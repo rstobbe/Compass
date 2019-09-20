@@ -19,7 +19,9 @@ clear INPUT;
 %---------------------------------------------
 % MSTRCT
 %---------------------------------------------
-MSTRCT.useimagecolour = 'yes';
+MSTRCT.useimagecolour = 'Yes';
+MSTRCT.dispwid = [];
+MSTRCT.type = [];
 
 %---------------------------------------------
 % Return

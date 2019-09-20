@@ -70,7 +70,7 @@ if not(isfield(MSTRCT,'scale'))
     MSTRCT.scale = 'auto';
 end
 if not(isfield(MSTRCT,'useimagecolour'))
-    MSTRCT.useimagecolour = 'no';
+    MSTRCT.useimagecolour = 'No';
 end
 
 %---------------------------------------------
@@ -128,11 +128,12 @@ IMSTRCT.ColorMap = 'ColorMap4'; IMSTRCT.figsize = MSTRCT.imsize;
 % Plot Image
 %--------------------------------------------- 
 IMSTRCT.type = MSTRCT.type; IMSTRCT.start = MSTRCT.start; IMSTRCT.step = MSTRCT.step; IMSTRCT.stop = MSTRCT.stop; 
-IMSTRCT.rows = ncolumns; IMSTRCT.lvl = [MSTRCT.dispwid(1) MSTRCT.dispwid(2)]; 
+IMSTRCT.rows = ncolumns; 
 IMSTRCT.SLab = slclbl; IMSTRCT.lblvals = MSTRCT.lblvals; IMSTRCT.fhand = MSTRCT.fhand; IMSTRCT.ahand = MSTRCT.ahand; 
 IMSTRCT.docolor = clr; IMSTRCT.ColorMap = 'mycolormap3'; IMSTRCT.figsize = MSTRCT.imsize;
 %IMSTRCT.docolor = clr; IMSTRCT.ColorMap = 'ColorMap4'; IMSTRCT.figsize = MSTRCT.imsize;
-if strcmp(MSTRCT.useimagecolour,'no')
+if strcmp(MSTRCT.useimagecolour,'No')
+    IMSTRCT.lvl = [MSTRCT.dispwid(1) MSTRCT.dispwid(2)]; 
     [handles,ImSz,Img] = ImageMontage_v2b(Image,IMSTRCT);
 else
     [handles,ImSz,Img] = ColouredImageMontage_v2b(Image,IMSTRCT);

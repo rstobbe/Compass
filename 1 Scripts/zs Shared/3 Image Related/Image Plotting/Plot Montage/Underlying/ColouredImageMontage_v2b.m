@@ -41,25 +41,7 @@ ImSz = ImSz(1:2);
 % Display Images
 %----------------------------------------
 iptsetpref('ImshowBorder','tight');
-ihand = imshow(Img,[IMSTRCT.lvl(1) IMSTRCT.lvl(2)],'Parent',IMSTRCT.ahand);
-if IMSTRCT.docolor
-    if not(isempty(IMSTRCT.ColorMap))
-        load(IMSTRCT.ColorMap);
-        if exist('mycolormap','var')
-            colormap(IMSTRCT.ahand,mycolormap);
-        elseif exist('mycmap','var')
-            colormap(IMSTRCT.ahand,mycmap);
-        end
-        colorbar(IMSTRCT.ahand);
-    else
-        colormap(IMSTRCT.ahand,'jet');
-        colorbar(IMSTRCT.ahand);
-    end
-else
-    %cmap = linspace(0,1,256);
-    %colormap([cmap.' cmap.' cmap.']);
-    %colormap(IMSTRCT.ahand,'gray');                % not enough values
-end
+ihand = imshow(Img,'Parent',IMSTRCT.ahand);
 drawnow;
 hold on;
 
