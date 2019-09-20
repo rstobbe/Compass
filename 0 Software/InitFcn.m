@@ -98,6 +98,9 @@ for tab = 1:length(Tabs)
         SCRPTPATHS.(Tabs{tab})(n).scrptshareloc = LOCS.scrptshareloc;
         SCRPTPATHS.(Tabs{tab})(n).experimentsloc = COMPASSINFO.USERGBL.experimentsloc;
         SCRPTPATHS.(Tabs{tab})(n).tempdataloc = COMPASSINFO.USERGBL.tempdataloc;
+        SCRPTPATHS.(Tabs{tab})(n).invfiltloc = COMPASSINFO.USERGBL.invfiltloc;
+        SCRPTPATHS.(Tabs{tab})(n).imkernloc = COMPASSINFO.USERGBL.imkernloc;
+        SCRPTPATHS.(Tabs{tab})(n).sysresploc = COMPASSINFO.USERGBL.sysresploc;        
     end
 end
 Tabs = {'IM','IM2','IM3','IM4'};
@@ -111,8 +114,8 @@ for tab = 1:length(Tabs)
         SCRPTPATHS.(Tabs{tab})(n).newhorizonsloc = LOCS.newhorizonsloc;
         SCRPTPATHS.(Tabs{tab})(n).voyagerloc = LOCS.voyagerloc;
         SCRPTPATHS.(Tabs{tab})(n).galileoloc = LOCS.galileoloc;
-        SCRPTPATHS.(Tabs{tab})(n).apolloloc = LOCS.apolloloc;
         SCRPTPATHS.(Tabs{tab})(n).mercuryloc = LOCS.mercuryloc;
+        SCRPTPATHS.(Tabs{tab})(n).apolloloc = LOCS.apolloloc;
         SCRPTPATHS.(Tabs{tab})(n).vikingloc = LOCS.vikingloc;
         SCRPTPATHS.(Tabs{tab})(n).outloc = COMPASSINFO.USERGBL.experimentsloc;
         SCRPTPATHS.(Tabs{tab})(n).outrootloc = COMPASSINFO.USERGBL.experimentsloc;
@@ -120,6 +123,9 @@ for tab = 1:length(Tabs)
         SCRPTPATHS.(Tabs{tab})(n).experimentsloc = COMPASSINFO.USERGBL.experimentsloc;
         SCRPTPATHS.(Tabs{tab})(n).roisloc = COMPASSINFO.USERGBL.experimentsloc;
         SCRPTPATHS.(Tabs{tab})(n).tempdataloc = COMPASSINFO.USERGBL.tempdataloc;
+        SCRPTPATHS.(Tabs{tab})(n).invfiltloc = COMPASSINFO.USERGBL.invfiltloc;
+        SCRPTPATHS.(Tabs{tab})(n).imkernloc = COMPASSINFO.USERGBL.imkernloc;
+        SCRPTPATHS.(Tabs{tab})(n).sysresploc = COMPASSINFO.USERGBL.sysresploc;        
     end
 end
 

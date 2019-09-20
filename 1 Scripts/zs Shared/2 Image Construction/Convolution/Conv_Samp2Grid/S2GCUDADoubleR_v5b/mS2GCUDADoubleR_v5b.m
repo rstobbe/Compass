@@ -28,7 +28,7 @@ Status2('busy','CUDA',StatLev);
 %------------------------------------
 NumberGpus = CUDA.Index;
 ComputeCapability = str2double(CUDA.ComputeCapability);
-if ComputeCapability == 6.1 || ComputeCapability == 6.2
+if ComputeCapability == 6.1 || ComputeCapability == 6.2 || ComputeCapability == 5.2
     CoresPerMultiProcessor = 128;
 end
 MultiprocessorCount = CUDA.MultiprocessorCount;

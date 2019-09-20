@@ -28,12 +28,14 @@ clear INPUT
 sz = size(IMP.Kmat);
 if length(sz) == 3
     Echos = 1;
+    SDC = zeros([sz(1)*sz(2) 1]);
 else
     Echos = sz(4);
+    SDC = zeros([sz(1)*sz(2) sz(4)]);
 end
 
 Kmat0 = IMP.Kmat;
-SDC = zeros([sz(1)*sz(2) sz(4)]);
+%SDC = zeros([sz(1)*sz(2) sz(4)]);
 
 %----
 sz = size(Kmat0);
