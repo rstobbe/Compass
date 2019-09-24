@@ -29,7 +29,7 @@ classdef RoiSeedClass < handle
             DAT.info = 'Left click';
         end
         function DAT = Setup(DAT,IMAGEANLZ)
-            horz = 0.28;
+            horz = 0.38;
             if isempty(IMAGEANLZ.FullContrast)
                 DAT.maxval = 100;
             else

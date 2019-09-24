@@ -23,8 +23,8 @@ IMAGEANLZ.autoupdateroi = 1;
 IMAGEANLZ.FIGOBJS.AutoUpdateROI.Value = 1;
 IMAGEANLZ.linesroi = 0;
 IMAGEANLZ.FIGOBJS.LinesROI.Value = 0;
-IMAGEANLZ.shaderoivalue = 2;
-IMAGEANLZ.FIGOBJS.ShadeROIValue.Value = 2;
+IMAGEANLZ.shaderoivalue = 0.12;
+IMAGEANLZ.FIGOBJS.ShadeROIValue.Value = 0.12;
 
 IMAGEANLZ.FIGOBJS.ImAxes.YDir = 'reverse';                              % copy 'image' command
 IMAGEANLZ.FIGOBJS.ImAxes.XTick = [];

@@ -25,10 +25,10 @@ else
     return
 end          
 %---
-%hdr = out.hdr;
+hdr = out.hdr;
 %hk = hdr.hk
 %dime = hdr.dime
-%hist = hdr.hist
+hist = hdr.hist
 %pixdim = dime.pixdim
 %---
 Im = double(out.img);

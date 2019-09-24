@@ -27,7 +27,6 @@ IMAGEANLZ.totgblnum = [];
 IMAGEANLZ.axisactive = 0;
 IMAGEANLZ.shaderoi = 0;
 IMAGEANLZ.shaderoivalue = 0;
-IMAGEANLZ.shaderoiintensities = [0.04 0.08 0.12 0.16 0.2 0.24 0.28 0.32 0.36];
 IMAGEANLZ.linesroi = 0;
 IMAGEANLZ.redrawroi = 0;
 IMAGEANLZ.autoupdateroi = 0;
@@ -40,6 +39,8 @@ IMAGEANLZ.imslice = [];
 IMAGEANLZ.imvol = [];
 IMAGEANLZ.overimslice = [];
 IMAGEANLZ.overimvol = [];
+IMAGEANLZ.overimvolalpha = [];
+IMAGEANLZ.overimslicealpha = [];
 IMAGEANLZ.curmat = [1 1 1];
 IMAGEANLZ.tinymove = 0;
 
@@ -63,6 +64,10 @@ IMAGEANLZ.MaxContrastCurrent = [];
 IMAGEANLZ.MinContrastMin = []; 
 IMAGEANLZ.MinContrastCurrent = []; 
 IMAGEANLZ.ContrastSettings = struct();
+%-- overlay
+IMAGEANLZ.OverlayColour = 'Yes';
+IMAGEANLZ.OverlayTransparency = 0.5;
+IMAGEANLZ.OverlayObject = gobjects(0);
 %-- orient
 IMAGEANLZ.ORIENT = 'Axial';
 %-- navigate

@@ -334,6 +334,16 @@ if isfield(FIGOBJS.(tab),'TieCursor')
         IMOBJS.TieCursor = FIGOBJS.(tab).TieCursor(axnum);
     end
 end
+if isfield(FIGOBJS.(tab),'OverlayColour')
+    if axnum <= length(FIGOBJS.(tab).OverlayColour)
+        IMOBJS.OverlayColour = FIGOBJS.(tab).OverlayColour(axnum);
+    end
+end
+if isfield(FIGOBJS.(tab),'OverlayTransparency')
+    if axnum <= length(FIGOBJS.(tab).OverlayTransparency)
+        IMOBJS.OverlayTransparency = FIGOBJS.(tab).OverlayTransparency(axnum);
+    end
+end
 if isfield(FIGOBJS.(tab),'HoldContrast')
     if axnum <= length(FIGOBJS.(tab).HoldContrast)
         IMOBJS.HoldContrast = FIGOBJS.(tab).HoldContrast(axnum);

@@ -63,8 +63,8 @@ switch IMAGEANLZ.(tab)(axnum).presentation
     case 'Ortho'
         for r = 1:3
             IMAGEANLZ.(tab)(r).AddROI2Saved(ROI,roinum);
-            IMAGEANLZ.(tab)(r).DrawSavedROIs([]);
             IMAGEANLZ.(tab)(r).ActivateROI(roinum);
+            IMAGEANLZ.(tab)(r).DrawSavedROIs([]);
         end
         IMAGEANLZ.(tab)(1).ComputeSavedROI(roinum);
         IMAGEANLZ.(tab)(1).SetSavedROIValues;           

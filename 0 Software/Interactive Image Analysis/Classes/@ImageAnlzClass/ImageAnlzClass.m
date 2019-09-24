@@ -15,6 +15,7 @@ classdef ImageAnlzClass < handle
         %-- current images
         imvol,imslice;
         overimvol,overimslice;
+        overimvolalpha,overimslicealpha;
         %-- loading
         IMPATH;
         IMFILETYPE;
@@ -32,6 +33,10 @@ classdef ImageAnlzClass < handle
         MinContrastMin;
         MinContrastCurrent;
         ContrastSettings;
+        %-- overlay
+        OverlayColour;
+        OverlayTransparency;
+        OverlayObject;
         %-- orient
         ORIENT;
         %-- navigate
@@ -49,7 +54,7 @@ classdef ImageAnlzClass < handle
         COLORORDER;
         roipanelobs;
         activeroi;
-        shaderoi; shaderoivalue; shaderoiintensities;
+        shaderoi; shaderoivalue;
         linesroi;
         autoupdateroi;
         drawroionall;
@@ -811,6 +816,56 @@ classdef ImageAnlzClass < handle
         function ContrastSettings = ReturnContrast(IMAGEANLZ)
             ContrastSettings = IMAGEANLZ.ContrastSettings;
         end
+
+%==================================================================
+% Overlay
+%==================================================================              
+        % ToggleOverlayColour
+        function ToggleOverlayColour(IMAGEANLZ,usecolour)
+            IMAGEANLZ.OverlayColour = usecolour;
+            if not(isempty(IMAGEANLZ.OverlayObject))
+                if not(isempty(IMAGEANLZ.overtotgblnum))
+                    delete(IMAGEANLZ.OverlayObject);
+                    if strcmp(IMAGEANLZ.OverlayColour,'Yes')
+                        cmap = IMAGEANLZ.FIGOBJS.Options.ColorMap;
+                        L = length(cmap);
+                        %tImg = L*(Img-IMSTRCT.lvl(1))/(IMSTRCT.lvl(2)-IMSTRCT.lvl(1));
+                        %min(tImg(:))
+                        %max(tImg(:))
+                        %tImg(tImg<1) = 1;
+                        %tImg(tImg>L) = L;
+                        tImg = L*IMAGEANLZ.overimslice/max(IMAGEANLZ.overimslice(:));
+                        CImg = zeros([size(IMAGEANLZ.overimslice) 3]);
+                        CImg(:,:,1) = interp1((1:L),cmap(:,1),tImg);
+                        CImg(:,:,2) = interp1((1:L),cmap(:,2),tImg);
+                        CImg(:,:,3) = interp1((1:L),cmap(:,3),tImg);                   
+                        ho = image('CData',CImg,'Parent',IMAGEANLZ.FIGOBJS.ImAxes);
+                    else
+                        ho = image('CData',IMAGEANLZ.overimslice,'Parent',IMAGEANLZ.FIGOBJS.ImAxes);
+                    end
+                    ho.BusyAction = 'cancel';
+                    ho.Interruptible = 'off';
+                    ho.CDataMapping = 'scaled';
+                    ho.PickableParts = 'none';
+                    ho.HitTest = 'off';
+                    ho.AlphaData = IMAGEANLZ.OverlayTransparency*IMAGEANLZ.overimslicealpha;
+                    IMAGEANLZ.OverlayObject = ho;
+                end
+            end
+        end
+        % SetOverlayTransparency
+        function SetOverLayTransparency(IMAGEANLZ,transparency)
+            IMAGEANLZ.OverlayTransparency = transparency;
+            if not(isempty(IMAGEANLZ.OverlayObject))
+                IMAGEANLZ.OverlayObject.AlphaData = IMAGEANLZ.OverlayTransparency*IMAGEANLZ.overimslicealpha;
+            end
+        end            
+        % DeleteOverlay
+        function DeleteOverlay(IMAGEANLZ)
+            delete(IMAGEANLZ.OverlayObject);
+            IMAGEANLZ.overtotgblnum = [];
+            IMAGEANLZ.OverlayObject = [];
+        end
         
 %==================================================================
 % Scaling (Zooming)
@@ -940,7 +995,7 @@ classdef ImageAnlzClass < handle
                 end
             end
             if IMAGEANLZ.shaderoi
-                IMAGEANLZ.TEMPROI.ShadeROI(IMAGEANLZ,axhand,IMAGEANLZ.temproiclr,IMAGEANLZ.shaderoiintensities(IMAGEANLZ.shaderoivalue));
+                IMAGEANLZ.TEMPROI.ShadeROI(IMAGEANLZ,axhand,IMAGEANLZ.temproiclr,IMAGEANLZ.shaderoivalue);
             end
         end
         % UpdateTempROI
@@ -1026,7 +1081,7 @@ classdef ImageAnlzClass < handle
         % DrawCurrentROI
         function DrawCurrentROI(IMAGEANLZ,axhand)
             if IMAGEANLZ.redrawroi
-                IMAGEANLZ.REDRAWROI.ShadeROI(IMAGEANLZ,axhand,[0 0.3 0.8],IMAGEANLZ.shaderoiintensities(IMAGEANLZ.shaderoivalue));
+                IMAGEANLZ.REDRAWROI.ShadeROI(IMAGEANLZ,axhand,[0 0.3 0.8],IIMAGEANLZ.shaderoivalue);
             end
             if isempty(IMAGEANLZ.CURRENTROI) 
                 return
@@ -1040,7 +1095,7 @@ classdef ImageAnlzClass < handle
                 end
             end
             if IMAGEANLZ.shaderoi
-                IMAGEANLZ.CURRENTROI.ShadeROI(IMAGEANLZ,axhand,[1 0 0],IMAGEANLZ.shaderoiintensities(IMAGEANLZ.shaderoivalue));
+                IMAGEANLZ.CURRENTROI.ShadeROI(IMAGEANLZ,axhand,[1 0 0],IMAGEANLZ.IMAGEANLZ.shaderoivalue);
             end
         end
         % CompleteCurrentROI
@@ -1086,7 +1141,7 @@ classdef ImageAnlzClass < handle
                         end
                     end
                     if IMAGEANLZ.shaderoi
-                        IMAGEANLZ.SAVEDROIS(n).ShadeROI(IMAGEANLZ,axhand,IMAGEANLZ.COLORORDER{n},IMAGEANLZ.shaderoiintensities(IMAGEANLZ.shaderoivalue));
+                        IMAGEANLZ.SAVEDROIS(n).ShadeROI(IMAGEANLZ,axhand,IMAGEANLZ.COLORORDER{n},IMAGEANLZ.shaderoivalue);
                     end
                 end
             end
@@ -1104,7 +1159,7 @@ classdef ImageAnlzClass < handle
                         end
                     end
                     if IMAGEANLZ.shaderoi
-                        IMAGEANLZ.SAVEDROIS(n).ShadeROI(IMAGEANLZ,axhand,IMAGEANLZ.COLORORDER{n},IMAGEANLZ.shaderoiintensities(IMAGEANLZ.shaderoivalue));
+                        IMAGEANLZ.SAVEDROIS(n).ShadeROI(IMAGEANLZ,axhand,IMAGEANLZ.COLORORDER{n},IMAGEANLZ.shaderoivalue);
                     end
                 end
             end
@@ -1123,7 +1178,7 @@ classdef ImageAnlzClass < handle
                 IMAGEANLZ.CURRENTROI.CreateBaseROIMask;
             end
             if IMAGEANLZ.shaderoi 
-                IMAGEANLZ.CURRENTROI.ShadeROI(IMAGEANLZ,[],'r',IMAGEANLZ.shaderoiintensities(IMAGEANLZ.shaderoivalue));
+                IMAGEANLZ.CURRENTROI.ShadeROI(IMAGEANLZ,[],'r',IMAGEANLZ.IMAGEANLZ.shaderoivalue);
             end
         end
         % DeleteROI
@@ -1543,24 +1598,24 @@ classdef ImageAnlzClass < handle
                 switch IMAGEANLZ.ImType
                     case 'abs'
                         if abs(Data.val) < 0.01
-                            num = num2str(abs(Data.val),3);
+                            num = num2str(Data.val,3);
                         else
-                            num = num2str(abs(Data.val),4);
+                            num = num2str(Data.val,4);
                         end
                     case 'real'
                         if abs(real(Data.val)) < 0.01
-                            num = num2str(real(Data.val),3);
+                            num = num2str(Data.val,3);
                         else
-                            num = num2str(real(Data.val),4);
+                            num = num2str(Data.val,4);
                         end
                     case 'imag'
                         if abs(imag(Data.val)) < 0.01
-                            num = num2str(imag(Data.val),3);
+                            num = num2str(Data.val,3);
                         else
-                            num = num2str(imag(Data.val),4);
+                            num = num2str(Data.val,4);
                         end
                     case 'phase'
-                        num = num2str(angle(Data.val),4);
+                        num = num2str(Data.val,4);
                     case 'map'
                         if abs(Data.val) < 0.01
                             num = num2str(Data.val,3);
@@ -1596,6 +1651,8 @@ classdef ImageAnlzClass < handle
             IMAGEANLZ.imvol = GetCurrent3DImage(IMAGEANLZ);
             if not(isempty(IMAGEANLZ.overtotgblnum))
                 IMAGEANLZ.overimvol = GetCurrent3DImageOverlay(IMAGEANLZ);
+                IMAGEANLZ.overimvolalpha = ones(size(IMAGEANLZ.overimvol));
+                IMAGEANLZ.overimvolalpha(IMAGEANLZ.overimvol == 0) = 0;
             end
         end
         % SetImageSlice        
@@ -1607,6 +1664,7 @@ classdef ImageAnlzClass < handle
             end
             if not(isempty(IMAGEANLZ.overtotgblnum))
                 IMAGEANLZ.overimslice = IMAGEANLZ.overimvol(:,:,IMAGEANLZ.SLICE);
+                IMAGEANLZ.overimslicealpha = IMAGEANLZ.overimvolalpha(:,:,IMAGEANLZ.SLICE);
             end
         end
         % GetCurrent3DImageComplex
@@ -1700,13 +1758,30 @@ classdef ImageAnlzClass < handle
             h.PickableParts = 'none';
             h.HitTest = 'off';
             if not(isempty(IMAGEANLZ.overtotgblnum))
-                ho = image('CData',IMAGEANLZ.overimslice,'Parent',IMAGEANLZ.FIGOBJS.ImAxes);                 % note children deleted as part of call
+                if strcmp(IMAGEANLZ.OverlayColour,'Yes')
+                    cmap = IMAGEANLZ.FIGOBJS.Options.ColorMap;
+                    L = length(cmap);
+                    %tImg = L*(Img-IMSTRCT.lvl(1))/(IMSTRCT.lvl(2)-IMSTRCT.lvl(1));
+                    %min(tImg(:))
+                    %max(tImg(:))
+                    %tImg(tImg<1) = 1;
+                    %tImg(tImg>L) = L;
+                    tImg = L*IMAGEANLZ.overimslice/max(IMAGEANLZ.overimslice(:));
+                    CImg = zeros([size(IMAGEANLZ.overimslice) 3]);
+                    CImg(:,:,1) = interp1((1:L),cmap(:,1),tImg);
+                    CImg(:,:,2) = interp1((1:L),cmap(:,2),tImg);
+                    CImg(:,:,3) = interp1((1:L),cmap(:,3),tImg);                   
+                    ho = image('CData',CImg,'Parent',IMAGEANLZ.FIGOBJS.ImAxes);
+                else
+                    ho = image('CData',IMAGEANLZ.overimslice,'Parent',IMAGEANLZ.FIGOBJS.ImAxes);
+                end
                 ho.BusyAction = 'cancel';
                 ho.Interruptible = 'off';
                 ho.CDataMapping = 'scaled';
                 ho.PickableParts = 'none';
                 ho.HitTest = 'off';
-                ho.AlphaData = 0.2; 
+                ho.AlphaData = IMAGEANLZ.OverlayTransparency*IMAGEANLZ.overimslicealpha;
+                IMAGEANLZ.OverlayObject = ho;
             end
             drawnow;
         end

@@ -52,13 +52,14 @@ else
 end
 voxeldims = voxeldims([2 1 3]);
 origin = size(Im).*voxeldims/2;
-origin(3) = origin(3)*1.3;
+%origin(3) = origin(3)*1.3;
 datatype = 'int16';
 if strcmp(datatype,'int16')
     datatype = 4;
 end
 description = [];
 nii = MakeNiftiHeaderYB_v1a(Im,voxeldims,origin,datatype,description); 
+%hist = nii.hdr.hist
 save_nii(nii,[folder,filename,'.nii']);
 
 %---------------------------------------------

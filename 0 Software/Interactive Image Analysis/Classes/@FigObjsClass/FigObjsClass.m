@@ -90,6 +90,8 @@ classdef FigObjsClass < handle
         NewROIbutton;
         EraseROIbutton;
         RedrawROIbutton;
+        OverlayColour;
+        OverlayTransparency;
     end
     
 %==================================================================

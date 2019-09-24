@@ -81,7 +81,7 @@ IMOBJS.HoldContrast.Value = 0;
 IMOBJS.HoldContrast.Enable = 'inactive';
 IMOBJS.ShadeROI.Value = 0;
 IMOBJS.LinesROI.Value = 1;
-IMOBJS.ShadeROIValue.Value = 2;
+IMOBJS.ShadeROIValue.Value = 0.12;
 IMOBJS.NewROIbutton.BackgroundColor = [0.8 0.8 0.8];
 IMOBJS.NewROIbutton.ForegroundColor = [0.149 0.149 0.241];
 IMOBJS.ActivateLineTool.BackgroundColor = [0.8 0.8 0.8];
@@ -114,6 +114,9 @@ IMOBJS.MaxCMaxVal.Enable = 'inactive';
 IMOBJS.MinCMinVal.String = '0';  
 IMOBJS.MinCMinVal.ForegroundColor = [0.8 0.8 0.8];
 IMOBJS.MinCMinVal.Enable = 'inactive';
+
+IMOBJS.OverlayTransparency.Value = 0.5; 
+IMOBJS.OverlayColour.Value = 2;
 
 IMOBJS.Dim4.Max = 1;
 IMOBJS.Dim4.Value = 1;
