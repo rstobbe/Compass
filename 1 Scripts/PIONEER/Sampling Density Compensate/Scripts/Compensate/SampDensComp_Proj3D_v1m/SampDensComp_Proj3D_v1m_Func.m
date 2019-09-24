@@ -21,6 +21,16 @@ IT = INPUT.IT;
 clear INPUT
 
 %---------------------------------------------
+% Test
+%---------------------------------------------
+sz = size(IMP.Kmat);
+if sz(1)~= IMP.PROJimp.nproj
+    err.flag = 1;
+    err.msg = 'Probably a ''testing'' implementation used';
+    return
+end
+
+%---------------------------------------------
 % Get Global Options
 %---------------------------------------------
 func = str2func([OPT.method,'_Func']);
