@@ -78,6 +78,7 @@ MSTRCT.dispwid1 = dispwid0;
 MSTRCT.intensity = intensity;
 MSTRCT.type1 = 'abs';
 MSTRCT.type2 = 'real';
+MSTRCT.colour2 = 'Yes';
 
 %---------------------------------------------
 % Columns
