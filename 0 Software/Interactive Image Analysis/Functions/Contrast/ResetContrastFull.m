@@ -15,6 +15,10 @@ SetFocus(tab,axnum);
 %--------------------------------------------
 % Reset
 %--------------------------------------------
+if not(IMAGEANLZ.(tab)(axnum).TestAxisActive)
+    return
+end
+
 if strcmp(IMAGEANLZ.(tab)(axnum).presentation,'Standard')
     IMAGEANLZ.(tab)(axnum).InitializeContrast;
     IMAGEANLZ.(tab)(axnum).LoadContrast;

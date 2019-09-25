@@ -43,7 +43,7 @@ else
 end
 voxeldims = voxeldims([2 1 3]);
 origin = size(Im).*voxeldims/2;
-origin(3) = origin(3)*1.3;
+%origin(3) = origin(3)*1.3;                     % bad when used with SPM
 datatype = 32;
 description = [];
 nii = MakeNiftiHeaderYB_v1a(Im,voxeldims,origin,datatype,description); 

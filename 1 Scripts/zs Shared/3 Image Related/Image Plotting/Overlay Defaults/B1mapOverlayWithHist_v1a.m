@@ -67,6 +67,7 @@ MSTRCT.dispwid1 = dispwid1;
 MSTRCT.intensity = intensity;
 MSTRCT.type1 = 'abs';
 MSTRCT.type2 = 'real';
+MSTRCT.colour2 = 'Yes';
 
 %----------------------------------------------
 % Display Width

@@ -6,11 +6,11 @@ function [default] = ProcessImage_v1d_Default2(SCRPTPATHS)
 
 if strcmp(filesep,'\')
     loadpath = [SCRPTPATHS.voyagerloc,'Image Format Related\Underlying\Selectable Functions\Load\Generic\'];
-    procpath = [SCRPTPATHS.voyagerloc,'Image Processing\Underlying\Selectable Functions\B0 Field Mapping\'];
+    procpath = [SCRPTPATHS.voyagerloc,'Image Processing\Underlying\Selectable Functions\Dummy'];
 elseif strcmp(filesep,'/')
 end
 loadfunc = 'Im1LoadGeneric_v1c';
-procfunc = 'B0MapSiemens_v1a';
+procfunc = 'Dummy_v1a';
 
 m = 1;
 default{m,1}.entrytype = 'OutputName';
@@ -39,7 +39,7 @@ default{m,1}.path = [procpath,procfunc];
 m = m+1;
 default{m,1}.entrytype = 'Choose';
 default{m,1}.labelstr = 'SaveOption';
-default{m,1}.entrystr = 'No';
+default{m,1}.entrystr = 'Yes';
 default{m,1}.options = {'Yes','No'};
 
 m = m+1;

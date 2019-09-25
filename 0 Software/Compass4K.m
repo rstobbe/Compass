@@ -434,7 +434,7 @@ for n = 1
     uicontrol('Parent',FIGOBJS.IM3.DimsTab(n),'Style','text','tag',num2str(n),'BackgroundColor',BGcolour,'ForegroundColor',[0.8 0.8 0.8],'String','6th Dim','HorizontalAlignment','right','Fontsize',7,'Units','normalized','Position',[0 0.19 0.07 0.14],'Enable','inactive','ButtonDownFcn',@ResetFocus);
     FIGOBJS.IM3.Dim6(n) = uicontrol('Parent',FIGOBJS.IM3.DimsTab(n),'Style','slider','tag',num2str(n),'BackgroundColor',[0.8 0.8 0.8],'ForegroundColor',BGcolour,'Units','normalized','Position',[0.08 0.2 0.25 0.14],'Value',0,'CallBack',@Dim6ChangeControl,'SliderStep',[1 1],'Enable','off');
     uicontrol('Parent',FIGOBJS.IM3.DimsTab(n),'Style','text','tag',num2str(n),'BackgroundColor',BGcolour,'ForegroundColor',[0.8 0.8 0.8],'String','Orient','HorizontalAlignment','right','Fontsize',7,'Units','normalized','Position',[0.38 0.39 0.04 0.14],'Enable','inactive','ButtonDownFcn',@ResetFocus);
-    FIGOBJS.IM3.Orient(n) = uicontrol('Parent',FIGOBJS.IM3.DimsTab(n),'Style','popupmenu','tag',num2str(n),'BackgroundColor',[0.8 0.8 0.8],'ForegroundColor',BGcolour,'String',{'Axial','Sagittal','Coronal'},'HorizontalAlignment','right','Fontsize',6,'Units','normalized','Position',[0.43 0.4 0.07 0.15],'CallBack',@ChangeOrientation);
+    FIGOBJS.IM3.Orient(n) = uicontrol('Parent',FIGOBJS.IM3.DimsTab(n),'Style','popupmenu','tag',num2str(n),'BackgroundColor',[0.8 0.8 0.8],'ForegroundColor',BGcolour,'String',{'Axial','Sagittal','Coronal'},'HorizontalAlignment','right','Fontsize',6,'Units','normalized','Position',[0.43 0.4 0.07 0.15],'CallBack',@ChangeOrientationOrtho);
 end
 FIGOBJS.IM3.ROITab(1) = uitab(tg1,'Title','ROI Creation','BackgroundColor',BGcolour,'ButtonDownFcn',@ResetFocus);
 for n = 1
@@ -478,7 +478,7 @@ for m = 1:3
     FIGOBJS.IM3.SAVEDLINES(1,m,2) = uicontrol('Parent',FIGOBJS.IM3.LineTab(1),'Style','text','BackgroundColor',BGcolour,'ForegroundColor',[0.8 0.8 0.8],'String','cdata','HorizontalAlignment','left','Fontsize',7,'Units','normalized','Position',[0.32 0.59-(m*0.15) 0.08 0.14],'Enable','inactive','ButtonDownFcn',@ResetFocus);
     FIGOBJS.IM3.SAVEDLINES(1,m,3) = uicontrol('Parent',FIGOBJS.IM3.LineTab(1),'Style','text','BackgroundColor',BGcolour,'ForegroundColor',[0.8 0.8 0.8],'String','cdata','HorizontalAlignment','left','Fontsize',7,'Units','normalized','Position',[0.41 0.59-(m*0.15) 0.08 0.14],'Enable','inactive','ButtonDownFcn',@ResetFocus);
     FIGOBJS.IM3.SAVEDLINES(1,m,4) = uicontrol('Parent',FIGOBJS.IM3.LineTab(1),'Style','text','BackgroundColor',BGcolour,'ForegroundColor',[0.8 0.8 0.8],'String','cdata','HorizontalAlignment','left','Fontsize',7,'Units','normalized','Position',[0.50 0.59-(m*0.15) 0.08 0.14],'Enable','inactive','ButtonDownFcn',@ResetFocus);
-    FIGOBJS.IM3.DeleteLine(1,m) = uicontrol('Parent',FIGOBJS.IM3.LineTab(n),'Style','pushbutton','tag',num2str(n),'BackgroundColor',[0.8 0.8 0.8],'ForegroundColor',BGcolour,'String','Drop Last','HorizontalAlignment','left','Fontsize',7,'Units','normalized','Position',[0.58 0.59-(m*0.15) 0.06 0.16],'CallBack',@ButtonDeleteLine,'UserData',[n,m]); 
+    FIGOBJS.IM3.DeleteLine(1,m) = uicontrol('Parent',FIGOBJS.IM3.LineTab(n),'Style','pushbutton','tag',num2str(n),'BackgroundColor',[0.8 0.8 0.8],'ForegroundColor',BGcolour,'String','Delete','HorizontalAlignment','left','Fontsize',7,'Units','normalized','Position',[0.58 0.59-(m*0.15) 0.06 0.16],'CallBack',@ButtonDeleteLine,'UserData',[n,m]); 
 end
 FIGOBJS.IM3.OverlayTab(1) = uitab(tg1,'Title','Overlay','BackgroundColor',BGcolour,'ButtonDownFcn',@ResetFocus);
 for n = 1

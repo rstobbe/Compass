@@ -16,7 +16,7 @@ end
 TempImage = abs(Image);
 TempImage = TempImage(TempImage ~= 0);
 Median = median(TempImage(:));
-if MaxVal > 50*Median
+if MaxVal > 100*Median
     answer = questdlg('Intensity spikes in image. Set full contrast?','Contrast','No');
     if not(strcmp(answer,'Yes'))
         MaxVal = Median*10;

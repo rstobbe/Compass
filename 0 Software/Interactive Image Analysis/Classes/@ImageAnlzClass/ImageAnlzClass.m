@@ -1081,7 +1081,7 @@ classdef ImageAnlzClass < handle
         % DrawCurrentROI
         function DrawCurrentROI(IMAGEANLZ,axhand)
             if IMAGEANLZ.redrawroi
-                IMAGEANLZ.REDRAWROI.ShadeROI(IMAGEANLZ,axhand,[0 0.3 0.8],IIMAGEANLZ.shaderoivalue);
+                IMAGEANLZ.REDRAWROI.ShadeROI(IMAGEANLZ,axhand,[0 0.3 0.8],IMAGEANLZ.shaderoivalue);
             end
             if isempty(IMAGEANLZ.CURRENTROI) 
                 return
@@ -1095,7 +1095,7 @@ classdef ImageAnlzClass < handle
                 end
             end
             if IMAGEANLZ.shaderoi
-                IMAGEANLZ.CURRENTROI.ShadeROI(IMAGEANLZ,axhand,[1 0 0],IMAGEANLZ.IMAGEANLZ.shaderoivalue);
+                IMAGEANLZ.CURRENTROI.ShadeROI(IMAGEANLZ,axhand,[1 0 0],IMAGEANLZ.shaderoivalue);
             end
         end
         % CompleteCurrentROI
@@ -1178,7 +1178,7 @@ classdef ImageAnlzClass < handle
                 IMAGEANLZ.CURRENTROI.CreateBaseROIMask;
             end
             if IMAGEANLZ.shaderoi 
-                IMAGEANLZ.CURRENTROI.ShadeROI(IMAGEANLZ,[],'r',IMAGEANLZ.IMAGEANLZ.shaderoivalue);
+                IMAGEANLZ.CURRENTROI.ShadeROI(IMAGEANLZ,[],'r',IMAGEANLZ.shaderoivalue);
             end
         end
         % DeleteROI

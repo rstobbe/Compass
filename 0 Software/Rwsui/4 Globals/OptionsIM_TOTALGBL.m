@@ -52,7 +52,7 @@ elseif not(isempty(RWSUIGBL.Key))
 elseif strcmp(tab,'IM')
     list = {'Display Current','Display New','Delete','Delete All','Load Image'};
 elseif strcmp(tab,'IM2')
-    list = {'Display1','Display2','Delete','Delete All','Load Image'}; 
+    list = {'Display1','Display2','Display1Overlay','Display2Overlay','Delete','Delete All','Load Image'}; 
 elseif strcmp(tab,'IM3')
     list = {'OrthoDisplay','OrthoDisplayOverlay','Delete','Delete All','Load Image'};
 elseif strcmp(tab,'IM4')
@@ -82,6 +82,10 @@ elseif strcmp(list{s},'Display1')
     Gbl2Image(tab,1,totgblnum);
 elseif strcmp(list{s},'Display2')
     Gbl2Image(tab,2,totgblnum);
+elseif strcmp(list{s},'Display1Overlay')
+    Gbl2ImageOverlay(tab,1,totgblnum);
+elseif strcmp(list{s},'Display2Overlay')
+    Gbl2ImageOverlay(tab,2,totgblnum);    
 elseif strcmp(list{s},'Display3')
     Gbl2Image(tab,3,totgblnum);
 elseif strcmp(list{s},'Display4')

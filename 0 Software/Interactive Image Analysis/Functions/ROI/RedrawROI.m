@@ -32,7 +32,7 @@ switch IMAGEANLZ.(tab)(axnum).presentation
             Slice_Change(currentax,tab,r,0);
         end
     case 'Ortho'
-        for r = 1:3
+        for r = 1:1
             IMAGEANLZ.(tab)(r).InitiateRedrawROI;
             IMAGEANLZ.(tab)(r).UpdateStatus;
         end

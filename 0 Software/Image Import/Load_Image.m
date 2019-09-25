@@ -29,7 +29,10 @@ end
 if err.flag
     return
 end
-IMAGEANLZ.(tab)(1).IMFILETYPE = ImType;
+IMAGEANLZ.('IM')(1).IMFILETYPE = ImType;
+IMAGEANLZ.('IM2')(1).IMFILETYPE = ImType;
+IMAGEANLZ.('IM3')(1).IMFILETYPE = ImType;
+IMAGEANLZ.('IM4')(1).IMFILETYPE = ImType;
 
 %---------------------------------------------------------
 % Name Image

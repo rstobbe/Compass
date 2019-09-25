@@ -265,21 +265,6 @@ PROJimp.sampstart = TSMP.sampstart;
 PROJimp.dwell = TSMP.dwell;
 PROJimp.trajosamp = TSMP.trajosamp;
 
-%----------------------------------------------------
-% Rotate back
-%----------------------------------------------------
-KSA0 = KSA;
-KSA = zeros(size(KSA0));
-thx = -(pi*PROJimp.hippoangle/180);
-Rx=[1 0 0;
-    0 cos(thx) -sin(thx);
-    0 sin(thx) cos(thx)];
-sz = size(KSA0);
-for n = 1:sz(1)
-    KSA(n,:,:) = squeeze(KSA0(n,:,:))*Rx;
-end
-PROJimp = rmfield(PROJimp,'hippoangle');
-
 %---------------------------------------
 % Resample k-Space
 %---------------------------------------
@@ -300,10 +285,32 @@ if err.flag
 end
 clear INPUT
 samp = KSMP.samp;
-Kmat = KSMP.Kmat;
+Kmat0 = KSMP.Kmat;
 Kend = KSMP.Kend;
 PROJimp.meanrelkmax = KSMP.meanrelkmax;
 PROJimp.maxrelkmax = KSMP.maxrelkmax;
+
+%----------------------------------------------------
+% Rotate back
+%----------------------------------------------------
+Kmat = zeros(size(Kmat0));
+thx = -(pi*PROJimp.hippoangle/180);
+Rx=[1 0 0;
+    0 cos(thx) -sin(thx);
+    0 sin(thx) cos(thx)];
+sz = size(Kmat0);
+for n = 1:sz(1)
+    Kmat(n,:,:) = squeeze(Kmat0(n,:,:))*Rx;
+end
+PROJimp.voxelrotate = 'No'; 
+
+figure(3002); hold on; 
+plot(samp,Kmat(L-1,:,1),'b-');   
+plot(samp,Kmat(L-1,:,2),'g-');      
+plot(samp,Kmat(L-1,:,3),'r-');      
+title(['Ksamp Traj (Rot Back)',num2str(L-1)]);
+xlabel('Time (ms)','fontsize',10,'fontweight','bold');
+ylabel('k-Space (1/m)','fontsize',10,'fontweight','bold');   
 
 %--------------------------------------------
 % Output Structure

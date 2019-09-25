@@ -38,13 +38,13 @@ switch IMAGEANLZ.(tab)(axnum).presentation
         end
     case 'Ortho'
         for r = 1:3
-            Event = IMAGEANLZ.(tab)(r).ToggleRoiEvent;
+            Event = IMAGEANLZ.(tab)(r).ToggleROIEvent;
         end
         if strcmp(Event,'Add')
             IMAGEANLZ.(tab)(1).FIGOBJS.EraseROIbutton.BackgroundColor = [0.8 0.8 0.8];
             IMAGEANLZ.(tab)(1).FIGOBJS.EraseROIbutton.ForegroundColor = [0.149 0.149 0.241];
         elseif strcmp(Event,'Erase')
-            IMAGEANLZ.(tab)(r).FIGOBJS.EraseROIbutton.BackgroundColor = [0.6,0.2,0.2];
+            IMAGEANLZ.(tab)(1).FIGOBJS.EraseROIbutton.BackgroundColor = [0.6,0.2,0.2];
             IMAGEANLZ.(tab)(1).FIGOBJS.EraseROIbutton.ForegroundColor = [1 1 1];
         end
 end

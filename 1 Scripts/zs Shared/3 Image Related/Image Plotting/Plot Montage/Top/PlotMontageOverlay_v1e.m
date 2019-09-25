@@ -67,6 +67,12 @@ end
 if not(isfield(MSTRCT,'useimagecolour2'))
     MSTRCT.useimagecolour2 = 'no';
 end
+if not(isfield(MSTRCT,'colour1'))
+    MSTRCT.colour1 = 'no';
+end
+if not(isfield(MSTRCT,'colour2'))
+    MSTRCT.colour2 = 'no';
+end
 
 %---------------------------------------------
 % Zeros
@@ -124,7 +130,7 @@ end
 if strcmp(MSTRCT.useimagecolour2,'Yes')
     [h2,ImSz] = ColouredImageMontage_v2b(Im2,IMSTRCT);
 else
-    if strcmp(MSTRCT.colour1,'Yes')
+    if strcmp(MSTRCT.colour2,'Yes')
         IMSTRCT.docolor = 1;
     else
         IMSTRCT.docolor = 0;

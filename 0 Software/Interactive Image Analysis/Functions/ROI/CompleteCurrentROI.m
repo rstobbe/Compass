@@ -89,8 +89,8 @@ switch IMAGEANLZ.(tab)(axnum).presentation
         IMAGEANLZ.(tab)(1).SetSavedROIValues;
         IMAGEANLZ.(tab)(1).FIGOBJS.NewROIbutton.BackgroundColor = [0.8,0.8,0.8];
         IMAGEANLZ.(tab)(1).FIGOBJS.NewROIbutton.ForegroundColor = [0.149 0.149 0.241];
-        IMAGEANLZ.(tab)(1).FIGOBJS.NewROIbutton.BackgroundColor = [0.8,0.8,0.8];
-        IMAGEANLZ.(tab)(1).FIGOBJS.NewROIbutton.ForegroundColor = [0.149 0.149 0.241];
+        IMAGEANLZ.(tab)(1).FIGOBJS.EraseROIbutton.BackgroundColor = [0.8,0.8,0.8];
+        IMAGEANLZ.(tab)(1).FIGOBJS.EraseROIbutton.ForegroundColor = [0.149 0.149 0.241];
         IMAGEANLZ.(tab)(1).FIGOBJS.RedrawROIbutton.BackgroundColor = [0.8,0.8,0.8];
         IMAGEANLZ.(tab)(1).FIGOBJS.RedrawROIbutton.ForegroundColor = [0.149 0.149 0.241];
         IMAGEANLZ.(tab)(1).FIGOBJS.MakeCurrentInvisible;
