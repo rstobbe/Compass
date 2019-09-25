@@ -1693,7 +1693,8 @@ classdef ImageAnlzClass < handle
             Image = TOTALGBL{2,IMAGEANLZ.overtotgblnum}.Im;
             Image = ImageOrient(IMAGEANLZ,Image);
             Image = Image(:,:,:,IMAGEANLZ.DIM4,IMAGEANLZ.DIM5,IMAGEANLZ.DIM6);
-            Image = real(Image);
+            %Image = real(Image);
+            Image = abs(Image);
         end
         % GetOriented3DImage
         function Image = GetOriented3DImage(IMAGEANLZ,orient)

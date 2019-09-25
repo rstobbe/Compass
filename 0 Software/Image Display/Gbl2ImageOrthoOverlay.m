@@ -35,17 +35,9 @@ for axnum = 1:3
     IMAGEANLZ.(tab)(axnum).PlotImage;
     if IMAGEANLZ.(tab)(axnum).SAVEDROISFLAG == 1
         IMAGEANLZ.(tab)(axnum).DrawSavedROIs([]);
-        if axnum == 1
-            IMAGEANLZ.(tab)(1).ComputeAllSavedROIs;
-            IMAGEANLZ.(tab)(1).SetSavedROIValues;
-        end
     end
     if IMAGEANLZ.(tab)(axnum).GETROIS == 1
         IMAGEANLZ.(tab)(axnum).DrawCurrentROI([]);
-        if axnum == 1
-            IMAGEANLZ.(tab)(1).ComputeCurrentROI;
-            IMAGEANLZ.(tab)(1).SetCurrentROIValue;
-        end
     end
 end
 DrawOrthoLines(tab);
