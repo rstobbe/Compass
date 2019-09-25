@@ -2,6 +2,7 @@ function totgblnum = Load_TOTALGBL(totalgbl,tab,from)
 
 global TOTALGBL
 global FIGOBJS
+global COMPASSINFO
 
 %----------------------------------------------------
 % Update TOTALGBL
@@ -28,13 +29,15 @@ end
 % Write ACC tabls
 %----------------------------------------------------
 if loadACCtabs == 1
-    tablabs = {'ACC','ACC2','ACC3','ACC4'};
-    for n = 1:length(tablabs)
-        len = length(FIGOBJS.(tablabs{n}).GblList.String);
-        FIGOBJS.(tablabs{n}).GblList.String{len+1} = totalgbl{1};
-        FIGOBJS.(tablabs{n}).GblList.UserData(len+1).totgblnum = N+1;    
-        FIGOBJS.(tablabs{n}).GblList.UserData(len+1).function1 = '';  
-        FIGOBJS.(tablabs{n}).GblList.Value = len+1;
+    if not(strcmp(COMPASSINFO.USERGBL.setup,'ImageAnalysis'))
+        tablabs = {'ACC','ACC2','ACC3','ACC4'};
+        for n = 1:length(tablabs)
+            len = length(FIGOBJS.(tablabs{n}).GblList.String);
+            FIGOBJS.(tablabs{n}).GblList.String{len+1} = totalgbl{1};
+            FIGOBJS.(tablabs{n}).GblList.UserData(len+1).totgblnum = N+1;    
+            FIGOBJS.(tablabs{n}).GblList.UserData(len+1).function1 = '';  
+            FIGOBJS.(tablabs{n}).GblList.Value = len+1;
+        end
     end
     if strcmp(tab(1:2),'IM')
         UpdateInfoLBox(tab,N+1);
@@ -90,7 +93,6 @@ end
 %----------------------------------------------------
 % Write All Imaging Tabs
 %----------------------------------------------------
-global COMPASSINFO
 if writeImtab == 1
     if strcmp(COMPASSINFO.USERGBL.setup,'ImageAnalysis')
         tablabs = {'IM2' 'IM3'};

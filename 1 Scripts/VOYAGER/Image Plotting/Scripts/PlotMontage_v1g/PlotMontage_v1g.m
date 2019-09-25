@@ -137,6 +137,10 @@ end
 % Name
 %--------------------------------------------
 if auto == 0
+    inds = strfind(PLOT.name,'.');
+    if not(isempty(inds))
+        PLOT.name(inds) = 'p';
+    end
     name = inputdlg('Name Plot:','Name Plot',1,{[Struct,'_',PLOT.name]});
     name = cell2mat(name);
     if isempty(name)

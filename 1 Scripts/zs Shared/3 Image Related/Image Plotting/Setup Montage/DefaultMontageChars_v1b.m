@@ -227,6 +227,16 @@ if strcmp(orient,'Axial')
     vdim = sz(1);
     hstart = insets(3);
     hdim = sz(2);    
+elseif strcmp(orient,'Sagittal')
+    vstart = insets(5);
+    vdim = sz(3);
+    hstart = insets(1);
+    hdim = sz(1); 
+elseif strcmp(orient,'Coronal')
+    vstart = insets(5);
+    vdim = sz(3);
+    hstart = insets(3);
+    hdim = sz(2); 
 end
 Vadd = -vstart+(0:nrows-1)*vdim; 
 Hadd = -hstart+(0:ncolumns-1)*hdim; 

@@ -15,6 +15,7 @@ addpath(compassfolder);
 % General
 %-----------------------------------
 global COMPASSINFO
+COMPASSINFO.USERGBL.epssave = 'No';
 COMPASSINFO.USERGBL = CompassUserInfo;
 if not(strcmp(COMPASSINFO.USERGBL.setup,'ImageAnalysis'))
     COMPASSINFO.CUDA = GraphicCard_Info(doCuda);

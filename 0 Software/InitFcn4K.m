@@ -6,11 +6,11 @@ function InitFcn4K(doCuda,doPaths)
 curfolder = pwd;
 ind = strfind(curfolder,'\');
 softwarefolder = curfolder(1:ind(end)-1);
-addpath(genpath(softwarefolder));
 ind = strfind(softwarefolder,'\');
 if isempty(ind)
     error('Navigate to Compass\Software Folder');
 end
+addpath(genpath(softwarefolder));
 compassfolder = softwarefolder(1:ind(end));
 addpath(compassfolder);
 
@@ -18,6 +18,7 @@ addpath(compassfolder);
 % General
 %-----------------------------------
 global COMPASSINFO
+COMPASSINFO.USERGBL.epssave = 'No';
 COMPASSINFO.USERGBL.setup = 'ImageAnalysis';
 COMPASSINFO.USERGBL.experimentsloc = compassfolder;
 COMPASSINFO.USERGBL.defloc = compassfolder;
