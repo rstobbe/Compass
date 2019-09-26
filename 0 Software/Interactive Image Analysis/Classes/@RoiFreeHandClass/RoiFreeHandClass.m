@@ -55,6 +55,9 @@ classdef RoiFreeHandClass < handle
                 bool = 0;
             end
         end
+        function SetValue(DAT,Value)
+            % dummy (used elsewhere)
+        end
         function OUT = BuildROI(DAT,datapoint,event,ImageSlice) 
             if event.Button == 1 && strcmp(DAT.state,'Start') 
                 DAT.linecnt = 1;

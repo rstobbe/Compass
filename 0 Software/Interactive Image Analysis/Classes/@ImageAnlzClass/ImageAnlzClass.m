@@ -128,7 +128,7 @@ classdef ImageAnlzClass < handle
             IMAGEANLZ.totgblnum = IMAGEANLZ2.totgblnum;
             IMAGEANLZ.IMPATH = IMAGEANLZ2.IMPATH;
             IMAGEANLZ.ImType = IMAGEANLZ2.ImType;
-            error % finish contrast
+            %error % finish contrast
             IMAGEANLZ.RelContrast = IMAGEANLZ2.RelContrast;                             
             IMAGEANLZ.MaxContrastMax = IMAGEANLZ2.MaxContrastMax;
             IMAGEANLZ.ORIENT = IMAGEANLZ2.ORIENT;

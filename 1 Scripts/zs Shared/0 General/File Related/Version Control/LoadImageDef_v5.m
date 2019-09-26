@@ -62,12 +62,12 @@ switch defaultfunc
         saveData.IMG = IMG;
         saveData.IMG.path = path;
         saveData.IMG.file = file;
-        button = questdlg('Write Image to ListBox?');
-        if strcmp(button,'Yes')
-            totalgbl{1} = Name;
-            totalgbl{2} = IMG;
-            Load_TOTALGBL(totalgbl,tab)
-        end
+%         button = questdlg('Write Image to ListBox?');
+%         if strcmp(button,'Yes')
+%             totalgbl{1} = Name;
+%             totalgbl{2} = IMG;
+%             Load_TOTALGBL(totalgbl,tab)
+%         end
         DropExt = 'Yes';
         
     case 'Load From Global' 

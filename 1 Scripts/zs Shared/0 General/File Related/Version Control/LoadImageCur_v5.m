@@ -101,13 +101,13 @@ saveData.IMG.filetype = filetype;
 %------------------------------------
 % Write to ListBox
 %-----------------------------------
-button = questdlg('Write Image to ListBox?');
-if strcmp(button,'Yes')
-    totalgbl{1} = Name;
-    totalgbl{2} = IMG;
-    from = 'ImageLoad';
-    Load_TOTALGBL(totalgbl,tab,from);
-end
+% button = questdlg('Write Image to ListBox?');
+% if strcmp(button,'Yes')
+%     totalgbl{1} = Name;
+%     totalgbl{2} = IMG;
+%     from = 'ImageLoad';
+%     Load_TOTALGBL(totalgbl,tab,from);
+% end
 
 %------------------------------------
 % Save Panel Global
