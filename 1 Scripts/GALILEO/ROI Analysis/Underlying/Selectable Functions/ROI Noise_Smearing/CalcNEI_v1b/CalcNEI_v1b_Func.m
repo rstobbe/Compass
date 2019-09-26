@@ -47,8 +47,11 @@ else
     t3 = (zf(3)/2)+1+(psdmatwid-1)/2;
 end
 psdzf(b1:t1,b2:t2,b3:t3) = PSD.psd;
-%figure(1000); hold on;
-%plot(psdzf(:,zf(2)/2+1,zf(3)/2+1));
+%--
+figure(1000); hold on;
+plot(squeeze(psdzf(:,zf(2)/2+1,zf(3)/2+1)),'b');
+plot(squeeze(psdzf(zf(2)/2+1,:,zf(3)/2+1)),'g');
+plot(squeeze(psdzf(zf(2)/2+1,zf(3)/2+1,:)),'r');
 
 %---------------------------------------------
 % Restore Image FoV (if needed)
