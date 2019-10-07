@@ -95,7 +95,7 @@ end
 %--------------------------------------
 % Basic Plot
 if strcmp(ANLZ.visuals,'Basic') 
-    figure(50); clf(50); hold on;
+    hFig = figure(50); clf(50); hold on;
     [Wmat] = SDCArr2Mat(W,PROJimp.nproj,PROJimp.npro);
     [DOVmat] = SDCArr2Mat(DOV,PROJimp.nproj,PROJimp.npro);
     xax = SDCArr2Mat(xax,PROJimp.nproj,PROJimp.npro);
@@ -111,6 +111,11 @@ if strcmp(ANLZ.visuals,'Basic')
     plot(xax,smootherr,'k');
     title('Mean Relative Error Along Trajectory'); xlabel(xstring); ylabel('% error');   
 end
+
+ANLZ.Figure(1).Name = 'SDC Characteristics';
+ANLZ.Figure(1).Type = 'Graph';
+ANLZ.Figure(1).hFig = hFig;
+ANLZ.Figure(1).hAx = gca;
 
 %figure(54);
 %plot(xax,E*100,'r*');

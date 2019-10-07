@@ -80,7 +80,11 @@ end
 %--------------------------------------------- 
 global FIGOBJS
 FIGOBJS.(SCRPTGBL.RWSUI.tab).Info(axnum).String = ROIANLZ.ExpDisp;
-FIGOBJS.(SCRPTGBL.RWSUI.tab).InfoTabGroup.SelectedTab = FIGOBJS.(tab).InfoTab(axnum);
+if isfield(FIGOBJS.(tab),'InfoTab')
+    FIGOBJS.(SCRPTGBL.RWSUI.tab).InfoTabGroup.SelectedTab = FIGOBJS.(tab).InfoTab(axnum);
+elseif isfield(FIGOBJS.(tab),'InfoTabL')
+    FIGOBJS.(SCRPTGBL.RWSUI.tab).InfoTabGroup.SelectedTab = FIGOBJS.(tab).InfoTabL;
+end
 FIGOBJS.(SCRPTGBL.RWSUI.tab).UberTabGroup.SelectedTab = FIGOBJS.(tab).TopInfoTab;
 
 if strcmp(ROIANLZ.saveable,'no') || strcmp(ROIANLZ.saveable,'No')

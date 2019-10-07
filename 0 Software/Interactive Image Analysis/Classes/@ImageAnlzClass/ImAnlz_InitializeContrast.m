@@ -13,16 +13,16 @@ else
     MinVal = -max(abs(Image(:)));
 end
 
-TempImage = abs(Image);
-TempImage = TempImage(TempImage ~= 0);
-Median = median(TempImage(:));
-if MaxVal > 100*Median
-    answer = questdlg('Intensity spikes in image. Set full contrast?','Contrast','No');
-    if not(strcmp(answer,'Yes'))
-        MaxVal = Median*10;
-        MaxVal = round(MaxVal,2,'significant');
-    end
-end
+% TempImage = abs(Image);
+% TempImage = TempImage(TempImage ~= 0);
+% Median = median(TempImage(:));
+% if MaxVal > 100*Median
+%     answer = questdlg('Intensity spikes in image. Set full contrast?','Contrast','No');
+%     if not(strcmp(answer,'Yes'))
+%         MaxVal = Median*10;
+%         MaxVal = round(MaxVal,2,'significant');
+%     end
+% end
 
 IMAGEANLZ.ContrastSettings.MaxAbsMaxFromImage = MaxVal;
 IMAGEANLZ.ContrastSettings.MinAbsMinFromImage = 0;

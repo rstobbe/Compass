@@ -1693,8 +1693,8 @@ classdef ImageAnlzClass < handle
             Image = TOTALGBL{2,IMAGEANLZ.overtotgblnum}.Im;
             Image = ImageOrient(IMAGEANLZ,Image);
             Image = Image(:,:,:,IMAGEANLZ.DIM4,IMAGEANLZ.DIM5,IMAGEANLZ.DIM6);
-            %Image = real(Image);
-            Image = abs(Image);
+            Image = real(Image);
+            %Image = abs(Image);
         end
         % GetOriented3DImage
         function Image = GetOriented3DImage(IMAGEANLZ,orient)
@@ -1767,7 +1767,10 @@ classdef ImageAnlzClass < handle
                     %max(tImg(:))
                     %tImg(tImg<1) = 1;
                     %tImg(tImg>L) = L;
-                    tImg = L*IMAGEANLZ.overimslice/max(IMAGEANLZ.overimslice(:));
+                    tImg = L*(IMAGEANLZ.overimslice-min(IMAGEANLZ.overimslice(:)))/(max(IMAGEANLZ.overimslice(:))-min(IMAGEANLZ.overimslice(:)));
+%                     test1 = min(tImg(:))
+%                     test2 = max(tImg(:))
+                    %tImg = L*IMAGEANLZ.overimslice/max(IMAGEANLZ.overimslice(:));
                     CImg = zeros([size(IMAGEANLZ.overimslice) 3]);
                     CImg(:,:,1) = interp1((1:L),cmap(:,1),tImg);
                     CImg(:,:,2) = interp1((1:L),cmap(:,2),tImg);

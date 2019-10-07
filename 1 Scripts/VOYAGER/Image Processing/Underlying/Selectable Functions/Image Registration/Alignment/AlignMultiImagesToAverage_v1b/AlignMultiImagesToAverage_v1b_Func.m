@@ -29,8 +29,8 @@ StatIm = abs(IMG{ALGN.pass1alignim}.Im(:,:,:,1,1,1));
 SpaceRef0 = imref3d(size(StatIm),pixdim(1),pixdim(2),pixdim(3));
 [optimizer,metric] = imregconfig('monomodal');
 %[optimizer,metric] = imregconfig('multimodal');
-optimizer.MaximumStepLength = 0.01; 
-optimizer.MinimumStepLength = 1e-2;                                     % accuracy/time (changing others = detrimental @ first test)
+% optimizer.MaximumStepLength = 0.01; 
+% optimizer.MinimumStepLength = 1e-2;                                     % accuracy/time (changing others = detrimental @ first test)
 
 %---------------------------------------------
 % First Pass Alignment
@@ -44,13 +44,13 @@ for m = 1:ImArrayLen
     pixdim = IMG{m}.IMDISP.ImInfo.pixdim;
     JiggleIm = abs(IMG{m}.Im(:,:,:,1,1,1));
     SpaceRef = imref3d(size(JiggleIm),pixdim(1),pixdim(2),pixdim(3));
-    tform = imregtform(JiggleIm,SpaceRef,StatIm,SpaceRef0,'rigid',optimizer,metric);    
-    %test = tform.T
+    tform = imregtform(JiggleIm,SpaceRef,StatIm,SpaceRef0,'rigid',optimizer,metric,'DisplayOptimization',1);    
+    test = tform.T
     if strcmp(ALGN.average,'Abs')
-        AveIm = imwarp(abs(IMG{m}.Im(:,:,:,1,1,1)),tform,'OutputView',SpaceRef0) + AveIm;
+        AveIm = imwarp(abs(IMG{m}.Im(:,:,:,1,1,1)),SpaceRef,tform,'OutputView',SpaceRef0) + AveIm;
     elseif strcmp(ALGN.average,'Complex')
-        rRegIm = imwarp(real(IMG{m}.Im(:,:,:,1,1,1)),tform,'OutputView',SpaceRef0);
-        iRegIm = imwarp(imag(IMG{m}.Im(:,:,:,1,1,1)),tform,'OutputView',SpaceRef0);
+        rRegIm = imwarp(real(IMG{m}.Im(:,:,:,1,1,1)),SpaceRef,tform,'OutputView',SpaceRef0);
+        iRegIm = imwarp(imag(IMG{m}.Im(:,:,:,1,1,1)),SpaceRef,tform,'OutputView',SpaceRef0);
         AveIm = rRegIm + 1i*iRegIm + AveIm;
     end
 end
@@ -66,10 +66,10 @@ for m = 1:ImArrayLen
     pixdim = IMG{m}.IMDISP.ImInfo.pixdim;
     JiggleIm = abs(IMG{m}.Im(:,:,:,1,1,1));
     SpaceRef = imref3d(size(JiggleIm),pixdim(1),pixdim(2),pixdim(3));
-    tform = imregtform(JiggleIm,SpaceRef,StatIm,SpaceRef0,'rigid',optimizer,metric);    
-    %test = tform.T
-    rRegIm = imwarp(real(IMG{m}.Im(:,:,:,1,1,1)),tform,'OutputView',SpaceRef0);
-    iRegIm = imwarp(imag(IMG{m}.Im(:,:,:,1,1,1)),tform,'OutputView',SpaceRef0);
+    tform = imregtform(JiggleIm,SpaceRef,StatIm,SpaceRef0,'rigid',optimizer,metric,'DisplayOptimization',1);    
+    test = tform.T
+    rRegIm = imwarp(real(IMG{m}.Im(:,:,:,1,1,1)),SpaceRef,tform,'OutputView',SpaceRef0);
+    iRegIm = imwarp(imag(IMG{m}.Im(:,:,:,1,1,1)),SpaceRef,tform,'OutputView',SpaceRef0);
     RegIm(:,:,:,m) = rRegIm + 1i*iRegIm;
 end
 RegIm(:,:,:,ImArrayLen+1) = AveIm;

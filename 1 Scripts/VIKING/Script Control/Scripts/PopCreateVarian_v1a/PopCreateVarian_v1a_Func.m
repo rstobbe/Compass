@@ -89,6 +89,8 @@ if strcmp(IMG.function,'PopCreate')
         % Get Info
         %---------------------------------------------
         if strcmp(system,'Varian')
+            ind1 = strfind(Totalfolders{n},'_');
+            num = Totalfolders{n}(ind1(end)+1:end-4);
             [Text,err] = Load_ProcparV_v1a([Totalfolders{n},'\procpar']);
             if err.flag 
                 return
@@ -104,7 +106,12 @@ if strcmp(IMG.function,'PopCreate')
                     ExpPars.savename = ExpPars.protocol;
                 end
                 SaveName = ExpPars.savename;    
-                Default = ExpPars.recondef;                     
+                Default = ExpPars.recondef;
+                if not(isempty(ExpPars.comment))
+                    if isempty(strfind(ExpPars.savename,ExpPars.comment))
+                        SaveName = [ExpPars.savename,'_',ExpPars.comment,num];
+                    end
+                end
             else
                 SaveName = [ExpPars.seqfil,'_',ExpPars.comment];
                 Default = [ExpPars.seqfil,'_',ExpPars.comment];
@@ -166,7 +173,9 @@ if strcmp(IMG.function,'PopCreate')
             end
             [ExtRunInfo,err] = ExtRunScrptFunc2(Recon,ExtRunInfo);
             if err.flag
-                return
+                pause(1);
+                break
+                %return
             end
         end
         

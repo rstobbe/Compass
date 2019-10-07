@@ -24,6 +24,7 @@ clear INPUT
 % Image Info
 %---------------------------------------------
 pixdim = IMAGEANLZ.GetPixelDimensions;
+% - Should have a test here. Only valid if image FoV >= Projdgn.fov  
 zf = (PROJdgn.fov./pixdim);
 
 %---------------------------------------------
@@ -63,6 +64,17 @@ roimask = zeros(zf);
 roimask(bot(1):top(1),bot(2):top(2),bot(3):top(3)) = ROI.roimask;
 
 %---------------------------------------------
+% Rotate
+%---------------------------------------------
+if strcmp(ROI.drawroiorient,'Axial')
+    roimask = squeeze(permute(ROI.roimask,[2 1 3]));
+elseif strcmp(ROI.drawroiorient,'Sagittal')
+    roimask = squeeze(permute(ROI.roimask,[3 2 1]));
+elseif strcmp(ROI.drawroiorient,'Coronal')
+    roimask = squeeze(permute(ROI.roimask,[2 3 1]));
+end
+
+%---------------------------------------------
 % Calculate CV
 %---------------------------------------------
 func = str2func([NPICALC.cvcalcfunc,'_Func']);  
@@ -81,12 +93,12 @@ clear INPUT;
 NPICALC.cv = CVCALC.cv;
 NPICALC.vinvox = zf(1)*zf(2)*zf(3)/PSD.kmatvol;                         % interp voxels in one real voxel.
 NPICALC.mroi = sum(roimask(:));
-NPICALC.nroi = NPICALC.mroi/NPICALC.vinvox
+NPICALC.nroi = NPICALC.mroi/NPICALC.vinvox;
 NPICALC.volume = NPICALC.nroi*(PROJdgn.vox/10)^3/PROJdgn.elip;          % in cm^3
 NPICALC.siv = NPICALC.nroi/NPICALC.cv; 
 
 NPICALC.sdavenoise = NPICALC.sdvnoise/sqrt(NPICALC.siv);
-NPICALC.npi95 = 1.96*NPICALC.sdavenoise;
+NPICALC.npi95 = 1.96*NPICALC.sdavenoise
 
 NPICALC.return = NPICALC.npi95;
 NPICALC.label = {'NEI95'};

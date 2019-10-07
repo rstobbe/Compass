@@ -227,10 +227,10 @@ if savescript == 1 && not(isempty(savefigures))
     mkdir(path,RWSUI.SaveGlobalNames)
     for n = 1:length(savefigures)
         pathfile = [path,RWSUI.SaveGlobalNames,'\',savefigures(n).Name];
-        inds = strfind(pathfile,'.');
-        if not(isempty(inds))
-            pathfile(inds) = 'p';
-        end
+%         inds = strfind(pathfile,'.');
+%         if not(isempty(inds))
+%             pathfile(inds) = 'p';
+%         end
         savefig(savefigures(n).hFig,pathfile,'compact')
         print(savefigures(n).hFig,pathfile,'-dpng','-r0');            % -r0 is screen resolution 
         if strcmp(savefigures(n).Type,'Graph')

@@ -319,6 +319,11 @@ if isfield(FIGOBJS.(tab),'InfoTab')
         IMOBJS.InfoTab = FIGOBJS.(tab).InfoTab(axnum);
     end
 end
+if isfield(FIGOBJS.(tab),'InfoTabL')
+    if axnum <= length(FIGOBJS.(tab).InfoTabL)
+        IMOBJS.InfoTabL = FIGOBJS.(tab).InfoTabL(axnum);
+    end
+end
 if isfield(FIGOBJS.(tab),'GeneralTab')
     if axnum <= length(FIGOBJS.(tab).GeneralTab)
         IMOBJS.GeneralTab = FIGOBJS.(tab).GeneralTab(axnum);

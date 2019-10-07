@@ -126,6 +126,9 @@ if isfield(RWSUI,'ExtRunInfo')
     elseif strcmp(RWSUI.ExtRunInfo.save,'global')
         SCRPTGBL.RWSUI.SaveScript = 'no';
         SCRPTGBL.RWSUI.SaveGlobal = 'yes';
+    elseif strcmp(RWSUI.ExtRunInfo.save,'file')
+        SCRPTGBL.RWSUI.SaveScript = 'yes';
+        SCRPTGBL.RWSUI.SaveGlobal = 'no';
     end
     name = [Struct,'_',PLOT.name];
 else

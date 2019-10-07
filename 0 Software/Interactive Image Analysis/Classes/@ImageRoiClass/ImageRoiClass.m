@@ -322,6 +322,11 @@ classdef ImageRoiClass < handle
             Image = IMAGEANLZ.GetOriented3DImage(IMAGEROI.drawroiorient);
             vals = Image(logical(IMAGEROI.roimask));
         end
+        % GetComplexROIDataArray
+        function vals = GetComplexROIDataArray(IMAGEROI,IMAGEANLZ)
+            Image = IMAGEANLZ.GetComplexOriented3DImage(IMAGEROI.drawroiorient);
+            vals = Image(logical(IMAGEROI.roimask));
+        end
         
 %==================================================================
 % Load/Delete ROIs

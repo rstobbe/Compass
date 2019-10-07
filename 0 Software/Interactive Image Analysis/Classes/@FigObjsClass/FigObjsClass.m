@@ -72,6 +72,7 @@ classdef FigObjsClass < handle
         Info;
         TopInfoTab;
         InfoTab;
+        InfoTabL;
         InfoTabGroup;
         TopGeneralTab;
         GeneralTab;
