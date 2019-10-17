@@ -31,8 +31,12 @@ end
 %---------------------------------------------
 ALGN.average = 'Complex';
 pixdim = IMG{1}.IMDISP.ImInfo.pixdim;
-StatIm = abs(IMG{1}.Im(:,:,:,1,1,1));                       
-SpaceRef0 = imref3d(size(StatIm),pixdim(1),pixdim(2),pixdim(3));
+StatIm = abs(IMG{1}.Im(:,:,:,1,1,1));  
+%-
+StatIm(isnan(StatIm)) = 0;
+%-
+%SpaceRef0 = imref3d(size(StatIm),pixdim(1),pixdim(2),pixdim(3));
+SpaceRef0 = imref3d(size(StatIm),pixdim(2),pixdim(1),pixdim(3));
 [optimizer,metric] = imregconfig(ALGN.config);
 
 %optimizer.MaximumStepLength = 0.01; 
@@ -45,7 +49,8 @@ for m = 2:ImArrayLen
     Status2('busy',['Align image ',num2str(m),' to ',num2str(1)],3);
     pixdim = IMG{m}.IMDISP.ImInfo.pixdim;
     JiggleIm = abs(IMG{m}.Im(:,:,:,1,1,1));
-    SpaceRef = imref3d(size(JiggleIm),pixdim(1),pixdim(2),pixdim(3));
+    %SpaceRef = imref3d(size(JiggleIm),pixdim(1),pixdim(2),pixdim(3));
+    SpaceRef = imref3d(size(JiggleIm),pixdim(2),pixdim(1),pixdim(3));
     tform = imregtform(JiggleIm,SpaceRef,StatIm,SpaceRef0,'rigid',optimizer,metric,'DisplayOptimization',1);    
     test = tform.T
     rRegIm = imwarp(real(IMG{m}.Im(:,:,:,1,1,1)),SpaceRef,tform,'OutputView',SpaceRef0);

@@ -16,6 +16,7 @@ err.msg = '';
 %---------------------------------------------
 IMSCL.method = IMSCLipt.Func;
 IMSCL.scale = IMSCLipt.('Scale');
+IMSCL.colour = IMSCLipt.('Colour');
 
 Status2('done','',2);
 Status2('done','',3);

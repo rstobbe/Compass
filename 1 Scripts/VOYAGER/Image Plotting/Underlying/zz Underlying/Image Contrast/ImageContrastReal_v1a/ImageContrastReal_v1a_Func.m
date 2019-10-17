@@ -28,6 +28,8 @@ maxval = str2double(IMSCL.scale(inds(1)+1:length(IMSCL.scale)));
 %---------------------------------------------
 MSTRCT.dispwid = [minval maxval];
 MSTRCT.type = 'real';
+MSTRCT.colour = IMSCL.colour;
+MSTRCT.zero = 'black';
 
 %---------------------------------------------
 % Return

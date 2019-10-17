@@ -76,6 +76,7 @@ elseif strcmp(OUT.buttonfunc,'updatefinish')
                 IMAGEANLZ.(tab)(r).DrawCurrentROI([]);
             end
         end
+        IMAGEANLZ.(tab)(axnum).TestUpdateCurrentROIValue;               % retain this focus
     else
         IMAGEANLZ.(tab)(axnum).DrawCurrentROI([]); 
     end

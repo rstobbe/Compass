@@ -1692,7 +1692,7 @@ classdef ImageAnlzClass < handle
             global TOTALGBL
             Image = TOTALGBL{2,IMAGEANLZ.overtotgblnum}.Im;
             Image = ImageOrient(IMAGEANLZ,Image);
-            Image = Image(:,:,:,IMAGEANLZ.DIM4,IMAGEANLZ.DIM5,IMAGEANLZ.DIM6);
+            %Image = Image(:,:,:,IMAGEANLZ.DIM4,IMAGEANLZ.DIM5,IMAGEANLZ.DIM6);
             Image = real(Image);
             %Image = abs(Image);
         end

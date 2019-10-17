@@ -55,14 +55,19 @@ for n = 1:sz(1)
     for m = 1:sz(2)
         for p = 1:sz(3)
             %Dat = squeeze(ImAct(n,m,p,:));
-            Dat = squeeze(IMG.Im(n,m,p,1:39));
+            Dat = squeeze(IMG.Im(n,m,p,1:(sz(4)-1)));
             if sum(Dat) == 0
                 continue
             end
-            tSlope = [ones(39,1) (0:38).']\Dat;
-            if abs(tSlope(1)) > 1
+            tSlope = [ones((sz(4)-1),1) (0:(sz(4)-2)).']\Dat;
+            if abs(tSlope(1)) < 0.1
                 continue
             end
+            [b,bint,r,rint,stats] = regress(Dat,[ones((sz(4)-1),1) (0:(sz(4)-2)).']);
+            if stats(3) > 0.05
+                continue
+            end
+            
             Slope(n,m,p) = tSlope(2)/tSlope(1);
 %             Paradigm = Paradigm(1:13);
 

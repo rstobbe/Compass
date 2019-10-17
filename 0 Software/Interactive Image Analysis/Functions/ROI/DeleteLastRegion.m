@@ -39,6 +39,7 @@ switch IMAGEANLZ.(tab)(axnum).presentation
                 IMAGEANLZ.(tab)(r).FIGOBJS.EraseROIbutton.ForegroundColor = [0.149 0.149 0.241];
             end
         end
+        IMAGEANLZ.(tab)(axnum).TestUpdateCurrentROIValue;               % retain this focus
     case 'Ortho'
         if not(IMAGEANLZ.(tab)(1).TestEmptyTempROI)
             IMAGEANLZ.(tab)(1).ResetTempROI;

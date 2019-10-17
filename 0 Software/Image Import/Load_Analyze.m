@@ -10,7 +10,10 @@ ImInfo = '';
 
 Im = analyze75read(imfile);
 test = analyze75info(imfile);
-ImInfo.pixdim = test.PixelDimensions;
+%-
+pixdim = test.PixelDimensions;
+ImInfo.pixdim = [pixdim(2) pixdim(1) pixdim(3)];
+%-
 ImInfo.vox = ImInfo.pixdim(1)*ImInfo.pixdim(2)*ImInfo.pixdim(3);
 ImInfo.info = '';
 
