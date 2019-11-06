@@ -14,7 +14,7 @@ for n = 1:length(params)
         Output{n} = [];
         continue
     end
-    tText = Text(ind+1:ind+150);
+    tText = Text(ind+1:ind+180);
     ind = strfind(tText,char(10));
     tText = tText(ind(1):ind(2));
     ind = strfind(tText,char(32));

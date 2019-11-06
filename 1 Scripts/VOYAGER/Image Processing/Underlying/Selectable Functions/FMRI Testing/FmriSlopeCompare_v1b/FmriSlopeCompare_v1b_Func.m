@@ -21,8 +21,8 @@ clear INPUT;
 %--------------------------------------------- 
 Im = abs(IMG.Im);
 sz = size(Im);
-LenPdgm = (sz(4)-1)/2;
-
+%LenPdgm = (sz(4)-1)/2;
+LenPdgm = sz(4)/2;
 
 ImOut = NaN*ones(size(Im(:,:,:,1)));
 for n = 1:sz(1)

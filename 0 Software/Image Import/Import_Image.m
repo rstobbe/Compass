@@ -46,7 +46,7 @@ elseif strcmp(fileext,'mat')
     %[Name,~] = strtok(imfile,'.');
     Name = imfile;
 elseif strcmp(fileext,'fdf')
-    [IMG,ImInfo,err] = Load_FDF([impath,imfile]);
+    [IMG,ImInfo,err] = Load_FDF(impath,imfile);
     ImType = 'FDF';
     %[Name,~] = strtok(imfile,'.');
     Name = imfile;

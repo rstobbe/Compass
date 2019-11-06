@@ -28,7 +28,7 @@ lim = IMP.PROJdgn.kmax;
 % Plot
 %-----------------------------------------------------
 hFig = figure(1001); hold on; axis equal; grid on; box off;
-for n = 1
+for n = 1000
     plot3(squeeze(Kmat(n,:,1)),squeeze(Kmat(n,:,2)),squeeze(Kmat(n,:,3)),'k-','linewidth',0.5);
 end
 % for n = [1 10]
@@ -46,13 +46,16 @@ clr = ['r' 'b' 'g' 'c' 'm' 'y' 'k' 'r'];
 % end
 xlabel('k_x (1/m)'); ylabel('k_y (1/m)'); zlabel('k_z (1/m)');
 set(gca,'cameraposition',[-10000 -18000 2500]);
-xlim([-lim,lim]); ylim([-lim,lim]); zlim([-lim,lim]);
+%xlim([-lim,lim]); ylim([-lim,lim]); zlim([-lim,lim]);
+xlim([-lim*0.6,lim*0.6]); ylim([-lim*0.6,lim*0.6]); zlim([0,lim*0.9]);
 % set(gca,'xtick',(-500:500:500));
 % set(gca,'ytick',(-500:500:500));
 % set(gca,'ztick',(-500:500:500));
 set(gca,'xtick',(-1000:1000:1000));
 set(gca,'ytick',(-1000:1000:1000));
 set(gca,'ztick',(-1000:1000:1000));
+
+box on;
 
 hFig.Units = 'Inches';
 %sz = 2.1;

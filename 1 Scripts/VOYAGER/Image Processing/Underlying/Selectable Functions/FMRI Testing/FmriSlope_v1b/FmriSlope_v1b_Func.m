@@ -25,8 +25,8 @@ else
     Im = real(IMG.Im);
 end
 sz = size(Im);
-%LenPdgm = sz(4);
-LenPdgm = sz(4)-1;
+LenPdgm = sz(4);
+%LenPdgm = sz(4)-1;
 
 ImOut = NaN*ones(size(Im(:,:,:,1)));
 for n = 1:sz(1)

@@ -62,7 +62,8 @@ AveIm = AveIm/ImArrayLen;
 % Alignment to Average
 %---------------------------------------------
 StatIm = abs(AveIm);
-RegIm = zeros([size(StatIm) ImArrayLen+1]);
+%RegIm = zeros([size(StatIm) ImArrayLen+1]);
+RegIm = zeros([size(StatIm) ImArrayLen]);
 for m = 1:ImArrayLen
     Status2('busy',['Second pass: align image ',num2str(m),' to average'],3);
     JiggleIm = abs(Im(:,:,:,m,1,1));
@@ -73,7 +74,9 @@ for m = 1:ImArrayLen
     iRegIm = imwarp(imag(Im(:,:,:,m,1,1)),SpaceRef,tform,'OutputView',SpaceRef0);
     RegIm(:,:,:,m) = rRegIm + 1i*iRegIm;
 end
-RegIm(:,:,:,ImArrayLen+1) = AveIm;
+%-
+%RegIm(:,:,:,ImArrayLen+1) = AveIm;
+%-
 
 %---------------------------------------------
 % Output

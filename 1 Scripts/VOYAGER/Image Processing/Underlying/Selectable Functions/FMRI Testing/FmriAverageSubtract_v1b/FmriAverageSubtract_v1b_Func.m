@@ -38,8 +38,26 @@ LogPdgm = logical(Pdgm);
 ImAct = Im(:,:,:,LogPdgm);
 ImRest = Im(:,:,:,not(LogPdgm));
 
+%IMG.Im = mean(ImAct,4) - mean(ImRest,4);
 
-IMG.Im = mean(ImAct,4) - mean(ImRest,4);
+ImOut = NaN*ones(size(Im(:,:,:,1)));
+for n = 1:sz(1)
+    for m = 1:sz(2)
+        for p = 1:sz(3)
+            [h,pval] = ttest(ImAct(n,m,p,:)-ImRest(n,m,p,:));
+            if h == 1
+                ImOut(n,m,p) = mean(ImAct(n,m,p,:)-ImRest(n,m,p,:));
+            end
+        end
+    end
+    Status2('busy',num2str(n),3);
+end
+%--
+RefSig = 3.9;
+%--
+IMG.Im = ImOut/RefSig;
+
+%IMG.Im(IMG.Im < 0.0075) = NaN;
 
 %---------------------------------------------
 % Add to Panel Output
