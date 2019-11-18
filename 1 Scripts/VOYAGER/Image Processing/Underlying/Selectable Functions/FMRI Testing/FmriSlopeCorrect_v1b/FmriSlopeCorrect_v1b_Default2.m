@@ -2,20 +2,19 @@
 % 
 %=========================================================
 
-function [default] = FmriSlope_v1b_Default2(SCRPTPATHS)
+function [default] = FmriSlopeCorrect_v1b_Default2(SCRPTPATHS)
 
 m = 1;
 default{m,1}.entrytype = 'Input';
-default{m,1}.labelstr = 'MinSigVal';
-default{m,1}.entrystr = '0';
+default{m,1}.labelstr = 'RelOffset';
+default{m,1}.entrystr = '1.05';
 
 m = m+1;
 default{m,1}.entrytype = 'Input';
-default{m,1}.labelstr = 'Significance';
-default{m,1}.entrystr = '0.05';
+default{m,1}.labelstr = 'RelSlope';
+default{m,1}.entrystr = '-0.0005';
 
 m = m+1;
-default{m,1}.entrytype = 'Choose';
-default{m,1}.labelstr = 'Data';
-default{m,1}.entrystr = 'Abs';
-default{m,1}.options = {'Abs','Real'};
+default{m,1}.entrytype = 'Input';
+default{m,1}.labelstr = 'RefMean';
+default{m,1}.entrystr = '0.1';

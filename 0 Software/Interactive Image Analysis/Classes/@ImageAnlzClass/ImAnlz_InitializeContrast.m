@@ -24,34 +24,34 @@ end
 %     end
 % end
 
-IMAGEANLZ.ContrastSettings.MaxAbsMaxFromImage = MaxVal;
+IMAGEANLZ.ContrastSettings.MaxAbsMaxFromImage = max([MaxVal abs(MinVal)]);
 IMAGEANLZ.ContrastSettings.MinAbsMinFromImage = 0;
-IMAGEANLZ.ContrastSettings.MaxRealMaxFromImage = MaxVal;
-IMAGEANLZ.ContrastSettings.MinRealMinFromImage = -MaxVal;
-IMAGEANLZ.ContrastSettings.MaxImagMaxFromImage = MaxVal;
-IMAGEANLZ.ContrastSettings.MinImagMinFromImage = -MaxVal;
+IMAGEANLZ.ContrastSettings.MaxRealMaxFromImage = max([MaxVal abs(MinVal)]);
+IMAGEANLZ.ContrastSettings.MinRealMinFromImage = -max([MaxVal abs(MinVal)]);
+IMAGEANLZ.ContrastSettings.MaxImagMaxFromImage = max([MaxVal abs(MinVal)]);
+IMAGEANLZ.ContrastSettings.MinImagMinFromImage = -max([MaxVal abs(MinVal)]);
 IMAGEANLZ.ContrastSettings.MaxPhaseMaxFromImage = pi;
 IMAGEANLZ.ContrastSettings.MinPhaseMinFromImage = -pi;
 IMAGEANLZ.ContrastSettings.MaxMapMaxFromImage = MaxVal;
 IMAGEANLZ.ContrastSettings.MinMapMinFromImage = MinVal;
 
-IMAGEANLZ.ContrastSettings.MaxAbsMaxCurrent = MaxVal;
+IMAGEANLZ.ContrastSettings.MaxAbsMaxCurrent = max([MaxVal abs(MinVal)]);
 IMAGEANLZ.ContrastSettings.MinAbsMinCurrent = 0;
-IMAGEANLZ.ContrastSettings.MaxRealMaxCurrent = MaxVal;
-IMAGEANLZ.ContrastSettings.MinRealMinCurrent = -MaxVal;
-IMAGEANLZ.ContrastSettings.MaxImagMaxCurrent = MaxVal;
-IMAGEANLZ.ContrastSettings.MinImagMinCurrent = -MaxVal;
+IMAGEANLZ.ContrastSettings.MaxRealMaxCurrent = max([MaxVal abs(MinVal)]);
+IMAGEANLZ.ContrastSettings.MinRealMinCurrent = -max([MaxVal abs(MinVal)]);
+IMAGEANLZ.ContrastSettings.MaxImagMaxCurrent = max([MaxVal abs(MinVal)]);
+IMAGEANLZ.ContrastSettings.MinImagMinCurrent = -max([MaxVal abs(MinVal)]);
 IMAGEANLZ.ContrastSettings.MaxPhaseMaxCurrent = pi;
 IMAGEANLZ.ContrastSettings.MinPhaseMinCurrent = -pi;
 IMAGEANLZ.ContrastSettings.MaxMapMaxCurrent = MaxVal;
 IMAGEANLZ.ContrastSettings.MinMapMinCurrent = MinVal;
 
-IMAGEANLZ.ContrastSettings.AbsMax = MaxVal;
+IMAGEANLZ.ContrastSettings.AbsMax = max([MaxVal abs(MinVal)]);
 IMAGEANLZ.ContrastSettings.AbsMin = 0;
-IMAGEANLZ.ContrastSettings.RealMax = MaxVal;
-IMAGEANLZ.ContrastSettings.RealMin = -MaxVal;
-IMAGEANLZ.ContrastSettings.ImagMax = MaxVal;
-IMAGEANLZ.ContrastSettings.ImagMin = -MaxVal;
+IMAGEANLZ.ContrastSettings.RealMax = max([MaxVal abs(MinVal)]);
+IMAGEANLZ.ContrastSettings.RealMin = -max([MaxVal abs(MinVal)]);
+IMAGEANLZ.ContrastSettings.ImagMax = max([MaxVal abs(MinVal)]);
+IMAGEANLZ.ContrastSettings.ImagMin = -max([MaxVal abs(MinVal)]);
 IMAGEANLZ.ContrastSettings.PhaseMax = pi;
 IMAGEANLZ.ContrastSettings.PhaseMin = -pi;
 IMAGEANLZ.ContrastSettings.MapMax = MaxVal;

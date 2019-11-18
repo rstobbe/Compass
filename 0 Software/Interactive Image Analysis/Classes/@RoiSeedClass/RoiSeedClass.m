@@ -12,7 +12,7 @@ classdef RoiSeedClass < handle
         panelobs;
         roicreatesel;
         pointer,status,info;
-        maxval;
+        maxval; minval;
     end
     
     methods
@@ -20,7 +20,7 @@ classdef RoiSeedClass < handle
             DAT.seed = 0;
             DAT.seeddir = 1; 
             DAT.xloc = []; DAT.yloc = []; DAT.zloc = [];
-            DAT.maxval = 0;
+            DAT.maxval = 0; DAT.minval = 0;
             DAT.state = 'Start'; 
             DAT.panelobs = gobjects(0);
             DAT.roicreatesel = 2;
@@ -33,11 +33,13 @@ classdef RoiSeedClass < handle
             if isempty(IMAGEANLZ.FullContrast)
                 DAT.maxval = 100;
             else
-                DAT.maxval = round(IMAGEANLZ.FullContrast,2,'significant');
+                %DAT.maxval = round(IMAGEANLZ.FullContrast,2,'significant');
+                DAT.minval = round(IMAGEANLZ.MinContrastMin,2,'significant');
+                DAT.maxval = round(IMAGEANLZ.MaxContrastMax,2,'significant');
             end
             DAT.seed = round(DAT.maxval/2,2,'significant');
             DAT.panelobs = uicontrol('Parent',IMAGEANLZ.FIGOBJS.ROITab,'Style','text','Tag',num2str(IMAGEANLZ.axnum),'BackgroundColor',IMAGEANLZ.FIGOBJS.Colours.BGcolour,'ForegroundColor',[0.8 0.8 0.8],'String','Seed Value','HorizontalAlignment','right','Fontsize',7,'Units','normalized','Position',[horz+0.05 0.39 0.07 0.14],'Enable','inactive','ButtonDownFcn',@ResetFocus);
-            DAT.panelobs(2) = uicontrol('Parent',IMAGEANLZ.FIGOBJS.ROITab,'Style','slider','Tag',num2str(IMAGEANLZ.axnum),'BackgroundColor',[0.8 0.8 0.8],'ForegroundColor',IMAGEANLZ.FIGOBJS.Colours.BGcolour,'Units','normalized','Position',[horz+0.13 0.4 0.25 0.14],'Value',DAT.seed,'SliderStep',[0.01 0.1],'Max',DAT.maxval,'CallBack',@DAT.SetSeedSlider);    
+            DAT.panelobs(2) = uicontrol('Parent',IMAGEANLZ.FIGOBJS.ROITab,'Style','slider','Tag',num2str(IMAGEANLZ.axnum),'BackgroundColor',[0.8 0.8 0.8],'ForegroundColor',IMAGEANLZ.FIGOBJS.Colours.BGcolour,'Units','normalized','Position',[horz+0.13 0.4 0.25 0.14],'Value',DAT.seed,'SliderStep',[0.01 0.1],'Min',DAT.minval,'Max',DAT.maxval,'CallBack',@DAT.SetSeedSlider);    
             DAT.panelobs(3) = uicontrol('Parent',IMAGEANLZ.FIGOBJS.ROITab,'Style','edit','Tag',num2str(IMAGEANLZ.axnum),'BackgroundColor',IMAGEANLZ.FIGOBJS.Colours.BGcolour,'ForegroundColor',[0.8 0.8 0.8],'String',num2str(DAT.seed),'HorizontalAlignment','left','Fontsize',6,'FontWeight','Bold','Enable','on','Units','normalized','Position',[horz+0.39 0.4 0.04 0.14],'CallBack',@DAT.SetSeedEdit,'KeyPressFcn',@DAT.IndSeedEdit);    
             DAT.panelobs(4) = uicontrol('Parent',IMAGEANLZ.FIGOBJS.ROITab,'Style','popupmenu','Tag',num2str(IMAGEANLZ.axnum),'BackgroundColor',IMAGEANLZ.FIGOBJS.Colours.BGcolour,'ForegroundColor',[0.8 0.8 0.8],'String',{'Above','Below'},'Fontsize',6,'Enable','on','Units','normalized','Position',[horz+0.44 0.4 0.07 0.14],'CallBack',@DAT.SetSeedDir,'Enable','on'); 
             DAT.status = 'Seed Drawing Tool Active';
@@ -96,6 +98,9 @@ classdef RoiSeedClass < handle
             DAT.seed = round(str2double(src.String),3,'significant');
             if DAT.seed > DAT.maxval
                 DAT.seed = DAT.maxval;
+            end
+            if DAT.seed < DAT.minval
+                DAT.seed = DAT.minval;
             end
             DAT.panelobs(3).String = num2str(DAT.seed);
             DAT.panelobs(2).Value = DAT.seed;

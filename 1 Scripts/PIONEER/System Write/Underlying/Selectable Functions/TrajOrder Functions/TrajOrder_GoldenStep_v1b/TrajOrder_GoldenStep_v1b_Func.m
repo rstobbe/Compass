@@ -59,6 +59,11 @@ TORD.projsampscnr = projsampscnr.';
 TORD.trajpersweep = [];
 TORD.timesegmentpossible = 'Yes';
 TORD.images = [];
+if isfield(IMP.PSMP,'azireconosampfact')
+    TORD.SdcOverSamp = IMP.PSMP.azireconosampfact*IMP.PSMP.polreconosampfact;
+else
+    TORD.SdcOverSamp = 1;
+end
 
 %--------------------------------------------
 % Panel

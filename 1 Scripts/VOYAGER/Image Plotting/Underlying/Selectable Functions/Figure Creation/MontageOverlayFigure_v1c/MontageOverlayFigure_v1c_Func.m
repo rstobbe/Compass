@@ -36,7 +36,8 @@ elseif sz(4) == 2
     Im1 = squeeze(Image(:,:,:,1));
     Im2 = squeeze(Image(:,:,:,2));
 else
-    error
+    Im1 = squeeze(Image(:,:,:,1));
+    Im2 = squeeze(Image(:,:,:,end));
 end
 
 %----------------------------------------------

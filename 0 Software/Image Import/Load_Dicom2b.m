@@ -134,6 +134,8 @@ if isfield(dinfo,'InversionTime')
     m = m+1; 
 end
 Panel(m,:) = {'PixelBandwidth',dinfo.PixelBandwidth,'Output'};
+m = m+1;
+Panel(m,:) = {'Coil',dinfo.Private_0051_100f,'Output'};
 PanelOutput = cell2struct(Panel,{'label','value','type'},2);
 
 IMG.Im = Im;

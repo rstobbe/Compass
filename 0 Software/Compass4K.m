@@ -781,7 +781,8 @@ end
 %================================================================
 %load('mycolormap3','mycmap');
 %FIGOBJS.Options.ColorMap = mycmap;
-load('ColorMap5','mycolormap');
+%load('ColorMap5','mycolormap');
+load('ColorMap4','mycolormap');
 FIGOBJS.Options.ColorMap = mycolormap;
 cmap = linspace(0,1,256);
 FIGOBJS.Options.GrayMap = [cmap.' cmap.' cmap.'];

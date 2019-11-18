@@ -87,17 +87,35 @@ else
 end
 
 %---------------------------------------------
+% Fix Array Dimensions
+%---------------------------------------------
+sz = size(Im);
+if length(sz) == 4
+    Im0 = Im;
+    Im = zeros(sz(1:3));
+    if sz(4) == 2
+        Im(:,:,:,:,:,1) = Im0(:,:,:,1);
+        Im(:,:,:,:,:,2) = Im0(:,:,:,2);
+    else
+        err.flag = 1;
+        err.msg = 'Two images are necessary';
+        return
+    end
+end
+    
+%---------------------------------------------
 % Create Base Image for Display
 %---------------------------------------------
-func = str2func([B0MAP.baseimfunc,'_Func']);  
-INPUT.Im = Im;
-INPUT.ExpPars = ExpPars;
-[BASE,err] = func(BASE,INPUT);
-if err.flag
-    return
-end
-clear INPUT;
-BaseIm = BASE.Im;
+% func = str2func([B0MAP.baseimfunc,'_Func']);  
+% INPUT.Im = Im;
+% INPUT.ExpPars = ExpPars;
+% [BASE,err] = func(BASE,INPUT);
+% if err.flag
+%     return
+% end
+% clear INPUT;
+% BaseIm = BASE.Im;
+BaseIm = abs(Im(:,:,:,:,:,1));
 
 %---------------------------------------------
 % Relaxation Map

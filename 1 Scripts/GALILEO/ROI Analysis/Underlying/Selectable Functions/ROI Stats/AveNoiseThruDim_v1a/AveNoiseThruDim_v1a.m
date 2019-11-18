@@ -1,24 +1,21 @@
 %=========================================================
-% (v1a)
-%   
+% (v1a) 
+%      
 %=========================================================
 
-function [SCRPTipt,PDGM,err] = FmriSlopeCorrect_v1b(SCRPTipt,PDGMipt)
+function [SCRPTipt,ROIARR,err] = AveNoiseThruDim_v1a(SCRPTipt,ROIARRipt)
 
-Status2('busy','FMRI Slope',2);
+Status2('busy','Roi Noise Through Dimension',2);
 Status2('done','',3);
 
 err.flag = 0;
 err.msg = '';
 
 %---------------------------------------------
-% Return Input
+% Return Panel Input
 %---------------------------------------------
-PDGM.method = PDGMipt.Func;
-PDGM.RelOffset = str2double(PDGMipt.('RelOffset'));
-PDGM.RelSlope = str2double(PDGMipt.('RelSlope'));
-PDGM.RefMean = str2double(PDGMipt.('RefMean'));
+ROIARR.method = ROIARRipt.Func;
+ROIARR.distribution = ROIARRipt.('Distribution');
 
 Status2('done','',2);
 Status2('done','',3);
-

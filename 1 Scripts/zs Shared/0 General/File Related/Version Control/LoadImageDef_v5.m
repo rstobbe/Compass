@@ -109,9 +109,9 @@ if not(strcmp(defaultfunc,'Display'))
     SCRPTipt(SCRPTGBL.RWSUI.curpanipt).entrystr = label;
     SCRPTipt(SCRPTGBL.RWSUI.curpanipt).entrystruct.entrystr = label;
     SCRPTipt(SCRPTGBL.RWSUI.curpanipt).entrystruct.altval = 1;
-    if not(isfield(SCRPTipt(SCRPTGBL.RWSUI.curpanipt).entrystruct,'display'))
+    %if not(isfield(SCRPTipt(SCRPTGBL.RWSUI.curpanipt).entrystruct,'display'))                      % comment for 'load from global'
         SCRPTipt(SCRPTGBL.RWSUI.curpanipt).entrystruct.display = saveData.IMG.ExpDisp;
-    end
+    %end
     SCRPTipt(SCRPTGBL.RWSUI.curpanipt).entrystruct.selectedfile = [path,file];
     SCRPTipt(SCRPTGBL.RWSUI.curpanipt).entrystruct.('LoadImageCur').curloc = path;
     SCRPTPATHS.(tab)(SCRPTGBL.RWSUI.panelnum).outloc = path;
