@@ -101,25 +101,25 @@ GSYSMOD.modelfunc = SCRPTGBL.CurrentTree.('Modelfunc').Func;
 % Get Trajectory Design
 %---------------------------------------------
 test = SCRPTGBL.FieldEvoX_File_Data;
-if isfield(test,'MFEVO');
+if isfield(test,'MFEVO')
     MFEVOX = SCRPTGBL.FieldEvoX_File_Data.MFEVO;
-elseif isfield(test,'RWS');
+elseif isfield(test,'RWS')
     MFEVOX = SCRPTGBL.FieldEvoX_File_Data.RWS;
 else
     error
 end
 test = SCRPTGBL.FieldEvoY_File_Data;
-if isfield(test,'MFEVO');
+if isfield(test,'MFEVO')
     MFEVOY = SCRPTGBL.FieldEvoY_File_Data.MFEVO;
-elseif isfield(test,'RWS');
+elseif isfield(test,'RWS')
     MFEVOY = SCRPTGBL.FieldEvoY_File_Data.RWS;
 else
     error
 end
 test = SCRPTGBL.FieldEvoZ_File_Data;
-if isfield(test,'MFEVO');
+if isfield(test,'MFEVO')
     MFEVOZ = SCRPTGBL.FieldEvoZ_File_Data.MFEVO;
-elseif isfield(test,'RWS');
+elseif isfield(test,'RWS')
     MFEVOZ = SCRPTGBL.FieldEvoZ_File_Data.RWS;
 else
     error
@@ -162,22 +162,55 @@ global FIGOBJS
 FIGOBJS.(SCRPTGBL.RWSUI.tab).Info.String = GSYSMOD.ExpDisp;
 
 %--------------------------------------------
-% Return
+% Determine if AutoSave
 %--------------------------------------------
-name = inputdlg('Name System Model:');
-if isempty(name)
-    SCRPTGBL.RWSUI.SaveGlobal = 'no';
-    return
+auto = 0;
+RWSUI = SCRPTGBL.RWSUI;
+if isfield(RWSUI,'ExtRunInfo')
+    auto = 1;
+    if strcmp(RWSUI.ExtRunInfo.save,'no')
+        SCRPTGBL.RWSUI.SaveScript = 'no';
+        SCRPTGBL.RWSUI.SaveGlobal = 'no';
+    elseif strcmp(RWSUI.ExtRunInfo.save,'all')
+        SCRPTGBL.RWSUI.SaveScript = 'yes';
+        SCRPTGBL.RWSUI.SaveGlobal = 'yes';
+    elseif strcmp(RWSUI.ExtRunInfo.save,'global')
+        SCRPTGBL.RWSUI.SaveScript = 'no';
+        SCRPTGBL.RWSUI.SaveGlobal = 'yes';
+    end
+    name = ['FieldEvo_',RWSUI.ExtRunInfo.name];
+else
+    SCRPTGBL.RWSUI.SaveScriptOption = 'yes';
+    SCRPTGBL.RWSUI.SaveGlobal = 'yes';
 end
-SCRPTipt(indnum).entrystr = cell2mat(name);
 
-SCRPTGBL.RWSUI.SaveVariables = {GSYSMOD};
-SCRPTGBL.RWSUI.SaveVariableNames = {'GSYSMOD'};
-SCRPTGBL.RWSUI.SaveGlobal = 'yes';
-SCRPTGBL.RWSUI.SaveGlobalNames = name;
-SCRPTGBL.RWSUI.SaveScriptOption = 'yes';
-SCRPTGBL.RWSUI.SaveScriptPath = 'outloc';
-SCRPTGBL.RWSUI.SaveScriptName = name{1};
+%--------------------------------------------
+% Name
+%--------------------------------------------
+if auto == 0
+    name = inputdlg('Name Analysis:','Name Analysis',1,{['SysRespFIR_']});
+    name = cell2mat(name);
+    if isempty(name)
+        SCRPTGBL.RWSUI.SaveVariables = GSYSMOD;
+        SCRPTGBL.RWSUI.KeepEdit = 'yes';
+        return
+    end
+end
 
+GSYSMOD.path = MFEVOX.path;
+GSYSMOD.name = name;
+GSYSMOD.type = 'Analysis';   
 
+%---------------------------------------------
+% Return
+%---------------------------------------------
+SCRPTipt(indnum).entrystr = GSYSMOD.name;
+SCRPTGBL.RWSUI.SaveVariables = GSYSMOD;
+SCRPTGBL.RWSUI.SaveVariableNames = 'GSYSMOD';
+SCRPTGBL.RWSUI.SaveGlobalNames = GSYSMOD.name;
+SCRPTGBL.RWSUI.SaveScriptPath = GSYSMOD.path;
+SCRPTGBL.RWSUI.SaveScriptName = GSYSMOD.name;
 
+Status('done','');
+Status2('done','',2);
+Status2('done','',3);

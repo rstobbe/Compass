@@ -31,6 +31,7 @@ for n = 1:3
         err.msg = 'Get gradient directions right';
         return
     end
+    INPUT.Number = n;
     INPUT.MFEVO = MFEVO{n};
     [MOD,err] = func(MOD,INPUT);
     if err.flag
@@ -44,6 +45,13 @@ for n = 1:3
     regressiondelay(n) = MOD.regressiondelay;
     efftrajdel(n) = MOD.efftrajdel; 
     dwell(n) = MOD.dwell;
+end
+
+%----------------------------------------------------
+% Save Figures
+%----------------------------------------------------
+if isfield(MOD,'Figure')
+    GSYSMOD.Figure = MOD.Figure;
 end
 
 if round(dwell(1)*1e6) == round(dwell(2)*1e6) && round(dwell(2)*1e6) == round(dwell(3)*1e6)

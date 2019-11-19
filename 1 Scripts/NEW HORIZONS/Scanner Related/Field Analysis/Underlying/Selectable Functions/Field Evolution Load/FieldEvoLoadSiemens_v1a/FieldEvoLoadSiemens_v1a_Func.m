@@ -61,9 +61,10 @@ for n = 1:2
         case 3
            dir = 'Z';
     end
-    GradName{n} = [type,num2str(test{4}),dir];
+    GradImpName{n} = ['IMP_',type,num2str(test{4}),dir];
     GradFile{n} = ['SysTest_',type,num2str(test{4}),dir];
-
+    GradName{n} = [type,num2str(test{4}),dir];
+    
     %---------------------------------------------
     % Determine In/Out
     %---------------------------------------------
@@ -92,9 +93,9 @@ if not(strcmp(GradFile{1},GradFile{2}))
     return
 end
 
-if not(strcmp(AcqName,GradName{1}))
+if not(strcmp(AcqName,GradImpName{1}))
     err.flag = 1;
-    err.msg = ['''SysTest_Imp'' should be ',GradName{1}];
+    err.msg = ['''SysTest_Imp'' should be ',GradImpName{1}];
     return
 end
 
@@ -159,7 +160,7 @@ FEVOL.TF_Fid2 = TF_Fid{2};
 FEVOL.TF_Params = TF_Params;
 FEVOL.DataInfo = DataInfo;
 FEVOL.MrProt = MrProt;
-FEVOL.GradFile = GradFile{1};
+FEVOL.GradFile = GradName{1};
 
 %---------------------------------------------
 % Panel Output

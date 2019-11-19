@@ -4,7 +4,7 @@
 %       - All Data Loading Moved to Separate Function
 %====================================================
 
-function [SCRPTipt,SCRPTGBL,err] = MagFieldEvolution_v1d(SCRPTipt,SCRPTGBL)
+function [SCRPTipt,SCRPTGBL,err] = Meas_MagFieldEvolution_v1d(SCRPTipt,SCRPTGBL)
 
 Status('busy','Calculate Magnetic Field Evolution');
 Status2('done','',2);
@@ -97,46 +97,52 @@ FIGOBJS.(SCRPTGBL.RWSUI.tab).Info.String = MFEVO.ExpDisp;
 %--------------------------------------------
 % Determine if AutoSave
 %--------------------------------------------
-global TOTALGBL
-val = get(findobj('tag','totalgbl'),'value');
 auto = 0;
-if not(isempty(val)) && val ~= 0
-    Gbl = TOTALGBL{2,val};
-    if isfield(Gbl,'AutoRecon')
-        if strcmp(Gbl.AutoSave,'yes')
-            auto = 1;
-            SCRPTGBL.RWSUI.SaveScript = 'yes';
-            name = Gbl.SaveName;
-        end
+RWSUI = SCRPTGBL.RWSUI;
+if isfield(RWSUI,'ExtRunInfo')
+    auto = 1;
+    if strcmp(RWSUI.ExtRunInfo.save,'no')
+        SCRPTGBL.RWSUI.SaveScript = 'no';
+        SCRPTGBL.RWSUI.SaveGlobal = 'no';
+    elseif strcmp(RWSUI.ExtRunInfo.save,'all')
+        SCRPTGBL.RWSUI.SaveScript = 'yes';
+        SCRPTGBL.RWSUI.SaveGlobal = 'yes';
+    elseif strcmp(RWSUI.ExtRunInfo.save,'global')
+        SCRPTGBL.RWSUI.SaveScript = 'no';
+        SCRPTGBL.RWSUI.SaveGlobal = 'yes';
     end
+    name = ['FieldEvo_',RWSUI.ExtRunInfo.name];
+else
+    SCRPTGBL.RWSUI.SaveScriptOption = 'yes';
+    SCRPTGBL.RWSUI.SaveGlobal = 'yes';
 end
 
 %--------------------------------------------
 % Name
 %--------------------------------------------
-if auto == 0;
-    name = inputdlg('Name Analysis:');
+if auto == 0
+    name = inputdlg('Name Analysis:','Name Analysis',1,{['FieldEvo_',MFEVO.FEVOL.GradFile]});
     name = cell2mat(name);
     if isempty(name)
-        SCRPTGBL.RWSUI.SaveVariables = {MFEVO};
+        SCRPTGBL.RWSUI.SaveVariables = MFEVO;
         SCRPTGBL.RWSUI.KeepEdit = 'yes';
         return
     end
 end
+
+MFEVO.path = FEVOL.path;
 MFEVO.name = name;
 MFEVO.type = 'Analysis';   
 
 %---------------------------------------------
 % Return
 %---------------------------------------------
-SCRPTipt(indnum).entrystr = name;
-SCRPTGBL.RWSUI.SaveVariables = {MFEVO};
-SCRPTGBL.RWSUI.SaveVariableNames = {'MFEVO'};
-SCRPTGBL.RWSUI.SaveGlobal = 'yes';
-SCRPTGBL.RWSUI.SaveGlobalNames = name;
-SCRPTGBL.RWSUI.SaveScriptOption = 'yes';
-SCRPTGBL.RWSUI.SaveScriptPath = 'outloc';
-SCRPTGBL.RWSUI.SaveScriptName = name;
+SCRPTipt(indnum).entrystr = MFEVO.name;
+SCRPTGBL.RWSUI.SaveVariables = MFEVO;
+SCRPTGBL.RWSUI.SaveVariableNames = 'MFEVO';
+SCRPTGBL.RWSUI.SaveGlobalNames = MFEVO.name;
+SCRPTGBL.RWSUI.SaveScriptPath = MFEVO.path;
+SCRPTGBL.RWSUI.SaveScriptName = MFEVO.name;
 
 Status('done','');
 Status2('done','',2);

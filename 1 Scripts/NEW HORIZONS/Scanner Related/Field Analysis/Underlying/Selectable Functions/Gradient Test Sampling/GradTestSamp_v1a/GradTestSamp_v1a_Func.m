@@ -22,4 +22,10 @@ IMP.PROJimp.os = GTSAMP.os;
 
 GTSAMP.IMP = IMP;
 
+Panel(1,:) = {'Method',GTSAMP.method,'Output'};
+Panel(2,:) = {'Dwell',GTSAMP.dwell,'Output'};
+Panel(3,:) = {'Tro',GTSAMP.tro,'Output'};
+PanelOutput = cell2struct(Panel,{'label','value','type'},2);
+GTSAMP.PanelOutput = PanelOutput;
+
 Status2('done','',3);

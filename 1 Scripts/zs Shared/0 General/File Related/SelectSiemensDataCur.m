@@ -7,7 +7,7 @@ function [SCRPTipt,SCRPTGBL,err] = SelectSiemensDataCur(SCRPTipt,SCRPTGBL)
 INPUT.Extension = '.dat';
 INPUT.CurFunc = 'SelectSiemensDataCur';
 INPUT.DropExt = 'Yes';
-INPUT.Type = 'ScanData';
+INPUT.Type = 'TestData';
 INPUT.AssignPath = 'Yes';
 [SCRPTipt,SCRPTGBL,saveData,err] = SelectGeneralFileCur_v5(SCRPTipt,SCRPTGBL,INPUT);
 

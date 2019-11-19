@@ -41,6 +41,14 @@ if err.flag
 end
 clear INPUT
 
+%----------------------------------------------------
+% Save Figures
+%----------------------------------------------------
+if isfield(POSBG,'Figure')
+    MFEVO.Figure = POSBG.Figure;
+    POSBG = rmfield(POSBG,'Figure');
+end
+
 %-----------------------------------------------------
 % Determine Transient Fields
 %-----------------------------------------------------
@@ -52,6 +60,14 @@ if err.flag
     return
 end
 clear INPUT
+
+%----------------------------------------------------
+% Save Figures
+%----------------------------------------------------
+if isfield(TF,'Figure')
+    MFEVO.Figure = [MFEVO.Figure TF.Figure];
+    TF = rmfield(TF,'Figure');
+end
 
 %-----------------------------------------------------
 % Display Experiment Parameters

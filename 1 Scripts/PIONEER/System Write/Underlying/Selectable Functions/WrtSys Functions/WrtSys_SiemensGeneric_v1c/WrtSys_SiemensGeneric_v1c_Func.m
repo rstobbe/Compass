@@ -42,6 +42,7 @@ if err.flag
 end
 clear INPUT
 SYSWRT.name = PRMWRT.name;
+SYSWRT.path = PRMWRT.path;
 
 if not(strcmp(recononly,'Yes'))
     %---------------------------------------------

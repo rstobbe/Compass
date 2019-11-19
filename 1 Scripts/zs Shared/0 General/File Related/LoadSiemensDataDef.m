@@ -2,7 +2,7 @@
 % 
 %=========================================================
 
-function [SCRPTipt,SCRPTGBL,err] = SelectSiemensDataDef(SCRPTipt,SCRPTGBL)
+function [SCRPTipt,SCRPTGBL,err] = LoadSiemensDataDef(SCRPTipt,SCRPTGBL)
 
 INPUT.Extension = '.dat';
 INPUT.CurFunc = 'SelectSiemensDataCur';

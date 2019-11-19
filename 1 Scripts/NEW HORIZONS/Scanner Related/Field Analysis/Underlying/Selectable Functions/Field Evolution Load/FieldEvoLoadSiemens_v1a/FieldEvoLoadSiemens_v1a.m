@@ -86,6 +86,7 @@ FEVOL.method = FEVOLipt.Func;
 FEVOL.File_Pos1 = FEVOLipt.([CallingLabel,'_Data']).('File_Pos1_Data').loc;
 FEVOL.File_Pos2 = FEVOLipt.([CallingLabel,'_Data']).('File_Pos2_Data').loc;
 FEVOL.SysTest = FEVOLipt.([CallingLabel,'_Data']).('SysTest_Imp_Data');
+FEVOL.path = FEVOLipt.([CallingLabel,'_Data']).('File_Pos2_Data').path;
 
 Status2('done','',2);
 Status2('done','',3);
