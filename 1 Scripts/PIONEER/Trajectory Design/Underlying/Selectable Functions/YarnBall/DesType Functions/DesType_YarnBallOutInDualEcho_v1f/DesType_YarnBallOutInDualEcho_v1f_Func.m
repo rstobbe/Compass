@@ -139,6 +139,7 @@ elseif strcmp(Func,'GenerateOut')
     INPUT.theta0 = PSMP.theta;
     INPUT.dir = 1;
     INPUT.DESTYPE = DESTYPE;
+    INPUT.PROJdgn = PROJdgn;
     [GENPRJ,err] = func(GENPRJ,INPUT);
     if err.flag
         return
