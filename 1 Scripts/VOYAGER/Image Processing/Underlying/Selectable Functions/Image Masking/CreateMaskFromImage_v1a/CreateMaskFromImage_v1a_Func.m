@@ -36,9 +36,9 @@ Panel(1,:) = {'','','Output'};
 Panel(2,:) = {'',MASKTOP.method,'Output'};
 PanelOutput = cell2struct(Panel,{'label','value','type'},2);
 if isfield(IMG,'PanelOutput')
-    IMG.PanelOutput = [IMG.PanelOutput;PanelOutput];
+    IMG.PanelOutput = [IMG.PanelOutput;PanelOutput;MASK.PanelOutput];
 else
-    IMG.PanelOutput = PanelOutput;
+    IMG.PanelOutput = [PanelOutput;MASK.PanelOutput];
 end
 IMG.ExpDisp = PanelStruct2Text(IMG.PanelOutput);
 IMG.IMDISP.ImInfo.info = IMG.ExpDisp;

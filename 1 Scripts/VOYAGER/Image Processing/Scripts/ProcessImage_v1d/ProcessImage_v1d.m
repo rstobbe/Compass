@@ -87,6 +87,9 @@ if err.flag
     return
 end
 IMG = PROCIMG.IMG;
+if isempty(IMG)
+    return
+end
 
 %--------------------------------------------
 % Output to TextBox
@@ -102,7 +105,6 @@ end
 if strcmp(PROCIMG.saveoption,'No')
     return
 end
-
 
 %--------------------------------------------
 % Determine if AutoSave

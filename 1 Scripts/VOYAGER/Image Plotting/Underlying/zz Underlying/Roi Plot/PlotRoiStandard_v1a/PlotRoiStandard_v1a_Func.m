@@ -35,8 +35,19 @@ clear INPUT
 %---------------------------------------------
 clr = 'rbgcm';
 for n = 1:length(ROIarr)
-    for m = 1:length(MSTRCT.SliceArray)
-        ROIarr(n).OutsideOffsetsDrawROI(MSTRCT.Vadd(m),MSTRCT.Hadd(m),MSTRCT.SliceArray(m),MSTRCT.ahand,clr(n));
+    if strcmp(ROIarr(n).drawroiorient,'Coronal')
+        SliceArray0 = MSTRCT.SliceArray;
+        SliceArray1 = SliceArray0(SliceArray0 ~= 0);
+        SliceArray1 = flip(SliceArray1);
+        SliceArray = zeros(size(SliceArray0));
+        numzeros = length(SliceArray0) - length(SliceArray1);
+        SliceArray(1:end-numzeros) = SliceArray1;
+    elseif strcmp(ROIarr(n).drawroiorient,'Sagittal')
+    elseif strcmp(ROIarr(n).drawroiorient,'Axial') 
+        SliceArray = MSTRCT.SliceArray;
+    end
+    for m = 1:length(SliceArray)
+        ROIarr(n).OutsideOffsetsDrawROI(MSTRCT.Vadd(m),MSTRCT.Hadd(m),SliceArray(m),MSTRCT.ahand,clr(n));
     end
 end
 

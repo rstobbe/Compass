@@ -14,6 +14,7 @@ err.msg = '';
 %---------------------------------------------
 % Return Panel Input
 %---------------------------------------------
+POSBG.method = POSBGipt.Func;
 POSBG.plstart = str2double(POSBGipt.PLstart);
 POSBG.plstop = str2double(POSBGipt.PLstop);
 POSBG.bgstart = str2double(POSBGipt.BGstart);

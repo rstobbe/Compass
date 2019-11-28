@@ -374,8 +374,9 @@ classdef ImageAnlzClass < handle
             IMAGEANLZ.FIGOBJS.ShowOrtho.Enable = 'on'; 
         end
         % SetOrient
-        function SetOrient(IMAGEANLZ,orient)
+        function SetOrient(IMAGEANLZ,orient,val)
             IMAGEANLZ.ORIENT = orient;
+            IMAGEANLZ.FIGOBJS.Orientation.Value = val;
         end  
         
 %==================================================================
@@ -556,6 +557,7 @@ classdef ImageAnlzClass < handle
                     IMAGEANLZ.FullContrast = abs(IMAGEANLZ.MaxContrastMax);
                 end
                 IMAGEANLZ.FIGOBJS.ContrastMax.Min = IMAGEANLZ.MinContrastMin/IMAGEANLZ.FullContrast;
+                IMAGEANLZ.FIGOBJS.ContrastMin.Value = IMAGEANLZ.MinContrastCurrent/IMAGEANLZ.FullContrast;
                 IMAGEANLZ.FIGOBJS.ContrastMin.Min = IMAGEANLZ.MinContrastMin/IMAGEANLZ.FullContrast;
                 IMAGEANLZ.RelContrast(1) = IMAGEANLZ.MinContrastCurrent/IMAGEANLZ.FullContrast;
                 IMAGEANLZ.RelContrast(2) = IMAGEANLZ.MaxContrastCurrent/IMAGEANLZ.FullContrast;
@@ -1052,7 +1054,7 @@ classdef ImageAnlzClass < handle
         end
         % Add2CurrentROI
         function Add2CurrentROI(IMAGEANLZ,TEMPROI)
-            IMAGEANLZ.CURRENTROI.Concatenate(TEMPROI,IMAGEANLZ.roievent);
+            IMAGEANLZ.CURRENTROI.Concatenate(TEMPROI,IMAGEANLZ.roievent,IMAGEANLZ.ORIENT);
             if IMAGEANLZ.shaderoi || IMAGEANLZ.autoupdateroi
                 IMAGEANLZ.CURRENTROI.AddROIMask;
             end
@@ -1090,9 +1092,9 @@ classdef ImageAnlzClass < handle
                 return
             end
             if IMAGEANLZ.linesroi
-                if strcmp(IMAGEANLZ.ORIENT,IMAGEANLZ.CURRENTROI.drawroiorient)
+                %if strcmp(IMAGEANLZ.ORIENT,IMAGEANLZ.CURRENTROI.drawroiorient)
                     IMAGEANLZ.CURRENTROI.DrawROI(IMAGEANLZ,axhand,[1 0 0],0);
-                end
+                %end
             end
             if IMAGEANLZ.shaderoi
                 IMAGEANLZ.CURRENTROI.ShadeROI(IMAGEANLZ,axhand,[1 0 0],IMAGEANLZ.shaderoivalue);

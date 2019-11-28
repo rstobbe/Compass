@@ -16,9 +16,9 @@ if not(IMAGEANLZ.(tab)(axnum).TestAxisActive)
     return
 end
 
-if not(isempty(IMAGEANLZ.(tab)(axnum).buttonfunction))
-    error;          % shouldn't get here
-end
+% if not(isempty(IMAGEANLZ.(tab)(axnum).buttonfunction))
+%     error;          % shouldn't get here
+% end
 
   
 %------------------------------------------
@@ -33,7 +33,7 @@ if strcmp(IMAGEANLZ.(tab)(axnum).presentation,'Standard')
         stop = axnum;
     end
     for r = start:stop    
-        IMAGEANLZ.(tab)(r).SetOrient(src.String{src.Value});
+        IMAGEANLZ.(tab)(r).SetOrient(src.String{src.Value},src.Value);
     end
 elseif strcmp(IMAGEANLZ.(tab)(axnum).presentation,'Ortho')
     InitializeOrthoPresentation(tab)

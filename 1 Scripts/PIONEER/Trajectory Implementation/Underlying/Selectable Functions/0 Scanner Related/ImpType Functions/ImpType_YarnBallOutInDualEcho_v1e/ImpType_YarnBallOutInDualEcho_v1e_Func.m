@@ -166,6 +166,7 @@ elseif strcmp(Func,'GenerateFull')
     INPUT.theta0 = PSMP.theta;
     INPUT.dir = 1;
     INPUT.DESTYPE = IMPTYPE;
+    INPUT.PROJdgn = PROJdgn;
     [GENPRJ,err] = func(GENPRJ,INPUT);
     if err.flag
         return
@@ -196,6 +197,7 @@ elseif strcmp(Func,'GenerateFull')
     INPUT.theta0 = GENPRJ.EndVals(:,3);
     INPUT.dir = -1;
     INPUT.DESTYPE = IMPTYPE;
+    INPUT.PROJdgn = PROJdgn;
     [GENPRJ,err] = func(GENPRJ,INPUT);
     if err.flag
         return

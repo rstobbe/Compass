@@ -80,7 +80,7 @@ INPUT.numberslices = 1;
 INPUT.usencolumns = 1;
 INPUT.Image = cat(4,Cube,Im);
 INPUT.MSTRCT.ImInfo = IMDISP.ImInfo;
-[MCHRS,err] = DefaultMontageChars_v1a(INPUT);
+[MCHRS,err] = DefaultMontageChars_v1b(INPUT);
 if err.flag
     return
 end
@@ -180,6 +180,16 @@ end
 setfunc = 1;
 DispScriptParam(SCRPTipt,setfunc,SCRPTGBL.RWSUI.tab,SCRPTGBL.RWSUI.panelnum);
 MASK.SCRPTipt = SCRPTipt;
+
+%---------------------------------------------
+% Panel Output
+%--------------------------------------------- 
+Panel(1,:) = {'',MASK.method,'Output'};
+Panel(2,:) = {'Direction',direction,'Output'};
+Panel(3,:) = {'Width (mm)',MASK.width,'Output'};
+Panel(4,:) = {'Displace (mm)',MASK.displace,'Output'};
+PanelOutput = cell2struct(Panel,{'label','value','type'},2);
+MASK.PanelOutput = PanelOutput;
 
 Status2('done','',2);
 Status2('done','',3);

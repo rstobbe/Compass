@@ -29,6 +29,8 @@ if LoadAll == 1 || not(isfield(FEVOLipt.([CallingLabel,'_Data']),'File_Pos1_Data
             return
         else
             FEVOLipt.([CallingLabel,'_Data']).('File_Pos1_Data').loc = file;
+            FEVOLipt.([CallingLabel,'_Data']).('File_Pos1_Data').path = FEVOLipt.('File_Pos1').Struct.selectedpath;
+            FEVOLipt.([CallingLabel,'_Data']).('File_Pos1_Data').file = FEVOLipt.('File_Pos1').Struct.filename;
         end
     else
         err.flag = 1;
@@ -47,6 +49,8 @@ if LoadAll == 1 || not(isfield(FEVOLipt.([CallingLabel,'_Data']),'File_Pos2_Data
             return
         else
             FEVOLipt.([CallingLabel,'_Data']).('File_Pos2_Data').loc = file;
+            FEVOLipt.([CallingLabel,'_Data']).('File_Pos2_Data').path = FEVOLipt.('File_Pos2').Struct.selectedpath;
+            FEVOLipt.([CallingLabel,'_Data']).('File_Pos2_Data').file = FEVOLipt.('File_Pos2').Struct.filename;
         end
     else
         err.flag = 1;
@@ -67,7 +71,8 @@ if LoadAll == 1 || not(isfield(FEVOLipt.([CallingLabel,'_Data']),'SysTest_Imp_Da
             else
                 Status2('busy','Load SysTest Data',2);
                 load(file);
-                saveData.path = file;
+                saveData.path = FEVOLipt.('SysTest_Imp').Struct.selectedpath;
+                saveData.IMP.name = FEVOLipt.('SysTest_Imp').Struct.filename;
                 FEVOLipt.([CallingLabel,'_Data']).('SysTest_Imp_Data') = saveData;
             end
         else
@@ -83,8 +88,10 @@ end
 % Return Panel Input
 %---------------------------------------------
 FEVOL.method = FEVOLipt.Func;
-FEVOL.File_Pos1 = FEVOLipt.([CallingLabel,'_Data']).('File_Pos1_Data').loc;
-FEVOL.File_Pos2 = FEVOLipt.([CallingLabel,'_Data']).('File_Pos2_Data').loc;
+FEVOL.File_Pos1.loc = FEVOLipt.([CallingLabel,'_Data']).('File_Pos1_Data').loc;
+FEVOL.File_Pos2.loc = FEVOLipt.([CallingLabel,'_Data']).('File_Pos2_Data').loc;
+FEVOL.File_Pos1.name = FEVOLipt.([CallingLabel,'_Data']).('File_Pos1_Data').file;
+FEVOL.File_Pos2.name = FEVOLipt.([CallingLabel,'_Data']).('File_Pos2_Data').file;
 FEVOL.SysTest = FEVOLipt.([CallingLabel,'_Data']).('SysTest_Imp_Data');
 FEVOL.path = FEVOLipt.([CallingLabel,'_Data']).('File_Pos2_Data').path;
 

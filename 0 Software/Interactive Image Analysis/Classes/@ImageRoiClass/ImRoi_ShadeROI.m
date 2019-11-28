@@ -17,32 +17,42 @@ if ischar(clr)
     end
 end
 
-if strcmp(IMAGEROI.drawroiorient,'Axial')
-    if strcmp(IMAGEANLZ.ORIENT,'Axial');
+if isprop(IMAGEROI,'drawroiorientarray')
+    if length(IMAGEROI.drawroiorientarray) == 0
+        tempdrawroiorient = IMAGEROI.drawroiorient;
+    else
+        tempdrawroiorient = 'Axial';
+    end
+else
+    tempdrawroiorient = IMAGEROI.drawroiorient;
+end
+
+if strcmp(tempdrawroiorient,'Axial')
+    if strcmp(IMAGEANLZ.ORIENT,'Axial')
         roimask = IMAGEROI.roimask;
-    elseif strcmp(IMAGEANLZ.ORIENT,'Sagittal');
+    elseif strcmp(IMAGEANLZ.ORIENT,'Sagittal')
         roimask = squeeze(permute(IMAGEROI.roimask,[3 1 2]));
         roimask = flip(roimask,1);
-    elseif strcmp(IMAGEANLZ.ORIENT,'Coronal');
+    elseif strcmp(IMAGEANLZ.ORIENT,'Coronal')
         roimask = squeeze(permute(IMAGEROI.roimask,[3 2 1]));
         roimask = flip(roimask,1);
     end
-elseif strcmp(IMAGEROI.drawroiorient,'Sagittal')
-    if strcmp(IMAGEANLZ.ORIENT,'Axial');
+elseif strcmp(tempdrawroiorient,'Sagittal')
+    if strcmp(IMAGEANLZ.ORIENT,'Axial')
         roimask = squeeze(permute(IMAGEROI.roimask,[2 3 1]));
         roimask = flip(roimask,3);        
-    elseif strcmp(IMAGEANLZ.ORIENT,'Sagittal');
+    elseif strcmp(IMAGEANLZ.ORIENT,'Sagittal')
         roimask = IMAGEROI.roimask;
-    elseif strcmp(IMAGEANLZ.ORIENT,'Coronal');
+    elseif strcmp(IMAGEANLZ.ORIENT,'Coronal')
         roimask = squeeze(permute(IMAGEROI.roimask,[1 3 2]));
     end
-elseif strcmp(IMAGEROI.drawroiorient,'Coronal')
-    if strcmp(IMAGEANLZ.ORIENT,'Axial');
+elseif strcmp(tempdrawroiorient,'Coronal')
+    if strcmp(IMAGEANLZ.ORIENT,'Axial')
         roimask = squeeze(permute(IMAGEROI.roimask,[3 2 1]));
         roimask = flip(roimask,3);        
-    elseif strcmp(IMAGEANLZ.ORIENT,'Sagittal');
+    elseif strcmp(IMAGEANLZ.ORIENT,'Sagittal')
         roimask = squeeze(permute(IMAGEROI.roimask,[1 3 2]));
-    elseif strcmp(IMAGEANLZ.ORIENT,'Coronal'); 
+    elseif strcmp(IMAGEANLZ.ORIENT,'Coronal')
         roimask = IMAGEROI.roimask;
     end
 end

@@ -23,7 +23,7 @@ end
 %------------------------------------------
 % Set Orientation
 %------------------------------------------
-IMAGEANLZ.(tab)(axnum).SetOrient(src.String{src.Value});
+IMAGEANLZ.(tab)(axnum).SetOrient(src.String{src.Value},src.Value);
 if strcmp(IMAGEANLZ.(tab)(axnum).presentation,'Ortho')
     InitializeOrthoPresentation(tab)
 end

@@ -3,7 +3,7 @@
 %           
 %====================================================
 
-function [SCRPTipt,FEVOL,err] = FieldEvoLoadSiemens_v1a(SCRPTipt,FEVOLipt)
+function [SCRPTipt,FEVOL,err] = SingleFidLoadSiemens_v1a(SCRPTipt,FEVOLipt)
 
 Status2('busy','Load Siemens Data',2);
 Status2('done','',3);
@@ -25,6 +25,8 @@ if not(isfield(FEVOLipt,[CallingLabel,'_Data']))
             return
         else
             FEVOLipt.([CallingLabel,'_Data']).('File_Data').loc = file;
+            FEVOLipt.([CallingLabel,'_Data']).('File_Data').path = FEVOLipt.('File').Struct.selectedpath;
+            FEVOLipt.([CallingLabel,'_Data']).('File_Data').file = FEVOLipt.('File').Struct.filename;
         end
     else
         err.flag = 1;
@@ -59,8 +61,10 @@ end
 % Return Panel Input
 %---------------------------------------------
 FEVOL.method = FEVOLipt.Func;
-FEVOL.File = FEVOLipt.([CallingLabel,'_Data']).('File_Data').loc;
+FEVOL.File.loc = FEVOLipt.([CallingLabel,'_Data']).('File_Data').loc;
+FEVOL.File.name = FEVOLipt.([CallingLabel,'_Data']).('File_Data').file;
 FEVOL.SysTest = FEVOLipt.([CallingLabel,'_Data']).('SysTest_Imp_Data');
+FEVOL.path = FEVOLipt.([CallingLabel,'_Data']).('File_Data').path;
 
 Status2('done','',2);
 Status2('done','',3);

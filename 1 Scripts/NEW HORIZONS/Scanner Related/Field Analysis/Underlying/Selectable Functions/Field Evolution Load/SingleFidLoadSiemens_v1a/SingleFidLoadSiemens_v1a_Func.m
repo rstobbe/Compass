@@ -22,7 +22,7 @@ clear INPUT
 %---------------------------------------------
 % Load Data
 %---------------------------------------------
-twix = mapVBVD(FEVOL.('File'));
+twix = mapVBVD(FEVOL.('File').loc);
 fclose('all');
 twix = twix{2};                         % 2nd 'image' is the relevant one - first is setup stuff
 DataInfo = twix.image;
@@ -47,12 +47,51 @@ if test{3} == 20
 elseif test{3} == 10
     type = 'TJ';
 end
+switch test{5}
+    case 1
+       dir = 'X';
+    case 2
+       dir = 'Y';
+    case 3
+       dir = 'Z';
+end
+GradImpName = ['IMP_',type,num2str(test{4}),dir];
 GradFile = ['SysTest_',type,num2str(test{4})];
+GradName = [type,num2str(test{4}),dir];
 
 %---------------------------------------------
 % Make Sure 'SysTest_Imp' right
 %---------------------------------------------
-%TrajName = GradFile
+if not(strcmp(AcqName,GradImpName))
+    err.flag = 1;
+    err.msg = ['''SysTest_Imp'' should be ',GradImpName{1}];
+    return
+end
+
+%---------------------------------------------
+% Determine Sequence
+%---------------------------------------------
+Phoenix = twix.hdr.Phoenix;                 % seems to have the most info neatly organized
+MrProt = Phoenix;
+Seq = MrProt.tSequenceFileName;
+Seq = char(Seq);
+if ~contains(Seq,'%CustomerSeq%\')
+    SeqFound = Seq
+    error
+end
+Seq = Seq(15:end);
+
+%---------------------------------------------
+% Stuff
+%---------------------------------------------
+Protocol = MrProt.tProtocolName;
+Protocol = char(Protocol);
+Protocol = Protocol(1:end);
+if strcmp(twix.hdr.Config.PatientName(1:2),'xx')
+    StudyId = twix.hdr.Config.Patient;
+else 
+    StudyId = twix.hdr.Config.PatientName;
+end 
 
 %---------------------------------------------
 % BG
@@ -77,9 +116,14 @@ FEVOL.GradFile = GradFile;
 %---------------------------------------------
 % Panel Output
 %--------------------------------------------- 
-Panel(1,:) = {'Flip Angle (degrees)',flip,'Output'};
-Panel(2,:) = {'TR (seconds)',tr,'Output'};
-Panel(3,:) = {'Averages',averages,'Output'};
+Panel(1,:) = {'','','Output'};
+Panel(2,:) = {'StudyId',['"',StudyId,'"'],'Output'};
+Panel(3,:) = {'Protocol',Protocol,'Output'};
+Panel(4,:) = {'Sequence',Seq,'Output'};
+Panel(5,:) = {'Path',FEVOL.path,'Output'};
+Panel(6,:) = {'File1',FEVOL.File.name,'Output'};
+Panel(7,:) = {'GradFile',GradFile,'Output'};
+Panel(8,:) = {'GradDir',dir,'Output'};
 PanelOutput = cell2struct(Panel,{'label','value','type'},2);
 FEVOL.PanelOutput = PanelOutput;
 FEVOL.ExpDisp = PanelStruct2Text(FEVOL.PanelOutput);

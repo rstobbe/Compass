@@ -44,7 +44,7 @@ IMG.Im = Im;
 Panel(1,:) = {'','','Output'};
 Panel(2,:) = {'',MASKTOP.method,'Output'};
 PanelOutput = cell2struct(Panel,{'label','value','type'},2);
-IMG.PanelOutput = [IMG.PanelOutput;PanelOutput];
+IMG.PanelOutput = [IMG.PanelOutput;PanelOutput;MASK.PanelOutput];
 IMG.ExpDisp = PanelStruct2Text(IMG.PanelOutput);
 IMG.IMDISP.ImInfo.info = IMG.ExpDisp;
 
@@ -54,7 +54,7 @@ IMG.IMDISP.ImInfo.info = IMG.ExpDisp;
 if strfind(IMG.name,'.')
     IMG.name = IMG.name(1:end-4);
 end
-IMG.name = [IMG.name,'_MASKTOP'];
+IMG.name = [IMG.name,'_Mask'];
 MASKTOP.IMG = IMG;
 
 Status2('done','',2);

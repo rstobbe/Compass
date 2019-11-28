@@ -94,6 +94,7 @@ end
 % Inset
 %---------------------------------------------
 [x,y,z,~,~,~] = size(Image);
+MSTRCT.OriginalMatSize = size(Image);
 Image = Image(insets(1)+1:x-insets(2),insets(3)+1:y-insets(4),insets(6)+1:z-insets(5),:,:,:,:);
 
 %---------------------------------------------
@@ -181,6 +182,7 @@ else
     MSTRCT.step = step;
 end
 MSTRCT.slices = (MSTRCT.start:MSTRCT.step:MSTRCT.stop);
+MSTRCT.stop = MSTRCT.slices(end);
 MSTRCT.totslices = length(MSTRCT.slices);
 
 %----------------------------------------------
@@ -234,7 +236,7 @@ elseif strcmp(orient,'Sagittal')
     hdim = sz(1); 
 elseif strcmp(orient,'Coronal')
     vstart = insets(5);
-    vdim = sz(3);
+    vdim = sz(1);
     hstart = insets(3);
     hdim = sz(2); 
 end

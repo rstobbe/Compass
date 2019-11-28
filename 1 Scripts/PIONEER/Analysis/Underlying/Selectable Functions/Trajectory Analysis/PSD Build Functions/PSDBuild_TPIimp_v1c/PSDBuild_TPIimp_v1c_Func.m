@@ -88,9 +88,9 @@ end
 % Orient
 %---------------------------------------------
 if strcmp(PROJimp.orient,'Coronal')
-    psd = permute(psd,[1,3,2]);
+    psd = permute(psd,[3,1,2]);
 elseif strcmp(PROJimp.orient,'Sagittal')
-    psd = permute(psd,[2,3,1]);
+    psd = permute(psd,[3,2,1]);                                 % with respect to image 
 end
 
 %---------------------------------------------
@@ -104,13 +104,18 @@ rsnr = rsnr/4;                                                  % scaling to mat
 % Display / Return
 %---------------------------------------------
 if strcmp(Vis,'On')
-    figure(200); hold on;
+    hFig = figure(200); hold on;
     PSDprof = squeeze(psd(:,(length(psd)+1)/2,(length(psd)+1)/2)); plot(PSDprof,'b'); 
-    PSDprof = squeeze(psd((length(psd)+1)/2,:,(length(psd)+1)/2)); plot(PSDprof,'g'); 
-    PSDprof = squeeze(psd((length(psd)+1)/2,(length(psd)+1)/2,:)); plot(PSDprof,'r'); 
+    PSDprof = squeeze(psd((length(psd)+1)/2,:,(length(psd)+1)/2)); plot(PSDprof,'g--'); 
+    PSDprof = squeeze(psd((length(psd)+1)/2,(length(psd)+1)/2,:)); plot(PSDprof,'r:'); 
     title('PSD Function'); xlabel('Matrix Diameter'); ylabel('Arb');
     ylim([0 max(psd(:))*1.1]); xlim([1 length(PSDprof)]);    
 end
+
+PSDS.Figure(1).Name = 'PSD Characteristics';
+PSDS.Figure(1).Type = 'Graph';
+PSDS.Figure(1).hFig = hFig;
+PSDS.Figure(1).hAx = gca;
 
 %---------------------------------------------
 % Panel

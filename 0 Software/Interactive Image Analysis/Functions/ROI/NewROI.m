@@ -6,8 +6,6 @@ function NewROI(tab,axnum)
 global IMAGEANLZ
 global FIGOBJS
 
-IMAGEANLZ.(tab)(axnum).DisableOrient;
-
 switch IMAGEANLZ.(tab)(axnum).presentation
     case 'Standard'
         IMAGEANLZ.(tab)(axnum).NewROICreate;
@@ -27,6 +25,7 @@ switch IMAGEANLZ.(tab)(axnum).presentation
                 IMAGEANLZ.(tab)(r).FIGOBJS.NewROIbutton.BackgroundColor = [0.12,0.35,0.23];
                 IMAGEANLZ.(tab)(r).FIGOBJS.NewROIbutton.ForegroundColor = [1 1 1]; 
                 FIGOBJS.(tab).ControlTab(r).SelectedTab = FIGOBJS.(tab).ROITab(r);
+                %IMAGEANLZ.(tab)(r).DisableOrient;
             end
         end
         for r = 1:IMAGEANLZ.(tab)(axnum).axeslen
@@ -45,7 +44,8 @@ switch IMAGEANLZ.(tab)(axnum).presentation
         end
         IMAGEANLZ.(tab)(1).FIGOBJS.MakeCurrentVisible;
         IMAGEANLZ.(tab)(1).FIGOBJS.NewROIbutton.BackgroundColor = [0.12,0.35,0.23];
-        IMAGEANLZ.(tab)(1).FIGOBJS.NewROIbutton.ForegroundColor = [1 1 1]; 
+        IMAGEANLZ.(tab)(1).FIGOBJS.NewROIbutton.ForegroundColor = [1 1 1];
+        %IMAGEANLZ.(tab)(1).DisableOrient;
 end
         
 IMAGEANLZ.(tab)(axnum).UpdateStatus;

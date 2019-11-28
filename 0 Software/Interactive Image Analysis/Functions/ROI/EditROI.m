@@ -5,11 +5,9 @@ function EditROI(tab,axnum,roinum)
 
 global IMAGEANLZ
 
-IMAGEANLZ.(tab)(axnum).NewROICreate;
-IMAGEANLZ.(tab)(axnum).DisableOrient;
-
 switch IMAGEANLZ.(tab)(axnum).presentation
     case 'Standard'
+        IMAGEANLZ.(tab)(axnum).NewROICreate;
         if IMAGEANLZ.(tab)(axnum).ROITIE == 1
             start = 1;    
             stop = IMAGEANLZ.(tab)(axnum).axeslen;
@@ -37,6 +35,7 @@ switch IMAGEANLZ.(tab)(axnum).presentation
                 IMAGEANLZ.(tab)(r).DrawCurrentROI([]);
                 IMAGEANLZ.(tab)(r).ComputeCurrentROI;
                 IMAGEANLZ.(tab)(r).SetCurrentROIValue; 
+                %IMAGEANLZ.(tab)(r).DisableOrient;
             end
         end
         for r = 1:IMAGEANLZ.(tab)(axnum).axeslen

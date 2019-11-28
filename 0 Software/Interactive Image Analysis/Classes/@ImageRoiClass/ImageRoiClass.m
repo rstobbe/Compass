@@ -17,6 +17,7 @@ classdef ImageRoiClass < handle
         roiimsize;
         baseroiorient;
         drawroiorient;
+        drawroiorientarray;
         xlocarr;                      
         ylocarr;                      
         zlocarr;
@@ -140,7 +141,7 @@ classdef ImageRoiClass < handle
             end
         end
         % Concatenate
-        function Concatenate(IMAGEROI,IMAGEROI2,event)
+        function Concatenate(IMAGEROI,IMAGEROI2,event,orient)
             for n = 1:IMAGEROI2.locnum
                 IMAGEROI.xloc0arr{IMAGEROI.locnum+n} = IMAGEROI2.xloc0arr{n};    
                 IMAGEROI.yloc0arr{IMAGEROI.locnum+n} = IMAGEROI2.yloc0arr{n};  
@@ -149,6 +150,7 @@ classdef ImageRoiClass < handle
                 IMAGEROI.ylocarr{IMAGEROI.locnum+n} = IMAGEROI2.ylocarr{n};  
                 IMAGEROI.zlocarr{IMAGEROI.locnum+n} = IMAGEROI2.zlocarr{n};
                 IMAGEROI.eventarr{IMAGEROI.locnum+n} = event;
+                IMAGEROI.drawroiorientarray{IMAGEROI.locnum+n} = orient;
                 switch IMAGEROI2.CREATEMETHOD{n}.roicreatesel
                 case 1
                     IMAGEROI.CREATEMETHOD{IMAGEROI.locnum+n} = RoiFreeHandClass;
@@ -263,53 +265,130 @@ classdef ImageRoiClass < handle
 %==================================================================           
         % AddROIMask
         function AddROIMask(IMAGEROI) 
-            if strcmp(IMAGEROI.baseroiorient,'Axial')
-                if strcmp(IMAGEROI.drawroiorient,'Axial')
-                    drawroiimsize = IMAGEROI.roiimsize;
-                elseif strcmp(IMAGEROI.drawroiorient,'Sagittal')
-                    drawroiimsize = IMAGEROI.roiimsize([3 1 2]);
-                elseif strcmp(IMAGEROI.drawroiorient,'Coronal')
-                    drawroiimsize = IMAGEROI.roiimsize([3 2 1]);
-                end
+%             if strcmp(IMAGEROI.baseroiorient,'Axial')
+%                 if strcmp(IMAGEROI.drawroiorient,'Axial')
+%                     drawroiimsize = IMAGEROI.roiimsize;
+%                 elseif strcmp(IMAGEROI.drawroiorient,'Sagittal')
+%                     drawroiimsize = IMAGEROI.roiimsize([3 1 2]);
+%                 elseif strcmp(IMAGEROI.drawroiorient,'Coronal')
+%                     drawroiimsize = IMAGEROI.roiimsize([3 2 1]);
+%                 end
+%             end
+%             for m = IMAGEROI.lastlocnumadded+1:IMAGEROI.locnum                                
+%                 if isempty(IMAGEROI.zloc0arr(m))
+%                     continue
+%                 end
+%                 IMroimask0 = roipoly(ones(drawroiimsize(1),drawroiimsize(2)),IMAGEROI.xloc0arr{m},IMAGEROI.yloc0arr{m});
+%                 if strcmp(IMAGEROI.eventarr(m),'Add') 
+%                     IMAGEROI.roimask(:,:,IMAGEROI.zloc0arr{m}) = or(IMAGEROI.roimask(:,:,IMAGEROI.zloc0arr{m}),IMroimask0);
+%                 elseif strcmp(IMAGEROI.eventarr(m),'Erase')
+%                     IMAGEROI.roimask(:,:,IMAGEROI.zloc0arr{m}) = IMAGEROI.roimask(:,:,IMAGEROI.zloc0arr{m}) - and(IMAGEROI.roimask(:,:,IMAGEROI.zloc0arr{m}),IMroimask0);
+%                 end
+%             end
+%             IMAGEROI.lastlocnumadded = IMAGEROI.locnum; 
+            if not(strcmp(IMAGEROI.baseroiorient,'Axial'))
+                error;
             end
             for m = IMAGEROI.lastlocnumadded+1:IMAGEROI.locnum                                
+                if isempty(IMAGEROI.drawroiorientarray{m})
+                    tempdrawroiorientarray = IMAGEROI.drawroiorient;
+                else
+                    tempdrawroiorientarray = IMAGEROI.drawroiorientarray{m};
+                end
+                if strcmp(tempdrawroiorientarray,'Axial')
+                    drawroiimsize = IMAGEROI.roiimsize;
+                    temproimask = IMAGEROI.roimask;
+                elseif strcmp(tempdrawroiorientarray,'Sagittal')
+                    drawroiimsize = IMAGEROI.roiimsize([3 1 2]);
+                    temproimask = permute(IMAGEROI.roimask,[3 1 2]);
+                    temproimask = flip(temproimask,1);
+                elseif strcmp(tempdrawroiorientarray,'Coronal')
+                    drawroiimsize = IMAGEROI.roiimsize([3 2 1]);
+                    temproimask = permute(IMAGEROI.roimask,[3 2 1]);
+                    temproimask = flip(temproimask,1);
+                end
                 if isempty(IMAGEROI.zloc0arr(m))
                     continue
                 end
                 IMroimask0 = roipoly(ones(drawroiimsize(1),drawroiimsize(2)),IMAGEROI.xloc0arr{m},IMAGEROI.yloc0arr{m});
                 if strcmp(IMAGEROI.eventarr(m),'Add') 
-                    IMAGEROI.roimask(:,:,IMAGEROI.zloc0arr{m}) = or(IMAGEROI.roimask(:,:,IMAGEROI.zloc0arr{m}),IMroimask0);
+                    temproimask(:,:,IMAGEROI.zloc0arr{m}) = or(temproimask(:,:,IMAGEROI.zloc0arr{m}),IMroimask0);
                 elseif strcmp(IMAGEROI.eventarr(m),'Erase')
-                    IMAGEROI.roimask(:,:,IMAGEROI.zloc0arr{m}) = IMAGEROI.roimask(:,:,IMAGEROI.zloc0arr{m}) - and(IMAGEROI.roimask(:,:,IMAGEROI.zloc0arr{m}),IMroimask0);
+                    temproimask(:,:,IMAGEROI.zloc0arr{m}) = temproimask(:,:,IMAGEROI.zloc0arr{m}) - and(temproimask(:,:,IMAGEROI.zloc0arr{m}),IMroimask0);
+                end
+                if strcmp(IMAGEROI.drawroiorientarray{m},'Axial')
+                    IMAGEROI.roimask = temproimask;
+                elseif strcmp(IMAGEROI.drawroiorientarray{m},'Sagittal')
+                    temproimask = flip(temproimask,1);
+                    IMAGEROI.roimask = permute(temproimask,[2 3 1]);
+                elseif strcmp(IMAGEROI.drawroiorientarray{m},'Coronal')
+                    temproimask = flip(temproimask,1);
+                    IMAGEROI.roimask = permute(temproimask,[3 2 1]);
                 end
             end
             IMAGEROI.lastlocnumadded = IMAGEROI.locnum; 
         end
         % CreateBaseROIMask
         function CreateBaseROIMask(IMAGEROI) 
-            if strcmp(IMAGEROI.baseroiorient,'Axial')
-                if strcmp(IMAGEROI.drawroiorient,'Axial')
-                    drawroiimsize = IMAGEROI.roiimsize;
-                elseif strcmp(IMAGEROI.drawroiorient,'Sagittal')
-                    drawroiimsize = IMAGEROI.roiimsize([3 1 2]);
-                elseif strcmp(IMAGEROI.drawroiorient,'Coronal')
-                    drawroiimsize = IMAGEROI.roiimsize([3 2 1]);
-                end
+%             if strcmp(IMAGEROI.baseroiorient,'Axial')
+%                 if strcmp(IMAGEROI.drawroiorient,'Axial')
+%                     drawroiimsize = IMAGEROI.roiimsize;
+%                 elseif strcmp(IMAGEROI.drawroiorient,'Sagittal')
+%                     drawroiimsize = IMAGEROI.roiimsize([3 1 2]);
+%                 elseif strcmp(IMAGEROI.drawroiorient,'Coronal')
+%                     drawroiimsize = IMAGEROI.roiimsize([3 2 1]);
+%                 end
+%             end
+%             IMAGEROI.roimask = zeros(drawroiimsize);                % to ensure start from scratch
+%             for m = 1:IMAGEROI.locnum
+%                 if isempty(IMAGEROI.zloc0arr(m))
+%                     continue
+%                 end
+%                 IMroimask0 = roipoly(ones(drawroiimsize(1),drawroiimsize(2)),IMAGEROI.xloc0arr{m},IMAGEROI.yloc0arr{m});
+%                 if isempty(IMAGEROI.eventarr)
+%                     IMAGEROI.roimask(:,:,IMAGEROI.zloc0arr{m}) = xor(IMAGEROI.roimask(:,:,IMAGEROI.zloc0arr{m}),IMroimask0);                % accomodate old saved ROIs
+%                 else
+%                     if strcmp(IMAGEROI.eventarr(m),'Add') 
+%                         IMAGEROI.roimask(:,:,IMAGEROI.zloc0arr{m}) = or(IMAGEROI.roimask(:,:,IMAGEROI.zloc0arr{m}),IMroimask0);
+%                     elseif strcmp(IMAGEROI.eventarr(m),'Erase')
+%                         IMAGEROI.roimask(:,:,IMAGEROI.zloc0arr{m}) = IMAGEROI.roimask(:,:,IMAGEROI.zloc0arr{m}) - and(IMAGEROI.roimask(:,:,IMAGEROI.zloc0arr{m}),IMroimask0);
+%                     end
+%                 end
+%             end
+            if not(strcmp(IMAGEROI.baseroiorient,'Axial'))
+                error;
             end
-            IMAGEROI.roimask = zeros(drawroiimsize);                % to ensure start from scratch
-            for m = 1:IMAGEROI.locnum
+            IMAGEROI.roimask = zeros(IMAGEROI.roiimsize);                % to ensure start from scratch
+            for m = 1:IMAGEROI.locnum                               
+                if strcmp(IMAGEROI.drawroiorientarray{m},'Axial')
+                    drawroiimsize = IMAGEROI.roiimsize;
+                    temproimask = IMAGEROI.roimask;
+                elseif strcmp(IMAGEROI.drawroiorientarray{m},'Sagittal')
+                    drawroiimsize = IMAGEROI.roiimsize([3 1 2]);
+                    temproimask = permute(IMAGEROI.roimask,[3 1 2]);
+                    temproimask = flip(temproimask,1);
+                elseif strcmp(IMAGEROI.drawroiorientarray{m},'Coronal')
+                    drawroiimsize = IMAGEROI.roiimsize([3 2 1]);
+                    temproimask = permute(IMAGEROI.roimask,[3 2 1]);
+                    temproimask = flip(temproimask,1);
+                end
                 if isempty(IMAGEROI.zloc0arr(m))
                     continue
                 end
                 IMroimask0 = roipoly(ones(drawroiimsize(1),drawroiimsize(2)),IMAGEROI.xloc0arr{m},IMAGEROI.yloc0arr{m});
-                if isempty(IMAGEROI.eventarr)
-                    IMAGEROI.roimask(:,:,IMAGEROI.zloc0arr{m}) = xor(IMAGEROI.roimask(:,:,IMAGEROI.zloc0arr{m}),IMroimask0);                % accomodate old saved ROIs
-                else
-                    if strcmp(IMAGEROI.eventarr(m),'Add') 
-                        IMAGEROI.roimask(:,:,IMAGEROI.zloc0arr{m}) = or(IMAGEROI.roimask(:,:,IMAGEROI.zloc0arr{m}),IMroimask0);
-                    elseif strcmp(IMAGEROI.eventarr(m),'Erase')
-                        IMAGEROI.roimask(:,:,IMAGEROI.zloc0arr{m}) = IMAGEROI.roimask(:,:,IMAGEROI.zloc0arr{m}) - and(IMAGEROI.roimask(:,:,IMAGEROI.zloc0arr{m}),IMroimask0);
-                    end
+                if strcmp(IMAGEROI.eventarr(m),'Add') 
+                    temproimask(:,:,IMAGEROI.zloc0arr{m}) = or(temproimask(:,:,IMAGEROI.zloc0arr{m}),IMroimask0);
+                elseif strcmp(IMAGEROI.eventarr(m),'Erase')
+                    temproimask(:,:,IMAGEROI.zloc0arr{m}) = temproimask(:,:,IMAGEROI.zloc0arr{m}) - and(temproimask(:,:,IMAGEROI.zloc0arr{m}),IMroimask0);
+                end
+                if strcmp(IMAGEROI.drawroiorientarray{m},'Axial')
+                    IMAGEROI.roimask = temproimask;
+                elseif strcmp(IMAGEROI.drawroiorientarray{m},'Sagittal')
+                    temproimask = flip(temproimask,1);
+                    IMAGEROI.roimask = permute(temproimask,[2 3 1]);
+                elseif strcmp(IMAGEROI.drawroiorientarray{m},'Coronal')
+                    temproimask = flip(temproimask,1);
+                    IMAGEROI.roimask = permute(temproimask,[3 2 1]);
                 end
             end
         end      

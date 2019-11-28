@@ -265,11 +265,12 @@ POSBG.Data.maxPL_PH2step = maxPL_PH2step;
 %---------------------------------------------
 % Panel Output
 %--------------------------------------------- 
-Panel(1,:) = {'Loc1 (cm)',Loc1*100,'Output'};
-Panel(2,:) = {'Loc2 (cm)',Loc2*100,'Output'};
-Panel(3,:) = {'Sep (cm)',Sep*100,'Output'};
-Panel(4,:) = {'meanBGGrad (uT/m)',meanBGGrad*1000,'Output'};
-Panel(5,:) = {'meanBGB0 (uT)',meanBGB0*1000,'Output'};
+Panel(1,:) = {'',POSBG.method,'Output'};
+Panel(2,:) = {'Loc1 (cm)',Loc1*100,'Output'};
+Panel(3,:) = {'Loc2 (cm)',Loc2*100,'Output'};
+Panel(4,:) = {'Sep (cm)',Sep*100,'Output'};
+Panel(5,:) = {'meanBGGrad (uT/m)',meanBGGrad*1000,'Output'};
+Panel(6,:) = {'meanBGB0 (uT)',meanBGB0*1000,'Output'};
 PanelOutput = cell2struct(Panel,{'label','value','type'},2);
 POSBG.PanelOutput = PanelOutput;
 POSBG.ExpDisp = PanelStruct2Text(POSBG.PanelOutput);

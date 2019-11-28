@@ -48,6 +48,7 @@ classdef RoiSeedClass < handle
         function DAT = RedrawSetup(DAT)
             DAT.state = 'Start';
             DAT.seed = 0.5;
+            DAT.seeddir = 1; 
             DAT.xloc = []; DAT.yloc = []; DAT.zloc = [];
             DAT.status = 'Seeding Redraw Tool Active';
             DAT.info = 'Left click';

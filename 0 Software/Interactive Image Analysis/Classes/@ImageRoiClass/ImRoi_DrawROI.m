@@ -11,7 +11,16 @@ delete(IMAGEROI.linehandles)
 delete(IMAGEROI.contextmenu)
 zlocarr = cell2mat(IMAGEROI.zlocarr);
 for n = 1:length(IMAGEROI.xlocarr)
-     if zlocarr(n) == IMAGEANLZ.SLICE
+    if isprop(IMAGEROI,'drawroiorientarray')
+        if length(IMAGEROI.drawroiorientarray) == 0
+            tempdrawroiorientarray = IMAGEROI.drawroiorient;
+        else
+            tempdrawroiorientarray = IMAGEROI.drawroiorientarray{n};
+        end
+    else
+        tempdrawroiorientarray = IMAGEROI.drawroiorient;
+    end
+    if zlocarr(n) == IMAGEANLZ.SLICE && strcmp(tempdrawroiorientarray,IMAGEANLZ.ORIENT)
         xloc = IMAGEROI.xlocarr{n};                               
         yloc = IMAGEROI.ylocarr{n};
         IMAGEROI.linehandles(n) = line(xloc,yloc,'parent',axhand,'color',clr);

@@ -32,6 +32,11 @@ if err.flag
 end
 clear INPUT;
 
+if isfield(TFS,'Figure')
+    ANLZ.Figure = TFS.Figure;
+    TFS = rmfield(TFS,'Figure');
+end
+
 %---------------------------------------------
 % Return 
 %---------------------------------------------

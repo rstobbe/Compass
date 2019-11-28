@@ -5,8 +5,14 @@ function IMAGEROI = ImRoi_ComputeROI(IMAGEROI,IMAGEANLZ)
 
 ImInfo = IMAGEANLZ.GetImageInfo;
 
+if isprop(IMAGEROI,'drawroiorientarray')
+    tempdrawroiorient = 'Axial';
+else
+    tempdrawroiorient = IMAGEROI.drawroiorient;
+end
+
 if IMAGEANLZ.complexaverageroi
-    Image = IMAGEANLZ.GetComplexOriented3DImage(IMAGEROI.drawroiorient);
+    Image = IMAGEANLZ.GetComplexOriented3DImage(tempdrawroiorient);
     vals = Image(logical(IMAGEROI.roimask));
     %meanvals = mean(vals);
     meanvals = nanmean(vals);
@@ -15,7 +21,7 @@ if IMAGEANLZ.complexaverageroi
     meanvals = ImageTypeCreate(IMAGEANLZ,meanvals);
     stdvals = ImageTypeCreate(IMAGEANLZ,stdvals);
 else
-    Image = IMAGEANLZ.GetOriented3DImage(IMAGEROI.drawroiorient);
+    Image = IMAGEANLZ.GetOriented3DImage(tempdrawroiorient);
     vals = Image(logical(IMAGEROI.roimask));
     %meanvals = mean(vals);
     meanvals = nanmean(vals);
