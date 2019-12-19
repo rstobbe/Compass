@@ -48,6 +48,9 @@ switch IMAGEANLZ.(tab)(axnum).presentation
             end
         end
         for r = 1:3
+            if IMAGEANLZ.(tab)(r).TestDeletedCurrentROI
+                return
+            end
             IMAGEANLZ.(tab)(r).DeleteLastRegion;
             IMAGEANLZ.(tab)(r).DrawCurrentROI([]);
             if IMAGEANLZ.(tab)(r).TestEmptyCurrentROI

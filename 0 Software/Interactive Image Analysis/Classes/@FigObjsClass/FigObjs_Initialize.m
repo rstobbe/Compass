@@ -117,6 +117,11 @@ IMOBJS.MinCMinVal.Enable = 'inactive';
 
 IMOBJS.OverlayTransparency.Value = 0.5; 
 IMOBJS.OverlayColour.Value = 2;
+IMOBJS.OverlayValue.String = '';
+IMOBJS.OverlayMax.String = '1';
+IMOBJS.OverlayMax.Enable = 'on';
+IMOBJS.OverlayMin.String = '0';
+IMOBJS.OverlayMin.Enable = 'on';
 
 IMOBJS.Dim4.Max = 1;
 IMOBJS.Dim4.Value = 1;

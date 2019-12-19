@@ -6,7 +6,9 @@ function IMAGEANLZ = ImAnlz_CompleteCurrentROI(IMAGEANLZ,roi,roiname)
 %---------------------------------------------
 % Complete 
 %---------------------------------------------
-IMAGEANLZ.CreateCurrentROIMask;                         % might have been done previously, but do again just to make sure
+%-- make a button for testing
+%IMAGEANLZ.CreateCurrentROIMask;                         % might have been done previously, but do again just to make sure
+%--
 IMAGEANLZ.ComputeCurrentROI;
 
 %---------------------------------------------

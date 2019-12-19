@@ -750,7 +750,10 @@ data_single     = typecast( reshape(mdh_blob(69:end,:),[],1), 'single' );
 data_uint32 = reshape( data_uint32, [], Nmeas ).';
 data_uint16 = reshape( data_uint16, [], Nmeas ).';
 data_single = reshape( data_single, [], Nmeas ).';
-                                                        %  byte pos.
+
+test = data_uint32(1,:)
+
+%  byte pos.
 %mdh.ulDMALength               = data_uint32(:,1);      %   1 :   4
 mdh.lMeasUID                   = data_uint32(:,2);      %   5 :   8
 mdh.ulScanCounter              = data_uint32(:,3);      %   9 :  12

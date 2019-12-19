@@ -33,14 +33,18 @@ elseif strcmp(OUT.buttonfunc,'updateregion')
 elseif strcmp(OUT.buttonfunc,'updatefinish')
     IMAGEANLZ.(tab)(axnum).UpdateTempROI(OUT);
     for r = 1:3
-        IMAGEANLZ.(tab)(r).Add2CurrentROI(IMAGEANLZ.(tab)(axnum).TEMPROI);
-    end
-    IMAGEANLZ.(tab)(1).TestUpdateCurrentROIValue;
-    for r = 1:3
-        IMAGEANLZ.(tab)(r).ResetTempROI;
-        IMAGEANLZ.(tab)(r).DrawCurrentROI([]);
+        IMAGEANLZ.(tab)(r).Add2CurrentROIOrtho(IMAGEANLZ.(tab)(axnum).TEMPROI,IMAGEANLZ.(tab)(axnum).ORIENT);
+        IMAGEANLZ.(tab)(r).DrawCurrentROILines([]);
         IMAGEANLZ.(tab)(r).SetMoveFunction('');
     end
+    drawnow
+    for r = 1:3
+        IMAGEANLZ.(tab)(r).Add2CurrentROIMask;
+        IMAGEANLZ.(tab)(r).DrawCurrentROIShade([]);
+        IMAGEANLZ.(tab)(r).ResetTempROI;
+        IMAGEANLZ.(tab)(r).SetMoveFunction('');
+    end
+    IMAGEANLZ.(tab)(1).TestUpdateCurrentROIValue;
     IMAGEANLZ.(tab)(axnum).FIGOBJS.ReturnPanelFunctions; 
 elseif strcmp(OUT.buttonfunc,'addregion')
     error;   %update

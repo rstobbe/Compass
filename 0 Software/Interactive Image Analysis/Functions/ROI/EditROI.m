@@ -53,14 +53,16 @@ switch IMAGEANLZ.(tab)(axnum).presentation
             IMAGEANLZ.(tab)(r).CopySavedRoi2Current(roinum);
             IMAGEANLZ.(tab)(r).DeactivateROI(roinum);
         end
-        if(IMAGEANLZ.(tab)(1).TestMaskOnlyCurrentROI)
-            IMAGEANLZ.(tab)(1).InitiateRedrawROI;
-            IMAGEANLZ.(tab)(1).FIGOBJS.RedrawROIbutton.BackgroundColor = [0.6,0.2,0.2];
-            IMAGEANLZ.(tab)(1).FIGOBJS.RedrawROIbutton.ForegroundColor = [1 1 1];
-        else
-            IMAGEANLZ.(tab)(1).FIGOBJS.NewROIbutton.BackgroundColor = [0.12,0.35,0.23];
-            IMAGEANLZ.(tab)(1).FIGOBJS.NewROIbutton.ForegroundColor = [1 1 1];
-        end
+%         if(IMAGEANLZ.(tab)(1).TestMaskOnlyCurrentROI)
+%             IMAGEANLZ.(tab)(1).InitiateRedrawROI;
+%             IMAGEANLZ.(tab)(1).FIGOBJS.RedrawROIbutton.BackgroundColor = [0.6,0.2,0.2];
+%             IMAGEANLZ.(tab)(1).FIGOBJS.RedrawROIbutton.ForegroundColor = [1 1 1];
+%         else
+%             IMAGEANLZ.(tab)(1).FIGOBJS.NewROIbutton.BackgroundColor = [0.12,0.35,0.23];
+%             IMAGEANLZ.(tab)(1).FIGOBJS.NewROIbutton.ForegroundColor = [1 1 1];
+%         end
+        IMAGEANLZ.(tab)(1).FIGOBJS.NewROIbutton.BackgroundColor = [0.12,0.35,0.23];
+        IMAGEANLZ.(tab)(1).FIGOBJS.NewROIbutton.ForegroundColor = [1 1 1];
         for r = 1:3
             IMAGEANLZ.(tab)(r).PlotImage;
             IMAGEANLZ.(tab)(r).DrawSavedROIsNoPick([]);

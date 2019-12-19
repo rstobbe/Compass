@@ -26,17 +26,11 @@ switch IMAGEANLZ.(tab)(axnum).presentation
     case 'Ortho'
         for axnum = 1:3
             IMAGEANLZ.(tab)(axnum).ShadeROIChangeValue(src.Value);
-            IMAGEANLZ.(tab)(axnum).PlotImage;
             if IMAGEANLZ.(tab)(axnum).SAVEDROISFLAG == 1
-                if IMAGEANLZ.(tab)(axnum).GETROIS == 1
-                    IMAGEANLZ.(tab)(axnum).DrawSavedROIsNoPick([]);
-                else
-                    IMAGEANLZ.(tab)(axnum).DrawSavedROIs([]);
-                end
+                IMAGEANLZ.(tab)(axnum).ChangeShadeSavedROIs;
             end
             if IMAGEANLZ.(tab)(axnum).GETROIS == 1
-                IMAGEANLZ.(tab)(axnum).DrawCurrentROI([]);
-                IMAGEANLZ.(tab)(axnum).DrawTempROI([],[]);
+                IMAGEANLZ.(tab)(axnum).ChangeShadeCurrentROI;
             end
         end
 end

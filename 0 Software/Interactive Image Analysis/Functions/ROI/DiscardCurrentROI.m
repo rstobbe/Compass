@@ -49,9 +49,9 @@ switch IMAGEANLZ.(tab)(axnum).presentation
             if IMAGEANLZ.(tab)(r).TestSavedLines
                 IMAGEANLZ.(tab)(r).DrawSavedLines;
             end
+            IMAGEANLZ.(tab)(r).ResetStatus;
         end
         IMAGEANLZ.(tab)(1).EnableOrient;
-        IMAGEANLZ.(tab)(1).ResetStatus;
         IMAGEANLZ.(tab)(1).FIGOBJS.MakeCurrentInvisible;
         IMAGEANLZ.(tab)(1).FIGOBJS.NewROIbutton.BackgroundColor = [0.8,0.8,0.8];
         IMAGEANLZ.(tab)(1).FIGOBJS.NewROIbutton.ForegroundColor = [0.149 0.149 0.241];

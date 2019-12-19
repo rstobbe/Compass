@@ -69,10 +69,7 @@ if sethighlight == 1
             case 'Standard'
                 %error;         % finish
             case 'Ortho'
-                %for r = 1:3
-                %    IMAGEANLZ.(tab)(r).UpdateTempROIDrawOrient(IMAGEANLZ.(tab)(axnum).ORIENT);
-                %end
-                SetFocus(tab,prevaxnum);                % for now - need ability to assign each region a different draw orientation
+                %works now
         end
     end
     return

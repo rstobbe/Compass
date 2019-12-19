@@ -72,13 +72,10 @@ for p = 1:(sz(1)-2)
         case 'Ortho'
             for r = 1:3
                 IMAGEANLZ.(tab)(r).AddROI2Saved(ROI,roinum);
-                if IMAGEANLZ.(tab)(r).TestAxisActive
-                    IMAGEANLZ.(tab)(r).DrawSavedROIs([]);
-                end
+                IMAGEANLZ.(tab)(r).ActivateROI(roinum);
+                IMAGEANLZ.(tab)(r).DrawSavedROIs([]);
             end
-            if IMAGEANLZ.(tab)(1).TestAxisActive
-                IMAGEANLZ.(tab)(1).ComputeSavedROI(roinum);
-            end
+            IMAGEANLZ.(tab)(1).ComputeSavedROI(roinum);
             IMAGEANLZ.(tab)(1).SetSavedROIValues;   
     end
     roinum = roinum + 1;

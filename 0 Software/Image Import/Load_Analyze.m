@@ -32,7 +32,11 @@ ReconPars.ImfovIO = ReconPars.ImvoxIO*sz(3);
 
 IMG.Im = double(Im);
 IMG.ReconPars = ReconPars;
-IMG.ExpDisp = [];
 
 ImInfo.acqorient = 'Axial';  
 ImInfo.baseorient = 'Axial';  
+
+Panel(1,:) = {'','','Output'};
+Panel(2,:) = {'File',imfile,'Output'};
+IMG.PanelOutput = cell2struct(Panel,{'label','value','type'},2);
+IMG.ExpDisp = PanelStruct2Text(IMG.PanelOutput);

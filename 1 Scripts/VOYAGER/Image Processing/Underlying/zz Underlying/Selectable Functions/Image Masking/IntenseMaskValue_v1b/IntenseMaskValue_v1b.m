@@ -16,6 +16,7 @@ err.msg = '';
 %---------------------------------------------
 MASK.method = MASKipt.Func;
 MASK.thresh = str2double(MASKipt.('Thresh'));
+MASK.direction = MASKipt.('Direction');
 
 Status2('done','',2);
 Status2('done','',3);

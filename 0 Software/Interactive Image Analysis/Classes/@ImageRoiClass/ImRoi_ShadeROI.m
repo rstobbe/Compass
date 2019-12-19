@@ -18,7 +18,7 @@ if ischar(clr)
 end
 
 if isprop(IMAGEROI,'drawroiorientarray')
-    if length(IMAGEROI.drawroiorientarray) == 0
+    if isempty(IMAGEROI.drawroiorientarray)
         tempdrawroiorient = IMAGEROI.drawroiorient;
     else
         tempdrawroiorient = 'Axial';
@@ -75,9 +75,10 @@ IMAGEROI.shadehandle.CDataMapping = 'scaled';
 IMAGEROI.shadehandle.PickableParts = 'none';
 IMAGEROI.shadehandle.HitTest = 'off';
 %alphadata = 0.125*ones(size(roimaskslice));
-alphadata = intensity*ones(size(roimaskslice));
+alphadata = ones(size(roimaskslice));
 alphadata(roimaskslice==0) = 0;
-IMAGEROI.shadehandle.AlphaData = alphadata;
+IMAGEROI.alphadata = alphadata;
+IMAGEROI.shadehandle.AlphaData = intensity*alphadata;
 drawnow;
 IMAGEANLZ.FIGOBJS.ImAxes.NextPlot = 'replacechildren';
 

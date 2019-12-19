@@ -38,6 +38,11 @@ StatIm(isnan(StatIm)) = 0;
 %SpaceRef0 = imref3d(size(StatIm),pixdim(1),pixdim(2),pixdim(3));
 SpaceRef0 = imref3d(size(StatIm),pixdim(2),pixdim(1),pixdim(3));
 [optimizer,metric] = imregconfig(ALGN.config);
+% optimizer.InitialRadius = optimizer.InitialRadius/3.5;
+optimizer.InitialRadius = optimizer.InitialRadius/3.5;
+% optimizer.InitialRadius = 5e-4;
+% optimizer.GrowthFactor = 1.01;
+% optimizer.MaximumIterations = 300;
 
 %optimizer.MaximumStepLength = 0.01; 
 %optimizer.MinimumStepLength = 1e-2;                                     % accuracy/time (changing others = detrimental @ first test)
@@ -49,12 +54,18 @@ for m = 2:ImArrayLen
     Status2('busy',['Align image ',num2str(m),' to ',num2str(1)],3);
     pixdim = IMG{m}.IMDISP.ImInfo.pixdim;
     JiggleIm = abs(IMG{m}.Im(:,:,:,1,1,1));
+    JiggleIm(isnan(JiggleIm)) = 0;
     %SpaceRef = imref3d(size(JiggleIm),pixdim(1),pixdim(2),pixdim(3));
     SpaceRef = imref3d(size(JiggleIm),pixdim(2),pixdim(1),pixdim(3));
-    tform = imregtform(JiggleIm,SpaceRef,StatIm,SpaceRef0,'rigid',optimizer,metric,'DisplayOptimization',1);    
+    ptform = imregtform(JiggleIm,SpaceRef,StatIm,SpaceRef0,'rigid',optimizer,metric,'DisplayOptimization',1);
+    %tform = imregtform(JiggleIm,SpaceRef,StatIm,SpaceRef0,'similarity',optimizer,metric,'DisplayOptimization',1);    
     test = tform.T
-    rRegIm = imwarp(real(IMG{m}.Im(:,:,:,1,1,1)),SpaceRef,tform,'OutputView',SpaceRef0);
-    iRegIm = imwarp(imag(IMG{m}.Im(:,:,:,1,1,1)),SpaceRef,tform,'OutputView',SpaceRef0);
+    RealIm = real(IMG{m}.Im(:,:,:,1,1,1));
+    RealIm(isnan(RealIm)) = 0;
+    ImagIm = real(IMG{m}.Im(:,:,:,1,1,1));
+    ImagIm(isnan(ImagIm)) = 0;
+    rRegIm = imwarp(RealIm,SpaceRef,tform,'OutputView',SpaceRef0);
+    iRegIm = imwarp(ImagIm,SpaceRef,tform,'OutputView',SpaceRef0);
     RegIm = rRegIm + 1i*iRegIm;
 end
 

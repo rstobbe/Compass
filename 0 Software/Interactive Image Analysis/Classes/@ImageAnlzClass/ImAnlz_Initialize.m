@@ -49,9 +49,9 @@ IMAGEANLZ.tinymove = 0;
 %---------------------------------------------
 global COMPASSINFO
 %-- load
-IMAGEANLZ.IMPATH = COMPASSINFO.USERGBL.experimentsloc;
-IMAGEANLZ.IMFILETYPE = 'Mat';
-IMAGEANLZ.ROIPATH = COMPASSINFO.USERGBL.experimentsloc;
+% IMAGEANLZ.IMPATH = COMPASSINFO.USERGBL.experimentsloc;
+% IMAGEANLZ.IMFILETYPE = 'Mat';
+% IMAGEANLZ.ROIPATH = COMPASSINFO.USERGBL.experimentsloc;
 %-- mouse functions
 IMAGEANLZ.buttonfunction = '';
 IMAGEANLZ.movefunction = '';
@@ -64,6 +64,15 @@ IMAGEANLZ.MaxContrastCurrent = [];
 IMAGEANLZ.MinContrastMin = []; 
 IMAGEANLZ.MinContrastCurrent = []; 
 IMAGEANLZ.ContrastSettings = struct();
+%-- contrast
+IMAGEANLZ.OImType = 'abs';
+IMAGEANLZ.OFullContrast = [];       
+IMAGEANLZ.ORelContrast = [];                               
+IMAGEANLZ.OMaxContrastMax = []; 
+IMAGEANLZ.OMaxContrastCurrent = []; 
+IMAGEANLZ.OMinContrastMin = []; 
+IMAGEANLZ.OMinContrastCurrent = []; 
+IMAGEANLZ.OContrastSettings = struct();
 %-- overlay
 IMAGEANLZ.OverlayColour = 'Yes';
 IMAGEANLZ.OverlayTransparency = 0.5;

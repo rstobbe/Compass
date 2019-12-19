@@ -8,8 +8,15 @@ global IMAGEANLZ
 if IMAGEANLZ.(tab)(axnum).TestMouseInImage([round(x),round(y)]) == 1
     set(gcf,'pointer',IMAGEANLZ.(tab)(axnum).pointer);   
     Data = IMAGEANLZ.(tab)(axnum).GetCurrentPointData(x,y); 
-    IMAGEANLZ.(tab)(1).SetCurrentPointInfoOrtho(Data)
+    IMAGEANLZ.(tab)(1).SetCurrentPointInfoOrtho(Data);
+    if IMAGEANLZ.(tab)(1).TestForOverlay
+        Data = IMAGEANLZ.(tab)(axnum).GetCurrentPointDataOverlay(x,y); 
+        IMAGEANLZ.(tab)(1).SetCurrentPointInfoOrthoOverlay(Data);
+    end
 else
     set(gcf,'pointer','arrow');
     IMAGEANLZ.(tab)(1).ClearCurrentPointInfoOrtho;
+    if IMAGEANLZ.(tab)(1).TestForOverlay
+        IMAGEANLZ.(tab)(1).ClearCurrentPointInfoOrthoOverlay;
+    end
 end

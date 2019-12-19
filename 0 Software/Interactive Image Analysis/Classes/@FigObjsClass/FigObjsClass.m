@@ -93,6 +93,9 @@ classdef FigObjsClass < handle
         RedrawROIbutton;
         OverlayColour;
         OverlayTransparency;
+        OverlayValue;
+        OverlayMax;
+        OverlayMin;
     end
     
 %==================================================================
@@ -137,6 +140,16 @@ classdef FigObjsClass < handle
         end
 
 %==================================================================
+% Overlay
+%==================================================================          
+        function SetOverlayValue(IMOBJS,val)       
+            IMOBJS.OverlayValue.String = val;
+        end
+        function ClearOverlayValue(IMOBJS)       
+            IMOBJS.OverlayValue.String = '';
+        end
+        
+%==================================================================
 % Enable Contrast
 %==================================================================          
         function EnableContrast(IMOBJS)
@@ -149,7 +162,11 @@ classdef FigObjsClass < handle
             IMOBJS.MaxCMaxVal.Enable = 'on';
             IMOBJS.MinCMinVal.Enable = 'on';
         end
-
+        function DisplayOverlayContrast(IMOBJS,Contrast)
+            IMOBJS.OverlayMax.String = num2str(Contrast(2),4);
+            IMOBJS.OverlayMin.String = num2str(Contrast(1),4);
+        end
+            
 %==================================================================
 % ROI
 %==================================================================  

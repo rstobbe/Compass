@@ -16,13 +16,20 @@ err.msg = '';
 IMG = INPUT.IMG{1};
 Im = IMG.Im;
 MASK = MASKTOP.MASK;
+SCRPTipt = INPUT.SCRPTipt;
+SCRPTGBL = INPUT.SCRPTGBL;
 clear INPUT;
 
 %---------------------------------------------
 % Create Mask
 %--------------------------------------------- 
 func = str2func([MASKTOP.maskfunc,'_Func']);  
-INPUT.Im = Im;                  
+INPUT.Im = Im;
+INPUT.ReconPars = IMG.ReconPars;
+INPUT.IMDISP = IMG.IMDISP;
+INPUT.figno = 100;
+INPUT.SCRPTipt = SCRPTipt;
+INPUT.SCRPTGBL = SCRPTGBL;
 [MASK,err] = func(MASK,INPUT);
 if err.flag
     return
@@ -46,10 +53,18 @@ IMG.IMDISP.ImInfo.info = IMG.ExpDisp;
 %---------------------------------------------
 % Return
 %---------------------------------------------
-if strfind(IMG.name,'.')
-    IMG.name = IMG.name(1:end-4);
+if isfield(MASK,'Name')
+    IMG.name = MASK.Name;
+else
+    if strfind(IMG.name,'.')
+        IMG.name = IMG.name(1:end-4);
+    end
+    if isfield(MASK,'Prefix')
+        IMG.name = [MASK.Prefix,'_',IMG.name];
+    else
+        IMG.name = ['MASK_',IMG.name];
+    end
 end
-IMG.name = ['CMASK_',IMG.name];
 MASKTOP.IMG = IMG;
 
 Status2('done','',2);

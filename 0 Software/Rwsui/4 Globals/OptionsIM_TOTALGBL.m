@@ -32,7 +32,7 @@ for n = 1:length(val)
 end
 
 %--------------------------------------------------
-% Options
+% Options1111111
 %--------------------------------------------------
 if isempty(val)
     list = {'Load Image','Load Folder'};    
@@ -41,9 +41,17 @@ elseif length(Control.Value) > IMAGEANLZ.(tab)(1).axeslen
 elseif length(Control.Value) > 1 
     list = {'Display Selected','Delete Selected','Delete All','Load Image','Load Folder'};
 elseif not(isempty(RWSUIGBL.Key))    
-    for n = 1:IMAGEANLZ.(tab)(1).axeslen
-        if strcmp(RWSUIGBL.Key,num2str(n))       
-            Gbl2Image(tab,n,totgblnum);
+    if strcmp(tab,'IM3')
+        if strcmp(RWSUIGBL.Key,'1')       
+            Gbl2ImageOrtho(tab,totgblnum);
+        elseif strcmp(RWSUIGBL.Key,'2')       
+            Gbl2ImageOrthoOverlay(tab,totgblnum);
+        end
+    else
+        for n = 1:IMAGEANLZ.(tab)(1).axeslen
+            if strcmp(RWSUIGBL.Key,num2str(n))       
+                Gbl2Image(tab,n,totgblnum);
+            end
         end
     end
     RWSUIGBL.Character = '';

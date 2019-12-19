@@ -27,6 +27,22 @@ for axnum = 1:3
 end
 
 %-----------------------------------
+% Contrast
+%-----------------------------------
+for axnum = 1:3
+    IMAGEANLZ.(tab)(axnum).OverlaySaveContrast;
+end
+if IMAGEANLZ.(tab)(1).contrasthold == 0
+    ContrastSettings = IMAGEANLZ.(tab)(axnum).OverlayInitializeContrast;          
+    for axnum = 1:3
+        IMAGEANLZ.(tab)(axnum).OverlayInitializeContrastSpecify(ContrastSettings); 
+    end
+end
+for axnum = 1:3
+    IMAGEANLZ.(tab)(axnum).OverlayLoadContrast;
+end
+
+%-----------------------------------
 % Plot
 %-----------------------------------
 for axnum = 1:3

@@ -73,6 +73,7 @@ MASK.PanelOutput = cell2struct(Panel,{'label','value','type'},2);
 %---------------------------------------------
 MASK.Mask = Mask;
 MASK.FigureName = 'CsfMask';
+MASK.Prefix = 'CSFMASK';
 
 Status2('done','',2);
 Status2('done','',3);

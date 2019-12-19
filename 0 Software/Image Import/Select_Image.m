@@ -35,6 +35,14 @@ if impath == 0
     return
 end
 
+global COMPASSINFO
+Text = fileread(COMPASSINFO.USERGBL.userinfofile);
+ind1 = strfind(Text,'User.experimentsloc');
+ind2 = strfind(Text,'User.trajdevloc');
+Text = [Text(1:ind1+22),impath,Text(ind2-4:end)];
+fid = fopen([COMPASSINFO.USERGBL.userinfofile],'w+');
+fwrite(fid,Text);
+fclose('all');
 Status2('done','',1);
 
 

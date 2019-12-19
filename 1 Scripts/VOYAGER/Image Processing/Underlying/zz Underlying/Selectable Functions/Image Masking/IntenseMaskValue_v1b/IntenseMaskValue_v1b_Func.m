@@ -20,8 +20,23 @@ clear INPUT;
 % Intensity Mask
 %---------------------------------------------
 Mask = abs(Im);
-Mask(Mask < MASK.thresh) = NaN;
-Mask(Mask >= MASK.thresh) = 1;
+if strcmp(MASK.direction,'Positive')
+    Mask(Mask < MASK.thresh) = NaN;
+    Mask(Mask >= MASK.thresh) = 1;
+elseif strcmp(MASK.direction,'Negative')
+    Mask(Mask > MASK.thresh) = NaN;
+    Mask(Mask <= MASK.thresh) = 1;
+end
+
+
+%---------------------------------------------
+% Add to Panel Output
+%---------------------------------------------
+Panel(1,:) = {'','','Output'};
+Panel(2,:) = {'',MASK.method,'Output'};
+Panel(3,:) = {'AbsCsfThresh',MASK.thresh,'Output'};
+Panel(4,:) = {'ThreshDirection',MASK.direction,'Output'};
+MASK.PanelOutput = cell2struct(Panel,{'label','value','type'},2);
 
 %---------------------------------------------
 % Return

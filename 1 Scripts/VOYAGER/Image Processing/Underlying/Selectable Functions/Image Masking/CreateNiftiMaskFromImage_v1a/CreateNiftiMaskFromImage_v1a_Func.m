@@ -34,7 +34,7 @@ Im = MASK.Mask;
 %---------------------------------------------
 Im = permute(Im,[2 1 3]);
 Im = flip(Im,2);    
-[filename,folder] = uiputfile('*.nii','Name Export Image File',[IMG.path,'CMASK_',IMG.name]);
+[filename,folder] = uiputfile('*.nii','Name Export Image File',[IMG.path,'MASK_',IMG.name]);
 if filename == 0
     err.flag = 4;
     err.msg = '';
@@ -50,16 +50,22 @@ if isfield(IMG,'ReconPars')
 else
     voxeldims = IMG.IMDISP.ImInfo.pixdim;
 end
-voxeldims = voxeldims([2 1 3]);
-origin = size(Im).*voxeldims/2;
-%origin(3) = origin(3)*1.3;
+%voxeldims = voxeldims([2 1 3]);
+%origin = size(Im).*voxeldims/2;
+origin = (size(Im)-1).*voxeldims/2;
 datatype = 'int16';
 if strcmp(datatype,'int16')
     datatype = 4;
 end
+if isfield(IMG,'hdr')
+    datatype = IMG.hdr.dime.datatype;
+end
+Im(isnan(Im)) = 0;
 description = [];
 nii = MakeNiftiHeaderYB_v1a(Im,voxeldims,origin,datatype,description); 
-%hist = nii.hdr.hist
+if isfield(IMG,'hdr')
+    nii.hdr = IMG.hdr;
+end
 save_nii(nii,[folder,filename,'.nii']);
 
 %---------------------------------------------
@@ -83,7 +89,11 @@ IMG.Im;
 if strfind(IMG.name,'.')
     IMG.name = IMG.name(1:end-4);
 end
-IMG.name = ['CMASK_',IMG.name];
+if isfield(MASK,'Prefix')
+	IMG.name = [MASK.Prefix,'_',IMG.name];
+else
+    IMG.name = ['MASK_',IMG.name];
+end
 MASKTOP.IMG = IMG;
 
 Status2('done','',2);

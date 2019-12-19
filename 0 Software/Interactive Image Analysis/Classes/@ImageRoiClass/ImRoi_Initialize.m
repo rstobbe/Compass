@@ -23,10 +23,12 @@ IMAGEROI.zlocarr = [];
 IMAGEROI.xloc0arr = [];                      
 IMAGEROI.yloc0arr = [];                         
 IMAGEROI.zloc0arr = []; 
-IMAGEROI.eventarr = [];                     
+IMAGEROI.eventarr = [];   
+IMAGEROI.alphadata = [];   
 IMAGEROI.linehandles = gobjects(0); 
 IMAGEROI.shadehandle = gobjects(0); 
 IMAGEROI.contextmenu = gobjects(0); 
+IMAGEROI.info = '';      
 IMAGEROI.CREATEMETHOD = cell(0);
 
 %IMAGEROI.CREATEMETHOD = IMAGEANLZ.(IMAGEANLZ.activeroi);
@@ -43,6 +45,6 @@ if strcmp(IMAGEROI.baseroiorient,'Axial')
     end
 end
 IMAGEROI.roimask = zeros(drawroiimsize);                        
-
+IMAGEROI.roimasksarr2d = cell(0);
 
 

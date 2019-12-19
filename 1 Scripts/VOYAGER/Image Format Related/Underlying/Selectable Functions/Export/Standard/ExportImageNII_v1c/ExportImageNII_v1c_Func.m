@@ -23,6 +23,8 @@ folder = INPUT.folder;
 filename = IMG.name;
 clear INPUT
 
+%hist = IMG.hdr.hist
+
 %---------------------------------------------
 % Test
 %---------------------------------------------
@@ -55,8 +57,9 @@ if isfield(IMG,'ReconPars')
 else
     voxeldims = IMG.IMDISP.ImInfo.pixdim;
 end
-voxeldims = voxeldims([2 1 3]);
-origin = size(Im).*voxeldims/2;
+%voxeldims = voxeldims([2 1 3]);
+%origin = size(Im).*voxeldims/2;
+origin = (size(Im)-1).*voxeldims/2;
 %origin(3) = origin(3)*1.3;                          % bad when used with SPM
 if strcmp(EXPORT.datatype,'int16')
     Im = 32767*Im/max(Im(:));

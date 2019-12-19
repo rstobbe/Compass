@@ -145,7 +145,7 @@ MASK.Mask = Cube;
 %---------------------------------------------
 % Update Panel
 %---------------------------------------------
-inds = strcmp('Disp (LR,TB,IO)',{SCRPTipt.labelstr});
+inds = strcmp('Disp (TB,LR,IO)',{SCRPTipt.labelstr});
 indnum = find(inds==1);
 if length(indnum) > 1
     indnum = indnum(SCRPTGBL.RWSUI.scrptnum);
@@ -154,6 +154,17 @@ SCRPTipt(indnum).entrystr = [num2str(disp(1)*ReconPars.ImvoxLR),',',num2str(disp
 setfunc = 1;
 DispScriptParam(SCRPTipt,setfunc,SCRPTGBL.RWSUI.tab,SCRPTGBL.RWSUI.panelnum);
 MASK.SCRPTipt = SCRPTipt;
+
+%---------------------------------------------
+% Panel Output
+%--------------------------------------------- 
+Panel(1,:) = {'',MASK.method,'Output'};
+% Panel(2,:) = {'Direction',direction,'Output'};
+% Panel(3,:) = {'Width (mm)',MASK.width,'Output'};
+% Panel(4,:) = {'Displace (mm)',MASK.displace,'Output'};
+PanelOutput = cell2struct(Panel,{'label','value','type'},2);
+MASK.PanelOutput = PanelOutput;
+
 
 Status2('done','',2);
 Status2('done','',3);

@@ -20,6 +20,7 @@ if ImageSlice(y,x) <= DAT.seed
         x = x+1;
         y = y0;
         if x > sz(2)
+            Status2('error','No boundary (seed too big)',3);
             err = 1;
             return
         end

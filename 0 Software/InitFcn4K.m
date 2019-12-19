@@ -27,7 +27,7 @@ COMPASSINFO.USERGBL.trajdevloc = compassfolder;
 COMPASSINFO.USERGBL.tempdataloc = compassfolder;
 COMPASSINFO.USERGBL.invfiltloc = compassfolder;
 COMPASSINFO.USERGBL.imkernloc = compassfolder;
-COMPASSINFO.USERGBL.sysresploc = compassfolder;   
+COMPASSINFO.USERGBL.sysresploc = compassfolder; 
 if exist('CompassUserInfo','file')
     COMPASSINFO.USERGBL = CompassUserInfo;
 end

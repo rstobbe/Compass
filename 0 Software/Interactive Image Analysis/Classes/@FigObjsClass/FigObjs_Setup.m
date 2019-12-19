@@ -349,6 +349,21 @@ if isfield(FIGOBJS.(tab),'OverlayTransparency')
         IMOBJS.OverlayTransparency = FIGOBJS.(tab).OverlayTransparency(axnum);
     end
 end
+if isfield(FIGOBJS.(tab),'OverlayValue')
+    if axnum <= length(FIGOBJS.(tab).OverlayValue)
+        IMOBJS.OverlayValue = FIGOBJS.(tab).OverlayValue(axnum);
+    end
+end
+if isfield(FIGOBJS.(tab),'OverlayMax')
+    if axnum <= length(FIGOBJS.(tab).OverlayMax)
+        IMOBJS.OverlayMax = FIGOBJS.(tab).OverlayMax(axnum);
+    end
+end
+if isfield(FIGOBJS.(tab),'OverlayMin')
+    if axnum <= length(FIGOBJS.(tab).OverlayMin)
+        IMOBJS.OverlayMin = FIGOBJS.(tab).OverlayMin(axnum);
+    end
+end
 if isfield(FIGOBJS.(tab),'HoldContrast')
     if axnum <= length(FIGOBJS.(tab).HoldContrast)
         IMOBJS.HoldContrast = FIGOBJS.(tab).HoldContrast(axnum);

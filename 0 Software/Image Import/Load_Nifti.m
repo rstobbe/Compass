@@ -53,17 +53,21 @@ Im = flip(Im,1);
 %---------------------------------
 
 if strcmp(button,'ExploreDTI')
-    Im = flip(Im,2);                            % ExploreDTI exports weird... (at least that's my contention
+    Im = flip(Im,2);                            % ExploreDTI exports weird... (at least that's my contention)
 end
 
 ImInfo.dims = size(Im);
 
-ReconPars.ImvoxTB = round(ImInfo.pixdim(1)*100)/100;
-ReconPars.ImvoxLR = round(ImInfo.pixdim(2)*100)/100;  
-ReconPars.ImvoxIO = round(ImInfo.pixdim(3)*100)/100;  
+% ReconPars.ImvoxTB = round(ImInfo.pixdim(1)*100)/100;
+% ReconPars.ImvoxLR = round(ImInfo.pixdim(2)*100)/100;  
+% ReconPars.ImvoxIO = round(ImInfo.pixdim(3)*100)/100;  
+ReconPars.ImvoxTB = ImInfo.pixdim(1);
+ReconPars.ImvoxLR = ImInfo.pixdim(2);  
+ReconPars.ImvoxIO = ImInfo.pixdim(3);  
 
 IMG.Im = Im;
 IMG.ReconPars = ReconPars;
+IMG.hdr = out.hdr;
 
 Panel(1,:) = {'','','Output'};
 Panel(2,:) = {'File',Imfile,'Output'};

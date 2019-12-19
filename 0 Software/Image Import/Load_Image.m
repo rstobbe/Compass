@@ -11,6 +11,15 @@ global COMPASSINFO
 %---------------------------------------------------------
 DefFileType = IMAGEANLZ.(tab)(1).IMFILETYPE;
 DefPath = IMAGEANLZ.(tab)(1).IMPATH;
+
+%---------------------------------------------------------
+% Select Image File
+%---------------------------------------------------------
+if isempty(DefPath)
+    IMAGEANLZ.(tab)(1).IMPATH = COMPASSINFO.USERGBL.experimentsloc;
+    DefPath = IMAGEANLZ.(tab)(1).IMPATH;
+end
+
 [imfile,impath,err] = Select_Image(DefPath,DefFileType);
 if err.flag
     return

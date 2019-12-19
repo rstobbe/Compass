@@ -33,6 +33,7 @@ for n = 1:3
     end
     INPUT.Number = n;
     INPUT.MFEVO = MFEVO{n};
+    INPUT.Dir = dirarr(n);
     [MOD,err] = func(MOD,INPUT);
     if err.flag
         return

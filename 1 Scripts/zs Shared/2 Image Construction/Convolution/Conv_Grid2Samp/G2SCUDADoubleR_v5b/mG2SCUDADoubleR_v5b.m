@@ -24,12 +24,21 @@ end
 Status2('busy','CUDA',StatLev);
 
 %------------------------------------
-% CUDA Specifics
+% Function Hardcoded for 2 GPUs
 %------------------------------------
 NumberGpus = CUDA.Index;
+if NumberGpus > 2
+    NumberGpus = 2;
+end
+
+%------------------------------------
+% CUDA Specifics
+%------------------------------------
 ComputeCapability = str2double(CUDA.ComputeCapability);
-if ComputeCapability == 6.1 || ComputeCapability == 6.2
+if ComputeCapability == 6.1 || ComputeCapability == 6.2 
     CoresPerMultiProcessor = 128;
+elseif ComputeCapability == 7.5
+    CoresPerMultiProcessor = 64;       % Number of ALU lanes for integer and single-precision floating-point arithmetic operations	
 end
 MultiprocessorCount = CUDA.MultiprocessorCount;
 TotalCoresInPlay = CoresPerMultiProcessor*MultiprocessorCount*NumberGpus;
@@ -113,15 +122,19 @@ Kz(1:Len0) = Kz0;
 % Convolve
 %------------------------------------
 tic
-%[SampDat,Test,Error] = G2SCUDADoubleR_v4g(CDat,Kx,Ky,Kz,Kern,iKern,chW,chunklen,[],Stathands);
-[SampDat,Test,Error] = G2SCUDADoubleR_v5b(CDat,Kx,Ky,Kz,Kern,iKern,chW,chunklen,Stathands);
+if ComputeCapability == 6.1 || ComputeCapability == 6.2 
+    [SampDat,Test,Error] = G2SCUDADoubleR61_v5b(CDat,Kx,Ky,Kz,Kern,iKern,chW,chunklen,Stathands);
+elseif ComputeCapability == 7.5
+    [SampDat,Test,Error] = G2SCUDADoubleR75_v5b(CDat,Kx,Ky,Kz,Kern,iKern,chW,chunklen,Stathands);
+end
 SampDat = SampDat(1:Len0);
 toc
-%DataSumTest = sum(SampDat(:))
-%error
+%Test
+%DataSumTest = sum(CDat(:))/1e6
 if not(strcmp(Error,'no error'))
     CUDAerror = Error
     error();
 end
+%error
 
 Status2('done','',StatLev);
