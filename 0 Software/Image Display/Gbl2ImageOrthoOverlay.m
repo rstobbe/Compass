@@ -26,6 +26,16 @@ for axnum = 1:3
     IMAGEANLZ.(tab)(axnum).AssignOverlay(totgblnum);
 end
 
+%----------------------------------------
+% Test Colour Image
+%----------------------------------------
+[colourimage,dim4] = IMAGEANLZ.(tab)(1).TestColourOverlay;
+if dim4~=1
+    for axnum = 1:3
+        IMAGEANLZ.(tab)(axnum).SetOverlayDimension(dim4);
+    end
+end
+
 %-----------------------------------
 % Contrast
 %-----------------------------------

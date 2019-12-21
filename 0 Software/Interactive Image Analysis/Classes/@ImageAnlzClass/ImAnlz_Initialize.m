@@ -34,6 +34,7 @@ IMAGEANLZ.drawroionall = 0;
 IMAGEANLZ.temproiclr = [];
 IMAGEANLZ.roievent = 'Add';
 IMAGEANLZ.colourimage = 0;
+IMAGEANLZ.colouroverlay = 0;
 
 IMAGEANLZ.imslice = [];
 IMAGEANLZ.imvol = [];
@@ -85,6 +86,7 @@ IMAGEANLZ.SLICE = 1;
 IMAGEANLZ.DIM4 = 1;
 IMAGEANLZ.DIM5 = 1;
 IMAGEANLZ.DIM6 = 1;
+IMAGEANLZ.OverlayDim4 = 1;
 %-- zoom
 IMAGEANLZ.SCALE = [];  
 %-- drawing

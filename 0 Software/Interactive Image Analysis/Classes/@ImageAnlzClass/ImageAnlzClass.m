@@ -50,6 +50,7 @@ classdef ImageAnlzClass < handle
         ORIENT;
         %-- navigate
         SLICE,DIM4,DIM5,DIM6;
+        OverlayDim4;
         %-- zoom
         SCALE; 
         %-- drawing
@@ -72,6 +73,7 @@ classdef ImageAnlzClass < handle
         roievent;
         redrawroi;
         colourimage;
+        colouroverlay;
         %-- line
         GETLINE;
         LineToolActive;
@@ -311,6 +313,20 @@ classdef ImageAnlzClass < handle
             imsize = ones(1,6);
             imsize(1:length(newimsize)) = newimsize;
         end
+        % GetOverlayImageSize
+        function imsize = GetOverlayImageSize(IMAGEANLZ,overtotgblnum)
+            global TOTALGBL
+            if isempty(overtotgblnum)
+                overtotgblnum = IMAGEANLZ.overtotgblnum;
+            end
+            if isempty(overtotgblnum)
+                imsize = [];
+                return
+            end
+            newimsize = size(TOTALGBL{2,overtotgblnum}.Im);
+            imsize = ones(1,6);
+            imsize(1:length(newimsize)) = newimsize;
+        end
         % GetBasePixelDimensions
         function pixdim = GetBasePixelDimensions(IMAGEANLZ,totgblnum)
             global TOTALGBL
@@ -478,7 +494,34 @@ classdef ImageAnlzClass < handle
             else
                 IMAGEANLZ.FIGOBJS.Dim6.Enable = 'Off';
             end
-        end          
+        end
+        % TestColourOverlay
+        function [colouroverlay,OverlayDim4] = TestColourOverlay(IMAGEANLZ)
+            colouroverlay = 0;
+            IMAGEANLZ.colourimage = 0;
+            imsize = IMAGEANLZ.GetOverlayImageSize([]);
+            if imsize(4) > 1
+                if imsize(4) == 3
+                    answer = questdlg('Display Image in Colour');
+                    if strcmp(answer,'Yes')
+                        IMAGEANLZ.colouroverlay = 1;
+                        colouroverlay = 1;
+                        IMAGEANLZ.OverlayDim4 = 1;
+                    else
+                        answer = inputdlg('Dim4 Number','Dim4 Number');
+                        IMAGEANLZ.OverlayDim4 = str2double(answer{1});
+                    end
+                else
+                    answer = inputdlg('Dim4 Number','Dim4 Number');
+                    IMAGEANLZ.OverlayDim4 = str2double(answer{1});
+                end
+            end
+            OverlayDim4 = IMAGEANLZ.OverlayDim4;
+        end 
+        % SetOverlayDimension
+        function SetOverlayDimension(IMAGEANLZ,Dim4)
+            IMAGEANLZ.OverlayDim4 = Dim4;
+        end
         % TestEnableMultiDim
         function colourimage = TestEnableMultiDim(IMAGEANLZ,colourimage)
             IMAGEANLZ.colourimage = colourimage;
@@ -1893,10 +1936,10 @@ classdef ImageAnlzClass < handle
             global TOTALGBL
             Image = TOTALGBL{2,IMAGEANLZ.overtotgblnum}.Im;
             Image = ImageOrient(IMAGEANLZ,Image);
-            %Image = Image(:,:,:,IMAGEANLZ.DIM4,IMAGEANLZ.DIM5,IMAGEANLZ.DIM6);
+            Image = Image(:,:,:,IMAGEANLZ.OverlayDim4);
+            %Image = abs(Image);
             Image = real(Image);
             Image(isnan(Image)) = 0;
-            %Image = abs(Image);
         end
         % GetOriented3DImage
         function Image = GetOriented3DImage(IMAGEANLZ,orient)
