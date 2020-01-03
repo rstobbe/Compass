@@ -21,8 +21,9 @@ if samedims == 0
         return
     end
 end
-IMAGEANLZ.(tab)(axnum).ResetImType;
+ImType = IMAGEANLZ.(tab)(axnum).GetImType;
 for axnum = 1:3
+    IMAGEANLZ.(tab)(axnum).ResetImTypeSpecify(ImType);
     IMAGEANLZ.(tab)(axnum).AssignData(totgblnum);
     IMAGEANLZ.(tab)(axnum).SetAxisActive;
 end
@@ -84,7 +85,7 @@ for axnum = 1:3
     IMAGEANLZ.(tab)(axnum).SaveContrast;
 end
 if IMAGEANLZ.(tab)(1).contrasthold == 0
-    ContrastSettings = IMAGEANLZ.(tab)(axnum).InitializeContrast;          
+    ContrastSettings = IMAGEANLZ.(tab)(1).InitializeContrast;          
     for axnum = 1:3
         IMAGEANLZ.(tab)(axnum).InitializeContrastSpecify(ContrastSettings); 
     end

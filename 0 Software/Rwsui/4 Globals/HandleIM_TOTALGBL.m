@@ -1,5 +1,7 @@
 function HandleIM_TOTALGBL(Control,Action)
 
+global IMAGEANLZ
+
 %--------------------------------------------------
 % Input
 %--------------------------------------------------
@@ -9,6 +11,8 @@ if isempty(val)
 end
 totgblnum = Control.UserData(val).totgblnum;
 tab = Control.Parent.Parent.Parent.Tag;
+
+IMAGEANLZ.(tab)(1).SetTotGblNumHighlight(totgblnum);
 
 %--------------------------------------------------
 % Script Panels

@@ -9,7 +9,7 @@ tab = src.Parent.Parent.Parent.Tag;
 if isempty(tab)
     tab = src.Parent.Parent.Parent.Parent.Parent.Tag;
 end
-axnum = str2double(src.Tag);
+axnum = str2double(src.Tag(1));
 
 %--------------------------------------------
 % Change Contrast
@@ -19,12 +19,13 @@ if isnan(str2double(src.String))
 end
 SetFocus(tab,axnum);
 
-IMAGEANLZ.(tab)(axnum).OverlayMaxUserEdit;
+overlaynum = str2double(src.Tag(2)); 
+IMAGEANLZ.(tab)(axnum).OverlayMaxUserEdit(overlaynum);
  
 if strcmp(IMAGEANLZ.(tab)(axnum).presentation,'Standard')
 elseif strcmp(IMAGEANLZ.(tab)(axnum).presentation,'Ortho')
     for n = 1:3
-        IMAGEANLZ.(tab)(n).ChangeMaxOverlayVal(str2double(src.String));
+        IMAGEANLZ.(tab)(n).ChangeMaxOverlayVal(overlaynum,str2double(src.String));
     end
 end
 

@@ -24,6 +24,8 @@ end
 IMAGEANLZ.highlight = 0;
 IMAGEANLZ.overtotgblnum = [];
 IMAGEANLZ.totgblnum = [];
+IMAGEANLZ.totgblnumhl = [];
+IMAGEANLZ.loadedoverlay = [0 0 0 0];
 IMAGEANLZ.axisactive = 0;
 IMAGEANLZ.shaderoi = 0;
 IMAGEANLZ.shaderoivalue = 0;
@@ -34,14 +36,14 @@ IMAGEANLZ.drawroionall = 0;
 IMAGEANLZ.temproiclr = [];
 IMAGEANLZ.roievent = 'Add';
 IMAGEANLZ.colourimage = 0;
-IMAGEANLZ.colouroverlay = 0;
+IMAGEANLZ.colouroverlay = [0 0 0 0];
 
 IMAGEANLZ.imslice = [];
 IMAGEANLZ.imvol = [];
-IMAGEANLZ.overimslice = [];
-IMAGEANLZ.overimvol = [];
-IMAGEANLZ.overimvolalpha = [];
-IMAGEANLZ.overimslicealpha = [];
+IMAGEANLZ.overimslice = cell(1,4);
+IMAGEANLZ.overimvol = cell(1,4);
+IMAGEANLZ.overimvolalpha = cell(1,4);
+IMAGEANLZ.overimslicealpha = cell(1,4);
 IMAGEANLZ.curmat = [1 1 1];
 IMAGEANLZ.tinymove = 0;
 
@@ -73,10 +75,11 @@ IMAGEANLZ.OMaxContrastMax = [];
 IMAGEANLZ.OMaxContrastCurrent = []; 
 IMAGEANLZ.OMinContrastMin = []; 
 IMAGEANLZ.OMinContrastCurrent = []; 
-IMAGEANLZ.OContrastSettings = struct();
+IMAGEANLZ.OContrastSettings = [];
+IMAGEANLZ.ImageObject = gobjects(0);
 %-- overlay
-IMAGEANLZ.OverlayColour = 'Yes';
-IMAGEANLZ.OverlayTransparency = 0.5;
+IMAGEANLZ.OverlayColour = {'Yes','Yes','Yes','Yes'};
+IMAGEANLZ.OverlayTransparency = [0.5 0.5 0.5 0.5];
 IMAGEANLZ.OverlayObject = gobjects(0);
 %-- orient
 IMAGEANLZ.ORIENT = 'Axial';
@@ -86,7 +89,7 @@ IMAGEANLZ.SLICE = 1;
 IMAGEANLZ.DIM4 = 1;
 IMAGEANLZ.DIM5 = 1;
 IMAGEANLZ.DIM6 = 1;
-IMAGEANLZ.OverlayDim4 = 1;
+IMAGEANLZ.OverlayDim4 = [1 1 1 1];
 %-- zoom
 IMAGEANLZ.SCALE = [];  
 %-- drawing

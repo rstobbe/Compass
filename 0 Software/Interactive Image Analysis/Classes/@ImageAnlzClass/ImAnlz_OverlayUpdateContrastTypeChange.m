@@ -1,33 +1,34 @@
 %============================================
 % 
 %============================================
-function ImAnlz_OverlayUpdateContrastTypeChange(IMAGEANLZ)
+function ImAnlz_OverlayUpdateContrastTypeChange(IMAGEANLZ,overlaynum)
 
-OContrastSettings = IMAGEANLZ.OContrastSettings;
+n = overlaynum;
+OContrastSettings = IMAGEANLZ.OContrastSettings{n};
 if strcmp(IMAGEANLZ.OImType,'abs')
-    IMAGEANLZ.OMaxContrastMax = OContrastSettings.MaxAbsMaxCurrent;
-    IMAGEANLZ.OMaxContrastCurrent = OContrastSettings.AbsMax;
-    IMAGEANLZ.OMinContrastMin = OContrastSettings.MinAbsMinCurrent;
-    IMAGEANLZ.OMinContrastCurrent = OContrastSettings.AbsMin;
+    IMAGEANLZ.OMaxContrastMax(n) = OContrastSettings.MaxAbsMaxCurrent;
+    IMAGEANLZ.OMaxContrastCurrent(n) = OContrastSettings.AbsMax;
+    IMAGEANLZ.OMinContrastMin(n) = OContrastSettings.MinAbsMinCurrent;
+    IMAGEANLZ.OMinContrastCurrent(n) = OContrastSettings.AbsMin;
 elseif strcmp(IMAGEANLZ.OImType,'real')
-    IMAGEANLZ.OMaxContrastMax = OContrastSettings.MaxRealMaxCurrent;
-    IMAGEANLZ.OMaxContrastCurrent = OContrastSettings.RealMax;
-    IMAGEANLZ.OMinContrastMin = OContrastSettings.MinRealMinCurrent;
-    IMAGEANLZ.OMinContrastCurrent = OContrastSettings.RealMin;
+    IMAGEANLZ.OMaxContrastMax(n) = OContrastSettings.MaxRealMaxCurrent;
+    IMAGEANLZ.OMaxContrastCurrent(n) = OContrastSettings.RealMax;
+    IMAGEANLZ.OMinContrastMin(n) = OContrastSettings.MinRealMinCurrent;
+    IMAGEANLZ.OMinContrastCurrent(n) = OContrastSettings.RealMin;
 elseif strcmp(IMAGEANLZ.OImType,'imag')
-    IMAGEANLZ.OMaxContrastMax = OContrastSettings.MaxImagMaxCurrent;
-    IMAGEANLZ.OMaxContrastCurrent = OContrastSettings.ImagMax;
-    IMAGEANLZ.OMinContrastMin = OContrastSettings.MinImagMinCurrent;
-    IMAGEANLZ.OMinContrastCurrent = OContrastSettings.ImagMin;
+    IMAGEANLZ.OMaxContrastMax(n) = OContrastSettings.MaxImagMaxCurrent;
+    IMAGEANLZ.OMaxContrastCurrent(n) = OContrastSettings.ImagMax;
+    IMAGEANLZ.OMinContrastMin(n) = OContrastSettings.MinImagMinCurrent;
+    IMAGEANLZ.OMinContrastCurrent(n) = OContrastSettings.ImagMin;
 elseif strcmp(IMAGEANLZ.OImType,'phase')
-    IMAGEANLZ.OMaxContrastMax = OContrastSettings.MaxPhaseMaxCurrent;
-    IMAGEANLZ.OMaxContrastCurrent = OContrastSettings.PhaseMax;
-    IMAGEANLZ.OMinContrastMin = OContrastSettings.MinPhaseMinCurrent;
-    IMAGEANLZ.OMinContrastCurrent = OContrastSettings.PhaseMin;
+    IMAGEANLZ.OMaxContrastMax(n) = OContrastSettings.MaxPhaseMaxCurrent;
+    IMAGEANLZ.OMaxContrastCurrent(n) = OContrastSettings.PhaseMax;
+    IMAGEANLZ.OMinContrastMin(n) = OContrastSettings.MinPhaseMinCurrent;
+    IMAGEANLZ.OMinContrastCurrent(n) = OContrastSettings.PhaseMin;
 elseif strcmp(IMAGEANLZ.OImType,'map')
-    IMAGEANLZ.OMaxContrastMax = OContrastSettings.MaxMapMaxCurrent;
-    IMAGEANLZ.OMaxContrastCurrent = OContrastSettings.MapMax;
-    IMAGEANLZ.OMinContrastMin = OContrastSettings.MinMapMinCurrent;
-    IMAGEANLZ.OMinContrastCurrent = OContrastSettings.MapMin;
+    IMAGEANLZ.OMaxContrastMax(n) = OContrastSettings.MaxMapMaxCurrent;
+    IMAGEANLZ.OMaxContrastCurrent(n) = OContrastSettings.MapMax;
+    IMAGEANLZ.OMinContrastMin(n) = OContrastSettings.MinMapMinCurrent;
+    IMAGEANLZ.OMinContrastCurrent(n) = OContrastSettings.MapMin;
 end
     

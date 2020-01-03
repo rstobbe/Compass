@@ -115,13 +115,16 @@ IMOBJS.MinCMinVal.String = '0';
 IMOBJS.MinCMinVal.ForegroundColor = [0.8 0.8 0.8];
 IMOBJS.MinCMinVal.Enable = 'inactive';
 
-IMOBJS.OverlayTransparency.Value = 0.5; 
-IMOBJS.OverlayColour.Value = 2;
-IMOBJS.OverlayValue.String = '';
-IMOBJS.OverlayMax.String = '1';
-IMOBJS.OverlayMax.Enable = 'on';
-IMOBJS.OverlayMin.String = '0';
-IMOBJS.OverlayMin.Enable = 'on';
+for n = 1:4
+    IMOBJS.OverlayTransparency(n).Value = 0.5; 
+    IMOBJS.OverlayColour(n).Value = 2;
+    IMOBJS.OverlayValue(n).String = '';
+    IMOBJS.OverlayMax(n).String = '1';
+    IMOBJS.OverlayMax(n).Enable = 'on';
+    IMOBJS.OverlayMin(n).String = '0';
+    IMOBJS.OverlayMin(n).Enable = 'on';
+    IMOBJS.OverlayName(n).String = '';
+end
 
 IMOBJS.Dim4.Max = 1;
 IMOBJS.Dim4.Value = 1;

@@ -1,7 +1,7 @@
 %===================================================
-% 
+%
 %===================================================
-function OverlayMinEdit(src,event)
+function LoadOverlay(src,event)
 
 global IMAGEANLZ
 
@@ -13,7 +13,12 @@ axnum = str2double(src.Tag(1));
 SetFocus(tab,axnum);
 
 %--------------------------------------------
-% Set Colour
+% Load Overlay
 %--------------------------------------------
-overlaynum = str2double(src.Tag(2));
-IMAGEANLZ.(tab)(axnum).FIGOBJS.OverlayMin(overlaynum).ForegroundColor = [0.8 0.5 0.3];
+OverlayNumber = str2double(src.Tag(2));
+if strcmp(IMAGEANLZ.(tab)(axnum).presentation,'Standard')
+    IMAGEANLZ.(tab)(axnum).DeleteOverlay;
+elseif strcmp(IMAGEANLZ.(tab)(axnum).presentation,'Ortho')
+    Gbl2ImageOrthoOverlay(tab,IMAGEANLZ.(tab)(1).totgblnumhl,OverlayNumber);
+end
+

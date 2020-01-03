@@ -27,7 +27,7 @@ end
 IMAGEANLZ.('IM2')(1).IMPATH = impath;
 IMAGEANLZ.('IM3')(1).IMPATH = impath;
 if not(strcmp(COMPASSINFO.USERGBL.setup,'ImageAnalysis'))
-    IMAGEANLZ.('IM1')(1).IMPATH = impath;
+    IMAGEANLZ.('IM')(1).IMPATH = impath;
     IMAGEANLZ.('IM4')(1).IMPATH = impath;
 end
     
@@ -38,26 +38,15 @@ end
 if err.flag
     return
 end
-IMAGEANLZ.('IM')(1).IMFILETYPE = ImType;
-IMAGEANLZ.('IM2')(1).IMFILETYPE = ImType;
-IMAGEANLZ.('IM3')(1).IMFILETYPE = ImType;
-IMAGEANLZ.('IM4')(1).IMFILETYPE = ImType;
-
-%---------------------------------------------------------
-% Name Image
-%---------------------------------------------------------
-%imname = inputdlg('Image Name:','Image Name',1,{Name});
-%if isempty(imname)
-%    return
-%end
-imname = {Name};
 
 %---------------------------------------------------------
 % Write To Global
 %---------------------------------------------------------
-totalgbl{1} = imname{1};
-totalgbl{2} = IMG;
-from = 'CompassLoad';
-Load_TOTALGBL(totalgbl,tab,from);
+for n = 1:length(IMG)
+    totalgbl{1} = Name{n};
+    totalgbl{2} = IMG{n};
+    from = 'CompassLoad';
+    Load_TOTALGBL(totalgbl,tab,from);
+end
 
 

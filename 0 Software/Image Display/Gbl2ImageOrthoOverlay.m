@@ -1,7 +1,7 @@
 %====================================================
 % 
 %====================================================
-function Gbl2ImageOrthoOverlay(tab,totgblnum)
+function Gbl2ImageOrthoOverlay(tab,totgblnum,overlaynum)
 
 global IMAGEANLZ
 
@@ -14,50 +14,62 @@ if err.flag
     ErrDisp(err)
     return
 end
+if ~IMAGEANLZ.(tab)(axnum).TestForLoadedImage
+    err.flag = 1;
+    err.msg = 'No base image loaded';
+    ErrDisp(err);
+    return
+end
 samedims = IMAGEANLZ.(tab)(axnum).ImageDimsCompare(totgblnum);
 if samedims == 0
-    abort = IMAGEANLZ.(tab)(axnum).RoiSizeTest(totgblnum);
-    if abort == 1
-        return
-    end
+    err.flag = 1;
+    err.msg = 'Overlay different dimensions than image';
+    ErrDisp(err);
+    return
 end
 
 for axnum = 1:3
-    IMAGEANLZ.(tab)(axnum).AssignOverlay(totgblnum);
+    IMAGEANLZ.(tab)(axnum).AssignOverlay(totgblnum,overlaynum);
 end
+
+IMAGEANLZ.(tab)(1).SetOverlayName(overlaynum);
 
 %----------------------------------------
 % Test Colour Image
 %----------------------------------------
-[colourimage,dim4] = IMAGEANLZ.(tab)(1).TestColourOverlay;
+[colourimage,dim4] = IMAGEANLZ.(tab)(1).TestColourOverlay(overlaynum);
 if dim4~=1
     for axnum = 1:3
         IMAGEANLZ.(tab)(axnum).SetOverlayDimension(dim4);
     end
+elseif colourimage == 1
+    for axnum = 1:3
+        IMAGEANLZ.(tab)(axnum).SetColourOverlay(overlaynum);
+    end
 end
-
+   
 %-----------------------------------
 % Contrast
 %-----------------------------------
 for axnum = 1:3
-    IMAGEANLZ.(tab)(axnum).OverlaySaveContrast;
+    IMAGEANLZ.(tab)(axnum).OverlaySaveContrast(overlaynum);
 end
 if IMAGEANLZ.(tab)(1).contrasthold == 0
-    ContrastSettings = IMAGEANLZ.(tab)(axnum).OverlayInitializeContrast;          
+    ContrastSettings = IMAGEANLZ.(tab)(1).OverlayInitializeContrast(overlaynum);          
     for axnum = 1:3
-        IMAGEANLZ.(tab)(axnum).OverlayInitializeContrastSpecify(ContrastSettings); 
+        IMAGEANLZ.(tab)(axnum).OverlayInitializeContrastSpecify(ContrastSettings,overlaynum); 
     end
 end
 for axnum = 1:3
-    IMAGEANLZ.(tab)(axnum).OverlayLoadContrast;
+    IMAGEANLZ.(tab)(axnum).OverlayLoadContrast(overlaynum);
 end
 
 %-----------------------------------
 % Plot
 %-----------------------------------
 for axnum = 1:3
-    IMAGEANLZ.(tab)(axnum).SetImage;
-    IMAGEANLZ.(tab)(axnum).SetImageSlice;
+    IMAGEANLZ.(tab)(axnum).SetOverlay(overlaynum);
+    IMAGEANLZ.(tab)(axnum).SetOverlaySlice(overlaynum);
     IMAGEANLZ.(tab)(axnum).PlotImage;
     if IMAGEANLZ.(tab)(axnum).SAVEDROISFLAG == 1
         IMAGEANLZ.(tab)(axnum).DrawSavedROIs([]);

@@ -340,28 +340,33 @@ if isfield(FIGOBJS.(tab),'TieCursor')
     end
 end
 if isfield(FIGOBJS.(tab),'OverlayColour')
-    if axnum <= length(FIGOBJS.(tab).OverlayColour)
-        IMOBJS.OverlayColour = FIGOBJS.(tab).OverlayColour(axnum);
+    if axnum <= length(FIGOBJS.(tab).OverlayColour(:,1))
+        IMOBJS.OverlayColour = FIGOBJS.(tab).OverlayColour(axnum,:);
     end
 end
 if isfield(FIGOBJS.(tab),'OverlayTransparency')
-    if axnum <= length(FIGOBJS.(tab).OverlayTransparency)
-        IMOBJS.OverlayTransparency = FIGOBJS.(tab).OverlayTransparency(axnum);
+    if axnum <= length(FIGOBJS.(tab).OverlayTransparency(:,1))
+        IMOBJS.OverlayTransparency = FIGOBJS.(tab).OverlayTransparency(axnum,:);
     end
 end
 if isfield(FIGOBJS.(tab),'OverlayValue')
-    if axnum <= length(FIGOBJS.(tab).OverlayValue)
-        IMOBJS.OverlayValue = FIGOBJS.(tab).OverlayValue(axnum);
+    if axnum <= length(FIGOBJS.(tab).OverlayValue(:,1))
+        IMOBJS.OverlayValue = FIGOBJS.(tab).OverlayValue(axnum,:);
     end
 end
 if isfield(FIGOBJS.(tab),'OverlayMax')
-    if axnum <= length(FIGOBJS.(tab).OverlayMax)
-        IMOBJS.OverlayMax = FIGOBJS.(tab).OverlayMax(axnum);
+    if axnum <= length(FIGOBJS.(tab).OverlayMax(:,1))
+        IMOBJS.OverlayMax = FIGOBJS.(tab).OverlayMax(axnum,:);
     end
 end
 if isfield(FIGOBJS.(tab),'OverlayMin')
-    if axnum <= length(FIGOBJS.(tab).OverlayMin)
-        IMOBJS.OverlayMin = FIGOBJS.(tab).OverlayMin(axnum);
+    if axnum <= length(FIGOBJS.(tab).OverlayMin(:,1))
+        IMOBJS.OverlayMin = FIGOBJS.(tab).OverlayMin(axnum,:);
+    end
+end
+if isfield(FIGOBJS.(tab),'OverlayName')
+    if axnum <= length(FIGOBJS.(tab).OverlayName(:,1))
+        IMOBJS.OverlayName = FIGOBJS.(tab).OverlayName(axnum,:);
     end
 end
 if isfield(FIGOBJS.(tab),'HoldContrast')

@@ -8,6 +8,7 @@ classdef ImageAnlzClass < handle
         %-- general
         tab,axnum,axeslen;
         totgblnum,axisactive;
+        totgblnumhl;
         overtotgblnum;
         highlight;
         pointer;
@@ -16,6 +17,7 @@ classdef ImageAnlzClass < handle
         imvol,imslice;
         overimvol,overimslice;
         overimvolalpha,overimslicealpha;
+        loadedoverlay;
         %-- loading
         IMPATH;
         IMFILETYPE;
@@ -33,6 +35,7 @@ classdef ImageAnlzClass < handle
         MinContrastMin;
         MinContrastCurrent;
         ContrastSettings;
+        ImageObject;
         %-- overlay contrast
         OImType;
         ORelContrast;
@@ -42,7 +45,6 @@ classdef ImageAnlzClass < handle
         OMinContrastMin;
         OMinContrastCurrent;
         OContrastSettings;
-        %-- overlay
         OverlayColour;
         OverlayTransparency;
         OverlayObject;
@@ -177,17 +179,32 @@ classdef ImageAnlzClass < handle
         % AssignData
         function AssignData(IMAGEANLZ,totgblnum)
             IMAGEANLZ.totgblnum = totgblnum;
-        end  
-        % AssignOverlay
-        function AssignOverlay(IMAGEANLZ,totgblnum)
-            IMAGEANLZ.overtotgblnum = totgblnum;
-        end   
-        % TestForOverlay
-        function bool = TestForOverlay(IMAGEANLZ)
+        end 
+        % TestForLoadedImage
+        function bool = TestForLoadedImage(IMAGEANLZ)
             bool = 1;
-            if isempty(IMAGEANLZ.overtotgblnum)
+            if isempty(IMAGEANLZ.totgblnum)
                 bool = 0;
             end
+        end
+        % AssignOverlay
+        function AssignOverlay(IMAGEANLZ,totgblnum,overlaynum)
+            IMAGEANLZ.overtotgblnum(overlaynum) = totgblnum;
+            IMAGEANLZ.loadedoverlay(overlaynum) = 1;
+        end 
+        % SetOverlayName
+        function SetOverlayName(IMAGEANLZ,overlaynum)
+            global TOTALGBL
+            ImName = TOTALGBL{1,IMAGEANLZ.overtotgblnum(overlaynum)};
+            IMAGEANLZ.FIGOBJS.SetOverlayName(ImName,overlaynum);
+        end 
+        % SetTotGblNumHighlight
+        function SetTotGblNumHighlight(IMAGEANLZ,totgblnumhl)
+            IMAGEANLZ.totgblnumhl = totgblnumhl;
+        end
+        % TestForOverlay
+        function bool = TestForOverlay(IMAGEANLZ,overlaynum)
+            bool = IMAGEANLZ.loadedoverlay(overlaynum);
         end
         % Highlight
         function Highlight(IMAGEANLZ)
@@ -314,10 +331,10 @@ classdef ImageAnlzClass < handle
             imsize(1:length(newimsize)) = newimsize;
         end
         % GetOverlayImageSize
-        function imsize = GetOverlayImageSize(IMAGEANLZ,overtotgblnum)
+        function imsize = GetOverlayImageSize(IMAGEANLZ,overtotgblnum,overlaynum)
             global TOTALGBL
             if isempty(overtotgblnum)
-                overtotgblnum = IMAGEANLZ.overtotgblnum;
+                overtotgblnum = IMAGEANLZ.overtotgblnum(overlaynum);
             end
             if isempty(overtotgblnum)
                 imsize = [];
@@ -470,7 +487,8 @@ classdef ImageAnlzClass < handle
             imsize = IMAGEANLZ.GetBaseImageSize([]);
             if imsize(4) > 1
                 if imsize(4) == 3
-                    answer = questdlg('Display Image in Colour');
+                    %answer = questdlg('Display Image in Colour','Colour Image','Yes','No','Yes');
+                    answer = 'Yes';
                     if strcmp(answer,'Yes')
                         IMAGEANLZ.colourimage = 1;
                         colourimage = 1;
@@ -496,28 +514,35 @@ classdef ImageAnlzClass < handle
             end
         end
         % TestColourOverlay
-        function [colouroverlay,OverlayDim4] = TestColourOverlay(IMAGEANLZ)
+        function [colouroverlay,OverlayDim4] = TestColourOverlay(IMAGEANLZ,overlaynum)
             colouroverlay = 0;
-            IMAGEANLZ.colourimage = 0;
-            imsize = IMAGEANLZ.GetOverlayImageSize([]);
+            IMAGEANLZ.colouroverlay(overlaynum) = 0;
+            imsize = IMAGEANLZ.GetOverlayImageSize([],overlaynum);
             if imsize(4) > 1
                 if imsize(4) == 3
-                    answer = questdlg('Display Image in Colour');
+                    %answer = questdlg('Display Image in Colour');
+                    answer = 'Yes';
                     if strcmp(answer,'Yes')
-                        IMAGEANLZ.colouroverlay = 1;
+                        IMAGEANLZ.colouroverlay(overlaynum) = 1;
                         colouroverlay = 1;
-                        IMAGEANLZ.OverlayDim4 = 1;
+                        IMAGEANLZ.OverlayDim4(overlaynum) = 1;
                     else
                         answer = inputdlg('Dim4 Number','Dim4 Number');
-                        IMAGEANLZ.OverlayDim4 = str2double(answer{1});
+                        IMAGEANLZ.OverlayDim4(overlaynum) = str2double(answer{1});
                     end
                 else
                     answer = inputdlg('Dim4 Number','Dim4 Number');
-                    IMAGEANLZ.OverlayDim4 = str2double(answer{1});
+                    IMAGEANLZ.OverlayDim4(overlaynum) = str2double(answer{1});
                 end
+            else
+                IMAGEANLZ.OverlayDim4(overlaynum) = 1;
             end
-            OverlayDim4 = IMAGEANLZ.OverlayDim4;
+            OverlayDim4 = IMAGEANLZ.OverlayDim4(overlaynum);
         end 
+        % SetColourOverlay
+        function SetColourOverlay(IMAGEANLZ,overlaynum)
+            IMAGEANLZ.colouroverlay(overlaynum) = 1;
+        end
         % SetOverlayDimension
         function SetOverlayDimension(IMAGEANLZ,Dim4)
             IMAGEANLZ.OverlayDim4 = Dim4;
@@ -586,10 +611,10 @@ classdef ImageAnlzClass < handle
             IMAGEANLZ.FIGOBJS.CMaxVal.Enable = 'on';
         end
         %OverlayMaxUserEdit
-        function OverlayMaxUserEdit(IMAGEANLZ)
-            IMAGEANLZ.FIGOBJS.OverlayMax.ForegroundColor = [0.8 0.8 0.8];
-            IMAGEANLZ.FIGOBJS.OverlayMax.Enable = 'off';
-            IMAGEANLZ.FIGOBJS.OverlayMax.Enable = 'on';
+        function OverlayMaxUserEdit(IMAGEANLZ,overlaynum)
+            IMAGEANLZ.FIGOBJS.OverlayMax(overlaynum).ForegroundColor = [0.8 0.8 0.8];
+            IMAGEANLZ.FIGOBJS.OverlayMax(overlaynum).Enable = 'off';
+            IMAGEANLZ.FIGOBJS.OverlayMax(overlaynum).Enable = 'on';
         end
         %CMinValUserEdit
         function CMinValUserEdit(IMAGEANLZ)
@@ -598,10 +623,10 @@ classdef ImageAnlzClass < handle
             IMAGEANLZ.FIGOBJS.CMinVal.Enable = 'on';
         end
         %OverlayMinUserEdit
-        function OverlayMinUserEdit(IMAGEANLZ)
-            IMAGEANLZ.FIGOBJS.OverlayMin.ForegroundColor = [0.8 0.8 0.8];
-            IMAGEANLZ.FIGOBJS.OverlayMin.Enable = 'off';
-            IMAGEANLZ.FIGOBJS.OverlayMin.Enable = 'on';
+        function OverlayMinUserEdit(IMAGEANLZ,overlaynum)
+            IMAGEANLZ.FIGOBJS.OverlayMin(overlaynum).ForegroundColor = [0.8 0.8 0.8];
+            IMAGEANLZ.FIGOBJS.OverlayMin(overlaynum).Enable = 'off';
+            IMAGEANLZ.FIGOBJS.OverlayMin(overlaynum).Enable = 'on';
         end
         %MaxCMaxValUserEdit
         function MaxCMaxValUserEdit(IMAGEANLZ)
@@ -795,23 +820,23 @@ classdef ImageAnlzClass < handle
             IMAGEANLZ.SetContrast;
         end
         % ChangeMaxOverlayVal
-        function ChangeMaxOverlayVal(IMAGEANLZ,cmax)
-            IMAGEANLZ.OFullContrast = cmax;
-            IMAGEANLZ.OMaxContrastCurrent = cmax;
-            IMAGEANLZ.ORelContrast(1) = IMAGEANLZ.OMinContrastCurrent/IMAGEANLZ.OFullContrast;
-            IMAGEANLZ.ORelContrast(2) = IMAGEANLZ.OMaxContrastCurrent/IMAGEANLZ.OFullContrast;
-            if(IMAGEANLZ.ORelContrast(2) <= IMAGEANLZ.ORelContrast(1))
-                IMAGEANLZ.ORelContrast(2) = IMAGEANLZ.ORelContrast(1)+0.01;
+        function ChangeMaxOverlayVal(IMAGEANLZ,overlaynum,cmax)
+            IMAGEANLZ.OFullContrast(overlaynum) = cmax;
+            IMAGEANLZ.OMaxContrastCurrent(overlaynum) = cmax;
+            IMAGEANLZ.ORelContrast(1,overlaynum) = IMAGEANLZ.OMinContrastCurrent(overlaynum)/IMAGEANLZ.OFullContrast(overlaynum);
+            IMAGEANLZ.ORelContrast(2,overlaynum) = IMAGEANLZ.OMaxContrastCurrent(overlaynum)/IMAGEANLZ.OFullContrast(overlaynum);
+            if(IMAGEANLZ.ORelContrast(2,overlaynum) <= IMAGEANLZ.ORelContrast(1,overlaynum))
+                IMAGEANLZ.ORelContrast(2,overlaynum) = IMAGEANLZ.ORelContrast(1,overlaynum)+0.01;
             end
             IMAGEANLZ.PlotImage;
         end
         % ChangeMinOverlayVal
-        function ChangeMinOverlayVal(IMAGEANLZ,cmin)
-            IMAGEANLZ.OMinContrastCurrent = cmin;
-            IMAGEANLZ.ORelContrast(1) = IMAGEANLZ.OMinContrastCurrent/IMAGEANLZ.OFullContrast;
-            IMAGEANLZ.ORelContrast(2) = IMAGEANLZ.OMaxContrastCurrent/IMAGEANLZ.OFullContrast;
-            if(IMAGEANLZ.ORelContrast(2) <= IMAGEANLZ.ORelContrast(1))
-                IMAGEANLZ.ORelContrast(2) = IMAGEANLZ.ORelContrast(1)+0.01;
+        function ChangeMinOverlayVal(IMAGEANLZ,overlaynum,cmin)
+            IMAGEANLZ.OMinContrastCurrent(overlaynum) = cmin;
+            IMAGEANLZ.ORelContrast(1,overlaynum) = IMAGEANLZ.OMinContrastCurrent(overlaynum)/IMAGEANLZ.OFullContrast(overlaynum);
+            IMAGEANLZ.ORelContrast(2,overlaynum) = IMAGEANLZ.OMaxContrastCurrent(overlaynum)/IMAGEANLZ.OFullContrast(overlaynum);
+            if(IMAGEANLZ.ORelContrast(2,overlaynum) <= IMAGEANLZ.ORelContrast(1,overlaynum))
+                IMAGEANLZ.ORelContrast(2,overlaynum) = IMAGEANLZ.ORelContrast(1,overlaynum)+0.01;
             end
             IMAGEANLZ.PlotImage;
         end
@@ -861,26 +886,35 @@ classdef ImageAnlzClass < handle
             IMAGEANLZ.LoadContrast;
             IMAGEANLZ.imvol = IMAGEANLZ.GetCurrent3DImage;
         end
+        % ResetImType
         function ResetImType(IMAGEANLZ)
             IMAGEANLZ.ImType = IMAGEANLZ.FIGOBJS.ImType.String{IMAGEANLZ.FIGOBJS.ImType.Value};
         end
+        % ResetImTypeSpecify
+        function ResetImTypeSpecify(IMAGEANLZ,ImTypeIn)
+            IMAGEANLZ.ImType = ImTypeIn;
+        end
+        % GetImType
+        function ImTypeOut = GetImType(IMAGEANLZ)
+            ImTypeOut = IMAGEANLZ.FIGOBJS.ImType.String{IMAGEANLZ.FIGOBJS.ImType.Value};
+        end        
         % InitializeContrast
         function ContrastSettings = InitializeContrast(IMAGEANLZ)
             ImAnlz_InitializeContrast(IMAGEANLZ);
             ContrastSettings = IMAGEANLZ.ContrastSettings;
         end
         % OverlayInitializeContrast
-        function ContrastSettings = OverlayInitializeContrast(IMAGEANLZ)
-            ImAnlz_OverlayInitializeContrast(IMAGEANLZ);
-            ContrastSettings = IMAGEANLZ.OContrastSettings;
+        function ContrastSettings = OverlayInitializeContrast(IMAGEANLZ,overlaynum)
+            ImAnlz_OverlayInitializeContrast(IMAGEANLZ,overlaynum);
+            ContrastSettings = IMAGEANLZ.OContrastSettings{overlaynum};
         end
         % InitializeContrastSpecify
         function InitializeContrastSpecify(IMAGEANLZ,ContrastSettings)
             IMAGEANLZ.ContrastSettings = ContrastSettings;
         end
         % OverlayInitializeContrastSpecify
-        function OverlayInitializeContrastSpecify(IMAGEANLZ,OContrastSettings)
-            IMAGEANLZ.OContrastSettings = OContrastSettings;
+        function OverlayInitializeContrastSpecify(IMAGEANLZ,OContrastSettings,overlaynum)
+            IMAGEANLZ.OContrastSettings{overlaynum} = OContrastSettings;
         end
         % DefaultContrast
         function DefaultContrast(IMAGEANLZ)
@@ -912,24 +946,29 @@ classdef ImageAnlzClass < handle
             IMAGEANLZ.SetContrast;
         end
         % OverlayLoadContrast
-        function OverlayLoadContrast(IMAGEANLZ)
-            ImAnlz_OverlayUpdateContrastTypeChange(IMAGEANLZ); 
-            if abs(IMAGEANLZ.OMaxContrastMax) < abs(IMAGEANLZ.OMinContrastMin)
-                IMAGEANLZ.OFullContrast = abs(IMAGEANLZ.OMinContrastMin);
+        function OverlayLoadContrast(IMAGEANLZ,overlaynum)
+            ImAnlz_OverlayUpdateContrastTypeChange(IMAGEANLZ,overlaynum);
+            n = overlaynum;
+            if abs(IMAGEANLZ.OMaxContrastMax(n)) < abs(IMAGEANLZ.OMinContrastMin(n))
+                IMAGEANLZ.OFullContrast(n) = abs(IMAGEANLZ.OMinContrastMin(n));
             else
-                IMAGEANLZ.OFullContrast = abs(IMAGEANLZ.OMaxContrastMax);
+                IMAGEANLZ.OFullContrast(n) = abs(IMAGEANLZ.OMaxContrastMax(n));
             end
-            IMAGEANLZ.ORelContrast(1) = IMAGEANLZ.OMinContrastCurrent/IMAGEANLZ.OFullContrast;
-            IMAGEANLZ.ORelContrast(2) = IMAGEANLZ.OMaxContrastCurrent/IMAGEANLZ.OFullContrast;
-            IMAGEANLZ.FIGOBJS.DisplayOverlayContrast(IMAGEANLZ.ORelContrast*IMAGEANLZ.OFullContrast);
+            IMAGEANLZ.ORelContrast(1,n) = IMAGEANLZ.OMinContrastCurrent(n)/IMAGEANLZ.OFullContrast(n);
+            IMAGEANLZ.ORelContrast(2,n) = IMAGEANLZ.OMaxContrastCurrent(n)/IMAGEANLZ.OFullContrast(n);
+            if IMAGEANLZ.colouroverlay(n)
+                IMAGEANLZ.FIGOBJS.DisplayOverlayContrast([0,1],n);
+            else
+                IMAGEANLZ.FIGOBJS.DisplayOverlayContrast(IMAGEANLZ.ORelContrast(:,n)*IMAGEANLZ.OFullContrast(n),n);
+            end
         end
         % SaveContrast
         function SaveContrast(IMAGEANLZ)
             ImAnlz_SaveContrast(IMAGEANLZ);
         end
         % OverlaySaveContrast
-        function OverlaySaveContrast(IMAGEANLZ)
-            ImAnlz_OverlaySaveContrast(IMAGEANLZ);
+        function OverlaySaveContrast(IMAGEANLZ,overlaynum)
+            ImAnlz_OverlaySaveContrast(IMAGEANLZ,overlaynum);
         end
         % ReturnContrast
         function ContrastSettings = ReturnContrast(IMAGEANLZ)
@@ -940,50 +979,56 @@ classdef ImageAnlzClass < handle
 % Overlay
 %==================================================================              
         % ToggleOverlayColour
-        function ToggleOverlayColour(IMAGEANLZ,usecolour)
-            IMAGEANLZ.OverlayColour = usecolour;
-            if not(isempty(IMAGEANLZ.OverlayObject))
-                if not(isempty(IMAGEANLZ.overtotgblnum))
-                    delete(IMAGEANLZ.OverlayObject);
-                    if strcmp(IMAGEANLZ.OverlayColour,'Yes')
+        function ToggleOverlayColour(IMAGEANLZ,overlaynum,usecolour)
+            if ~IMAGEANLZ.colouroverlay(overlaynum)
+                IMAGEANLZ.OverlayColour{overlaynum} = usecolour;
+                if IMAGEANLZ.loadedoverlay(overlaynum)
+                    delete(IMAGEANLZ.OverlayObject(overlaynum));
+                    if strcmp(IMAGEANLZ.OverlayColour{overlaynum},'Yes')
                         cmap = IMAGEANLZ.FIGOBJS.Options.ColorMap;
-                        L = length(cmap);
-                        %tImg = L*(Img-IMSTRCT.lvl(1))/(IMSTRCT.lvl(2)-IMSTRCT.lvl(1));
-                        %min(tImg(:))
-                        %max(tImg(:))
-                        %tImg(tImg<1) = 1;
-                        %tImg(tImg>L) = L;
-                        tImg = L*IMAGEANLZ.overimslice/max(IMAGEANLZ.overimslice(:));
-                        CImg = zeros([size(IMAGEANLZ.overimslice) 3]);
-                        CImg(:,:,1) = interp1((1:L),cmap(:,1),tImg);
-                        CImg(:,:,2) = interp1((1:L),cmap(:,2),tImg);
-                        CImg(:,:,3) = interp1((1:L),cmap(:,3),tImg);                   
-                        ho = image('CData',CImg,'Parent',IMAGEANLZ.FIGOBJS.ImAxes);
                     else
-                        ho = image('CData',IMAGEANLZ.overimslice,'Parent',IMAGEANLZ.FIGOBJS.ImAxes);
+                        cmap = IMAGEANLZ.FIGOBJS.Options.GrayMap; 
                     end
+                    L = length(cmap);
+                    clim = IMAGEANLZ.ORelContrast(:,overlaynum)*IMAGEANLZ.OFullContrast(overlaynum);
+                    tImg = L*(IMAGEANLZ.overimslice{overlaynum}-clim(1))/(clim(2)-clim(1));
+                    CImg = zeros([size(IMAGEANLZ.overimslice{overlaynum}) 3]);
+                    CImg(:,:,1) = interp1((1:L),cmap(:,1),tImg);
+                    CImg(:,:,2) = interp1((1:L),cmap(:,2),tImg);
+                    CImg(:,:,3) = interp1((1:L),cmap(:,3),tImg);                              
+                    ho = image('CData',CImg,'Parent',IMAGEANLZ.FIGOBJS.ImAxes);
                     ho.BusyAction = 'cancel';
                     ho.Interruptible = 'off';
                     ho.CDataMapping = 'scaled';
                     ho.PickableParts = 'none';
                     ho.HitTest = 'off';
-                    ho.AlphaData = IMAGEANLZ.OverlayTransparency*IMAGEANLZ.overimslicealpha;
-                    IMAGEANLZ.OverlayObject = ho;
+                    ho.AlphaData = IMAGEANLZ.OverlayTransparency(overlaynum)*IMAGEANLZ.overimslicealpha{overlaynum};
+                    IMAGEANLZ.OverlayObject(overlaynum) = ho;
                 end
             end
         end
         % SetOverlayTransparency
-        function SetOverLayTransparency(IMAGEANLZ,transparency)
-            IMAGEANLZ.OverlayTransparency = transparency;
-            if not(isempty(IMAGEANLZ.OverlayObject))
-                IMAGEANLZ.OverlayObject.AlphaData = IMAGEANLZ.OverlayTransparency*IMAGEANLZ.overimslicealpha;
+        function SetOverLayTransparency(IMAGEANLZ,overlaynum,transparency)
+            IMAGEANLZ.OverlayTransparency(overlaynum) = transparency;
+            if IMAGEANLZ.loadedoverlay(overlaynum)
+                IMAGEANLZ.OverlayObject(overlaynum).AlphaData = IMAGEANLZ.OverlayTransparency(overlaynum)*IMAGEANLZ.overimslicealpha{overlaynum};
             end
         end            
         % DeleteOverlay
-        function DeleteOverlay(IMAGEANLZ)
-            delete(IMAGEANLZ.OverlayObject);
-            IMAGEANLZ.overtotgblnum = [];
-            IMAGEANLZ.OverlayObject = [];
+        function DeleteOverlay(IMAGEANLZ,overlaynum)
+            if IMAGEANLZ.loadedoverlay(overlaynum)
+                delete(IMAGEANLZ.OverlayObject(overlaynum));
+                IMAGEANLZ.overtotgblnum(overlaynum) = 0;
+                IMAGEANLZ.OverlayObject(overlaynum) = gobjects(1);
+                IMAGEANLZ.loadedoverlay(overlaynum) = 0;
+                IMAGEANLZ.FIGOBJS.DeleteOverlayName(overlaynum);
+                IMAGEANLZ.OverlayTransparency(overlaynum) = 0.5;
+                IMAGEANLZ.FIGOBJS.SetOverlayTransparency(0.5,overlaynum);
+                IMAGEANLZ.FIGOBJS.SetOverlayMax(1,overlaynum);
+                IMAGEANLZ.FIGOBJS.SetOverlayMin(0,overlaynum);
+                IMAGEANLZ.OverlayColour{overlaynum} = 'Yes';
+                IMAGEANLZ.FIGOBJS.SetOverlayColour(overlaynum);
+            end
         end
         
 %==================================================================
@@ -1779,13 +1824,12 @@ classdef ImageAnlzClass < handle
             end
         end
         % GetCurrentPointDataOverlay
-        function Data = GetCurrentPointDataOverlay(IMAGEANLZ,x,y)        
-%             if IMAGEANLZ.overcolourimage
-%                 Data.val = squeeze(IMAGEANLZ.overimslice(round(y),round(x),:));
-%             else
-%                 Data.val = IMAGEANLZ.overimslice(round(y),round(x));
-%             end
-            Data.val = IMAGEANLZ.overimslice(round(y),round(x));
+        function Data = GetCurrentPointDataOverlay(IMAGEANLZ,overlaynum,x,y)        
+            if IMAGEANLZ.colouroverlay(overlaynum)
+                Data.val = squeeze(IMAGEANLZ.overimslice{overlaynum}(round(y),round(x),:));
+            else
+                Data.val = IMAGEANLZ.overimslice{overlaynum}(round(y),round(x));
+            end
         end
         % SetCurrentPointInfoOrtho
         function SetCurrentPointInfoOrtho(IMAGEANLZ,Data)
@@ -1830,9 +1874,9 @@ classdef ImageAnlzClass < handle
             IMAGEANLZ.FIGOBJS.ZPix.String = num2str(Data.point(3),'%3.0f');
         end
         % SetCurrentPointInfoOrthoOverlay
-        function SetCurrentPointInfoOrthoOverlay(IMAGEANLZ,Data)
+        function SetCurrentPointInfoOrthoOverlay(IMAGEANLZ,overlaynum,Data)
             if length(Data.val) > 1
-                IMAGEANLZ.FIGOBJS.SetOverlayValue([num2str(Data.val(1),'%3.2f'),',',num2str(Data.val(2),'%3.2f'),',',num2str(Data.val(3),'%3.2f')]);
+                IMAGEANLZ.FIGOBJS.SetOverlayValue(overlaynum,[num2str(Data.val(1),'%3.2f'),',',num2str(Data.val(2),'%3.2f'),',',num2str(Data.val(3),'%3.2f')]);
             else
                 switch IMAGEANLZ.OImType
                     case 'abs'
@@ -1862,7 +1906,7 @@ classdef ImageAnlzClass < handle
                             num = num2str(Data.val,4);
                         end
                 end
-                IMAGEANLZ.FIGOBJS.SetOverlayValue(num);
+                IMAGEANLZ.FIGOBJS.SetOverlayValue(overlaynum,num);
             end
         end        
         % ClearCurrentPointInfoOrtho
@@ -1876,8 +1920,8 @@ classdef ImageAnlzClass < handle
             IMAGEANLZ.FIGOBJS.ZPix.String = '';
         end
         % ClearCurrentPointInfoOrthoOverlay
-        function ClearCurrentPointInfoOrthoOverlay(IMAGEANLZ)  
-            IMAGEANLZ.FIGOBJS.ClearOverlayValue;
+        function ClearCurrentPointInfoOrthoOverlay(IMAGEANLZ,overlaynum)  
+            IMAGEANLZ.FIGOBJS.ClearOverlayValue(overlaynum);
         end
         
 %==================================================================
@@ -1892,6 +1936,12 @@ classdef ImageAnlzClass < handle
                 IMAGEANLZ.overimvolalpha(IMAGEANLZ.overimvol == 0) = 0;
             end
         end
+        % SetOverlay       
+        function SetOverlay(IMAGEANLZ,overlaynum)
+            IMAGEANLZ.overimvol{overlaynum} = GetCurrent3DImageOverlay(IMAGEANLZ,overlaynum);
+            IMAGEANLZ.overimvolalpha{overlaynum} = ones(size(IMAGEANLZ.overimvol{overlaynum}));
+            IMAGEANLZ.overimvolalpha{overlaynum}(IMAGEANLZ.overimvol{overlaynum} == 0) = 0;
+        end
         % SetImageSlice        
         function SetImageSlice(IMAGEANLZ)
             if IMAGEANLZ.colourimage
@@ -1899,10 +1949,25 @@ classdef ImageAnlzClass < handle
             else
                 IMAGEANLZ.imslice = IMAGEANLZ.imvol(:,:,IMAGEANLZ.SLICE);
             end
-            if not(isempty(IMAGEANLZ.overtotgblnum))
-                IMAGEANLZ.overimslice = IMAGEANLZ.overimvol(:,:,IMAGEANLZ.SLICE);
-                IMAGEANLZ.overimslicealpha = IMAGEANLZ.overimvolalpha(:,:,IMAGEANLZ.SLICE);
+            for n = 1:4
+                if not(isempty(IMAGEANLZ.overimvol{n}))
+                    if IMAGEANLZ.colouroverlay(n)
+                        IMAGEANLZ.overimslice{n} = squeeze(IMAGEANLZ.overimvol{n}(:,:,IMAGEANLZ.SLICE,:));
+                    else
+                        IMAGEANLZ.overimslice{n} = IMAGEANLZ.overimvol{n}(:,:,IMAGEANLZ.SLICE);
+                    end
+                    IMAGEANLZ.overimslicealpha{n} = IMAGEANLZ.overimvolalpha{n}(:,:,IMAGEANLZ.SLICE);
+                end
             end
+        end
+        % SetOverlaySlice        
+        function SetOverlaySlice(IMAGEANLZ,overlaynum)
+            if IMAGEANLZ.colouroverlay(overlaynum)
+                IMAGEANLZ.overimslice{overlaynum} = squeeze(IMAGEANLZ.overimvol{overlaynum}(:,:,IMAGEANLZ.SLICE,:));
+            else
+                IMAGEANLZ.overimslice{overlaynum} = IMAGEANLZ.overimvol{overlaynum}(:,:,IMAGEANLZ.SLICE);
+            end
+            IMAGEANLZ.overimslicealpha{overlaynum} = IMAGEANLZ.overimvolalpha{overlaynum}(:,:,IMAGEANLZ.SLICE);
         end
         % GetCurrent3DImageComplex
         function Image = GetCurrent3DImageComplex(IMAGEANLZ)
@@ -1912,9 +1977,9 @@ classdef ImageAnlzClass < handle
             Image = Image(:,:,:,IMAGEANLZ.DIM4,IMAGEANLZ.DIM5,IMAGEANLZ.DIM6);
         end
         % GetCurrent3DImageComplexOverlay
-        function Image = GetCurrent3DImageComplexOverlay(IMAGEANLZ)
+        function Image = GetCurrent3DImageComplexOverlay(IMAGEANLZ,overlaynum)
             global TOTALGBL
-            Image = TOTALGBL{2,IMAGEANLZ.overtotgblnum}.Im;
+            Image = TOTALGBL{2,IMAGEANLZ.overtotgblnum(overlaynum)}.Im;
             Image = ImageOrient(IMAGEANLZ,Image);
             Image = Image(:,:,:,1,1,1);                     % for now
         end
@@ -1932,11 +1997,15 @@ classdef ImageAnlzClass < handle
             Image = ImageTypeCreate(IMAGEANLZ,Image);  
         end
         % GetCurrent3DImageOverlay
-        function Image = GetCurrent3DImageOverlay(IMAGEANLZ)
+        function Image = GetCurrent3DImageOverlay(IMAGEANLZ,overlaynum)
             global TOTALGBL
-            Image = TOTALGBL{2,IMAGEANLZ.overtotgblnum}.Im;
+            Image = TOTALGBL{2,IMAGEANLZ.overtotgblnum(overlaynum)}.Im;
             Image = ImageOrient(IMAGEANLZ,Image);
-            Image = Image(:,:,:,IMAGEANLZ.OverlayDim4);
+            if IMAGEANLZ.colouroverlay(overlaynum)
+                %Image = Image;
+            else 
+                Image = Image(:,:,:,IMAGEANLZ.OverlayDim4(overlaynum));
+            end
             %Image = abs(Image);
             Image = real(Image);
             Image(isnan(Image)) = 0;
@@ -2003,28 +2072,34 @@ classdef ImageAnlzClass < handle
             h.CDataMapping = 'scaled';
             h.PickableParts = 'none';
             h.HitTest = 'off';
-            if not(isempty(IMAGEANLZ.overtotgblnum))
-                if strcmp(IMAGEANLZ.OverlayColour,'Yes')
-                    cmap = IMAGEANLZ.FIGOBJS.Options.ColorMap;
-                    L = length(cmap);
-                    clim = IMAGEANLZ.ORelContrast*IMAGEANLZ.OFullContrast;
-                    tImg = L*(IMAGEANLZ.overimslice-clim(1))/(clim(2)-clim(1));
-                    %tImg = L*(IMAGEANLZ.overimslice-min(IMAGEANLZ.overimslice(:)))/(max(IMAGEANLZ.overimslice(:))-min(IMAGEANLZ.overimslice(:)));
-                    CImg = zeros([size(IMAGEANLZ.overimslice) 3]);
-                    CImg(:,:,1) = interp1((1:L),cmap(:,1),tImg);
-                    CImg(:,:,2) = interp1((1:L),cmap(:,2),tImg);
-                    CImg(:,:,3) = interp1((1:L),cmap(:,3),tImg);                   
-                    ho = image('CData',CImg,'Parent',IMAGEANLZ.FIGOBJS.ImAxes);
-                else
-                    ho = image('CData',IMAGEANLZ.overimslice,'Parent',IMAGEANLZ.FIGOBJS.ImAxes);
+            IMAGEANLZ.ImageObject = h;                                      % just in case need it
+            for n = 1:4
+                if IMAGEANLZ.loadedoverlay(n)
+                    if IMAGEANLZ.colouroverlay(n)
+                        ho = image('CData',IMAGEANLZ.overimslice{n},'Parent',IMAGEANLZ.FIGOBJS.ImAxes);
+                    else
+                        if strcmp(IMAGEANLZ.OverlayColour{n},'Yes')
+                            cmap = IMAGEANLZ.FIGOBJS.Options.ColorMap;
+                        else
+                            cmap = IMAGEANLZ.FIGOBJS.Options.GrayMap;
+                        end
+                        L = length(cmap);
+                        clim = IMAGEANLZ.ORelContrast(:,n)*IMAGEANLZ.OFullContrast(n);
+                        tImg = L*(IMAGEANLZ.overimslice{n}-clim(1))/(clim(2)-clim(1));
+                        CImg = zeros([size(IMAGEANLZ.overimslice{n}) 3]);
+                        CImg(:,:,1) = interp1((1:L),cmap(:,1),tImg);
+                        CImg(:,:,2) = interp1((1:L),cmap(:,2),tImg);
+                        CImg(:,:,3) = interp1((1:L),cmap(:,3),tImg);                   
+                        ho = image('CData',CImg,'Parent',IMAGEANLZ.FIGOBJS.ImAxes);
+                    end
+                    ho.BusyAction = 'cancel';
+                    ho.Interruptible = 'off';
+                    ho.CDataMapping = 'scaled';
+                    ho.PickableParts = 'none';
+                    ho.HitTest = 'off';
+                    ho.AlphaData = IMAGEANLZ.OverlayTransparency(n)*IMAGEANLZ.overimslicealpha{n};
+                    IMAGEANLZ.OverlayObject(n) = ho;
                 end
-                ho.BusyAction = 'cancel';
-                ho.Interruptible = 'off';
-                ho.CDataMapping = 'scaled';
-                ho.PickableParts = 'none';
-                ho.HitTest = 'off';
-                ho.AlphaData = IMAGEANLZ.OverlayTransparency*IMAGEANLZ.overimslicealpha;
-                IMAGEANLZ.OverlayObject = ho;
             end
             drawnow;
         end

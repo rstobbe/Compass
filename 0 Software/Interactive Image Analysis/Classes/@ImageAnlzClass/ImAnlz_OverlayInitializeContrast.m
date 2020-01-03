@@ -1,9 +1,9 @@
 %============================================
 % 
 %============================================
-function ImAnlz_OverlayInitializeContrast(IMAGEANLZ)
+function ImAnlz_OverlayInitializeContrast(IMAGEANLZ,overlaynum)
 
-Image = IMAGEANLZ.GetCurrent3DImageComplexOverlay;
+Image = IMAGEANLZ.GetCurrent3DImageComplexOverlay(overlaynum);
 
 if isreal(Image)
     MaxVal = max(Image(:));
@@ -24,38 +24,40 @@ end
 %     end
 % end
 
-IMAGEANLZ.OContrastSettings.MaxAbsMaxFromImage = max([MaxVal abs(MinVal)]);
-IMAGEANLZ.OContrastSettings.MinAbsMinFromImage = 0;
-IMAGEANLZ.OContrastSettings.MaxRealMaxFromImage = max([MaxVal abs(MinVal)]);
-IMAGEANLZ.OContrastSettings.MinRealMinFromImage = -max([MaxVal abs(MinVal)]);
-IMAGEANLZ.OContrastSettings.MaxImagMaxFromImage = max([MaxVal abs(MinVal)]);
-IMAGEANLZ.OContrastSettings.MinImagMinFromImage = -max([MaxVal abs(MinVal)]);
-IMAGEANLZ.OContrastSettings.MaxPhaseMaxFromImage = pi;
-IMAGEANLZ.OContrastSettings.MinPhaseMinFromImage = -pi;
-IMAGEANLZ.OContrastSettings.MaxMapMaxFromImage = MaxVal;
-IMAGEANLZ.OContrastSettings.MinMapMinFromImage = MinVal;
+n = overlaynum;
 
-IMAGEANLZ.OContrastSettings.MaxAbsMaxCurrent = max([MaxVal abs(MinVal)]);
-IMAGEANLZ.OContrastSettings.MinAbsMinCurrent = 0;
-IMAGEANLZ.OContrastSettings.MaxRealMaxCurrent = max([MaxVal abs(MinVal)]);
-IMAGEANLZ.OContrastSettings.MinRealMinCurrent = -max([MaxVal abs(MinVal)]);
-IMAGEANLZ.OContrastSettings.MaxImagMaxCurrent = max([MaxVal abs(MinVal)]);
-IMAGEANLZ.OContrastSettings.MinImagMinCurrent = -max([MaxVal abs(MinVal)]);
-IMAGEANLZ.OContrastSettings.MaxPhaseMaxCurrent = pi;
-IMAGEANLZ.OContrastSettings.MinPhaseMinCurrent = -pi;
-IMAGEANLZ.OContrastSettings.MaxMapMaxCurrent = MaxVal;
-IMAGEANLZ.OContrastSettings.MinMapMinCurrent = MinVal;
+IMAGEANLZ.OContrastSettings{n}.MaxAbsMaxFromImage = max([MaxVal abs(MinVal)]);
+IMAGEANLZ.OContrastSettings{n}.MinAbsMinFromImage = 0;
+IMAGEANLZ.OContrastSettings{n}.MaxRealMaxFromImage = max([MaxVal abs(MinVal)]);
+IMAGEANLZ.OContrastSettings{n}.MinRealMinFromImage = -max([MaxVal abs(MinVal)]);
+IMAGEANLZ.OContrastSettings{n}.MaxImagMaxFromImage = max([MaxVal abs(MinVal)]);
+IMAGEANLZ.OContrastSettings{n}.MinImagMinFromImage = -max([MaxVal abs(MinVal)]);
+IMAGEANLZ.OContrastSettings{n}.MaxPhaseMaxFromImage = pi;
+IMAGEANLZ.OContrastSettings{n}.MinPhaseMinFromImage = -pi;
+IMAGEANLZ.OContrastSettings{n}.MaxMapMaxFromImage = MaxVal;
+IMAGEANLZ.OContrastSettings{n}.MinMapMinFromImage = MinVal;
 
-IMAGEANLZ.OContrastSettings.AbsMax = max([MaxVal abs(MinVal)]);
-IMAGEANLZ.OContrastSettings.AbsMin = 0;
-IMAGEANLZ.OContrastSettings.RealMax = max([MaxVal abs(MinVal)]);
-IMAGEANLZ.OContrastSettings.RealMin = -max([MaxVal abs(MinVal)]);
-IMAGEANLZ.OContrastSettings.ImagMax = max([MaxVal abs(MinVal)]);
-IMAGEANLZ.OContrastSettings.ImagMin = -max([MaxVal abs(MinVal)]);
-IMAGEANLZ.OContrastSettings.PhaseMax = pi;
-IMAGEANLZ.OContrastSettings.PhaseMin = -pi;
-IMAGEANLZ.OContrastSettings.MapMax = MaxVal;
-IMAGEANLZ.OContrastSettings.MapMin = MinVal;
+IMAGEANLZ.OContrastSettings{n}.MaxAbsMaxCurrent = max([MaxVal abs(MinVal)]);
+IMAGEANLZ.OContrastSettings{n}.MinAbsMinCurrent = 0;
+IMAGEANLZ.OContrastSettings{n}.MaxRealMaxCurrent = max([MaxVal abs(MinVal)]);
+IMAGEANLZ.OContrastSettings{n}.MinRealMinCurrent = -max([MaxVal abs(MinVal)]);
+IMAGEANLZ.OContrastSettings{n}.MaxImagMaxCurrent = max([MaxVal abs(MinVal)]);
+IMAGEANLZ.OContrastSettings{n}.MinImagMinCurrent = -max([MaxVal abs(MinVal)]);
+IMAGEANLZ.OContrastSettings{n}.MaxPhaseMaxCurrent = pi;
+IMAGEANLZ.OContrastSettings{n}.MinPhaseMinCurrent = -pi;
+IMAGEANLZ.OContrastSettings{n}.MaxMapMaxCurrent = MaxVal;
+IMAGEANLZ.OContrastSettings{n}.MinMapMinCurrent = MinVal;
+
+IMAGEANLZ.OContrastSettings{n}.AbsMax = max([MaxVal abs(MinVal)]);
+IMAGEANLZ.OContrastSettings{n}.AbsMin = 0;
+IMAGEANLZ.OContrastSettings{n}.RealMax = max([MaxVal abs(MinVal)]);
+IMAGEANLZ.OContrastSettings{n}.RealMin = -max([MaxVal abs(MinVal)]);
+IMAGEANLZ.OContrastSettings{n}.ImagMax = max([MaxVal abs(MinVal)]);
+IMAGEANLZ.OContrastSettings{n}.ImagMin = -max([MaxVal abs(MinVal)]);
+IMAGEANLZ.OContrastSettings{n}.PhaseMax = pi;
+IMAGEANLZ.OContrastSettings{n}.PhaseMin = -pi;
+IMAGEANLZ.OContrastSettings{n}.MapMax = MaxVal;
+IMAGEANLZ.OContrastSettings{n}.MapMin = MinVal;
 
 
 

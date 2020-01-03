@@ -96,6 +96,7 @@ classdef FigObjsClass < handle
         OverlayValue;
         OverlayMax;
         OverlayMin;
+        OverlayName;
     end
     
 %==================================================================
@@ -142,11 +143,29 @@ classdef FigObjsClass < handle
 %==================================================================
 % Overlay
 %==================================================================          
-        function SetOverlayValue(IMOBJS,val)       
-            IMOBJS.OverlayValue.String = val;
+        function SetOverlayValue(IMOBJS,overlaynum,val)       
+            IMOBJS.OverlayValue(overlaynum).String = val;
         end
-        function ClearOverlayValue(IMOBJS)       
-            IMOBJS.OverlayValue.String = '';
+        function ClearOverlayValue(IMOBJS,overlaynum)       
+            IMOBJS.OverlayValue(overlaynum).String = '';
+        end
+        function SetOverlayName(IMOBJS,name,overlaynum)       
+            IMOBJS.OverlayName(overlaynum).String = name;
+        end
+        function DeleteOverlayName(IMOBJS,overlaynum)       
+            IMOBJS.OverlayName(overlaynum).String = '';
+        end
+        function SetOverlayTransparency(IMOBJS,val,overlaynum)       
+            IMOBJS.OverlayTransparency(overlaynum).Value = val;
+        end
+        function SetOverlayMax(IMOBJS,val,overlaynum)       
+            IMOBJS.OverlayMax(overlaynum).String = num2str(val);
+        end
+        function SetOverlayMin(IMOBJS,val,overlaynum)       
+            IMOBJS.OverlayMin(overlaynum).String = num2str(val);
+        end
+        function SetOverlayColour(IMOBJS,overlaynum)       
+            IMOBJS.OverlayColour(overlaynum).Value = 2;
         end
         
 %==================================================================
@@ -162,9 +181,9 @@ classdef FigObjsClass < handle
             IMOBJS.MaxCMaxVal.Enable = 'on';
             IMOBJS.MinCMinVal.Enable = 'on';
         end
-        function DisplayOverlayContrast(IMOBJS,Contrast)
-            IMOBJS.OverlayMax.String = num2str(Contrast(2),4);
-            IMOBJS.OverlayMin.String = num2str(Contrast(1),4);
+        function DisplayOverlayContrast(IMOBJS,Contrast,overlaynum)
+            IMOBJS.OverlayMax(overlaynum).String = num2str(Contrast(2),4);
+            IMOBJS.OverlayMin(overlaynum).String = num2str(Contrast(1),4);
         end
             
 %==================================================================
