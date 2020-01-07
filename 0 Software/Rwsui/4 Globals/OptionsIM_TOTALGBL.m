@@ -35,11 +35,11 @@ end
 % Options1111111
 %--------------------------------------------------
 if isempty(val)
-    list = {'Load Image','Load Folder'};    
+    list = {'Load Images','Load Folder'};    
 elseif length(Control.Value) > IMAGEANLZ.(tab)(1).axeslen 
-    list = {'Delete Selected','Delete All','Load Image','Load Folder'};
+    list = {'Delete Selected','Delete All','Load Images','Load Folder'};
 elseif length(Control.Value) > 1 
-    list = {'Display Selected','Delete Selected','Delete All','Load Image','Load Folder'};
+    list = {'Display Selected','Delete Selected','Delete All','Load Images','Load Folder'};
 elseif not(isempty(RWSUIGBL.Key))    
     if strcmp(tab,'IM3')
         if strcmp(RWSUIGBL.Key,'1')       
@@ -58,15 +58,15 @@ elseif not(isempty(RWSUIGBL.Key))
     RWSUIGBL.Key = '';
     return
 elseif strcmp(tab,'IM')
-    list = {'Display Current','Display New','Delete','Delete All','Load Image'};
+    list = {'Display Current','Display New','Delete','Delete All','Load Images'};
 elseif strcmp(tab,'IM2')
     %list = {'Display1','Display2','Display1Overlay','Display2Overlay','Delete','Delete All','Load Image'}; 
-    list = {'Display1','Display2','Delete','Delete All','Load Image'}; 
+    list = {'Display1','Display2','Delete','Delete All','Load Images'}; 
 elseif strcmp(tab,'IM3')
     %list = {'OrthoDisplay','OrthoDisplayOverlay','Delete','Delete All','Load Image'};
-    list = {'OrthoDisplay','Delete','Delete All','Load Image'};
+    list = {'OrthoDisplay','Delete','Delete All','Load Images'};
 elseif strcmp(tab,'IM4')
-    list = {'Display1','Display2','Display3','Display4','Delete','Delete All','Load Image'}; 
+    list = {'Display1','Display2','Display3','Display4','Delete','Delete All','Load Images'}; 
 end
 [s,v] = listdlg('PromptString','Action:','SelectionMode','single','ListString',list);   
 if isempty(s)
@@ -76,7 +76,7 @@ end
 %--------------------------------------------------
 % Do Stuff
 %--------------------------------------------------
-if strcmp(list{s},'Load Image')
+if strcmp(list{s},'Load Images')
     Load_Image(tab);
 elseif strcmp(list{s},'Load Folder')
     Load_ImageFolder(tab);

@@ -60,6 +60,13 @@ if err.flag
     return
 end
 
+if length(IMG) > 1
+    err.flag = 1;
+    err.msg = 'Only 1 image supported';
+    return
+end
+IMG = IMG{1};
+
 %------------------------------------------
 % Create Label
 %------------------------------------------

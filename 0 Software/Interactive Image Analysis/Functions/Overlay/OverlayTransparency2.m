@@ -17,10 +17,10 @@ SetFocus(tab,axnum);
 %--------------------------------------------
 overlaynum = str2double(event.AffectedObject.Tag(2));
 if strcmp(IMAGEANLZ.(tab)(axnum).presentation,'Standard')
-    IMAGEANLZ.(tab)(axnum).SetOverLayTransparency(overlaynum,event.AffectedObject.Value);
+    IMAGEANLZ.(tab)(axnum).SetOverlayTransparency(overlaynum,event.AffectedObject.Value);
 elseif strcmp(IMAGEANLZ.(tab)(axnum).presentation,'Ortho')
     for axnum = 1:3
-        IMAGEANLZ.(tab)(axnum).SetOverLayTransparency(overlaynum,event.AffectedObject.Value);
+        IMAGEANLZ.(tab)(axnum).SetOverlayTransparency(overlaynum,event.AffectedObject.Value);
     end
 end
 

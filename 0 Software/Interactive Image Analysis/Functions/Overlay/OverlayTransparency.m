@@ -16,10 +16,10 @@ axnum = str2double(src.Tag(1));
 %--------------------------------------------
 overlaynum = str2double(src.Tag(2));
 if strcmp(IMAGEANLZ.(tab)(axnum).presentation,'Standard')
-    IMAGEANLZ.(tab)(axnum).SetOverLayTransparency(overlaynum,src.Value);  
+    IMAGEANLZ.(tab)(axnum).SetOverlayTransparency(overlaynum,src.Value);  
 elseif strcmp(IMAGEANLZ.(tab)(axnum).presentation,'Ortho')
     for n = 1:3
-        IMAGEANLZ.(tab)(n).SetOverLayTransparency(overlaynum,src.Value);  
+        IMAGEANLZ.(tab)(n).SetOverlayTransparency(overlaynum,src.Value);  
     end
 end
 

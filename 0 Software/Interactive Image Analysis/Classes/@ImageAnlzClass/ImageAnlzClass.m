@@ -1008,12 +1008,16 @@ classdef ImageAnlzClass < handle
             end
         end
         % SetOverlayTransparency
-        function SetOverLayTransparency(IMAGEANLZ,overlaynum,transparency)
+        function SetOverlayTransparency(IMAGEANLZ,overlaynum,transparency)
             IMAGEANLZ.OverlayTransparency(overlaynum) = transparency;
             if IMAGEANLZ.loadedoverlay(overlaynum)
                 IMAGEANLZ.OverlayObject(overlaynum).AlphaData = IMAGEANLZ.OverlayTransparency(overlaynum)*IMAGEANLZ.overimslicealpha{overlaynum};
             end
-        end            
+        end 
+        % SetOverlaySlider
+        function SetOverlaySlider(IMAGEANLZ,overlaynum,transparency)
+            IMAGEANLZ.FIGOBJS.SetOverlayTransparency(transparency,overlaynum);
+        end  
         % DeleteOverlay
         function DeleteOverlay(IMAGEANLZ,overlaynum)
             if IMAGEANLZ.loadedoverlay(overlaynum)
@@ -1930,11 +1934,11 @@ classdef ImageAnlzClass < handle
         % SetImage        
         function SetImage(IMAGEANLZ)
             IMAGEANLZ.imvol = GetCurrent3DImage(IMAGEANLZ);
-            if not(isempty(IMAGEANLZ.overtotgblnum))
-                IMAGEANLZ.overimvol = GetCurrent3DImageOverlay(IMAGEANLZ);
-                IMAGEANLZ.overimvolalpha = ones(size(IMAGEANLZ.overimvol));
-                IMAGEANLZ.overimvolalpha(IMAGEANLZ.overimvol == 0) = 0;
-            end
+%             if not(isempty(IMAGEANLZ.overtotgblnum))
+%                 IMAGEANLZ.overimvol = GetCurrent3DImageOverlay(IMAGEANLZ);
+%                 IMAGEANLZ.overimvolalpha = ones(size(IMAGEANLZ.overimvol));
+%                 IMAGEANLZ.overimvolalpha(IMAGEANLZ.overimvol == 0) = 0;
+%             end
         end
         % SetOverlay       
         function SetOverlay(IMAGEANLZ,overlaynum)

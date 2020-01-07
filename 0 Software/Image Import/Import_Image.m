@@ -68,7 +68,7 @@ for n = 1:Num
         ErrDisp(err);
         return
     end
-    IMG{n}.name = Name;
+    IMG{n}.name = Name{n};
     IMG{n}.path = impath;
 
     %---------------------------------------------------------
