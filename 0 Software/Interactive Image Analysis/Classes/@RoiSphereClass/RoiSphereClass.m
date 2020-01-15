@@ -23,7 +23,7 @@ classdef RoiSphereClass < handle
             DAT.state = 'Start';
             DAT.panelobs = gobjects(0);
             DAT.roicreatesel = 3;
-            DAT.pointer = 'crosshair';
+            DAT.pointer = 'cross';
             DAT.status = 'Sphere Drawing Tool Active';
             DAT.info = 'Left click to start';
         end

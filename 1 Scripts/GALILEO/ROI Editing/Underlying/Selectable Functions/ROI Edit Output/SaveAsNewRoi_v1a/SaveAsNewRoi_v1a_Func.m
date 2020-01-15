@@ -27,7 +27,7 @@ for n = 1:length(ROIARR)
     else
         path = LOAD.ROI(n).path;
     end
-    [file,path] = uiputfile('*.mat','Save ROI',[path,'m',ROI.roiname]);
+    [file,path] = uiputfile('*.mat','Save ROI',[path,ROI.roiname]);
     roiname = file(1:end-4);
     ROI.SetROIName(roiname);
     if path == 0

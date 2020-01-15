@@ -60,7 +60,7 @@ for n = 1:numfiles
     %--------------------------------------------
     % Load Rois
     %--------------------------------------------
-    ROILD.ROI(n) = Data;   
+    ROILD.RoiInfo(n) = Data;   
 end
 
 Status2('done','',2);

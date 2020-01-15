@@ -31,7 +31,6 @@ end
 %----------------------------------------
 % Setup Display
 %----------------------------------------
-InitializeOrthoPresentation(tab);
 for axnum = 1:3
     IMAGEANLZ.(tab)(axnum).SetDataAspectRatio;
 end
@@ -104,6 +103,12 @@ test = length(test);
 %     test
 %     error;                              % may need to increase if GUI is expanded with more objects
 % end
+
+%------------------------------------------
+% Set Orientation
+%------------------------------------------
+Orient = IMAGEANLZ.(tab)(1).GetOrient;
+UpdateOrthoOrientations(tab,Orient);
 
 %-----------------------------------
 % Plot

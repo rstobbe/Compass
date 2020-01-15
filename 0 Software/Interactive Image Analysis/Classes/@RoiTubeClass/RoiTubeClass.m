@@ -26,7 +26,7 @@ classdef RoiTubeClass < handle
             DAT.xloc2 = []; DAT.yloc1 = []; DAT.zloc1 = [];
             DAT.panelobs = gobjects(0);
             DAT.roicreatesel = 5;
-            DAT.pointer = 'crosshair';
+            DAT.pointer = 'cross';
             DAT.status = 'Tube Drawing Tool Active';
             DAT.info = 'Left click to start';
         end

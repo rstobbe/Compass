@@ -2,7 +2,7 @@
 % 
 %=========================================================
 
-function [EXPORT,err] = ExportImageNII_v1c_Func(EXPORT,INPUT)
+function [EXPORT,err] = ExportImageNII_v1d_Func(EXPORT,INPUT)
 
 Status2('busy','Export NII Images',2);
 Status2('done','',3);
@@ -58,7 +58,7 @@ else
     voxeldims = IMG.IMDISP.ImInfo.pixdim;
 end
 %---
-%voxeldims = voxeldims([2 1 3]);                     % ?
+voxeldims = voxeldims([2 1 3]);                     % ?
 %---
 origin = (size(Im)-1).*voxeldims/2;
 if strcmp(EXPORT.datatype,'int16')

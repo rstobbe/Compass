@@ -8,6 +8,7 @@ if not(isempty(imsize))
     IMAGEROI.roiimsize = imsize(1:3);
 end
 IMAGEROI.baseroiorient = IMAGEANLZ.GetBaseOrient([]);
+IMAGEROI.pixdim = IMAGEANLZ.GetBasePixelDimensions([]);
 IMAGEROI.drawroiorient = IMAGEANLZ.ORIENT;
 IMAGEROI.drawroiorientarray = [];
 IMAGEROI.roimean = [];

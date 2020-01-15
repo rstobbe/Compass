@@ -409,6 +409,7 @@ for n = 2:3
 end
 
 tg1 = uitabgroup(IM3,'Position',[0.405 0.01 0.395 0.1]);
+FIGOBJS.IM3.ControlTab(1) = tg1;
 FIGOBJS.IM3.ContrastTab(1) = uitab(tg1,'Title','Contrast','BackgroundColor',BGcolour,'ButtonDownFcn',@ResetFocus);
 for n = 1
     uicontrol('Parent',FIGOBJS.IM3.ContrastTab(n),'Style','text','tag',num2str(n),'BackgroundColor',BGcolour,'ForegroundColor',[0.8 0.8 0.8],'String','Max','HorizontalAlignment','right','Fontsize',7,'Units','normalized','Position',[0 0.54 0.07 0.14],'Enable','inactive','ButtonDownFcn',@ResetFocus);

@@ -29,6 +29,7 @@ classdef ImageRoiClass < handle
         roimasksarr2d;
         info;
         alphadata;
+        pixdim;
         CREATEMETHOD;
     end
     

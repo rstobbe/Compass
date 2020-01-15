@@ -4,6 +4,7 @@
 function KeyPressControl(currentax,tab,axnum,event)
 
 global IMAGEANLZ
+global FIGOBJS
 
 GETROIS = IMAGEANLZ.(tab)(axnum).GETROIS;
 LineToolActive = IMAGEANLZ.(tab)(axnum).LineToolActive;
@@ -19,6 +20,14 @@ switch event.Character
         end       
         NewROI(tab,axnum);
         set(gcf,'pointer',IMAGEANLZ.(tab)(axnum).pointer);
+        if strcmp(tab,'IM2')
+            N = 2;
+        else
+            N = 1;
+        end
+        for n = 1:N
+            FIGOBJS.(tab).ControlTab(1).SelectedTab = FIGOBJS.(tab).ROITab(1);
+        end
     case 'x'                                        % Delete last drawing
         if GETROIS == 0
             return

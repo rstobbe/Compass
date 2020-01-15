@@ -23,8 +23,8 @@ clear INPUT;
 % Test Input
 %---------------------------------------------
 if iscell(IMG)
-    if length(IMG) > 1
-        Im = cat(4,IMG{1}.Im,IMG{2}.Im);
+    if length(IMG) == 2
+        Im = cat(4,IMG{1}.Im(:,:,:,1,1,1),IMG{2}.Im(:,:,:,1,1,1));
         ImInfo = IMG{1}.IMDISP.ImInfo;
     else
         IMG = IMG{1};

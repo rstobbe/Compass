@@ -16,48 +16,27 @@ if not(IMAGEANLZ.(tab)(axnum).TestAxisActive)
     return
 end
 
-if not(isempty(IMAGEANLZ.(tab)(axnum).buttonfunction))
-    error;          % shouldn't get here
+% if not(isempty(IMAGEANLZ.(tab)(axnum).buttonfunction))
+%     error;          % shouldn't get here
+% end
+
+if not(strcmp(IMAGEANLZ.(tab)(axnum).presentation,'Ortho'))
+    error;              % shouldn't get here
 end
 
 %------------------------------------------
 % Set Orientation
 %------------------------------------------
+Orient = IMAGEANLZ.(tab)(axnum).GetOrient;
 IMAGEANLZ.(tab)(axnum).SetOrient(src.String{src.Value},src.Value);
-if strcmp(IMAGEANLZ.(tab)(axnum).presentation,'Ortho')
-    InitializeOrthoPresentation(tab)
-end
-
-%----------------------------------------
-% Tieing Let-go
-%----------------------------------------
-untie = 0;
-for r = 1:IMAGEANLZ.(tab)(axnum).axeslen
-    if not(strcmp(IMAGEANLZ.(tab)(r).ORIENT,IMAGEANLZ.(tab)(axnum).ORIENT))
-        untie = 1;
-        break
-    end
-end
-for r = 1:IMAGEANLZ.(tab)(axnum).axeslen
-    if untie == 1
-        IMAGEANLZ.(tab)(r).TieSlice(0);
-        IMAGEANLZ.(tab)(r).TieZoom(0);
-        IMAGEANLZ.(tab)(r).TieDatVals(0);
-        IMAGEANLZ.(tab)(r).TieCursor(0);
-    end
-end
+UpdateOrthoOrientations(tab,Orient);
 
 %----------------------------------------
 % Plot
 %----------------------------------------
-if strcmp(IMAGEANLZ.(tab)(axnum).presentation,'Ortho')
-    arr = 1:3;
-else
-    arr = axnum;
-end
-for n = arr
-    IMAGEANLZ.(tab)(n).ResetScale;
-    IMAGEANLZ.(tab)(n).SetMiddleSlice;
+for n = 1:3
+    %IMAGEANLZ.(tab)(n).ResetScale;
+    %IMAGEANLZ.(tab)(n).SetMiddleSlice;
     IMAGEANLZ.(tab)(n).SetImage;
     IMAGEANLZ.(tab)(n).SetImageSlice;
     IMAGEANLZ.(tab)(n).PlotImage;

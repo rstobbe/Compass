@@ -24,7 +24,7 @@ classdef RoiSeedClass < handle
             DAT.state = 'Start'; 
             DAT.panelobs = gobjects(0);
             DAT.roicreatesel = 2;
-            DAT.pointer = 'crosshair';
+            DAT.pointer = 'cross';
             DAT.status = 'Seed Drawing Tool Active';
             DAT.info = 'Left click';
         end

@@ -47,6 +47,7 @@ name = [stype,'_F',sfov,'_V',svox,'_E',selip,'_T',stro,'_N',snproj,'_P',sp,'_ID'
 
 if strcmp(recononly,'Yes')
     PRMWRT.name = name;
+    PRMWRT.path = IMP.path;
     return
 end
 

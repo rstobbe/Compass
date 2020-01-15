@@ -22,7 +22,11 @@ ZFIL.method = ZFILipt.Func;
 %[Ksz0,SubSamp0,~,~,~,~,~,err] = ConvSetupTest_v1b(IMP,GRD.KRNprms,Type);
 
 convchw = ceil(((GRD.KRNprms.W*GRD.KRNprms.DesforSS)-2)/2);
-kmax = IMP.impPROJdgn.kmax*IMP.PROJimp.maxrelkmax;
+if isfield(IMP.PROJimp,'maxrelkmax')
+    kmax = IMP.impPROJdgn.kmax*IMP.PROJimp.maxrelkmax;
+else
+    kmax = IMP.impPROJdgn.kmax;
+end
 kstep = IMP.impPROJdgn.kstep;
 centre = ceil(GRD.KRNprms.DesforSS*kmax/kstep) + (convchw + 2);   
 Ksz = centre*2 - 1;

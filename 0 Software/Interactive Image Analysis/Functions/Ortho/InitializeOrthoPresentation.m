@@ -20,4 +20,5 @@ IMAGEANLZ.(tab)(1).FIGOBJS.ShowOrtho.Value = 0;
 IMAGEANLZ.(tab)(1).FIGOBJS.ShadeROI.Value = 1;
 IMAGEANLZ.(tab)(1).FIGOBJS.AutoUpdateROI.Value = 1;
 
-UpdateOrthoOrientations(tab);
+PrevOrient = '';
+UpdateOrthoOrientations(tab,PrevOrient);

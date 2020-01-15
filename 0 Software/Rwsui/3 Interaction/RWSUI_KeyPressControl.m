@@ -14,6 +14,8 @@ currentob = gco;
 if not(isempty(currentob))
     if strcmp(currentob.Type,'uitab')
         return
+    elseif strcmp(currentob.Type,'uipanel')
+        return
     elseif strcmp(currentob.Type,'uicontrol') && strcmp(currentob.Style,'edit') 
         return
     end

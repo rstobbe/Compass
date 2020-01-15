@@ -427,6 +427,10 @@ classdef ImageAnlzClass < handle
             IMAGEANLZ.ORIENT = orient;
             IMAGEANLZ.FIGOBJS.Orientation.Value = val;
         end  
+        % GetOrient
+        function Orient = GetOrient(IMAGEANLZ)
+            Orient = IMAGEANLZ.ORIENT;
+        end  
         
 %==================================================================
 % Slice (number)
@@ -1727,6 +1731,7 @@ classdef ImageAnlzClass < handle
             IMAGEANLZ.movefunction = '';
             IMAGEANLZ.pointer = 'arrow';
             set(gcf,'pointer',IMAGEANLZ.pointer);
+            IMAGEANLZ.GETLINE = 0;
         end
         
 %==================================================================

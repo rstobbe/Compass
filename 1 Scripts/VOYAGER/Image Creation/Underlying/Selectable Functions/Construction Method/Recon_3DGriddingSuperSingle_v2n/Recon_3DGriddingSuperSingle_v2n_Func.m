@@ -186,7 +186,7 @@ for n = 1:Nrcvrs
             fwidy = 2*round((ReconPars.Imfovy/RECON.profres)/2);
             fwidz = 2*round((ReconPars.Imfovz/RECON.profres)/2);
             F0 = Kaiser_v1b(fwidx,fwidy,fwidz,RECON.proffilt,'unsym');
-            [x,y,z] = size(ImArr);
+            [x,y,z] = size(ImArr(:,:,:,1,1,1));
             F = zeros(x,y,z,'single');
             F(x/2-fwidx/2+1:x/2+fwidx/2,y/2-fwidy/2+1:y/2+fwidy/2,z/2-fwidz/2+1:z/2+fwidz/2) = F0;
         end
