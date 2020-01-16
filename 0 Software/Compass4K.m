@@ -883,4 +883,7 @@ DropListener(jAxis,'DropFcn',@(s,e)onDrop(Compass,s,e));
 % Done
 %================================================================
 FIGOBJS.Compass.Visible = 'on';
+if strcmp(COMPASSINFO.USERGBL.setup,'ImageAnalysis')
+    SetFocus('IM3',1);
+end
 disp('Finished');
