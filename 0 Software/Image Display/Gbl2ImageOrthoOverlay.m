@@ -102,7 +102,6 @@ end
 %-----------------------------------
 % Finish up
 %-----------------------------------
-axnum = 1;
 IMAGEANLZ.(tab)(axnum).ShowImageInfo;
 IMAGEANLZ.(tab)(axnum).UnHighlight;
 IMAGEANLZ.(tab)(axnum).TurnOnDisplay;

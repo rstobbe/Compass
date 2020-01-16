@@ -18,10 +18,25 @@ if err.flag
     ErrDisp(err)
     return
 end
-abort = IMAGEANLZ.(tab)(axnum).RoiSizeTest(totgblnum);
-if abort == 1
-    Status('done','');
-    return
+samedims = IMAGEANLZ.(tab)(axnum).ImageDimsCompare(totgblnum);
+if samedims == 0
+    abort = IMAGEANLZ.(tab)(axnum).RoiSizeTest(totgblnum);
+    if abort == 1
+        Status('done','');
+        return
+    end
+    DiscardCurrentROI(tab,axnum);
+    DeleteAllROIs(tab,axnum)
+    if IMAGEANLZ.(tab)(axnum).TestForAnyOverlay
+        button = questdlg('Image Dimensions/Orientation Incompatible with Overlays: Continue and Delete Overlays?');
+        if strcmp(button,'Yes') || strcmp(button,'Cancel') 
+            DeleteAllOverlays(tab,axnum);
+        else
+            return
+        end
+    end
+elseif isempty(samedims)
+    samedims = 0;
 end
 IMAGEANLZ.(tab)(axnum).HoldingTest(totgblnum);
 IMAGEANLZ.(tab)(axnum).AssignData(totgblnum);
@@ -159,7 +174,7 @@ end
 % Finish up
 %-----------------------------------
 IMAGEANLZ.(tab)(axnum).ShowImageInfo;
-IMAGEANLZ.(tab)(axnum).UnHighlight;
+%IMAGEANLZ.(tab)(axnum).UnHighlight;
 IMAGEANLZ.(tab)(axnum).TurnOnDisplay;
 IMAGEANLZ.(tab)(axnum).SetImageName;
 IMAGEANLZ.(tab)(axnum).SetAxisActive;

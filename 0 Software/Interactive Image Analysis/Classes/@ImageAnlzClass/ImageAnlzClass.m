@@ -163,7 +163,11 @@ classdef ImageAnlzClass < handle
         function SetFocus(IMAGEANLZ)
             IMAGEANLZ.FIGOBJS.SetFocus;
             IMAGEANLZ.STATUS.UpdateStatus;
-        end        
+        end    
+        % GetFocus
+        function CurrentObject = GetFocus(IMAGEANLZ)
+            CurrentObject = IMAGEANLZ.FIGOBJS.GetFocus;
+        end
         % GetAxisHandle
         function axishandle = GetAxisHandle(IMAGEANLZ)
             axishandle = IMAGEANLZ.FIGOBJS.ImAxes;
@@ -205,6 +209,16 @@ classdef ImageAnlzClass < handle
         % TestForOverlay
         function bool = TestForOverlay(IMAGEANLZ,overlaynum)
             bool = IMAGEANLZ.loadedoverlay(overlaynum);
+        end
+        % TestForAnyOverlay
+        function bool = TestForAnyOverlay(IMAGEANLZ)
+            bool = 0;
+            for n = 1:4
+                if IMAGEANLZ.loadedoverlay(n) == 1
+                    bool = 1;
+                    return
+                end
+            end
         end
         % Highlight
         function Highlight(IMAGEANLZ)
@@ -1034,8 +1048,9 @@ classdef ImageAnlzClass < handle
                 IMAGEANLZ.FIGOBJS.SetOverlayTransparency(0.5,overlaynum);
                 IMAGEANLZ.FIGOBJS.SetOverlayMax(1,overlaynum);
                 IMAGEANLZ.FIGOBJS.SetOverlayMin(0,overlaynum);
-                IMAGEANLZ.OverlayColour{overlaynum} = 'Yes';
+                IMAGEANLZ.OverlayColour{overlaynum} = 'No';
                 IMAGEANLZ.FIGOBJS.SetOverlayColour(overlaynum);
+                IMAGEANLZ.overimvol = cell(1,4);
             end
         end
         
@@ -1951,6 +1966,14 @@ classdef ImageAnlzClass < handle
             IMAGEANLZ.overimvolalpha{overlaynum} = ones(size(IMAGEANLZ.overimvol{overlaynum}));
             IMAGEANLZ.overimvolalpha{overlaynum}(IMAGEANLZ.overimvol{overlaynum} == 0) = 0;
         end
+        % SetActiveOverlays       
+        function SetActiveOverlays(IMAGEANLZ)
+            for n = 1:4
+                if IMAGEANLZ.TestForOverlay(n)
+                    IMAGEANLZ.SetOverlay(n);
+                end
+            end
+        end        
         % SetImageSlice        
         function SetImageSlice(IMAGEANLZ)
             if IMAGEANLZ.colourimage

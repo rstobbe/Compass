@@ -71,6 +71,9 @@ for n = arr
         IMAGEANLZ.(tab)(n).ResetScale;
         IMAGEANLZ.(tab)(n).SetMiddleSlice;
         IMAGEANLZ.(tab)(n).SetImage;
+        if IMAGEANLZ.(tab)(n).TestForAnyOverlay
+            IMAGEANLZ.(tab)(n).SetActiveOverlays;
+        end
         IMAGEANLZ.(tab)(n).SetImageSlice;
         IMAGEANLZ.(tab)(n).PlotImage;
         IMAGEANLZ.(tab)(n).SetDataAspectRatio;

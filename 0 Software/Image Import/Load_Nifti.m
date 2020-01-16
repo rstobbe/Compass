@@ -9,27 +9,29 @@ err.msg = '';
 ImInfo = '';
 IMG = struct();
 
-button = questdlg('Load Nifti Method','Load Nifti','Untouch','Modify','ExploreDTI','Untouch');
-if strcmp(button,'Modify') 
-    out = load_nii(Imfile);                             % load with rotations
-elseif strcmp(button,'Untouch') || strcmp(button,'ExploreDTI')
-    out = load_untouch_nii(Imfile); 
-elseif strcmp(button,'Reslice')
-    ind = strfind(Imfile,'\');
-    NewName = [Imfile(1:ind(end)),'r',Imfile(ind(end)+1:end)];
-    reslice_nii(Imfile,NewName); 
-    out = load_nii(NewName);
-else
-    err.flag = 4;
-    err.msg = '';
-    return
-end          
+out = load_nii(Imfile); 
 %---
-%hdr = out.hdr;
-%hk = hdr.hk
-%dime = hdr.dime
-%hist = hdr.hist
-%pixdim = dime.pixdim
+% button = questdlg('Load Nifti Method','Load Nifti','Untouch','Modify','ExploreDTI','Untouch');
+% if strcmp(button,'Modify') 
+%     out = load_nii(Imfile);                             % load with rotations
+% elseif strcmp(button,'Untouch') || strcmp(button,'ExploreDTI')
+%     out = load_untouch_nii(Imfile); 
+% elseif strcmp(button,'Reslice')
+%     ind = strfind(Imfile,'\');
+%     NewName = [Imfile(1:ind(end)),'r',Imfile(ind(end)+1:end)];
+%     reslice_nii(Imfile,NewName); 
+%     out = load_nii(NewName);
+% else
+%     err.flag = 4;
+%     err.msg = '';
+%     return
+% end          
+%---
+% hdr = out.hdr;
+% hk = hdr.hk
+% dime = hdr.dime
+% hist = hdr.hist
+% pixdim = dime.pixdim
 %---
 Im = double(out.img);
 if isfield(out.hdr.hist,'descrip')
@@ -52,7 +54,7 @@ Im = permute(Im,[2 1 3 4 5 6]);                 % NIFTI orientation - don't chan
 Im = flip(Im,1);                               
 %---------------------------------
 
-if strcmp(button,'ExploreDTI')
+if strcmp(descrip,'Created with ExploreDTI')
     Im = flip(Im,2);                            % ExploreDTI exports weird... (at least that's my contention)
 end
 

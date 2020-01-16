@@ -34,10 +34,19 @@ UpdateOrthoOrientations(tab,Orient);
 %----------------------------------------
 % Plot
 %----------------------------------------
+samedims = 0;
+sz = IMAGEANLZ.(tab)(1).GetImageSize;
+if sz(1) == sz(2) && sz(1) == sz(3)
+    samedims = 1;
+end
 for n = 1:3
-    %IMAGEANLZ.(tab)(n).ResetScale;
-    %IMAGEANLZ.(tab)(n).SetMiddleSlice;
+    if samedims == 0
+        IMAGEANLZ.(tab)(n).ResetScale;                      % hack for now
+    end
     IMAGEANLZ.(tab)(n).SetImage;
+    if IMAGEANLZ.(tab)(n).TestForAnyOverlay
+        IMAGEANLZ.(tab)(n).SetActiveOverlays;
+    end
     IMAGEANLZ.(tab)(n).SetImageSlice;
     IMAGEANLZ.(tab)(n).PlotImage;
     IMAGEANLZ.(tab)(n).SetDataAspectRatio;

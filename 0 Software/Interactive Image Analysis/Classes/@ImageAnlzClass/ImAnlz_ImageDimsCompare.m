@@ -6,7 +6,7 @@ function test = ImAnlz_ImageDimsCompare(IMAGEANLZ,totgblnum)
 test = 1;
 
 if isempty(IMAGEANLZ.totgblnum)
-    test = 0;
+    test = [];
     return
 end
 

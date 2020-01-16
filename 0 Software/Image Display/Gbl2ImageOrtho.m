@@ -20,6 +20,18 @@ if samedims == 0
     if abort == 1
         return
     end
+    DiscardCurrentROI(tab,1);
+    DeleteAllROIs(tab,1);
+    if IMAGEANLZ.(tab)(1).TestForAnyOverlay
+        button = questdlg('Image Dimensions/Orientation Incompatible with Overlays: Continue and Delete Overlays?');
+        if strcmp(button,'Yes') || strcmp(button,'Cancel') 
+            DeleteAllOverlays(tab,1);
+        else
+            return
+        end
+    end
+elseif isempty(samedims)
+    samedims = 0;
 end
 ImType = IMAGEANLZ.(tab)(axnum).GetImType;
 for axnum = 1:3
@@ -158,7 +170,7 @@ end
 %-----------------------------------
 axnum = 1;
 IMAGEANLZ.(tab)(axnum).ShowImageInfo;
-IMAGEANLZ.(tab)(axnum).UnHighlight;
+%IMAGEANLZ.(tab)(axnum).UnHighlight;
 IMAGEANLZ.(tab)(axnum).TurnOnDisplay;
 IMAGEANLZ.(tab)(axnum).SetImageName;
 IMAGEANLZ.(tab)(axnum).Move2Tab;

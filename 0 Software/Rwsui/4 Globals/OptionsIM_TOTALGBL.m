@@ -15,13 +15,6 @@ for n = 1:length(IMAGEANLZ.(tab)(1).axeslen)
 end
 
 %--------------------------------------------------
-% Axis will no longer be current object
-%--------------------------------------------------
-for n = 1:length(IMAGEANLZ.(tab)(1).axeslen)
-    IMAGEANLZ.(tab)(n).UnHighlight;
-end
-
-%--------------------------------------------------
 % Input
 %--------------------------------------------------
 val = Control.Value;
@@ -32,14 +25,14 @@ for n = 1:length(val)
 end
 
 %--------------------------------------------------
-% Options1111111
+% Options
 %--------------------------------------------------
 if isempty(val)
-    list = {'Load Images','Load Folder'};    
+    list = {'Import Images','Import Folder'};    
 elseif length(Control.Value) > IMAGEANLZ.(tab)(1).axeslen 
-    list = {'Delete Selected','Delete All','Load Images','Load Folder'};
+    list = {'Delete Selected','Delete All','Import Images','Import Folder'};
 elseif length(Control.Value) > 1 
-    list = {'Display Selected','Delete Selected','Delete All','Load Images','Load Folder'};
+    list = {'Display Selected','Delete Selected','Delete All','Import Images','Import Folder'};
 elseif not(isempty(RWSUIGBL.Key))    
     if strcmp(tab,'IM3')
         if strcmp(RWSUIGBL.Key,'1')       
@@ -58,27 +51,36 @@ elseif not(isempty(RWSUIGBL.Key))
     RWSUIGBL.Key = '';
     return
 elseif strcmp(tab,'IM')
-    list = {'Display Current','Display New','Delete','Delete All','Load Images'};
+    list = {'Display Current','Display New','Delete','Delete All','Import Images'};
 elseif strcmp(tab,'IM2')
     %list = {'Display1','Display2','Display1Overlay','Display2Overlay','Delete','Delete All','Load Image'}; 
-    list = {'Display1','Display2','Delete','Delete All','Load Images'}; 
+    list = {'Display1','Display2','Delete','Delete All','Import Images'}; 
 elseif strcmp(tab,'IM3')
     %list = {'OrthoDisplay','OrthoDisplayOverlay','Delete','Delete All','Load Image'};
-    list = {'OrthoDisplay','Delete','Delete All','Load Images'};
+    list = {'OrthoDisplay','Delete','Delete All','Import Images'};
 elseif strcmp(tab,'IM4')
-    list = {'Display1','Display2','Display3','Display4','Delete','Delete All','Load Images'}; 
+    list = {'Display1','Display2','Display3','Display4','Delete','Delete All','Import Images'}; 
 end
 [s,v] = listdlg('PromptString','Action:','SelectionMode','single','ListString',list);   
 if isempty(s)
+    axnum = GetFocus(tab);
+    IMAGEANLZ.(tab)(axnum).SetFocus;
     return
+end
+
+%--------------------------------------------------
+% Axis will no longer be current object
+%--------------------------------------------------
+for n = 1:length(IMAGEANLZ.(tab)(1).axeslen)
+    IMAGEANLZ.(tab)(n).UnHighlight;
 end
 
 %--------------------------------------------------
 % Do Stuff
 %--------------------------------------------------
-if strcmp(list{s},'Load Images')
+if strcmp(list{s},'Import Images')
     Load_Image(tab);
-elseif strcmp(list{s},'Load Folder')
+elseif strcmp(list{s},'Import Folder')
     Load_ImageFolder(tab);
 elseif strcmp(list{s},'Delete')
     Delete_TOTALGBL(totgblnum);
@@ -122,3 +124,6 @@ elseif strcmp(list{s},'OrthoDisplayOverlay')
     Gbl2ImageOrthoOverlay(tab,totgblnum);
 end
 
+axnum = GetFocus(tab);
+IMAGEANLZ.(tab)(axnum).SetFocus;
+IMAGEANLZ.(tab)(axnum).Highlight;

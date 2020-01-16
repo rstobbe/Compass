@@ -78,7 +78,7 @@ IMAGEANLZ.OMinContrastCurrent = [];
 IMAGEANLZ.OContrastSettings = [];
 IMAGEANLZ.ImageObject = gobjects(0);
 %-- overlay
-IMAGEANLZ.OverlayColour = {'Yes','Yes','Yes','Yes'};
+IMAGEANLZ.OverlayColour = {'No','No','No','No'};
 IMAGEANLZ.OverlayTransparency = [0.5 0.5 0.5 0.5];
 IMAGEANLZ.OverlayObject = gobjects(0);
 %-- orient

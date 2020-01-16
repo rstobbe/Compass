@@ -27,16 +27,41 @@ if FIGOBJS.Compass ~= test
 end
 
 currentax = gca;
-FIGOBJS.Compass.CurrentObject = currentax;
-
 tab = currentax.Parent.Parent.Tag;
 if not(isfield(IMAGEANLZ,tab))
     tab = currentax.Parent.Parent.Parent.Parent.Tag;
 end
-if strcmp(event.Character,'Q')
+
+if strcmp(event.Key,'q')
     TabReset(tab);
     return
 end
+
+if strcmp(event.Key,'delete')
+    if isgraphics(FIGOBJS.Compass.CurrentObject,'Axes')
+        if strcmp(tab,'IM3')
+            TabReset(tab);
+        else
+            axnum = GetFocus(tab);
+            AxisReset(tab,axnum);
+        end
+    elseif strcmp(FIGOBJS.Compass.CurrentObject.Style,'listbox')
+        val = FIGOBJS.Compass.CurrentObject.Value;
+        for n = 1:length(val)
+            if val ~= 0
+                totgblnum(n) = FIGOBJS.Compass.CurrentObject.UserData(val(n)).totgblnum;
+            end
+        end
+        for n = 1:length(totgblnum)
+            Delete_TOTALGBL(totgblnum(n));
+            axnum = GetFocus(tab);
+            SetFocus(tab,axnum);
+        end
+        return
+    end
+end
+
+FIGOBJS.Compass.CurrentObject = currentax;
 
 axnum = str2double(currentax.Tag);
 if isnan(axnum)

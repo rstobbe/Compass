@@ -117,7 +117,7 @@ IMOBJS.MinCMinVal.Enable = 'inactive';
 
 for n = 1:4
     IMOBJS.OverlayTransparency(n).Value = 0.5; 
-    IMOBJS.OverlayColour(n).Value = 2;
+    IMOBJS.OverlayColour(n).Value = 1;
     IMOBJS.OverlayValue(n).String = '';
     IMOBJS.OverlayMax(n).String = '1';
     IMOBJS.OverlayMax(n).Enable = 'on';

@@ -17,7 +17,7 @@ SetFocus(tab,axnum);
 %--------------------------------------------
 OverlayNumber = str2double(src.Tag(2));
 if strcmp(IMAGEANLZ.(tab)(axnum).presentation,'Standard')
-    IMAGEANLZ.(tab)(axnum).DeleteOverlay;
+    Gbl2ImageOverlay(tab,axnum,IMAGEANLZ.(tab)(axnum).totgblnumhl,OverlayNumber);
 elseif strcmp(IMAGEANLZ.(tab)(axnum).presentation,'Ortho')
     Gbl2ImageOrthoOverlay(tab,IMAGEANLZ.(tab)(1).totgblnumhl,OverlayNumber);
 end

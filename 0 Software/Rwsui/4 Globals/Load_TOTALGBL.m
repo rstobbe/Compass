@@ -1,5 +1,6 @@
 function totgblnum = Load_TOTALGBL(totalgbl,tab,from)
 
+global IMAGEANLZ
 global TOTALGBL
 global FIGOBJS
 global COMPASSINFO
@@ -106,6 +107,9 @@ if writeImtab == 1
         FIGOBJS.(tablabs{n}).GblList.UserData(len+1).function1 = 'Gbl2Image';  
         FIGOBJS.(tablabs{n}).GblList.Value = len+1;
         UpdateImageInfoBox(tablabs{n},N+1);
+        for m = 1:IMAGEANLZ.(tablabs{n})(1).axeslen
+            IMAGEANLZ.(tablabs{n})(m).SetTotGblNumHighlight(N+1);
+        end
     end
     
     if not(strcmp(COMPASSINFO.USERGBL.setup,'ImageAnalysis'))

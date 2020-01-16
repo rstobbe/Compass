@@ -19,9 +19,11 @@ for n = 1:IMAGEANLZ.(tab)(1).axeslen
     end
 end	
 
-IMAGEANLZ.(tab)(axnum).HighlightROI(roinum);
 switch RWSUIGBL.Character
     case 'a'
+        if(IMAGEANLZ.(tab)(axnum).SAVEDROISFLAG == 0)
+            return
+        end
         if ~IMAGEANLZ.(tab)(axnum).ROISOFINTEREST(roinum)
             ActivateROI(src,tab,axnum,roinum);
         else
@@ -29,6 +31,9 @@ switch RWSUIGBL.Character
         end
         return
     case 'A'
+        if(IMAGEANLZ.(tab)(axnum).SAVEDROISFLAG == 0)
+            return
+        end
         if ~IMAGEANLZ.(tab)(axnum).ROISOFINTEREST(roinum)
             ActivateAllROIs(tab,axnum);
         else
@@ -36,7 +41,8 @@ switch RWSUIGBL.Character
         end
         return
 end
-        
+
+IMAGEANLZ.(tab)(axnum).HighlightROI(roinum);
 if(IMAGEANLZ.(tab)(axnum).SAVEDROISFLAG == 0)
     [s,v] = listdlg('PromptString','Action:','SelectionMode','single','ListString',{'Load ROI','Load ROI Folder','Load Old ROI','Load Old ROI Folder'});
     if isempty(s)

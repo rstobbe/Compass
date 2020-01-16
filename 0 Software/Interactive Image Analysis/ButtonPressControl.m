@@ -22,15 +22,15 @@ if not(isfield(IMAGEANLZ,tab))
     tab = currentax.Parent.Parent.Parent.Parent.Tag;
 end
 axnum = str2double(currentax.Tag);
-if not(IMAGEANLZ.(tab)(axnum).TestAxisActive)
-    for n = 1:IMAGEANLZ.(tab)(1).axeslen
-        if IMAGEANLZ.(tab)(n).TestAxisActive    
-            FIGOBJS.Compass.CurrentAxes = FIGOBJS.(tab).ImAxes(n);
-            FIGOBJS.Compass.CurrentObject = FIGOBJS.(tab).ImAxes(n);
-            return
-        end
-    end
-end
+% if not(IMAGEANLZ.(tab)(axnum).TestAxisActive)
+%     for n = 1:IMAGEANLZ.(tab)(1).axeslen
+%         if IMAGEANLZ.(tab)(n).TestAxisActive    
+%             FIGOBJS.Compass.CurrentAxes = FIGOBJS.(tab).ImAxes(n);
+%             FIGOBJS.Compass.CurrentObject = FIGOBJS.(tab).ImAxes(n);
+%             return
+%         end
+%     end
+% end
 
 %--------------------------------------------
 % Test if button press to highlight axis

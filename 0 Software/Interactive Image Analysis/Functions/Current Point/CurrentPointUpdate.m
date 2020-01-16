@@ -20,7 +20,7 @@ else
     stop = axnum0;
 end
 
-if IMAGEANLZ.(tab)(axnum0).TestMouseInImage([x,y]) == 1
+if IMAGEANLZ.(tab)(axnum0).TestMouseInImage([x1,y1]) == 1
     set(gcf,'pointer',IMAGEANLZ.(tab)(axnum0).pointer);
     for axnum = start:stop
         if not(IMAGEANLZ.(tab)(axnum).TestAxisActive)

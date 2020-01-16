@@ -12,11 +12,18 @@ end
 totgblnum = Control.UserData(val).totgblnum;
 tab = Control.Parent.Parent.Parent.Tag;
 
-IMAGEANLZ.(tab)(1).SetTotGblNumHighlight(totgblnum);
+for n = 1:IMAGEANLZ.(tab)(1).axeslen
+    IMAGEANLZ.(tab)(n).SetTotGblNumHighlight(totgblnum);
+end
 
 %--------------------------------------------------
 % Script Panels
 %--------------------------------------------------
 UpdateImageInfoBox(tab,totgblnum);
-return
 
+axnum = GetFocus(tab);
+if not(isempty(IMAGEANLZ.(tab)(axnum).movefunction))
+    return
+end
+
+IMAGEANLZ.(tab)(axnum).SetFocus;

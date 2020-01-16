@@ -123,6 +123,9 @@ classdef FigObjsClass < handle
             IMOBJS.Compass.CurrentAxes = IMOBJS.ImAxes;                
             IMOBJS.Compass.CurrentObject = IMOBJS.ImAxes;
         end
+        function CurrentObject = GetFocus(IMOBJS)                                               
+            CurrentObject = IMOBJS.Compass.CurrentObject;
+        end
         
 %==================================================================
 % Mouse Functions
