@@ -853,10 +853,12 @@ if not(strcmp(COMPASSINFO.USERGBL.setup,'ImageAnalysis'))
     IMAGEANLZ.('IM4')(3) = ImageAnlzClass(FIGOBJS,'IM4',3);  
     IMAGEANLZ.('IM4')(4) = ImageAnlzClass(FIGOBJS,'IM4',4);
 end
-TabReset('IM');
+if not(strcmp(COMPASSINFO.USERGBL.setup,'ImageAnalysis'))
+    TabReset('IM');
+    TabReset('IM4');
+end
 TabReset('IM2');
 TabReset('IM3');
-TabReset('IM4');
 
 %================================================================
 % Limit Scope
