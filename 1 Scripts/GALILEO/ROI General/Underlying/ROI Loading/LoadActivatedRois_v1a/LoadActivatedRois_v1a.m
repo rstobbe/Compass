@@ -31,7 +31,9 @@ ROILD.axnum = axnum;
 ROILD.tab = tab;
 
 global SCRPTPATHS
-ROILD.path = SCRPTPATHS.(tab)(1).roisloc;
+if isempty(ROI.savepath)
+    ROILD.path = SCRPTPATHS.(tab)(1).roisloc;
+end
 
 Status2('done','',2);
 Status2('done','',3);

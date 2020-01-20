@@ -15,6 +15,7 @@ IMAGEROI.roimean = [];
 IMAGEROI.roisdv = [];
 IMAGEROI.roivol = [];
 IMAGEROI.roiname = '';
+IMAGEROI.savepath = '';
 
 IMAGEROI.locnum = 0;
 IMAGEROI.lastlocnumadded = 0;

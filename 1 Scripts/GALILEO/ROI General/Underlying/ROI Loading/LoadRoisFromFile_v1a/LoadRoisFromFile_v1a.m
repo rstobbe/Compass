@@ -39,14 +39,14 @@ for n = 1:numfiles
                 ErrDisp(err);
                 return
             else
-%                 Status2('busy',['(Re) Load ',PanelLabel{n}],2);
-%                 ind = strfind(file,'\');
-%                 filenameplusext = file(ind(end)+1:end);
-% 
-%                 
-%                 saveData.IMG = IMG;
-%                 saveData.path = file;
-%                 ROILDipt.([CallingLabel,'_Data']).([PanelLabel{n},'_Data']) = saveData;
+                Status2('busy',['(Re) Load ',PanelLabel{n}],2);
+                load(file);
+                if exist('saveData')
+                    ROILDipt.([CallingLabel,'_Data']).([PanelLabel{n},'_Data']) = saveData;
+                else
+                    ROILDipt.([CallingLabel,'_Data']).([PanelLabel{n},'_Data']).path = path;
+                    ROILDipt.([CallingLabel,'_Data']).([PanelLabel{n},'_Data']).loc = file;
+                end
             end
         else
             err.flag = 1;

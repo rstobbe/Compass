@@ -22,6 +22,7 @@ clear INPUT;
 for n = 1:length(RoiInfo)
     load(RoiInfo(n).loc,'ROI');
     LOAD.ROI(n) = ROI;
+    LOAD.Path{n} = RoiInfo(n).path;
 end
 
 %---------------------------------------------

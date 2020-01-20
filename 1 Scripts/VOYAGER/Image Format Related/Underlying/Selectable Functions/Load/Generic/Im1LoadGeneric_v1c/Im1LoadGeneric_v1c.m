@@ -33,7 +33,7 @@ end
 %---------------------------------------------
 if auto == 1
     [IMG,ImInfo,err] = Load_Mat_RWS(ExtRunInfo);
-    if err.flag;
+    if err.flag
         return
     end
     Path = IMG.path;

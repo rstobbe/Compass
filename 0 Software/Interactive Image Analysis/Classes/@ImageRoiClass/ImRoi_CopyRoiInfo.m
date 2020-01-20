@@ -12,6 +12,7 @@ IMAGEROI.baseroiorient = ROI.baseroiorient;
 IMAGEROI.drawroiorient = ROI.drawroiorient;
 IMAGEROI.drawroiorientarray = ROI.drawroiorientarray;
 IMAGEROI.roiname = ROI.roiname;
+IMAGEROI.savepath = ROI.savepath;
 IMAGEROI.locnum = ROI.locnum;
 if isempty(IMAGEROI.locnum)
     IMAGEROI.locnum = 0;

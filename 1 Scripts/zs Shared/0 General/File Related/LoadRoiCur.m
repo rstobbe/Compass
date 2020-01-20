@@ -4,7 +4,7 @@
 
 function [SCRPTipt,SCRPTGBL,err] = LoadRoiCur(SCRPTipt,SCRPTGBL)
 
-INPUT.Extension = '*.mat*';
+INPUT.Extension = 'ROI*.mat*';
 INPUT.CurFunc = 'LoadRoiCur';
 INPUT.Type = 'Roi';
 INPUT.AssignPath = 'Yes';

@@ -66,6 +66,9 @@ for n = 1:length(ROIARR)
     MASK.ROI(n) = ROI;
 end
 
+MASK.Suffix = 'TfExpand';
+MASK = rmfield(MASK,'TF');
+
 %---------------------------------------------
 % Return
 %---------------------------------------------

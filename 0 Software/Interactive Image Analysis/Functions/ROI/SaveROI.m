@@ -30,6 +30,7 @@ end
 for r = start:stop
     if IMAGEANLZ.(tab)(r).TestAxisActive
         IMAGEANLZ.(tab)(r).SAVEDROIS(roinum).SetROIName(roiname);
+        IMAGEANLZ.(tab)(r).SAVEDROIS(roinum).SetROIPath(path);
         IMAGEANLZ.(tab)(r).SetSavedROIValues;  
     end
 end

@@ -9,7 +9,7 @@ err.msg = '';
 ImInfo = '';
 IMG = struct();
 
-out = load_nii(Imfile); 
+out = load_untouch_nii(Imfile); 
 %---
 % button = questdlg('Load Nifti Method','Load Nifti','Untouch','Modify','ExploreDTI','Untouch');
 % if strcmp(button,'Modify') 

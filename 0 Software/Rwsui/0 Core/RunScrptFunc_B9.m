@@ -284,7 +284,41 @@ if isfield(RWSUI,'SaveGlobal')
         end
     end
 end
-            
+
+%--------------------------------------------
+% Save/Load ROIs
+%--------------------------------------------
+if isfield(RWSUI,'SaveRois')
+    if strcmp(RWSUI.SaveRois,'Yes') 
+        Status('busy','Save');
+        saveGlobalNames = RWSUI.SaveGlobalNames;
+        for n = 1:length(RWSUI.ROIARR)
+            ROI = RWSUI.ROIARR(n);
+            indnum = 2;                                                         % should always be..
+            SCRPTipt(indnum).entrystr = ROI.roiname;
+            DispScriptParam(SCRPTipt,setfunc,tab,panelnum);
+            CellArray = PANlab2CellArray_B9(SCRPTipt,Options);
+            RWSUI.SaveVariables.path = ROI.savepath;
+            RWSUI.SaveVariables.name = ROI.roiname;
+            saveData.(RWSUI.SaveVariableNames) = RWSUI.SaveVariables;                   % up above remove cell arrays of one
+            saveSCRPTcellarray = CellArray(RWSUI.scrptnum,:);
+            save([ROI.savepath,ROI.roiname],'saveSCRPTcellarray','saveData','saveGlobalNames','ROI');
+            SCRPTPATHS.(tab)(panelnum).outloc = ROI.savepath;
+            if isfield(RWSUI,'LoadRois')
+                if strcmp(RWSUI.LoadRois,'Yes') 
+                    if strcmp(RWSUI.tab,'IM1') || strcmp(RWSUI.tab,'IM2') || strcmp(RWSUI.tab,'IM3') || strcmp(RWSUI.tab,'IM4')
+                        currentax = gca;
+                        axnum = str2double(currentax.Tag);
+                        LoadROIExternal(RWSUI.tab,axnum,ROI);
+                    end
+                end
+            end
+        end
+    end
+end
+
+
+
 Status('done','Script Finished');
     
 

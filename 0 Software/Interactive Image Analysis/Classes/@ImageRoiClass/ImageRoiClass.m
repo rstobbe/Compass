@@ -30,6 +30,7 @@ classdef ImageRoiClass < handle
         info;
         alphadata;
         pixdim;
+        savepath;
         CREATEMETHOD;
     end
     
@@ -461,6 +462,10 @@ classdef ImageRoiClass < handle
         % SetROIName
         function SetROIName(IMAGEROI,roiname)
             IMAGEROI.roiname = roiname;
+        end
+        % SetROIPath
+        function SetROIPath(IMAGEROI,savepath)
+            IMAGEROI.savepath = savepath;
         end
         % TestActive
         function bool = TestActive(IMAGEROI)

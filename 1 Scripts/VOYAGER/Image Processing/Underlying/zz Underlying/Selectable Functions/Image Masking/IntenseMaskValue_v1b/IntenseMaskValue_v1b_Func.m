@@ -34,7 +34,7 @@ end
 %---------------------------------------------
 Panel(1,:) = {'','','Output'};
 Panel(2,:) = {'',MASK.method,'Output'};
-Panel(3,:) = {'AbsCsfThresh',MASK.thresh,'Output'};
+Panel(3,:) = {'AbsThresh',MASK.thresh,'Output'};
 Panel(4,:) = {'ThreshDirection',MASK.direction,'Output'};
 MASK.PanelOutput = cell2struct(Panel,{'label','value','type'},2);
 
@@ -42,6 +42,7 @@ MASK.PanelOutput = cell2struct(Panel,{'label','value','type'},2);
 % Return
 %---------------------------------------------
 MASK.Mask = Mask;
+MASK.Name = ['Mask',num2str(MASK.thresh)];
 
 Status2('done','',2);
 Status2('done','',3);
