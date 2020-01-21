@@ -16,27 +16,27 @@ MOF = struct();
 %----------------------------------------------
 Image = INPUT.Image;
 MSTRCT = INPUT.MSTRCT;
-if isfield(INPUT,'Name');
+if isfield(INPUT,'Name')
     Name = INPUT.Name;
 else
     Name = 'B0Map';
 end
-if isfield(INPUT,'returnmont');
+if isfield(INPUT,'returnmont')
     returnmont = INPUT.returnmont;
 else
     returnmont = 'No';
 end
-if isfield(INPUT,'dispwid');
+if isfield(INPUT,'dispwid')
     dispwid = INPUT.dispwid;
 else
     dispwid = [];
 end
-if isfield(INPUT,'intensity');
+if isfield(INPUT,'intensity')
     intensity = INPUT.intensity;
 else
     intensity = 'Flat50';
 end
-if isfield(INPUT,'histcolor');
+if isfield(INPUT,'histcolor')
     histcolor = INPUT.histcolor;
 else
     histcolor = 'b';
@@ -102,7 +102,7 @@ MSTRCT.ncolumns = find(ratio <= Ratio0,1,'last');
 % Plot Image
 %----------------------------------------------
 INPUT.MSTRCT = MSTRCT;
-INPUT.Image = Image;
+INPUT.Image = cat(4,BaseIm,Map);
 [Img,err] = PlotMontageOverlay_v1e(INPUT);
 if strcmp(returnmont,'Yes')
     MOF.Img = Img;
@@ -122,6 +122,16 @@ nels = smooth(nels,5,'moving');
 plot(cens,nels,histcolor,'Parent',histahand);
 xlabel('B0 (Hz)'); ylabel('Voxels');
 title([Name,' Histogram']);
+
+%---------------------------------------------
+% Return for Save
+%---------------------------------------------
+fig = 1;
+MOF.Figure(fig).Name = 'B0Map';
+MOF.Figure(fig).Type = 'NoEps';
+MOF.Figure(fig).hFig = MSTRCT.fhand;
+MOF.Figure(fig).hAx = MSTRCT.ahand;
+
 
 Status2('done','',2);
 Status2('done','',3);

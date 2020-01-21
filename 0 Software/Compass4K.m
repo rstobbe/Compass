@@ -1,4 +1,4 @@
-function Compass4K(doCuda,doPaths)
+function Compass4K(doFull,doCuda,doPaths)
 
 %================================================================
 % Initialize
@@ -20,15 +20,20 @@ if length(test) > 1
     delete(test)
 end
 if nargin==0
+    doFull = 0;
+    doCuda = 0;
+    doPaths = 1;
+elseif nargin==1
     doCuda = 1;
     doPaths = 1;
 end
 global COMPASSINFO
-InitFcn4K(doCuda,doPaths);
+InitFcn4K(doFull,doCuda,doPaths);
 
 %------------------------------------------------
 % Figure Properties
 %------------------------------------------------
+disp('Building Interface');
 global FIGOBJS
 BGcolour = [0.149 0.149 0.241];
 BGcolour2 = [0.1 0.1 0.1];

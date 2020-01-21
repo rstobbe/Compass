@@ -550,7 +550,11 @@ classdef ImageAnlzClass < handle
                     end
                 else
                     answer = inputdlg('Dim4 Number','Dim4 Number');
-                    IMAGEANLZ.OverlayDim4(overlaynum) = str2double(answer{1});
+                    if isempty(answer)
+                        IMAGEANLZ.OverlayDim4(overlaynum) = 0;
+                    else 
+                        IMAGEANLZ.OverlayDim4(overlaynum) = str2double(answer{1});
+                    end
                 end
             else
                 IMAGEANLZ.OverlayDim4(overlaynum) = 1;
@@ -2038,8 +2042,9 @@ classdef ImageAnlzClass < handle
             else 
                 Image = Image(:,:,:,IMAGEANLZ.OverlayDim4(overlaynum));
             end
-            %Image = abs(Image);
-            Image = real(Image);
+            if not(isreal(Image))
+                Image = abs(Image);
+            end
             Image(isnan(Image)) = 0;
         end
         % GetOriented3DImage

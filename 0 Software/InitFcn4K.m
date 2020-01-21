@@ -1,8 +1,9 @@
-function InitFcn4K(doCuda,doPaths)
+function InitFcn4K(doFull,doCuda,doPaths)
 
 %-----------------------------------
 % Local Paths
 %-----------------------------------
+disp('Setup Paths');
 curfolder = pwd;
 ind = strfind(curfolder,'\');
 softwarefolder = curfolder(1:ind(end)-1);
@@ -29,7 +30,7 @@ COMPASSINFO.USERGBL.invfiltloc = compassfolder;
 COMPASSINFO.USERGBL.imkernloc = compassfolder;
 COMPASSINFO.USERGBL.sysresploc = compassfolder; 
 if exist('CompassUserInfo','file')
-    COMPASSINFO.USERGBL = CompassUserInfo;
+    COMPASSINFO.USERGBL = CompassUserInfo(doFull);
 end
 if not(strcmp(COMPASSINFO.USERGBL.setup,'ImageAnalysis'))
     COMPASSINFO.CUDA = GraphicCard_Info(doCuda);

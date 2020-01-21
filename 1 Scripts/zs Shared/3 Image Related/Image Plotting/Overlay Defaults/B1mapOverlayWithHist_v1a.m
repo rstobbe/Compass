@@ -123,5 +123,15 @@ plot(cens,nels,histcolor,'Parent',histahand);
 xlabel('B1'); ylabel('Voxels');
 title([Name,' Histogram']);
 
+%---------------------------------------------
+% Return for Save
+%---------------------------------------------
+fig = 1;
+MOF.Figure(fig).Name = 'B1Map';
+MOF.Figure(fig).Type = 'NoEps';
+MOF.Figure(fig).hFig = MSTRCT.fhand;
+MOF.Figure(fig).hAx = MSTRCT.ahand;
+
+
 Status2('done','',2);
 Status2('done','',3);

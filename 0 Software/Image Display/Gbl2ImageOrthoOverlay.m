@@ -38,6 +38,12 @@ IMAGEANLZ.(tab)(1).SetOverlayName(overlaynum);
 % Test Colour Image
 %----------------------------------------
 [colourimage,dim4] = IMAGEANLZ.(tab)(1).TestColourOverlay(overlaynum);
+if dim4 == 0 
+    for axnum = 1:3
+        IMAGEANLZ.(tab)(axnum).DeleteOverlay(overlaynum);
+    end
+    return
+end
 if dim4~=1
     for axnum = 1:3
         IMAGEANLZ.(tab)(axnum).SetOverlayDimension(dim4);
