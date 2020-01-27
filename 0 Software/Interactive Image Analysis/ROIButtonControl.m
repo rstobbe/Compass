@@ -13,14 +13,14 @@ axnum = roiarr(1);
 roinum = roiarr(2);
 SetFocus(tab,axnum);
 
-for n = 1:IMAGEANLZ.(tab)(1).axeslen
-    if not(isempty(IMAGEANLZ.(tab)(n).buttonfunction))
-        return
-    end
-end	
 
 switch RWSUIGBL.Key
     case 'shift'
+        for n = 1:IMAGEANLZ.(tab)(1).axeslen
+            if not(isempty(IMAGEANLZ.(tab)(n).buttonfunction))
+                return
+            end
+        end	
         IMAGEANLZ.(tab)(axnum).HighlightROI(roinum);
         if(IMAGEANLZ.(tab)(axnum).SAVEDROISFLAG == 0)
             [s,v] = listdlg('PromptString','Action:','SelectionMode','single','ListString',{'Load ROI','Load ROI Folder','Load Old ROI','Load Old ROI Folder'});
@@ -95,11 +95,11 @@ switch RWSUIGBL.Key
             FIGOBJS.(tab).ROILAB(axnum,roinum).ForegroundColor = [0.8,0.8,0.8];
         end
     case ''
-        if(IMAGEANLZ.(tab)(axnum).SAVEDROISFLAG == 0)
-            RWSUIGBL.Key = '';
-            RWSUIGBL.Character = '';
-            return
-        end
+%         if(IMAGEANLZ.(tab)(axnum).SAVEDROISFLAG == 0)
+%             RWSUIGBL.Key = '';
+%             RWSUIGBL.Character = '';
+%             return
+%         end
         if IMAGEANLZ.(tab)(axnum).TestForSavedROI(roinum)
             if ~IMAGEANLZ.(tab)(axnum).ROISOFINTEREST(roinum)
                 ActivateROI(src,tab,axnum,roinum);

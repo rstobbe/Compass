@@ -60,7 +60,10 @@ for n = 1:numfiles
     %--------------------------------------------
     % Load Rois
     %--------------------------------------------
-    ROILD.RoiInfo(n) = Data;   
+    ROILD.ROI(n) = Data.ROI;
+    Data = rmfield(Data,'ROI');
+    ROILD.RoiInfo(n) = Data;
+    ROILD.Path{n} = ROILD.RoiInfo(n).path;
 end
 
 Status2('done','',2);

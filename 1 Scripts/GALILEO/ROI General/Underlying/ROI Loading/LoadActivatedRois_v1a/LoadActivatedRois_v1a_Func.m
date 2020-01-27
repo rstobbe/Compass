@@ -16,9 +16,9 @@ err.msg = '';
 clear INPUT;
 
 %---------------------------------------------
-% Return ROI
+% Return Path
 %---------------------------------------------
-% dummy
+LOAD.Path = LOAD.ROI.savepath;
 
 %---------------------------------------------
 % Add to Panel Output

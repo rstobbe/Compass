@@ -57,7 +57,7 @@ if err.flag
     return
 end
 func = str2func(ROIEDIT.editfunc);           
-[SCRPTipt,EDIT,err] = func(SCRPTipt,EDITipt);
+[SCRPTipt,SCRPTGBL,EDIT,err] = func(SCRPTipt,SCRPTGBL,EDITipt);
 if err.flag
     return
 end

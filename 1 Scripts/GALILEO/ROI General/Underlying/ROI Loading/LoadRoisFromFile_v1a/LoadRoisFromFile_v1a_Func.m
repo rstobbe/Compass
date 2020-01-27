@@ -13,17 +13,17 @@ err.msg = '';
 %---------------------------------------------
 % Get Input
 %--------------------------------------------- 
-RoiInfo = LOAD.RoiInfo;
-clear INPUT;
+% RoiInfo = LOAD.RoiInfo;
+% clear INPUT;
 
 %---------------------------------------------
 % Return ROI
 %---------------------------------------------
-for n = 1:length(RoiInfo)
-    load(RoiInfo(n).loc,'ROI');
-    LOAD.ROI(n) = ROI;
-    LOAD.Path{n} = RoiInfo(n).path;
-end
+% for n = 1:length(RoiInfo)
+%     load(RoiInfo(n).loc,'ROI');
+%     LOAD.ROI(n) = ROI;
+%     LOAD.Path{n} = RoiInfo(n).path;
+% end
 
 %---------------------------------------------
 % Add to Panel Output

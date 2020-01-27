@@ -3,9 +3,9 @@
 %   
 %=========================================================
 
-function [SCRPTipt,MASK,err] = ExcludeRoi_v1a(SCRPTipt,MASKipt)
+function [SCRPTipt,SCRPTGBL,MASK,err] = ExcludeRoi_v1a(SCRPTipt,SCRPTGBL,MASKipt)
 
-Status2('busy','Create Mask From Roi',2);
+Status2('busy','Exclude one ROI from another',2);
 Status2('done','',2);
 
 err.flag = 0;

@@ -27,12 +27,23 @@ if (data.IsTransferableAsFileList)
                 LoadImage = 1;
             end
         else
-            err.flag = 1;
-            err.msg = 'Folder loading not supported yet';
-            ErrDisp(err);
+            if strcmp(files{n}(end-2),'.')
+                err.flag = 1;
+                err.msg = 'File type not supported';
+                ErrDisp(err);                
+            else
+                err.flag = 1;
+                err.msg = 'Folder loading not supported yet';
+                ErrDisp(err);
+            end
         end
     end
     tab = fig.CurrentObject.Tag;
+    if isempty(tab)
+        err.flag = 1;
+        err.msg = 'Click in Image Space First';
+        return
+    end
     if ~strcmp(tab(1),'I')
         tab = fig.CurrentObject.Parent.Parent.Tag;
     end

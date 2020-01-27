@@ -3,7 +3,7 @@
 %   
 %=========================================================
 
-function [SCRPTipt,MASK,err] = TransFuncExpand_v1a(SCRPTipt,MASKipt)
+function [SCRPTipt,SCRPTGBL,MASK,err] = TransFuncExpand_v1a(SCRPTipt,SCRPTGBL,MASKipt)
 
 Status2('busy','Image Masking',2);
 Status2('done','',3);

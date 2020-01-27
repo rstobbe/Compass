@@ -79,6 +79,7 @@ end
 % Return
 %--------------------------------------------
 IMLD.IMG{1} = Data.IMG;
+IMLD.axnum = 1;
 
 Status2('done','',2);
 Status2('done','',3);
