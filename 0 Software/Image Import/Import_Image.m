@@ -65,7 +65,7 @@ for n = 1:Num
         %err.msg = 'Image Type Not Supported';    
     end
     if err.flag
-        ErrDisp(err);
+        %ErrDisp(err);
         return
     end
     IMG{n}.name = Name{n};

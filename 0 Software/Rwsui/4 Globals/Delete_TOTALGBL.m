@@ -61,8 +61,10 @@ for n = 1:length(tablabs)
                 AxisReset(tablabs{n},r);
             end
             overaxtotgblnum = IMAGEANLZ.(tablabs{n})(r).overtotgblnum;
-            if overaxtotgblnum == totgblnum           
-                IMAGEANLZ.(tablabs{n})(r).DeleteOverlay;
+            for p = 1:length(overaxtotgblnum)
+                if overaxtotgblnum(p) == totgblnum           
+                    IMAGEANLZ.(tablabs{n})(r).DeleteOverlay(p);
+                end
             end
         end
     end

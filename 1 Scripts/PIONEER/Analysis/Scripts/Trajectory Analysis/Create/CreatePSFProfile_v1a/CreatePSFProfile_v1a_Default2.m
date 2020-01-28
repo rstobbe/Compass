@@ -2,7 +2,7 @@
 % 
 %=========================================================
 
-function [default] = CreatePSF_v1a_Default2(SCRPTPATHS)
+function [default] = CreatePSFProfile_v1a_Default2(SCRPTPATHS)
 
 m = 1;
 default{m,1}.entrytype = 'OutputName';

@@ -147,6 +147,7 @@ BG_Params.np = DataInfo.NCol;
 %---------------------------------------------
 for n = 1:2
     tData = Data{n};
+    test = size(tData)
     tPL_Fid = tData(:,GWFM.aves == 1,:);
     PL_Fid{n} = permute(double(reshape(tPL_Fid,DataInfo.NCol,[])),[2 1]);
 end

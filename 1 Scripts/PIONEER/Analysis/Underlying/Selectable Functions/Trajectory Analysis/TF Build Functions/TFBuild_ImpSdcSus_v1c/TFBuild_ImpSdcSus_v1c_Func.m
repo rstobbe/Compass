@@ -51,11 +51,19 @@ end
 RLX.r = r;
 RLX.tatr = tatr;
 RLX.diam = tfdiam;
-RLX.elip = PROJdgn.elip;
+if isfield(PROJdgn,'elip')
+    RLX.elip = PROJdgn.elip;
+else
+    RLX.elip = 1;
+end
 FLT.r = TFO.r;
 FLT.tf = TFO.tf;
 FLT.diam = tfdiam;
-FLT.elip = PROJdgn.elip;
+if isfield(PROJdgn,'elip')
+    FLT.elip = PROJdgn.elip;
+else
+    FLT.elip = 1;
+end
 
 %---------------------------------------------
 % Get Signal Decay Function
@@ -123,7 +131,7 @@ end
 %--------------------------------------
 tf = FltTF.*RlxTF;
 if strcmp(Vis,'On')
-    figure(100); subplot(2,2,3); hold on; box on;
+    fhand = figure(100); subplot(2,2,3); hold on; box on;
     plot(abs(squeeze(tf((length(tf)+1)/2,(length(tf)+1)/2,:))),'k:'); 
     plot(abs(squeeze(tf(:,(length(tf)+1)/2,(length(tf)+1)/2))),'k'); 
     plot(real(squeeze(tf((length(tf)+1)/2,(length(tf)+1)/2,:))),'r:'); 
@@ -135,6 +143,15 @@ if strcmp(Vis,'On')
 end
 TF.tf = tf;
 TF.tfdiam = tfdiam;
+
+%---------------------------------------------
+% Return for Save
+%---------------------------------------------
+fig = 1;
+TF.Figure(fig).Name = 'TransferFunction';
+TF.Figure(fig).Type = 'NoEps';
+TF.Figure(fig).hFig = fhand;
+TF.Figure(fig).hAx = gca;
 
 %---------------------------------------------
 % Panel

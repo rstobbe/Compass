@@ -6,6 +6,8 @@
 
 function [SCRPTipt,GRD,ReturnData,err] = GridkSpace_LclKern_v1j(SCRPTipt,GRDipt)
 
+global COMPASSINFO
+
 Status2('busy','Get Info for k-Space Gridding',2);
 Status2('done','',3);
 
@@ -22,10 +24,15 @@ if not(isfield(GRDipt,[CallingLabel,'_Data']))
     if isfield(GRDipt.('Kern_File').Struct,'selectedfile')
         file = GRDipt.('Kern_File').Struct.selectedfile;
         if not(exist(file,'file'))
-            err.flag = 1;
-            err.msg = '(Re) Load Kern_File';
-            ErrDisp(err);
-            return
+            inds = strfind(file,'\');
+            filename = file(inds(end)+1:end);
+            file = [COMPASSINFO.USERGBL.imkernloc,filename];
+            if not(exist(file))
+                err.flag = 1;
+                err.msg = '(Re) Load Kern_File';
+                ErrDisp(err);
+                return
+            end
         else
             Status2('busy','Load Kernel',2);
             load(file);

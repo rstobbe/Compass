@@ -21,7 +21,7 @@ if err.flag
     return
 end
 
-error;      % probably don't use this function (update...)
+%error;      % seems to work...?
 
 if isfield(saveData0,'structname')
     %------------------------------------------

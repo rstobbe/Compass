@@ -41,12 +41,12 @@ for n = 1:numfiles
             else
                 Status2('busy',['(Re) Load ',PanelLabel{n}],2);
                 load(file);
-                if exist('saveData')
-                    ROILDipt.([CallingLabel,'_Data']).([PanelLabel{n},'_Data']) = saveData;
-                else
-                    ROILDipt.([CallingLabel,'_Data']).([PanelLabel{n},'_Data']).path = path;
-                    ROILDipt.([CallingLabel,'_Data']).([PanelLabel{n},'_Data']).loc = file;
+                whos
+                if exist('ROI')
+                    ROILDipt.([CallingLabel,'_Data']).([PanelLabel{n},'_Data']).ROI = ROI;
                 end
+                ROILDipt.([CallingLabel,'_Data']).([PanelLabel{n},'_Data']).path = path;
+                ROILDipt.([CallingLabel,'_Data']).([PanelLabel{n},'_Data']).loc = file;
             end
         else
             err.flag = 1;

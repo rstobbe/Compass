@@ -19,6 +19,7 @@ for n = 1:length(names)
     end
 end
 if found == 0
+    IMG = struct();
     err.flag = 1;
     err.msg = 'File does not contain loadable image';
     return

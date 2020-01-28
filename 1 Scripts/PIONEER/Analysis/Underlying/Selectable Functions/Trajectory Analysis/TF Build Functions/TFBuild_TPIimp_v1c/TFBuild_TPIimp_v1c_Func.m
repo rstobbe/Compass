@@ -31,7 +31,11 @@ end
 %--------------------------------------------
 PROJimp = IMP.PROJimp;
 if isempty(tforient)
-    tforient = PROJimp.orient;
+    if isfield(PROJimp,'orient')
+        tforient = PROJimp.orient;
+    else
+        tforient = 'Axial';
+    end
 end
 
 %--------------------------------------------

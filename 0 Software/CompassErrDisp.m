@@ -39,5 +39,11 @@ elseif err.flag == 4
             Status(m,n).Visible = 'off';
         end
     end
+elseif err.flag == 0
+    for m = 1:M
+        for n = 1:3
+            Status(m,n).Visible = 'off';
+        end
+    end
 end
 drawnow;

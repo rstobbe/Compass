@@ -61,7 +61,7 @@ else
                 filename = file(ind(end)+1:end);
                 path = file(1:ind(end));
                 [IMG,~,~,err] = Import_Image(path,filename);
-                saveData.IMG = IMG;
+                saveData.IMG = IMG{1};
                 saveData.path = path;
                 IMLDipt.([CallingLabel,'_Data']).([PanelLabel1,'_Data']) = saveData;
             end
