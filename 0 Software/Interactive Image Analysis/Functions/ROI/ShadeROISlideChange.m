@@ -16,12 +16,22 @@ switch IMAGEANLZ.(tab)(axnum).presentation
             for n = 1:IMAGEANLZ.(tab)(axnum).axeslen
                 IMAGEANLZ.(tab)(n).ShadeROIChangeValue(src.Value);
                 IMAGEANLZ.(tab)(n).ShadeROIChangeSlider(src.Value);
+                if IMAGEANLZ.(tab)(n).SAVEDROISFLAG == 1
+                    IMAGEANLZ.(tab)(n).ChangeShadeSavedROIs;
+                end
+                if IMAGEANLZ.(tab)(n).GETROIS == 1
+                    IMAGEANLZ.(tab)(n).ChangeShadeCurrentROI;
+                end
             end
         else
             IMAGEANLZ.(tab)(axnum).ShadeROIChangeValue(src.Value);
-        end
-        if IMAGEANLZ.(tab)(axnum).TestAxisActive
-            Slice_Change(currentax,tab,axnum,0);
+            IMAGEANLZ.(tab)(axnum).ShadeROIChangeValue(src.Value);
+            if IMAGEANLZ.(tab)(axnum).SAVEDROISFLAG == 1
+                IMAGEANLZ.(tab)(axnum).ChangeShadeSavedROIs;
+            end
+            if IMAGEANLZ.(tab)(axnum).GETROIS == 1
+                IMAGEANLZ.(tab)(axnum).ChangeShadeCurrentROI;
+            end
         end
     case 'Ortho'
         for axnum = 1:3

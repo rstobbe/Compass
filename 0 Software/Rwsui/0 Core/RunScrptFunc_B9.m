@@ -291,8 +291,8 @@ end
 if isfield(RWSUI,'SaveRois')
     if strcmp(RWSUI.SaveRois,'Yes') 
         Status('busy','Save');
-        saveGlobalNames = RWSUI.SaveGlobalNames;
         for n = 1:length(RWSUI.ROIARR)
+            saveGlobalNames = RWSUI.SaveGlobalNames{n};
             ROI = RWSUI.ROIARR(n);
             indnum = 2;                                                         % should always be..
             SCRPTipt(indnum).entrystr = ROI.roiname;

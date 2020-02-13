@@ -68,7 +68,7 @@ IMAGEANLZ.MinContrastMin = [];
 IMAGEANLZ.MinContrastCurrent = []; 
 IMAGEANLZ.ContrastSettings = struct();
 %-- contrast
-IMAGEANLZ.OImType = 'abs';
+IMAGEANLZ.OImType = {'abs'};
 IMAGEANLZ.OFullContrast = [];       
 IMAGEANLZ.ORelContrast = [];                               
 IMAGEANLZ.OMaxContrastMax = []; 

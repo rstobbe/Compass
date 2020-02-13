@@ -48,16 +48,57 @@ IMAGEANLZ.OContrastSettings{n}.MinPhaseMinCurrent = -pi;
 IMAGEANLZ.OContrastSettings{n}.MaxMapMaxCurrent = MaxVal;
 IMAGEANLZ.OContrastSettings{n}.MinMapMinCurrent = MinVal;
 
-IMAGEANLZ.OContrastSettings{n}.AbsMax = max([MaxVal abs(MinVal)]);
-IMAGEANLZ.OContrastSettings{n}.AbsMin = 0;
-IMAGEANLZ.OContrastSettings{n}.RealMax = max([MaxVal abs(MinVal)]);
-IMAGEANLZ.OContrastSettings{n}.RealMin = -max([MaxVal abs(MinVal)]);
-IMAGEANLZ.OContrastSettings{n}.ImagMax = max([MaxVal abs(MinVal)]);
-IMAGEANLZ.OContrastSettings{n}.ImagMin = -max([MaxVal abs(MinVal)]);
-IMAGEANLZ.OContrastSettings{n}.PhaseMax = pi;
-IMAGEANLZ.OContrastSettings{n}.PhaseMin = -pi;
-IMAGEANLZ.OContrastSettings{n}.MapMax = MaxVal;
-IMAGEANLZ.OContrastSettings{n}.MapMin = MinVal;
+DefaultContrast = IMAGEANLZ.GetDefaultContrastOverlay(n);
+IMAGEANLZ.OImType{n} = DefaultContrast.type;
+IMAGEANLZ.OContrastSettings{n}.Type = DefaultContrast.type;
+if strcmp(DefaultContrast.colour,'yes') || strcmp(DefaultContrast.colour,'Yes')
+    IMAGEANLZ.OContrastSettings{n}.Colour = 'Yes';
+    IMAGEANLZ.FIGOBJS.OverlayColour(n).Value = 2;
+    IMAGEANLZ.OverlayColour{n} = 'Yes';
+else
+    IMAGEANLZ.OContrastSettings{n}.Colour = 'No';
+    IMAGEANLZ.FIGOBJS.OverlayColour(n).Value = 1;
+    IMAGEANLZ.OverlayColour{n} = 'No';
+end
+
+if strcmp(DefaultContrast.type,'abs')
+    IMAGEANLZ.OContrastSettings{n}.AbsMax = abs(DefaultContrast.dispwid(2));
+    IMAGEANLZ.OContrastSettings{n}.AbsMin = abs(DefaultContrast.dispwid(1));
+else
+    IMAGEANLZ.OContrastSettings{n}.AbsMax = max([MaxVal abs(MinVal)]);
+    IMAGEANLZ.OContrastSettings{n}.AbsMin = 0;
+end
+if strcmp(DefaultContrast.type,'real')
+    IMAGEANLZ.OContrastSettings{n}.RealMax = DefaultContrast.dispwid(2);
+    IMAGEANLZ.OContrastSettings{n}.RealMin = DefaultContrast.dispwid(1);
+else
+    IMAGEANLZ.OContrastSettings{n}.RealMax = max([MaxVal abs(MinVal)]);
+    IMAGEANLZ.OContrastSettings{n}.RealMin = -max([MaxVal abs(MinVal)]);
+end
+if strcmp(DefaultContrast.type,'imag')
+    IMAGEANLZ.OContrastSettings{n}.ImagMax = DefaultContrast.dispwid(2);
+    IMAGEANLZ.OContrastSettings{n}.ImagMin = DefaultContrast.dispwid(1);
+else
+    IMAGEANLZ.OContrastSettings{n}.ImagMax = max([MaxVal abs(MinVal)]);
+    IMAGEANLZ.OContrastSettings{n}.ImagMin = -max([MaxVal abs(MinVal)]);
+end
+if strcmp(DefaultContrast.type,'phase')
+    IMAGEANLZ.OContrastSettings{n}.PhaseMax = DefaultContrast.dispwid(2);
+    IMAGEANLZ.OContrastSettings{n}.PhaseMin = DefaultContrast.dispwid(1);
+else
+    IMAGEANLZ.OContrastSettings{n}.PhaseMax = max([MaxVal abs(MinVal)]);
+    IMAGEANLZ.OContrastSettings{n}.PhaseMin = -max([MaxVal abs(MinVal)]);
+end
+if strcmp(DefaultContrast.type,'map')
+    IMAGEANLZ.OContrastSettings{n}.MapMax = DefaultContrast.dispwid(2);
+    IMAGEANLZ.OContrastSettings{n}.MapMin = DefaultContrast.dispwid(1);
+    if IMAGEANLZ.OContrastSettings{n}.MapMin < MinVal
+        IMAGEANLZ.OContrastSettings{n}.MinMapMinCurrent = IMAGEANLZ.OContrastSettings{n}.MapMin;
+    end
+else
+    IMAGEANLZ.OContrastSettings{n}.MapMax = MaxVal;
+    IMAGEANLZ.OContrastSettings{n}.MapMin = MinVal;
+end
 
 
 

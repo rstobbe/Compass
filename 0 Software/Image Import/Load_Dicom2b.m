@@ -116,15 +116,18 @@ end
 %----------------------------------------------
 Panel(1,:) = {'','','Output'};
 Panel(2,:) = {'Volunteer',dinfo.PatientName.FamilyName,'Output'};
-Panel(3,:) = {'Date',dinfo.AcquisitionDate,'Output'};
-Panel(4,:) = {'Time',dinfo.AcquisitionTime,'Output'};
-Panel(5,:) = {'Protocol Name',dinfo.ProtocolName,'Output'};
-Panel(6,:) = {'Sequence Name',dinfo.SequenceName,'Output'};
-Panel(7,:) = {'Acq Orientation',ImInfo.acqorient,'Output'};
-Panel(8,:) = {'Voxel (mm)',[num2str(pixdim(1),'%2.2f'),' x ',num2str(pixdim(2),'%2.2f'),' x ',num2str(pixdim(3),'%2.2f')],'Output'};
-Panel(9,:) = {'TR',dinfo.RepetitionTime,'Output'};
-Panel(10,:) = {'TE',dinfo.EchoTime,'Output'};
-m = 11;
+Panel(3,:) = {'Birth',dinfo.PatientBirthDate,'Output'};
+Panel(4,:) = {'Sex',dinfo.PatientSex,'Output'};
+Panel(5,:) = {'Age',dinfo.PatientAge,'Output'};
+Panel(6,:) = {'Date',dinfo.AcquisitionDate,'Output'};
+Panel(7,:) = {'Time',dinfo.AcquisitionTime,'Output'};
+Panel(8,:) = {'Protocol Name',dinfo.ProtocolName,'Output'};
+Panel(9,:) = {'Sequence Name',dinfo.SequenceName,'Output'};
+Panel(10,:) = {'Acq Orientation',ImInfo.acqorient,'Output'};
+Panel(11,:) = {'Voxel (mm)',[num2str(pixdim(1),'%2.2f'),' x ',num2str(pixdim(2),'%2.2f'),' x ',num2str(pixdim(3),'%2.2f')],'Output'};
+Panel(12,:) = {'TR',dinfo.RepetitionTime,'Output'};
+Panel(13,:) = {'TE',dinfo.EchoTime,'Output'};
+m = 14;
 if isfield(dinfo,'FlipAngle')
     Panel(m,:) = {'Flip',dinfo.FlipAngle,'Output'};
     m = m+1; 

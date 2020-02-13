@@ -53,7 +53,7 @@ filename = filename(1:end-4);
 % Export
 %---------------------------------------------
 if isfield(IMG,'ReconPars')
-    voxeldims = [IMG.ReconPars.ImvoxLR IMG.ReconPars.ImvoxTB IMG.ReconPars.ImvoxIO];
+    voxeldims = [IMG.ReconPars.ImvoxTB IMG.ReconPars.ImvoxLR IMG.ReconPars.ImvoxIO];            % TB first
 else
     voxeldims = IMG.IMDISP.ImInfo.pixdim;
 end

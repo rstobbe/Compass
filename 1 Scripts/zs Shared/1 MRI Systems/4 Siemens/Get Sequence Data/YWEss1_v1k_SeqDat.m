@@ -7,7 +7,7 @@ function [ExpPars,PanelOutput,err] = YWEss1_v1k_SeqDat(MrProt,DataInfo)
 err.flag = 0;
 err.msg = '';
 
-Status2('busy','Load ''YWEss1'' Sequence Info',2);
+% Status2('busy','Load ''YWEss1'' Sequence Info',2);
 
 %---------------------------------------------
 % Read Trajectory
@@ -108,37 +108,37 @@ ExpPars.Sequence.slabdir = 'z';
 %--------------------------------------------
 % Other Parameters
 %--------------------------------------------
-ShimVals = cell(1,9);
-ShimVals{1} = MrProt.sGRADSPEC.asGPAData{1}.lOffsetX;
-ShimVals{2} = MrProt.sGRADSPEC.asGPAData{1}.lOffsetY;
-ShimVals{3} = MrProt.sGRADSPEC.asGPAData{1}.lOffsetZ;
-ShimVals0 = [];
-if isfield(MrProt.sGRADSPEC,'alShimCurrent')
-    ShimVals0 = MrProt.sGRADSPEC.alShimCurrent;
-end
-ShimVals(4:3+length(ShimVals0)) = ShimVals0;
-Freq = MrProt.sTXSPEC.asNucleusInfo{1}.lFrequency;
-Ref = MrProt.sProtConsistencyInfo.flNominalB0 * 42577000;
-tof = Freq - Ref;
-ShimVals(9) = {tof};
-ShimNames = {'x','y','z','z2','zx','zy','x2y2','xy','tof'};
-% ShimValsUI{1} = ShimVals{1}/6.259;
-% ShimValsUI{2} = ShimVals{2}/6.2465;
-% ShimValsUI{3} = ShimVals{3}/6.108;
-% ShimValsUI{4} = ShimVals{4}/2.016;
-% ShimValsUI{5} = ShimVals{5}/2.815;
-% ShimValsUI{6} = ShimVals{6}/2.853;
-% ShimValsUI{7} = ShimVals{7}/2.815;
-% ShimValsUI{8} = ShimVals{8}/2.866;
-ShimValsUI{1} = ShimVals{1}/6.2587;
-ShimValsUI{2} = ShimVals{2}/6.2463;
-ShimValsUI{3} = ShimVals{3}/6.1081;
-ShimValsUI{4} = ShimVals{4}/2.0146;
-ShimValsUI{5} = ShimVals{5}/2.7273;
-ShimValsUI{6} = ShimVals{6}/2.8389;
-ShimValsUI{7} = ShimVals{7}/2.8049;
-ShimValsUI{8} = ShimVals{8}/2.7928;
-ShimValsUI{9} = ShimVals{9};
+% ShimVals = cell(1,9);
+% ShimVals{1} = MrProt.sGRADSPEC.asGPAData{1}.lOffsetX;
+% ShimVals{2} = MrProt.sGRADSPEC.asGPAData{1}.lOffsetY;
+% ShimVals{3} = MrProt.sGRADSPEC.asGPAData{1}.lOffsetZ;
+% ShimVals0 = [];
+% if isfield(MrProt.sGRADSPEC,'alShimCurrent')
+%     ShimVals0 = MrProt.sGRADSPEC.alShimCurrent;
+% end
+% ShimVals(4:3+length(ShimVals0)) = ShimVals0;
+% Freq = MrProt.sTXSPEC.asNucleusInfo{1}.lFrequency;
+% Ref = MrProt.sProtConsistencyInfo.flNominalB0 * 42577000;
+% tof = Freq - Ref;
+% ShimVals(9) = {tof};
+% ShimNames = {'x','y','z','z2','zx','zy','x2y2','xy','tof'};
+% % ShimValsUI{1} = ShimVals{1}/6.259;
+% % ShimValsUI{2} = ShimVals{2}/6.2465;
+% % ShimValsUI{3} = ShimVals{3}/6.108;
+% % ShimValsUI{4} = ShimVals{4}/2.016;
+% % ShimValsUI{5} = ShimVals{5}/2.815;
+% % ShimValsUI{6} = ShimVals{6}/2.853;
+% % ShimValsUI{7} = ShimVals{7}/2.815;
+% % ShimValsUI{8} = ShimVals{8}/2.866;
+% ShimValsUI{1} = ShimVals{1}/6.2587;
+% ShimValsUI{2} = ShimVals{2}/6.2463;
+% ShimValsUI{3} = ShimVals{3}/6.1081;
+% ShimValsUI{4} = ShimVals{4}/2.0146;
+% ShimValsUI{5} = ShimVals{5}/2.7273;
+% ShimValsUI{6} = ShimVals{6}/2.8389;
+% ShimValsUI{7} = ShimVals{7}/2.8049;
+% ShimValsUI{8} = ShimVals{8}/2.7928;
+% ShimValsUI{9} = ShimVals{9};
 
 %--------------------------------------------
 % Panel
@@ -164,15 +164,15 @@ Panel(18,:) = {'','','Output'};
 Panel(19,:) = {'Shift1 (mm)',ExpPars.shift(1),'Output'};
 Panel(20,:) = {'Shift2 (mm)',ExpPars.shift(2),'Output'};
 Panel(21,:) = {'Shift3 (mm)',ExpPars.shift(3),'Output'};
-Panel(22,:) = {'','','Output'};
-N = 22;
-for n = 1:9
-    if isempty(ShimValsUI{n})
-        ShimValsUI{n} = 0;
-    end
-    Panel(N+n,:) = {['Shim_',ShimNames{n}],round(ShimValsUI{n}),'Output'};
-end
+% Panel(22,:) = {'','','Output'};
+% N = 22;
+% for n = 1:9
+%     if isempty(ShimValsUI{n})
+%         ShimValsUI{n} = 0;
+%     end
+%     Panel(N+n,:) = {['Shim_',ShimNames{n}],round(ShimValsUI{n}),'Output'};
+% end
 PanelOutput = cell2struct(Panel,{'label','value','type'},2);
 
-Status2('done','',2);       
+% Status2('done','',2);       
 

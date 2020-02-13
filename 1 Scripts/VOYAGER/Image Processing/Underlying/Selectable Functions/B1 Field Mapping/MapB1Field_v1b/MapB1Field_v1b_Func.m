@@ -262,7 +262,8 @@ B1IMG.ExpDisp = PanelStruct2Text(B1IMG.PanelOutput);
 %----------------------------------------------
 MSTRCT.type = 'map';
 MSTRCT.colour = 'Yes';
-MSTRCT.dispwid = [-max(abs(B1Map(:))) max(abs(B1Map(:)))];
+offset = max(abs(B1Map(:)))-1;
+MSTRCT.dispwid = [1-offset 1+offset];
 MSTRCT.ImInfo.pixdim = [IMG.ReconPars.ImvoxTB,IMG.ReconPars.ImvoxLR,IMG.ReconPars.ImvoxIO];
 MSTRCT.ImInfo.vox = IMG.ReconPars.ImvoxTB*IMG.ReconPars.ImvoxLR*IMG.ReconPars.ImvoxIO;
 MSTRCT.ImInfo.info = B1IMG.ExpDisp;

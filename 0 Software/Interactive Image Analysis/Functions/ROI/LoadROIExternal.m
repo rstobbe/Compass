@@ -6,6 +6,10 @@ function LoadROIExternal(tab,axnum,ROI)
 global IMAGEANLZ
 
 imsize = IMAGEANLZ.(tab)(axnum).GetBaseImageSize([]);
+if isempty(imsize)
+    return
+end
+
 for n = 1:3
     if ROI.roiimsize(n) ~= imsize(n)
         Status2('error','ROI and Image Dimensions Incompatible',1);

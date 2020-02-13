@@ -751,8 +751,6 @@ data_uint32 = reshape( data_uint32, [], Nmeas ).';
 data_uint16 = reshape( data_uint16, [], Nmeas ).';
 data_single = reshape( data_single, [], Nmeas ).';
 
-test = data_uint32(1,:)
-
 %  byte pos.
 %mdh.ulDMALength               = data_uint32(:,1);      %   1 :   4
 mdh.lMeasUID                   = data_uint32(:,2);      %   5 :   8

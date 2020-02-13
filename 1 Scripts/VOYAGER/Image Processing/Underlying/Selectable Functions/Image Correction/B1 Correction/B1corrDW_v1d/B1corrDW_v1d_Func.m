@@ -88,7 +88,7 @@ if isfield(IMG1,'name')
         CORIMG.name = CORIMG.name(1:end-4);
     end
     if strfind(CORIMG.name,'IMG_')
-        CORIMG.name = ['B1COR_',CORIMG.name(5:end)];
+        CORIMG.name = [CORIMG.name,'_B1c'];
     end
 else
     CORIMG.name = '';

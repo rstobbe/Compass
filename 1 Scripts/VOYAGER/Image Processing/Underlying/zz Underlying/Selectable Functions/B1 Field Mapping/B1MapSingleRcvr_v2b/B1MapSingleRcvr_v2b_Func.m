@@ -99,7 +99,7 @@ end
 % INPUT.MSTRCT.type = 'real';
 % INPUT.MSTRCT.colour = 'Yes';
 % INPUT.MSTRCT.dispwid = [0.3 1.1];
-% INPUT.MSTRCT.figno = num2str(100);
+% INPUT.MSTRCT.figno = 100;
 % [err] = PlotMontage_v1c(INPUT); 
 % title('Relative Image');
 

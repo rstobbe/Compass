@@ -12,7 +12,7 @@ User.sysresploc = 'D:\CompassRelated\4 OtherFiles\Scanner\GradSysResp';
 User.varianshimcalfile = 'D:\CompassRelated\4 OtherFiles\Scanner\Shimming\NaHBC_ShimCal_Jan2015';
 
 User.tempdataloc = 'E:\';
-User.experimentsloc = 'A:\Annie\MS Sodium Project_Nov14\B7b\Na Images\';
+User.experimentsloc = 'E:\Studies\23NaAlzheimers\Data\200210 (23NaAlz_200210JD)\s_20200210_002\data\B1mapNa_Hippo4_01.fid\';
 User.trajdevloc = 'Y:\2 Trajectories\0 TempHolding\MSYB\ConesComp';    
 User.varianloc = 'V:\sodium\';
 User.variandataloc = 'V:\sodium\vnmrsys\data\studies';

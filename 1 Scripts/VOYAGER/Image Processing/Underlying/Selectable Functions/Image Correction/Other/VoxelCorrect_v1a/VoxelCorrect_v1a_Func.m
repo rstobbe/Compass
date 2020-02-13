@@ -14,12 +14,16 @@ err.msg = '';
 % Get Input
 %---------------------------------------------
 IMG = INPUT.IMG{1};
+ReconPars = IMG.ReconPars;
 clear INPUT;
 
 %---------------------------------------------
 % Voxel Scale
 %---------------------------------------------
 IMG.IMDISP.ImInfo.pixdim = IMG.IMDISP.ImInfo.pixdim*COR.voxscale;
+IMG.ReconPars.ImvoxTB = ReconPars.ImvoxTB*COR.voxscale;
+IMG.ReconPars.ImvoxLR = ReconPars.ImvoxLR*COR.voxscale;
+IMG.ReconPars.ImvoxIO = ReconPars.ImvoxIO*COR.voxscale;
 
 %---------------------------------------------
 % Add to Panel Output

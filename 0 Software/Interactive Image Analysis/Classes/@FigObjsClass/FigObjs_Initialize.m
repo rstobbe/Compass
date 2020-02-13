@@ -101,6 +101,7 @@ IMOBJS.ImContMeth.Value = 1;
 IMOBJS.ContrastMax.Value = 1; 
 IMOBJS.ContrastMax.Enable = 'inactive';
 IMOBJS.ContrastMin.Value = 0;  
+IMOBJS.ContrastMin.Min = 0;  
 IMOBJS.ContrastMin.Enable = 'inactive';
 IMOBJS.CMaxVal.String = '1';
 IMOBJS.CMaxVal.ForegroundColor = [0.8 0.8 0.8];

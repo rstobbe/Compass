@@ -87,11 +87,11 @@ axnum = IMLOAD.axnum;
 tab = SCRPTGBL.RWSUI.tab;
 FIGOBJS.(tab).Info(axnum).String = ROIANLZ.ExpDisp;
 if isfield(FIGOBJS.(tab),'InfoTab')
-    FIGOBJS.(SCRPTGBL.RWSUI.tab).InfoTabGroup.SelectedTab = FIGOBJS.(tab).InfoTab(axnum);
+    FIGOBJS.(tab).InfoTabGroup.SelectedTab = FIGOBJS.(tab).InfoTab(axnum);
 elseif isfield(FIGOBJS.(tab),'InfoTabL')
-    FIGOBJS.(SCRPTGBL.RWSUI.tab).InfoTabGroup.SelectedTab = FIGOBJS.(tab).InfoTabL;
+    FIGOBJS.(tab).InfoTabGroup.SelectedTab = FIGOBJS.(tab).InfoTabL;
 end
-FIGOBJS.(SCRPTGBL.RWSUI.tab).UberTabGroup.SelectedTab = FIGOBJS.(tab).TopInfoTab;
+FIGOBJS.(tab).UberTabGroup.SelectedTab = FIGOBJS.(tab).TopInfoTab;
 
 if strcmp(ROIANLZ.saveable,'no') || strcmp(ROIANLZ.saveable,'No')
     SCRPTGBL.RWSUI.SaveGlobal = 'no';

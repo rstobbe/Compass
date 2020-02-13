@@ -22,9 +22,12 @@ clear INPUT
 %---------------------------------------------
 % Image Info
 %---------------------------------------------
-pixdim = ROI.pixdim;
 % - Should have a test here. Only valid if image FoV >= Projdgn.fov  
-zf = (PROJdgn.fov./pixdim);
+%--
+%pixdim = ROI.pixdim;
+%zf = (PROJdgn.fov./pixdim);
+zf = ROI.roiimsize;
+%--
 
 %---------------------------------------------
 % ZeroFill PSD
@@ -48,10 +51,11 @@ else
 end
 psdzf(b1:t1,b2:t2,b3:t3) = PSD.psd;
 %--
-figure(1000); hold on;
-plot(squeeze(psdzf(:,zf(2)/2+1,zf(3)/2+1)),'b');
-plot(squeeze(psdzf(zf(2)/2+1,:,zf(3)/2+1)),'g');
-plot(squeeze(psdzf(zf(2)/2+1,zf(3)/2+1,:)),'r');
+% figure(1000); hold on;
+% plot(squeeze(psdzf(:,zf(2)/2+1,zf(3)/2+1)),'b');
+% plot(squeeze(psdzf(zf(2)/2+1,:,zf(3)/2+1)),'g');
+% plot(squeeze(psdzf(zf(2)/2+1,zf(3)/2+1,:)),'r');
+%--
 
 %---------------------------------------------
 % Restore Image FoV (if needed)
@@ -101,9 +105,25 @@ NPICALC.npi95 = 1.96*NPICALC.sdavenoise
 
 NPICALC.return = NPICALC.npi95;
 NPICALC.label = {'NEI95'};
-NPICALC.ExpDisp = ['(',ROI.roiname,')   ',NPICALC.label{1},':  +/-',num2str(NPICALC.npi95)];
+
+%---------------------------------------------
+% Panel Output
+%--------------------------------------------- 
+Panel(1,:) = {'',NPICALC.method,'Output'};
+Panel(2,:) = {'Volume (cm3)',NPICALC.volume,'Output'};
+Panel(3,:) = {'CorrelationVolume (Voxels)',NPICALC.cv,'Output'};
+Panel(4,:) = {'Number Voxels',NPICALC.nroi,'Output'};
+Panel(5,:) = {'Statistically Independent Voxels',NPICALC.siv,'Output'};
+Panel(6,:) = {'NPI95',NPICALC.npi95,'Output'};
+PanelOutput = cell2struct(Panel,{'label','value','type'},2);
+NPICALC.Panel = Panel;
+NPICALC.PanelOutput = PanelOutput;
+NPICALC.ExpDisp = PanelStruct2Text(NPICALC.PanelOutput);
+
+%NPICALC.ExpDisp = ['(',ROI.roiname,')   ',NPICALC.label{1},':  +/-',num2str(NPICALC.npi95)];
 
 NPICALC.saveable = 'yes';
+NPICALC.name = 'NoiseErrorInverval';
 
 Status2('done','',2);
 Status2('done','',3);

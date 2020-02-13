@@ -25,7 +25,9 @@ if not(isfield(NPICALCipt,[CallingLabel,'_Data']))
             ErrDisp(err);
             return
         else
-            NPICALCipt.([CallingLabel,'_Data']).('PSD_File_Data').file = file;
+            Status2('busy','(Re) Load PSF_File',2);
+            load(file);
+            NPICALCipt.([CallingLabel,'_Data']).('PSD_File_Data') = saveData;
         end
     else
         err.flag = 1;

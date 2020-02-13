@@ -41,7 +41,6 @@ for n = 1:numfiles
             else
                 Status2('busy',['(Re) Load ',PanelLabel{n}],2);
                 load(file);
-                whos
                 if exist('ROI')
                     ROILDipt.([CallingLabel,'_Data']).([PanelLabel{n},'_Data']).ROI = ROI;
                 end

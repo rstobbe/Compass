@@ -325,6 +325,16 @@ classdef ImageAnlzClass < handle
             global TOTALGBL
             ImInfo = TOTALGBL{2,IMAGEANLZ.totgblnum}.IMDISP.ImInfo;
         end
+        % GetDefaultContrast
+        function DefaultContrast = GetDefaultContrast(IMAGEANLZ)
+            global TOTALGBL
+            DefaultContrast = TOTALGBL{2,IMAGEANLZ.totgblnum}.IMDISP.DEFDISP;
+        end
+        % GetDefaultContrastOverlay
+        function DefaultContrast = GetDefaultContrastOverlay(IMAGEANLZ,overlaynum)
+            global TOTALGBL
+            DefaultContrast = TOTALGBL{2,IMAGEANLZ.overtotgblnum(overlaynum)}.IMDISP.DEFDISP;
+        end
         % ShowImageInfo
         function ShowImageInfo(IMAGEANLZ)
             ImInfo = IMAGEANLZ.GetImageInfo;
@@ -566,8 +576,8 @@ classdef ImageAnlzClass < handle
             IMAGEANLZ.colouroverlay(overlaynum) = 1;
         end
         % SetOverlayDimension
-        function SetOverlayDimension(IMAGEANLZ,Dim4)
-            IMAGEANLZ.OverlayDim4 = Dim4;
+        function SetOverlayDimension(IMAGEANLZ,overlaynum,Dim4)
+            IMAGEANLZ.OverlayDim4(overlaynum) = Dim4;
         end
         % TestEnableMultiDim
         function colourimage = TestEnableMultiDim(IMAGEANLZ,colourimage)
@@ -932,10 +942,20 @@ classdef ImageAnlzClass < handle
         end
         % InitializeContrastSpecify
         function InitializeContrastSpecify(IMAGEANLZ,ContrastSettings)
+            if strcmp(ContrastSettings.Colour,'Yes')
+                IMAGEANLZ.FIGOBJS.ImColour.Value = 2;
+                colormap(IMAGEANLZ.FIGOBJS.ImAxes,IMAGEANLZ.FIGOBJS.Options.ColorMap);
+            else
+                IMAGEANLZ.FIGOBJS.ImColour.Value = 1;
+                colormap(IMAGEANLZ.FIGOBJS.ImAxes,IMAGEANLZ.FIGOBJS.Options.GrayMap);
+            end
+            IMAGEANLZ.ImType = ContrastSettings.ImType; 
             IMAGEANLZ.ContrastSettings = ContrastSettings;
         end
         % OverlayInitializeContrastSpecify
         function OverlayInitializeContrastSpecify(IMAGEANLZ,OContrastSettings,overlaynum)
+            IMAGEANLZ.OverlayColour{overlaynum} = OContrastSettings.Colour;
+            IMAGEANLZ.OImType{overlaynum} = OContrastSettings.Type;
             IMAGEANLZ.OContrastSettings{overlaynum} = OContrastSettings;
         end
         % DefaultContrast
@@ -1052,9 +1072,10 @@ classdef ImageAnlzClass < handle
                 IMAGEANLZ.FIGOBJS.SetOverlayTransparency(0.5,overlaynum);
                 IMAGEANLZ.FIGOBJS.SetOverlayMax(1,overlaynum);
                 IMAGEANLZ.FIGOBJS.SetOverlayMin(0,overlaynum);
-                IMAGEANLZ.OverlayColour{overlaynum} = 'No';
+                IMAGEANLZ.OverlayColour{overlaynum} = 'Yes';
                 IMAGEANLZ.FIGOBJS.SetOverlayColour(overlaynum);
                 IMAGEANLZ.overimvol = cell(1,4);
+                IMAGEANLZ.OverlayDim4(overlaynum) = 1;
             end
         end
         
@@ -1906,7 +1927,7 @@ classdef ImageAnlzClass < handle
             if length(Data.val) > 1
                 IMAGEANLZ.FIGOBJS.SetOverlayValue(overlaynum,[num2str(Data.val(1),'%3.2f'),',',num2str(Data.val(2),'%3.2f'),',',num2str(Data.val(3),'%3.2f')]);
             else
-                switch IMAGEANLZ.OImType
+                switch IMAGEANLZ.OImType{overlaynum}
                     case 'abs'
                         if abs(Data.val) < 0.01
                             num = num2str(Data.val,3);

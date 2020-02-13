@@ -1,0 +1,51 @@
+%=====================================================
+%
+%=====================================================
+
+function [ORNT,err] = Orient_VarianPA_v1e_Func(ORNT,INPUT)
+
+Status2('busy','Orient',2);
+Status2('done','',3);
+
+err.flag = 0;
+err.msg = '';
+
+%---------------------------------------------
+% Get Input
+%---------------------------------------------
+ReconPars = INPUT.ReconPars;
+if not(isfield(ReconPars,'orp'))
+    ReconPars.orp = 1;
+end
+orp = ReconPars.orp;
+
+%---------------------------------------------
+% Flip
+%---------------------------------------------
+IMG.voxscale = 0.96;
+if orp == 1
+    sz = size(INPUT.Im);
+    Im = 10000*permute(INPUT.Im,[2,1,3,4]);               % with scaling
+    Im = flip(Im,1);
+    %Im = flip(Im,2);    
+    ORNT.Im = flip(Im,3);
+    ReconPars.ornt = ORNT.method;  
+    ReconPars.ImfovTB = ReconPars.Imfovx*IMG.voxscale;
+    ReconPars.ImfovLR = ReconPars.Imfovy*IMG.voxscale;                 
+    ReconPars.ImfovIO = ReconPars.Imfovz*IMG.voxscale;       
+    ReconPars.ImvoxTB = ReconPars.Imfovx/sz(1);
+    ReconPars.ImvoxLR = ReconPars.Imfovy/sz(2);
+    ReconPars.ImvoxIO = ReconPars.Imfovz/sz(3);
+    ReconPars.ImszTB = sz(1);
+    ReconPars.ImszLR = sz(2);
+    ReconPars.ImszIO = sz(3); 
+    ReconPars = rmfield(ReconPars,{'Imfovx','Imfovy','Imfovz'});    
+    ORNT.ReconPars = ReconPars;    
+elseif orp == 2
+    error();
+elseif orp == 3
+    error();
+end
+
+Status2('done','',2);
+Status2('done','',3);

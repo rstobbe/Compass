@@ -23,20 +23,14 @@ if strcmp(IMAGEANLZ.(tab)(axnum).presentation,'Standard')
         start = axnum;
         stop = axnum;
     end
-    for n = 1:start:stop
+    for n = start:stop
         IMAGEANLZ.(tab)(n).ShadeROIChangeValue(event.AffectedObject.Value);
-        IMAGEANLZ.(tab)(n).ShadeROIChangeSlider(event.AffectedObject.Value);
-        %IMAGEANLZ.(tab)(n).PlotImage;
+        %IMAGEANLZ.(tab)(n).ShadeROIChangeSlider(event.AffectedObject.Value);
         if IMAGEANLZ.(tab)(n).SAVEDROISFLAG == 1
-            if IMAGEANLZ.(tab)(n).GETROIS == 1
-                IMAGEANLZ.(tab)(n).DrawSavedROIsNoPick([]);
-            else
-                IMAGEANLZ.(tab)(n).DrawSavedROIs([]);
-            end
+            IMAGEANLZ.(tab)(n).ChangeShadeSavedROIs;
         end
         if IMAGEANLZ.(tab)(n).GETROIS == 1
-            IMAGEANLZ.(tab)(n).DrawCurrentROI([]);
-            IMAGEANLZ.(tab)(n).DrawTempROI([],[]);
+            IMAGEANLZ.(tab)(n).ChangeShadeCurrentROI;
         end
     end
 elseif strcmp(IMAGEANLZ.(tab)(axnum).presentation,'Ortho')

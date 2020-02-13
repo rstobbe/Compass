@@ -78,7 +78,9 @@ SCRPTGBL.RWSUI.SaveGlobal = 'no';
 SCRPTGBL.RWSUI.SaveScriptOption = 'no';
 SCRPTGBL.RWSUI.SaveVariables = ROICREATE;
 SCRPTGBL.RWSUI.SaveVariableNames = 'ROICREATE';
-SCRPTGBL.RWSUI.SaveGlobalNames = 'ROICREATE';
+for n = 1:length(ROIARR)
+    SCRPTGBL.RWSUI.SaveGlobalNames{n} = ROIARR(n).roiname;
+end
 SCRPTGBL.RWSUI.SaveRois = ROICREATE.SaveRois;
 SCRPTGBL.RWSUI.LoadRois = ROICREATE.LoadRois;
 SCRPTGBL.RWSUI.ROIARR = ROIARR;

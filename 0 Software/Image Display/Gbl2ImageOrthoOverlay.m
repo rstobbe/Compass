@@ -44,11 +44,10 @@ if dim4 == 0
     end
     return
 end
-if dim4~=1
-    for axnum = 1:3
-        IMAGEANLZ.(tab)(axnum).SetOverlayDimension(dim4);
-    end
-elseif colourimage == 1
+for axnum = 1:3
+    IMAGEANLZ.(tab)(axnum).SetOverlayDimension(overlaynum,dim4);
+end
+if colourimage == 1
     for axnum = 1:3
         IMAGEANLZ.(tab)(axnum).SetColourOverlay(overlaynum);
     end
