@@ -125,7 +125,11 @@ if strcmp(DESOL.Vis,'Yes')
     plot(SlvZero,tau(SlvZero),'r*');
     ylim([tau(1) tau(SlvEnd)]);
     %ylim([tau(1) 0.01]);
-    xlabel('DE sample point'); ylabel('Tau (projlen)'); title('DE Solution Timing Vector');    
+    xlabel('DE sample point'); ylabel('Tau (projlen)'); title('DE Solution Timing Vector');  
+    DESOL.Figure(1).Name = 'DeSolTim Characteristics';
+    DESOL.Figure(1).Type = 'Graph';
+    DESOL.Figure(1).hFig = fh;
+    DESOL.Figure(1).hAx = gca;
 end
 
 %------------------------------------------
@@ -137,9 +141,6 @@ DESOL.len = length(tau1)+length(tau2);
 DESOL.plin = plin;
 DESOL.plout = plout;
 DESOL.PanelOutput = struct();
-
-Status2('done','',2);
-Status2('done','',3);
 
 %===============================================================
 % Inside

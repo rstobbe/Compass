@@ -4,66 +4,97 @@
 
 function [COR,err] = B1TxcorrDW_v1a_Func(COR,INPUT)
 
-Status2('busy','DW-weighted B1 Correction (Tx only)',2);
+Status2('busy','DW-weighted B1 Correction',2);
 Status2('done','',3);
 
 err.flag = 0;
 err.msg = '';
 
 %---------------------------------------------
-% Get Input
+% Test
 %---------------------------------------------
 IMG = INPUT.IMG;
-B1MAP = INPUT.B1MAP;
 clear INPUT;
-Im = IMG.Im;
-B1map = B1MAP.Im;
+
+%---------------------------------------------
+% Sort Out Inputs
+%---------------------------------------------
+if iscell(IMG)
+    if length(IMG) == 1
+        IMG = IMG{1};
+    end
+end
+if iscell(IMG)
+    if length(IMG) ~= 2
+        err.flag = 1;
+        err.msg = 'Load 2 Images';
+        return
+    end
+    IMG1 = IMG{1};
+    IMG2 = IMG{2};
+    ReconPars1 = IMG1.ReconPars;
+    ExpPars1 = IMG1.ExpPars;
+    Im0 = IMG1.Im;
+    ReconPars2 = IMG2.ReconPars;
+    B1Map = IMG2.Im(:,:,:,1);  
+    
+    %----------------------------------------
+    % Compare
+%     [~,~,comperr] = comp_struct(ReconPars1,ReconPars2,'ReconPars1','ReconPars2');
+%     if not(isempty(comperr))
+%         err.flag = 1;
+%         err.msg = 'Image recons do not match';
+%         return
+%     end
+    ReconPars = ReconPars1;
+end
 
 %---------------------------------------------
 % Info
 %---------------------------------------------
-SeqPars = IMG.ExpPars.Sequence;
-flip = SeqPars.flipangle;
+flip = ExpPars1.Sequence.flip_angle;
 
 %---------------------------------------------
 % Ensure proper
 %---------------------------------------------
-B1map = real(B1map);
-B1map(B1map<0.5) = NaN;
+B1Map = real(B1Map);
+B1Map(B1Map<0.5) = NaN;
 
 %---------------------------------------------
 % Calc
 %---------------------------------------------
-MxyDifFlip = sin(B1map*pi*flip/180)/sin(pi*flip/180);
-%B1mapScale = B1map.*MxyDifFlip;
-B1mapScale = MxyDifFlip;
-%B1mapScale = B1map;
-B1mapScale(B1mapScale == 0) = NaN;
-Im = Im./B1mapScale;
+B1TxDepend = sin(B1Map*pi*flip/180)/sin(pi*flip/180);
+Im = Im0./(B1TxDepend);
 
-%---------------------------------------------
-% Display
-%---------------------------------------------
-% sz = size(B1mapScale);
-% IMSTRCT.type = 'real'; IMSTRCT.start = 1; IMSTRCT.step = 1; IMSTRCT.stop = sz(3); 
-% IMSTRCT.rows = floor(sqrt(sz(3))+1); IMSTRCT.lvl = [0.75 1.25]; IMSTRCT.SLab = 0; IMSTRCT.figno = 1000; 
-% IMSTRCT.docolor = 1; IMSTRCT.ColorMap = 'ColorMap4'; IMSTRCT.figsize = [];
-% AxialMontage_v2a(B1mapScale,IMSTRCT);
+%----------------------------------------------
+% Naming
+%----------------------------------------------
+if isfield(IMG1,'name')
+    CORIMG.name = IMG1.name;
+    if strfind(CORIMG.name,'.mat')
+        CORIMG.name = CORIMG.name(1:end-4);
+    end
+    if strfind(CORIMG.name,'IMG_')
+        CORIMG.name = [CORIMG.name,'_B1c'];
+    end
+else
+    CORIMG.name = '';
+end
+CORIMG.path = IMG1.path;
 
-%---------------------------------------------
-% Display
-%---------------------------------------------
-% sz = size(Im);
-% IMSTRCT.type = 'abs'; IMSTRCT.start = 1; IMSTRCT.step = 1; IMSTRCT.stop = sz(3); 
-% IMSTRCT.rows = floor(sqrt(sz(3))+1); IMSTRCT.lvl = [0 max(abs(Im(:)))]; IMSTRCT.SLab = 0; IMSTRCT.figno = 1001; 
-% IMSTRCT.docolor = 1; IMSTRCT.ColorMap = 'ColorMap4'; IMSTRCT.figsize = [];
-% AxialMontage_v2a(Im,IMSTRCT);
+%----------------------------------------------
+% Panel Items
+%----------------------------------------------
+CORIMG.PanelOutput = [];
+CORIMG.ExpDisp = PanelStruct2Text(CORIMG.PanelOutput);
 
 %---------------------------------------------
 % Return
 %---------------------------------------------
-IMG.Im = Im;
-COR.IMG = IMG;
+CORIMG.Im = Im;
+CORIMG.ReconPars = ReconPars;
+CORIMG.ExpPars = ExpPars1;
+COR.IMG = CORIMG;
 
 Status2('done','',2);
 Status2('done','',3);

@@ -48,6 +48,14 @@ if strcmp(func,'TestPlot')
     xlabel('kStep_x'); ylabel('kStep_y'); zlabel('kStep_z');  
     title('TPI Waveform');
 
+    %----------------------------------------------------
+    % Figure
+    %----------------------------------------------------
+    TST.Figure(1).Name = 'Waveforms';
+    TST.Figure(1).Type = 'Graph';
+    TST.Figure(1).hFig = fh;
+    TST.Figure(1).hAx = gca;
+    
     %------------------------------------------
     % Calculate Timings
     %------------------------------------------    
@@ -109,6 +117,15 @@ if strcmp(func,'TestPlot')
     xlabel('tro (ms)'); ylabel('Radial Evolution'); title('Standard TPI Radial Evolution');
     xlim([0 PROJdgn.tro]);     
     %ylim([0 1e4]);  
+
+    %----------------------------------------------------
+    % Figure
+    %----------------------------------------------------
+    TST.Figure(2).Name = 'Design Characteristics';
+    TST.Figure(2).Type = 'Graph';
+    TST.Figure(2).hFig = fh;
+    TST.Figure(2).hAx = gca;
+
 end
 
 %----------------------------------------------------

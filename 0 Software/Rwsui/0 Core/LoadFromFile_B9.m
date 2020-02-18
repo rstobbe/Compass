@@ -15,7 +15,8 @@ global SCRPTPATHS
 % Select Output Data
 %----------------------------------------------------
 if isempty(SCRPTPATHS.(tab)(panelnum).outloc)
-    SCRPTPATHS.(tab)(panelnum).outloc = SCRPTPATHS.(tab)(panelnum).outrootloc;
+    User = CompassUserInfo(0);
+    SCRPTPATHS.(tab)(panelnum).outloc = User.lastscriptloc;
 end
 [file,path] = uigetfile('*.mat','Select Saved Script',SCRPTPATHS.(tab)(panelnum).outloc);
 if path == 0
@@ -34,6 +35,16 @@ SCRPTPATHS.(tab)(panelnum).outloc = outloc;
 if err.flag
     return
 end
+
+global COMPASSINFO
+Text = fileread(COMPASSINFO.USERGBL.userinfofile);
+ind1 = strfind(Text,'User.lastscriptloc');
+ind2 = strfind(Text,'User.experimentsloc');
+Text = [Text(1:ind1+21),path,Text(ind2-4:end)];
+fid = fopen([COMPASSINFO.USERGBL.userinfofile],'w+');
+fwrite(fid,Text);
+fclose('all');
+Status2('done','',1);
 
 %----------------------------------------------------
 % Assign TOTALGBL

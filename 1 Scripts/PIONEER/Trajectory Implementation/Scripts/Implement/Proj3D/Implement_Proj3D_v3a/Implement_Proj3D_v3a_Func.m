@@ -86,6 +86,14 @@ GWFM = IMETH.GWFM;
 SYSRESP = IMETH.SYSRESP;
 
 %----------------------------------------------------
+% Save Figure
+%----------------------------------------------------
+if isfield(IMETH,'Figure')
+    IMP.Figure = IMETH.Figure;
+    IMETH = rmfield(IMETH,'Figure');
+end
+
+%----------------------------------------------------
 % Add Design to Panel Output
 %----------------------------------------------------
 Panel = [DES.Panel2Imp;IMETH.Panel];

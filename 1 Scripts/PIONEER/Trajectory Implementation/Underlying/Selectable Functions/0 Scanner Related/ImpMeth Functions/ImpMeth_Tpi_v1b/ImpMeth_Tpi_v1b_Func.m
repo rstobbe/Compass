@@ -129,6 +129,17 @@ end
 clear INPUT;
 
 %----------------------------------------------------
+% Save Figure
+%----------------------------------------------------
+figno = 1;
+if isfield(DESOL,'Figure')
+    N = length(DESOL.Figure);
+    IMETH.Figure(figno:figno+N-1) = DESOL.Figure;
+    DESOL = rmfield(DESOL,'Figure');
+    figno = figno+N;
+end
+
+%----------------------------------------------------
 % Test Solution Fineness
 %----------------------------------------------------    
 INPUT.PROJdgn = PROJdgn;
@@ -225,7 +236,6 @@ if strcmp(TST.TVis,'Yes')
         return
     end    
 end 
- 
 
 %===============================================================================
 % Constrain Evolution
@@ -271,7 +281,7 @@ ind = find(T > 1,1,'first');
 maxtraj = find(magacc0(:,ind) == maxmagacc0(ind));
 
 if strcmp(TST.TVis,'Yes')
-    figure(500);
+    hFig = figure(500);
     subplot(2,3,5); hold on;
     plot(Tacc0,magacc0/PROJimp.gamma,'k-');
     plot(Tacc0,maxmagacc0/PROJimp.gamma,'b');
@@ -279,6 +289,17 @@ if strcmp(TST.TVis,'Yes')
     xlabel('tro (ms)'); ylabel('Gradient Speed (mT/m/ms)'); title('Max Gradient Speed Test');
     xlim([0 PROJdgn.tro]);
     ylim([0 400]); 
+end
+
+%----------------------------------------------------
+% Save Figure
+%----------------------------------------------------
+if strcmp(TST.TVis,'Yes')
+    IMETH.Figure(figno).Name = 'Trajectory Testing';
+    IMETH.Figure(figno).Type = 'Graph';
+    IMETH.Figure(figno).hFig = hFig;
+    IMETH.Figure(figno).hAx = gca;
+    figno = figno+1;
 end
 
 %--------
@@ -305,6 +326,16 @@ end
 ConstEvolT = CACC.TArr;
 ConstEvolRad = Rad;
 clear INPUT;   
+
+%----------------------------------------------------
+% Save Figure
+%----------------------------------------------------
+if isfield(CACC,'Figure')
+    N = length(CACC.Figure);
+    IMETH.Figure(figno:figno+N-1) = CACC.Figure;
+    CACC = rmfield(CACC,'Figure');
+    figno = figno+N;
+end
 
 %---------------------------------------------
 % Determine Initial Radial Speed
@@ -339,6 +370,16 @@ PROJimp.projosamp = PSMP.projosamp;
 PROJimp.nproj = PSMP.nproj;
 IMETH.PSMP = PSMP;
 IMETH.PROJimp = PROJimp;
+
+%----------------------------------------------------
+% Save Figure
+%----------------------------------------------------
+if isfield(PSMP,'Figure')
+    N = length(PSMP.Figure);
+    IMETH.Figure(figno:figno+N-1) = PSMP.Figure;
+    PSMP = rmfield(PSMP,'Figure');
+    figno = figno+N;
+end
 
 %----------------------------------------------------
 % Generate
@@ -446,8 +487,10 @@ MagkStep = mean(MagkStep,1);
 Rad = sqrt(GQKSA0(:,:,1).^2 + GQKSA0(:,:,2).^2 + GQKSA0(:,:,3).^2);
 Rad = mean(Rad,1);
 if round(Rad(end)*1e4) ~= 1e4 && not(strcmp(TST.testspeed,'Rapid'))
-    test = round(Rad(end)*1e4)
-    error
+    if PROJdgn.elip == 1
+        test = round(Rad(end)*1e4)
+        error
+    end
 end     
 GQKSA0 = PROJdgn.kmax*GQKSA0;
 
@@ -522,12 +565,7 @@ end
 Gend = TEND.Gend;
 G0wend = cat(2,G0,Gend);
 qTend = (GQNT.gseg:GQNT.gseg:length(Gend(1,:,1))*GQNT.gseg);
-qTwend = [qT qT(end)+qTend];
-
-%----------------------------------------------------
-% Do Elip
-%----------------------------------------------------
-G0wend(:,:,ORNT.Zind) = G0wend(:,:,ORNT.Zind)*PROJdgn.elip;                             
+qTwend = [qT qT(end)+qTend];                         
 
 %----------------------------------------------------
 % Visuals
@@ -771,6 +809,13 @@ end
 Grecon = SYSRESP.Grecon;  
 qTrecon = SYSRESP.Trecon;
 
+if isfield(SYSRESP,'Figure')
+    N = length(SYSRESP.Figure);
+    IMETH.Figure(figno:figno+N-1) = SYSRESP.Figure;
+    SYSRESP = rmfield(SYSRESP,'Figure');
+    figno = figno+N;
+end
+
 %----------------------------------------------------
 % Visuals
 %----------------------------------------------------
@@ -783,13 +828,24 @@ if strcmp(TST.GVis,'Yes')
         Gvis(:,(n-1)*2+1,:) = Grecon(:,n,:);
         Gvis(:,n*2,:) = Grecon(:,n,:);
     end
-    figure(1000); 
+    hFig = figure(1000); 
     subplot(2,2,1); hold on; 
     plot(L,Gvis(1,:,1),'b-'); plot(L,Gvis(1,:,2),'g-'); plot(L,Gvis(1,:,3),'r-');
     xlim([L(1) L(end)]);
     title(['Traj',num2str(1)]);
     xlabel('(ms)','fontsize',10,'fontweight','bold');
     ylabel('Gradients (mT/m)','fontsize',10,'fontweight','bold');
+end
+
+%----------------------------------------------------
+% Save Figure
+%----------------------------------------------------
+if strcmp(TST.GVis,'Yes')
+    IMETH.Figure(figno).Name = 'Gradient Characteristics';
+    IMETH.Figure(figno).Type = 'Graph';
+    IMETH.Figure(figno).hFig = hFig;
+    IMETH.Figure(figno).hAx = gca;
+    figno = figno+1;
 end
 
 %----------------------------------------------------
@@ -860,6 +916,13 @@ if strcmp(TST.KVis,'Yes')
     plot(T,PROJdgn.kmax*KSA(ind2,:,2),'k'); plot(Samp0,Kmat0(ind2,:,2),'g');
     plot(T,PROJdgn.kmax*KSA(ind3,:,3),'k'); plot(Samp0,Kmat0(ind3,:,3),'r');
     xlabel('trajectory'); ylabel('kSpace (1/m)'); title('Waveforms with Greatest kEnd');
+
+    IMETH.Figure(figno).Name = 'Sampling Characteristics';
+    IMETH.Figure(figno).Type = 'Graph';
+    IMETH.Figure(figno).hFig = fhk;
+    IMETH.Figure(figno).hAx = gca;
+    figno = figno+1;
+
 end    
 Kmat = KmatRecon;
 samp = SampRecon;
@@ -972,10 +1035,15 @@ xlabel('time (ms)');
 ylabel('Gradient (mT/m)');
 title('Gradient Waveform');
 
+IMETH.Figure(figno).Name = 'Basic Figure';
+IMETH.Figure(figno).Type = 'Graph';
+IMETH.Figure(figno).hFig = fh;
+IMETH.Figure(figno).hAx = gca;
+
 %----------------------------------------------------
 % Return
 %----------------------------------------------------
-GWFM.ORNT = ORNT;
+IMETH.ORNT = ORNT;
 IMETH.GWFM = GWFM; 
 IMETH.PSMP = PSMP;
 IMETH.TSMP = TSMP;

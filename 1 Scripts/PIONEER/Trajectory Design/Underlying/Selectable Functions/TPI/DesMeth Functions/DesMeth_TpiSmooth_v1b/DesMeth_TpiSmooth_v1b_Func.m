@@ -156,6 +156,13 @@ DESMETH.PanelOutput = TST.PanelOutput;
 DESMETH.Panel2Imp = TST.Panel2Imp;
 DESMETH.name = TPIT.name0;
 
+%----------------------------------------------------
+% Save ANLZ Figure
+%----------------------------------------------------
+if isfield(TST,'Figure')
+    DESMETH.Figure = TST.Figure;
+end
+
 
 Status('done','');
 Status2('done','',2);

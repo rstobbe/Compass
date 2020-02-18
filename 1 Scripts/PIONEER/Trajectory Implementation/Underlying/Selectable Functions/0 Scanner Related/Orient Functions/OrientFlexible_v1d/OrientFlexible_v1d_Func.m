@@ -42,18 +42,24 @@ if isfield(PROJdgn,'elip')
 else
     elip = 1;
 end
-if strcmp(PROJdgn.YbAxisElip,'z')
+if isfield(PROJdgn,'YbAxisElip')
+    if strcmp(PROJdgn.YbAxisElip,'z')
+        dimx = PROJdgn.vox;
+        dimy = PROJdgn.vox;
+        dimz = PROJdgn.vox/elip;
+    elseif strcmp(PROJdgn.YbAxisElip,'y')
+        dimx = PROJdgn.vox;
+        dimy = PROJdgn.vox/elip;
+        dimz = PROJdgn.vox;
+    elseif strcmp(PROJdgn.YbAxisElip,'x')
+        dimx = PROJdgn.vox/elip;
+        dimy = PROJdgn.vox;
+        dimz = PROJdgn.vox;
+    end
+else
     dimx = PROJdgn.vox;
     dimy = PROJdgn.vox;
     dimz = PROJdgn.vox/elip;
-elseif strcmp(PROJdgn.YbAxisElip,'y')
-    dimx = PROJdgn.vox;
-    dimy = PROJdgn.vox/elip;
-    dimz = PROJdgn.vox;
-elseif strcmp(PROJdgn.YbAxisElip,'x')
-    dimx = PROJdgn.vox/elip;
-    dimy = PROJdgn.vox;
-    dimz = PROJdgn.vox;
 end
 
 if strcmp(ORNT.kxyz,'xyz')

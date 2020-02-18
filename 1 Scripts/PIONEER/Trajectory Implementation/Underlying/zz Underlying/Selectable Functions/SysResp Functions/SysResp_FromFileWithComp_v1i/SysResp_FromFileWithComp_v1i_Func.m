@@ -221,5 +221,14 @@ if strcmp(mode,'Analyze')
         xlabel('(ms)'); ylabel('Gradient (mT/m)'); title('System Input/Output'); xlim([TimeDisp(1) TimeDisp(end)]);
     end
     %---
-    
+
+    %----------------------------------------------------
+    % Save Figure
+    %----------------------------------------------------
+    if strcmp(TST.GVis,'Yes')
+        SYSRESP.Figure(1).Name = 'SysResp Characteristics';
+        SYSRESP.Figure(1).Type = 'Graph';
+        SYSRESP.Figure(1).hFig = fh;
+        SYSRESP.Figure(1).hAx = gca;
+    end      
 end

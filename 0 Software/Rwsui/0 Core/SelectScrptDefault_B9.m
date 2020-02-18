@@ -12,7 +12,8 @@ global SCRPTPATHS
 global SCRPTGBL
 
 if isempty(SCRPTPATHS.(tab)(panelnum).defloc)
-    SCRPTPATHS.(tab)(panelnum).defloc = SCRPTPATHS.(tab)(panelnum).defrootloc;
+    User = CompassUserInfo(0);
+    SCRPTPATHS.(tab)(panelnum).defloc = User.lastdefloc;
 end
 if SCRPTPATHS.(tab)(panelnum).defloc == 0
     SCRPTPATHS.(tab)(panelnum).defloc = '';
@@ -32,6 +33,16 @@ if path == 0
 end
 defloc = path;
 SCRPTPATHS.(tab)(panelnum).defloc = defloc;
+
+global COMPASSINFO
+Text = fileread(COMPASSINFO.USERGBL.userinfofile);
+ind1 = strfind(Text,'User.lastdefloc');
+ind2 = strfind(Text,'User.siemensdefaultloc');
+Text = [Text(1:ind1+18),path,Text(ind2-4:end)];
+fid = fopen([COMPASSINFO.USERGBL.userinfofile],'w+');
+fwrite(fid,Text);
+fclose('all');
+Status2('done','',1);
 
 %----------------------------------------------------
 % Load Default

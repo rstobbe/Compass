@@ -135,6 +135,14 @@ TEVO.FixTiming();
 TEVO.PlotEvolutionEnd();
 CACC.TArr = TEVO.tSamp;
 
+%----------------------------------------------------
+% Figure
+%----------------------------------------------------
+CACC.Figure(1).Name = 'ConstEvol Characteristics';
+CACC.Figure(1).Type = 'Graph';
+CACC.Figure(1).hFig = TEVO.PlotEvFigHand;
+CACC.Figure(1).hAx = gca;
+
 Status2('done','',3);
 end
 
