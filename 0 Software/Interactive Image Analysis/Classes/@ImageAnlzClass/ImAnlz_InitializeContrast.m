@@ -3,14 +3,16 @@
 %============================================
 function ImAnlz_InitializeContrast(IMAGEANLZ)
 
-Image = IMAGEANLZ.GetCurrent3DImageComplex;
+%Image = IMAGEANLZ.GetCurrent3DImageComplex;
+global TOTALGBL
+Image = TOTALGBL{2,IMAGEANLZ.totgblnum}.Im;
 
 if isreal(Image)
     MaxVal = max(Image(:));
     MinVal = min(Image(:));
 else
     MaxVal = max(abs(Image(:)));
-    MinVal = -max(abs(Image(:)));
+    MinVal = -MaxVal;
 end
 
 % TempImage = abs(Image);

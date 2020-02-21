@@ -106,7 +106,7 @@ Err = (kb)./kb0;
 %-------------------------------------------------
 % Plot Error
 %-------------------------------------------------
-figure(1000); 
+fh = figure(1000); 
 subplot(2,2,3); hold on;
 plot(t(ind1:ind2),real(Err(ind1:ind2)),clr)
 plot(t(ind1:ind2),imag(Err(ind1:ind2)),'b')
@@ -130,6 +130,11 @@ ylabel('Relative Conv Kernal Err','fontsize',10,'fontweight','bold');
 xlabel('Relative Image Space','fontsize',10,'fontweight','bold');
 set(gca,'XLim',[-(SS/2+0.1) (SS/2+0.1)]);
 %set(gca,'YLim',[-0.05 0.05]);
+
+ANLZ.Figure(1).Name = 'Kernel Characteristics';
+ANLZ.Figure(1).Type = 'Graph';
+ANLZ.Figure(1).hFig = fh;
+ANLZ.Figure(1).hAx = gca;
 
 %--------------------------------------
 % Return

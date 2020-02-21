@@ -82,7 +82,7 @@ FIGOBJS.(SCRPTGBL.RWSUI.tab).Info.String = ANLZ.ExpDisp;
 %--------------------------------------------
 % Name
 %--------------------------------------------
-name = 'ANLZ_';
+name = ['ANLZ_',Kern.name];
 
 %--------------------------------------------
 % Return
@@ -94,14 +94,14 @@ if isempty(name)
 end
 ANLZ.name = name{1};
 
-SCRPTipt(indnum).entrystr = name;
-SCRPTGBL.RWSUI.SaveVariables = {ANLZ};
-SCRPTGBL.RWSUI.SaveVariableNames = {'ANLZ'};
+SCRPTipt(indnum).entrystr = ANLZ.name;
+SCRPTGBL.RWSUI.SaveVariables = ANLZ;
+SCRPTGBL.RWSUI.SaveVariableNames = 'ANLZ';
 SCRPTGBL.RWSUI.SaveGlobal = 'yes';
-SCRPTGBL.RWSUI.SaveGlobalNames = name;
+SCRPTGBL.RWSUI.SaveGlobalNames = ANLZ.name;
 SCRPTGBL.RWSUI.SaveScriptOption = 'yes';
 SCRPTGBL.RWSUI.SaveScriptPath = 'outloc';
-SCRPTGBL.RWSUI.SaveScriptName = name;
+SCRPTGBL.RWSUI.SaveScriptName = ANLZ.name;
 
 Status('done','');
 Status2('done','',2);

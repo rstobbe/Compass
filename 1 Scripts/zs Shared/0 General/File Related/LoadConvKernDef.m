@@ -47,7 +47,8 @@ if not(isempty(saveData0))
     %------------------------------------------
     % Update Name/Path
     %------------------------------------------
-    saveData.KRNprms.name = saveData.file(1:end-4);
+    saveData.KRNprms.name = saveData.file;
+%    saveData.KRNprms.name = saveData.file(1:end-4);
     saveData.KRNprms.path = saveData.path;
 
     %--------------------------------------------

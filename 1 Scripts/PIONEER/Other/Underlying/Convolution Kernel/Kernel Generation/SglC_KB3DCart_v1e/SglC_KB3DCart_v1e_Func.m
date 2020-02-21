@@ -134,17 +134,18 @@ Status2('done','',2);
 % Kernel Vis
 %--------------------------------------------
 Status2('busy','Visualize Kernel',1);
-figure(1100); hold on; 
+fh = figure(1100); 
+subplot(2,2,1); hold on;
 plot((1:length(Kern)),squeeze(Kern(1,1,:))); 
 xlim([0 length(Kern)]); 
 xlabel('Kernel Size','fontsize',10,'fontweight','bold');
 
-figure(1101); hold on; 
+subplot(2,2,2); hold on;
 plot((0:length(Kern)-1)*res,squeeze(Kern(1,1,:))); 
 xlim([0 zW/2]); 
 xlabel('Kernel Width','fontsize',10,'fontweight','bold');
 
-figure(1102); hold on;
+subplot(2,2,3); hold on;
 anlzzf = 64000;
 KernProf = [KaiserProf zeros(1,anlzzf-2*length(KaiserProf)+1) flip(KaiserProf(2:length(KaiserProf)),2)];
 FTProf = ifftshift(ifft(KernProf));
@@ -160,6 +161,15 @@ plot([-SS/2 -SS/2],[-0.2 1.2],'k:');
 ylabel('Kernel Profile','fontsize',10,'fontweight','bold');
 xlabel('Relative Image Space','fontsize',10,'fontweight','bold');
 set(gca,'XLim',[-(SS/2+0.1) (SS/2+0.1)]);
+
+fh.Name = 'Kernel Characteristics';
+fh.NumberTitle = 'off';
+fh.Position = [500 200 1000 800];
+
+KDES.Figure(1).Name = 'Kernel Characteristics';
+KDES.Figure(1).Type = 'Graph';
+KDES.Figure(1).hFig = fh;
+KDES.Figure(1).hAx = gca;
 
 %----------------------------------------------------
 % Panel Output

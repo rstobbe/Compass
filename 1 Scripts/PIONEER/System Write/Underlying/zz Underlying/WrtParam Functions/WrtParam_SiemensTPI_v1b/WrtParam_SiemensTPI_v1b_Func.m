@@ -37,7 +37,18 @@ if isempty(id)
 end
 id = id{1};
 sfov = num2str(IMP.impPROJdgn.fov,'%3.0f');
-svox = num2str(10*(IMP.impPROJdgn.vox^3)/IMP.impPROJdgn.elip,'%3.0f');
+
+if isfield(IMP,'ORNT')
+    ORNT = IMP.ORNT;
+elseif isfield(IMP.GWFM,'ORNT')
+    ORNT = IMP.GWFM.ORNT;
+end
+dimx = round(ORNT.dimx*1000)/1000;
+dimy = round(ORNT.dimy*1000)/1000;
+dimz = round(ORNT.dimz*1000)/1000;
+%svox = num2str(10*(IMP.impPROJdgn.vox^3)/IMP.impPROJdgn.elip,'%3.0f');
+svox = num2str(10*dimx*dimy*dimz,'%3.0f');
+
 selip = num2str(100*IMP.impPROJdgn.elip,'%3.0f');
 stro = num2str(10*IMP.impPROJdgn.tro,'%3.0f');
 snproj = num2str(sz(1),'%4.0f');
@@ -71,9 +82,9 @@ fprintf(fid,'# R.W.Stobbe\n');
 fprintf(fid,'####################################\n');
 fprintf(fid,['type:',ntype,'\n']);                          
 fprintf(fid,['fov:',num2str(IMP.impPROJdgn.fov,'%11.6g'),'\n']);
-fprintf(fid,['x:',num2str(IMP.GWFM.ORNT.dimx,'%11.6g'),'\n']);
-fprintf(fid,['y:',num2str(IMP.GWFM.ORNT.dimy,'%11.6g'),'\n']);
-fprintf(fid,['z:',num2str(IMP.GWFM.ORNT.dimz,'%11.6g'),'\n']);
+fprintf(fid,['x:',num2str(dimx,'%11.6g'),'\n']);
+fprintf(fid,['y:',num2str(dimy,'%11.6g'),'\n']);
+fprintf(fid,['z:',num2str(dimz,'%11.6g'),'\n']);
 fprintf(fid,['tro:',num2str(IMP.TSMP.tro*1000,'%11.6g'),'\n']);
 fprintf(fid,['nproj:',num2str(sz(1),'%11.6g'),'\n']);
 fprintf(fid,['rsnr:',num2str(round(IMP.KSMP.rSNR),'%11.6g'),'\n']);
