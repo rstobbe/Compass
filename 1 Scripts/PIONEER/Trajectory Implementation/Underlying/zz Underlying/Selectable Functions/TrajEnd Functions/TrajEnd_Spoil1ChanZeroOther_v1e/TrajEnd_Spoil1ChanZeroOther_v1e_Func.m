@@ -101,6 +101,8 @@ for n = 1:nproj
     end
     Mom = sum(Grphs(n,Inds,Val));
     Fall = Grphs(n,Inds(end)+1:end,Val);
+    Inds2 = find(Fall == 0,1,'first');
+    Fall = Fall(1:Inds2);
     FlatSteps = round(abs((Mom/TEND.gmax)));
     Grphs(n,Inds(1)+(0:FlatSteps-1),Val) = sign(Fall(1))*TEND.gmax*ones(1,FlatSteps);
     Grphs(n,Inds(1)+FlatSteps-1+(1:length(Fall)),Val) = Fall;

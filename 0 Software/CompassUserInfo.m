@@ -13,7 +13,7 @@ User.sysresploc = 'D:\CompassRelated\4 OtherFiles\Scanner\GradSysResp';
 User.varianshimcalfile = 'D:\CompassRelated\4 OtherFiles\Scanner\Shimming\NaHBC_ShimCal_Jan2015';
 
 User.tempdataloc = 'E:\';
-User.lastscriptloc = 'E:\Trajectories\MSYB\Head\C256\F256_V0005_E100_T080_N5832_SW80_SEO\';
+User.lastscriptloc = 'E:\Trajectories\MSYB\Head\C256\F256_V0005_E100_T060_N9522_SW83_SEO\';
 User.experimentsloc = 'I:\200618 (YbTrajTestResPhan)\';
 User.trajdevloc = 'Y:\2 Trajectories\0 TempHolding\MSYB\ConesComp'; 
 User.varianloc = 'V:\sodium\';
