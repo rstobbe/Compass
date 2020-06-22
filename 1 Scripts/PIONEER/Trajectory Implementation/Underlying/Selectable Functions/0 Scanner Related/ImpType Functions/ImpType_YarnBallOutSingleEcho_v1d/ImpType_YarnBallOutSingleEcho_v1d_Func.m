@@ -204,6 +204,10 @@ elseif strcmp(Func,'Finish')
     IMPTYPE.Gtot = FINMETH.Gtot;
     IMPTYPE.GWFM = FINMETH.GWFM;
 
+    if isfield(FINMETH,'Figure')
+        IMPTYPE.Figure(1) = FINMETH.Figure;
+    end    
+    
 %=================================================================
 % PostResample
 %=================================================================

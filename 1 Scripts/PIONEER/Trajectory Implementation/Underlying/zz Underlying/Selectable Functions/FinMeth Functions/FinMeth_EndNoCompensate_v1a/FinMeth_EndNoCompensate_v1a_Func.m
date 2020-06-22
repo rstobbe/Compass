@@ -255,6 +255,10 @@ FINMETH.qTtot = qTcomp;
 FINMETH.Gtot = Gcomp;
 FINMETH.GWFM = GWFM;
 
+FINMETH.Figure(1).Name = 'FinMeth';
+FINMETH.Figure(1).Type = 'Graph';
+FINMETH.Figure(1).hFig = fhwfm;
+FINMETH.Figure(1).hAx = gca;
 
 Status2('done','',2);
 Status2('done','',3);

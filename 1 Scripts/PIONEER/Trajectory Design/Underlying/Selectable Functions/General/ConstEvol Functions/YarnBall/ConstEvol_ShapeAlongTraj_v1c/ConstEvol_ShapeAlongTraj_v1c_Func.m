@@ -168,7 +168,7 @@ for n = 3:length(T)
         maxNreturn = Nreturn;
     end
     if (rem(n,100) == 0 || n == length(T)) && strcmp(TST.CACC.Vis,'Yes') 
-        figure(15);
+        fh = figure(15);
         subplot(2,2,1); hold on;
         plot(Tacc,mAcc/maxAcc,'k');
         title('Relative Gradient Velocity'); xlabel('ms'); ylabel('velocity_r_e_l');    
@@ -196,6 +196,11 @@ for n = 3:length(T)
     end    
     Status2('busy',['Along Trajectory: ',num2str(length(T)-n)],3);
 end         
+
+CACC.Figure(1).Name = 'CACC';
+CACC.Figure(1).Type = 'Graph';
+CACC.Figure(1).hFig = fh;
+CACC.Figure(1).hAx = gca;
 
 %---------------------------------------------
 % Return

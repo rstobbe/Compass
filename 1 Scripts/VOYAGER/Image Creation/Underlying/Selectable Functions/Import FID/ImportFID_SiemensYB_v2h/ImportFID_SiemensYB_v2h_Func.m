@@ -191,19 +191,21 @@ end
 %---------------------------------------------
 % Position Correction - put as array
 %---------------------------------------------
-shift = DATA.ExpPars.shift/1000;
-shift(2) = -shift(2);
-shift(3) = -shift(3);
-if shift(1)~=0 || shift(2)~=0 || shift(3)~=0
-    for q = 1:sz(6)
-        KArr = KMat2Arr(IMP.Kmat(:,:,:,q),nproj,IMP.PROJimp.npro);
-        for p = 1:sz(5)
-            for m = 1:sz(4)
-                Status2('busy',['FoV Adjust: ',num2str(sz(4)-m)],3);
-                for n = 1:sz(3)
-                    FIDarr = DatMat2Arr(FIDmat(:,:,n,m,p,q),nproj,IMP.PROJimp.npro);
-                    FIDarr = FIDarr.*exp(-1i*2*pi*shift*KArr.').';
-                    FIDmat(:,:,n,m,p,q) = DatArr2Mat(FIDarr,nproj,IMP.PROJimp.npro);
+if strcmp(OPT.fovadjust,'Yes')
+    shift = DATA.ExpPars.shift/1000;
+    shift(2) = -shift(2);
+    shift(3) = -shift(3);
+    if shift(1)~=0 || shift(2)~=0 || shift(3)~=0
+        for q = 1:sz(6)
+            KArr = KMat2Arr(IMP.Kmat(:,:,:,q),nproj,IMP.PROJimp.npro);
+            for p = 1:sz(5)
+                for m = 1:sz(4)
+                    Status2('busy',['FoV Adjust: ',num2str(sz(4)-m)],3);
+                    for n = 1:sz(3)
+                        FIDarr = DatMat2Arr(FIDmat(:,:,n,m,p,q),nproj,IMP.PROJimp.npro);
+                        FIDarr = FIDarr.*exp(-1i*2*pi*shift*KArr.').';
+                        FIDmat(:,:,n,m,p,q) = DatArr2Mat(FIDarr,nproj,IMP.PROJimp.npro);
+                    end
                 end
             end
         end

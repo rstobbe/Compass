@@ -41,10 +41,10 @@ Gmag = (Gvis(1,:,1).^2 + Gvis(1,:,2).^2 + Gvis(1,:,3).^2).^0.5;
 hFig = figure(1000); hold on; box on;
 plot(L,Gvis(N,:,1),'b-'); plot(L,Gvis(N,:,2),'g-'); plot(L,Gvis(N,:,3),'r-');
 %plot([PROJimp.pLocTime PROJimp.pLocTime],[-15 15],'k');
-plot(L,Gmag,'k-');
+%plot(L,Gmag,'k-');
 
-ylim([-50 50]);
-xlim([0 10]);
+% ylim([-50 50]);
+% xlim([0 10]);
 title(['Traj',num2str(N)]);
 xlabel('(ms)','fontsize',10,'fontweight','bold');
 ylabel('Gradients (mT/m)','fontsize',10,'fontweight','bold');

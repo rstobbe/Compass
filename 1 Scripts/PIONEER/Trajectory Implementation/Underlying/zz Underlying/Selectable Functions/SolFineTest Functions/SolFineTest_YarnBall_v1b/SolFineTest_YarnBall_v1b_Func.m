@@ -152,5 +152,10 @@ if strcmp(TST.SOLFINTEST.Vis,'Yes')
     end
 end 
 
+SOLFINTEST.Figure(1).Name = 'SolFinTest';
+SOLFINTEST.Figure(1).Type = 'Graph';
+SOLFINTEST.Figure(1).hFig = fh;
+SOLFINTEST.Figure(1).hAx = gca;
+
 Status2('done','',2);
 Status2('done','',3);

@@ -34,6 +34,8 @@ SubSamp = GRD.KRNprms.DesforSS;
 
 if SubSamp == 1.28
     zfarr = linspace(0,768,13);
+elseif SubSamp == 1.25
+    zfarr = linspace(0,600,61);    
 elseif SubSamp == 1.6
     zfarr = linspace(0,800,51);
 elseif SubSamp == 2.5

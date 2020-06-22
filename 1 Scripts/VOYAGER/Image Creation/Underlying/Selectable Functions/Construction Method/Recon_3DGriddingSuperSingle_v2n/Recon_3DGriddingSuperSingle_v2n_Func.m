@@ -150,7 +150,7 @@ for n = 1:Nrcvrs
                     end
                     fh.Name = ['ImageSet ',num2str(m),'   Receiver ',num2str(n),'   Average ',num2str(q),'   Echo ',num2str(r)];
                     sz = size(Im0);
-                    maxval = max(max(max(abs(Im0(sz/8:7*sz/8,sz/8:7*sz/8,sz/8:7*sz/8)))))*1.1;
+                    maxval = max(max(max(abs(Im0(round(sz/8):7*round(sz/8),round(sz/8):7*round(sz/8),round(sz/8):7*round(sz/8))))))*1.1;
                     subplot(2,3,1);
                     ImAx = squeeze(abs(permute(Im0(:,:,sz(2)/2),[2,1,3])));
                     ImAx = flip(ImAx,2);

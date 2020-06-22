@@ -128,6 +128,12 @@ if err.flag
     return
 end
 clear INPUT;
+if isfield(SOLFINTEST,'Figure')
+    FigNum = 1;
+    IMETH.Figure(FigNum) = SOLFINTEST.Figure;
+    SOLFINTEST = rmfield(SOLFINTEST,'Figure');
+    FigNum = FigNum + 1;
+end
 
 %===============================================================================
 % Constrain Evolution
@@ -147,6 +153,11 @@ if err.flag ~= 0
     return
 end
 clear INPUT;
+if isfield(TIMADJ.CACC,'Figure')
+    IMETH.Figure(FigNum) = TIMADJ.CACC.Figure;
+    TIMADJ.CACC = rmfield(TIMADJ.CACC,'Figure');
+    FigNum = FigNum + 1;
+end
 
 %===============================================================================
 % Generate Design
@@ -249,6 +260,12 @@ qT = IMPTYPE.qT;
 GQKSA = IMPTYPE.GQKSA;
 GWFM = IMPTYPE.GWFM;
 
+if isfield(IMPTYPE,'Figure')
+    IMETH.Figure(FigNum) = IMPTYPE.Figure;
+    IMPTYPE = rmfield(IMPTYPE,'Figure');
+    FigNum = FigNum + 1;
+end
+
 %----------------------------------------------------
 % Save
 %----------------------------------------------------
@@ -319,6 +336,11 @@ if err.flag
 end
 Grecon = SYSRESP.Grecon;  
 qTrecon = SYSRESP.Trecon;
+if isfield(SYSRESP,'Figure')
+    IMETH.Figure(FigNum) = SYSRESP.Figure;
+    SYSRESP = rmfield(SYSRESP,'Figure');
+    FigNum = FigNum + 1;
+end
 
 %----------------------------------------------------
 % Visuals
@@ -452,7 +474,14 @@ if strcmp(TST.KVis,'Yes')
     plot(T,PROJdgn.kmax*KSA(ind2,:,2),'k'); plot(Samp0,Kmat0(ind2,:,2),'g');
     plot(T,PROJdgn.kmax*KSA(ind3,:,3),'k'); plot(Samp0,Kmat0(ind3,:,3),'r');
     xlabel('trajectory'); ylabel('kSpace (1/m)'); title('Waveforms with Greatest kEnd');
-end    
+end  
+
+IMETH.Figure(FigNum).Name = 'kSpace Sampling';
+IMETH.Figure(FigNum).Type = 'Graph';
+IMETH.Figure(FigNum).hFig = fhk;
+IMETH.Figure(FigNum).hAx = gca;
+FigNum = FigNum + 1;
+
 Kmat = KmatRecon;
 samp = SampRecon;
 
@@ -577,6 +606,11 @@ xlabel('time (ms)');
 ylabel('Gradient (mT/m)');
 title('Gradient Waveform');
 
+IMETH.Figure(FigNum).Name = 'WaveformDisplay';
+IMETH.Figure(FigNum).Type = 'Graph';
+IMETH.Figure(FigNum).hFig = fh;
+IMETH.Figure(FigNum).hAx = gca;
+
 %----------------------------------------------------
 % Testing
 %----------------------------------------------------
@@ -597,6 +631,7 @@ IMETH.PSMP = PSMP;
 IMETH.TSMP = TSMP;
 IMETH.KSMP = KSMP;
 IMETH.GQNT = GQNT;
+IMETH.SOLFINTEST = SOLFINTEST;
 SYSRESP = rmfield(SYSRESP,{'Trecon','Grecon'}); 
 IMETH.SYSRESP = SYSRESP;
 IMETH.CACC = TIMADJ.CACC;
