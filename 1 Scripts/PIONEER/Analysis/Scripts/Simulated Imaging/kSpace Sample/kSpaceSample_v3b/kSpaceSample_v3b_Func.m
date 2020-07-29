@@ -64,8 +64,13 @@ if plotob == 1
     sz = size(OB.Ob);
     start = round(((SS-1)/3)*sz(3));
     stop = sz(3)-round(((SS-1)/3)*sz(3))+1;
-    INPUT.Image = OB.Ob(:,:,start:stop);
-    INPUT.numberslices = 28;
+    if strcmp(OB.plot,'CentreSlice')
+        INPUT.Image = OB.Ob(:,:,sz/2);
+        INPUT.numberslices = 1;
+    else
+        INPUT.Image = OB.Ob(:,:,start:stop);
+        INPUT.numberslices = 28;
+    end
     [MCHRS,err] = DefaultMontageChars_v1a(INPUT);
     MCHRS.MSTRCT.figno = 100;
     INPUT = MCHRS;

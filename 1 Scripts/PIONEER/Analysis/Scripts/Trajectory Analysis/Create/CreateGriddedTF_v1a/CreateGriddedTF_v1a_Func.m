@@ -2,9 +2,9 @@
 % 
 %=========================================================
 
-function [CREATE,err] = CreateGriddedPSF_v1a_Func(INPUT,CREATE)
+function [CREATE,err] = CreateGriddedTF_v1a_Func(INPUT,CREATE)
 
-Status('busy','Create Gridded PSF');
+Status('busy','Create Gridded TF');
 Status2('done','',2);
 Status2('done','',3);
 
@@ -58,6 +58,7 @@ func = str2func([CREATE.gridfunc,'_Func']);
 INPUT.IMP = IMP;
 INPUT.DAT = SampDat;
 GRDU.type = 'real';
+%GRDU.type = 'complex';
 [GRDU,err] = func(GRDU,INPUT);
 if err.flag
     return
@@ -121,8 +122,9 @@ end
 % Return
 %--------------------------------------------
 sz = size(PSF);
-figure(1000);
-plot(real(PSF(:,sz(2)/2+1,sz(3)/2+1)));
+figure(1000); hold on;
+plot(real(PSF(:,sz(2)/2+1,sz(3)/2+1)),'r');
+plot(imag(PSF(:,sz(2)/2+1,sz(3)/2+1)),'b');
 
 %--------------------------------------------
 % Return
@@ -133,6 +135,7 @@ rZFTF = ZFTF/ZFTF(sz(1)/2+1,sz(2)/2+1,sz(3)/2+1);
 plot(real(rZFTF(:,sz(2)/2+1,sz(3)/2+1)));
 plot(imag(rZFTF(:,sz(2)/2+1,sz(3)/2+1)));
 
-CREATE.tf = real(rZFTF);
+%CREATE.tf = real(rZFTF);
+CREATE.tf = rZFTF;
 CREATE.PROJdgn = IMP.PROJdgn;
-
+CREATE.TFS = struct();

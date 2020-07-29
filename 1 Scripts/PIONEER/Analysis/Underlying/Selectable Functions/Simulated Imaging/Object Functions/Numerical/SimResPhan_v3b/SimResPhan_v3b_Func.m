@@ -57,8 +57,10 @@ for x = 1:M
         for z = 1:M
             r = sqrt((x-CX)^2 + (y-CY)^2 + (z-CZ)^2);
             if r <= rmax
-                Ob(y-30,x+ceil(rmax*2),z) = 1;
-                Ob(y-30,x-ceil(rmax*2),z) = 1;
+%                 Ob(y-30,x+ceil(rmax*2),z) = 1;
+%                 Ob(y-30,x-ceil(rmax*2),z) = 1;
+                Ob(y,x+ceil(rmax*2),z) = 1;
+                Ob(y,x-ceil(rmax*2),z) = 1;
             end
         end
     end

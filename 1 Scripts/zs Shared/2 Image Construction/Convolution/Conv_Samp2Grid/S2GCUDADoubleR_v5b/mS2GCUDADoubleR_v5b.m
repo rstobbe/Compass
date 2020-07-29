@@ -74,6 +74,8 @@ if strcmp(context,'Other')
         chunklen = TotalCoresInPlay*8;  
     elseif CONV.chW == 5
         chunklen = TotalCoresInPlay*10;  
+    elseif CONV.chW == 3
+        chunklen = TotalCoresInPlay*12;  
     else
         error;  % finish                        
     end

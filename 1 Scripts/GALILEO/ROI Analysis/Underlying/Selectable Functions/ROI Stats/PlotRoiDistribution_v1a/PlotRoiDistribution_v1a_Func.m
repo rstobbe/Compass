@@ -30,9 +30,11 @@ test = max(RoiArr)
 hFig = figure(2893746);
 %histogram(RoiArr,[(0:0.002:0.1) 0.3],'Normalization','probability','FaceColor',[0.5 0.5 0.5],'FaceAlpha',1);
 %histogram(RoiArr,[(0:0.002:0.1) 0.3],'Normalization','probability','FaceColor',[0.5 0.5 0.5],'FaceAlpha',1);
-histogram(RoiArr,[(0:0.01:0.3) 0.5],'Normalization','probability','FaceColor',[0.5 0.5 0.5],'FaceAlpha',1);
+%histogram(RoiArr,[(0:0.01:0.3) 0.5],'Normalization','probability','FaceColor',[0.5 0.5 0.5],'FaceAlpha',1);
+histogram(RoiArr,[(0:0.001:0.05) 1],'Normalization','probability','FaceColor',[0.5 0.5 0.5],'FaceAlpha',1);
 hAx = gca;
-hAx.XLim = [0 0.2];
+%hAx.XLim = [0 0.2];
+hAx.XLim = [0 0.05];
 hAx.YLim = [0 1];
 
 xlabel('PSF magnitude (% Peak)','fontsize',10,'fontweight','bold');

@@ -43,8 +43,9 @@ plot(L,Gvis(N,:,1),'b-'); plot(L,Gvis(N,:,2),'g-'); plot(L,Gvis(N,:,3),'r-');
 %plot([PROJimp.pLocTime PROJimp.pLocTime],[-15 15],'k');
 %plot(L,Gmag,'k-');
 
-% ylim([-50 50]);
-% xlim([0 10]);
+% ylim([-2.5 4.5]);
+xlim([0 10]);
+%xticks([0.03 0.06 0.09 0.12]);
 title(['Traj',num2str(N)]);
 xlabel('(ms)','fontsize',10,'fontweight','bold');
 ylabel('Gradients (mT/m)','fontsize',10,'fontweight','bold');

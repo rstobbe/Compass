@@ -41,6 +41,9 @@ elseif strcmp(type,'phase')
     GrdDat = angle(GrdDat);
 end
 
+%****************
+% GrdDat = GrdDat/1.56;           % delete - for testing only
+%****************
 
 %---------------------------------------------
 % Array

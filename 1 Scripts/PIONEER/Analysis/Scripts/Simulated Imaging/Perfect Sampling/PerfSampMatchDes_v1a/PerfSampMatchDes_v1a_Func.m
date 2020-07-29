@@ -63,7 +63,7 @@ kSampArr = Karr0*kstep;
 % Test
 %----------------------------------------------
 r = sqrt(kSampArr(:,1).^2 + kSampArr(:,2).^2 + kSampArr(:,3).^2);
-figure(1);
+figure(16767);
 plot(r,ones(1,length(r)),'*');
 
 %----------------------------------------------

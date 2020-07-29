@@ -84,3 +84,5 @@ Dat = Dat/KRNprms.convscaleval;
 %---------------------------------------------
 KSMP.SampDat = Dat;
 KSMP.OB = OB;
+KSMP.ZF = ZF;
+

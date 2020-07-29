@@ -66,7 +66,7 @@ end
 if strcmp(context,'SphereCTFV')
     if CONV.chW >= 29
         chunklen = TotalCoresInPlay*10;                
-    elseif CONV.chW >= 20
+    elseif CONV.chW >= 19
         chunklen = TotalCoresInPlay*10;     
     elseif CONV.chW == 14
         chunklen = TotalCoresInPlay*100;               
@@ -91,7 +91,8 @@ elseif strcmp(context,'RadSamp')
         error;  % finish
     end
 elseif strcmp(context,'Other') 
-    error;  % finish
+    %error;  % finish
+    chunklen = TotalCoresInPlay*2; 
 end
 
 %------------------------------------

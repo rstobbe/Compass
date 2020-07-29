@@ -47,6 +47,7 @@ INPUT.DES = DES;
 if err.flag
     return
 end
+IMP.ExpDisp = '';
 
 %--------------------------------------------
 % Return
@@ -65,15 +66,15 @@ indnum = find(inds==1);
 if length(indnum) > 1
     indnum = indnum(SCRPTGBL.RWSUI.scrptnum);
 end
-SCRPTipt(indnum).entrystr = cell2mat(name);
+SCRPTipt(indnum).entrystr = name{1};
 
-SCRPTGBL.RWSUI.SaveVariables = {IMP};
-SCRPTGBL.RWSUI.SaveVariableNames = {'IMP'};
+SCRPTGBL.RWSUI.SaveVariables = IMP;
+SCRPTGBL.RWSUI.SaveVariableNames = 'IMP';
 SCRPTGBL.RWSUI.SaveGlobal = 'yes';
-SCRPTGBL.RWSUI.SaveGlobalNames = name;
+SCRPTGBL.RWSUI.SaveGlobalNames = name{1};
 SCRPTGBL.RWSUI.SaveScriptOption = 'yes';
 SCRPTGBL.RWSUI.SaveScriptPath = 'outloc';
-SCRPTGBL.RWSUI.SaveScriptName = 'pfctsamp';
+SCRPTGBL.RWSUI.SaveScriptName = name{1};
 
 Status('done','');
 Status2('done','',2);

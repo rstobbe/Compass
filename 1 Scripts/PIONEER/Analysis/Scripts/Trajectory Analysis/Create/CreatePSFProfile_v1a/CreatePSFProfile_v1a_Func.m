@@ -35,15 +35,27 @@ end
 %-
 tf = TF.tf;
 sz = size(tf);
-sz = sz(1)+1;
+% 
+% figure(2352); hold on;
+% plot(real(tf(:,sz(1)/2+1,sz(1)/2+1)));
+% plot(imag(tf(:,sz(1)/2+1,sz(1)/2+1)));
+% 
+%sz = sz(1)+1;
 psf = zeros([zf zf zf]);
-from = (zf-sz)/2+2;
-to = zf-from+2;
+%from = (zf-sz)/2+2;
+from = (zf-sz)/2+1;
+%to = zf-from+2;
+to = zf-from+1;
 psf(from:to,from:to,from:to) = tf;
-psf = ifftshift(ifftn(fftshift(psf)));
+% 
+% figure(2352); hold on;
+% plot(real(psf(:,zf(1)/2+1,zf(1)/2+1)));
+% plot(imag(psf(:,zf(1)/2+1,zf(1)/2+1)));
+% 
+psf = fftshift(fftn(ifftshift(psf)));
 
 %--
-%psf = psf/max(psf(:));
+psf = psf/max(abs(psf(:)));
 %--
 
 %---------------------------------------------
@@ -58,9 +70,9 @@ PSF.ExpDisp = '';
 % Plot
 %---------------------------------------------
 fh = figure(200); hold on; box on;
-%plot(PSF.x,abs(PSF.psfprof1),'k'); 
+plot(PSF.x,abs(PSF.psfprof1),'k'); 
 plot(PSF.x,real(PSF.psfprof1),'r'); 
-%plot(PSF.x,imag(PSF.psfprof1),'b'); 
+plot(PSF.x,imag(PSF.psfprof1),'b'); 
 % plot(PSF.x,abs(PSF.psfprof3),'k'); 
 % plot(PSF.x,real(PSF.psfprof3),'r'); 
 % plot(PSF.x,imag(PSF.psfprof3),'b'); 
@@ -68,9 +80,9 @@ plot(PSF.x,zeros(size(PSF.x)),'k');
 title('Point Spread Function'); 
 xlabel('(mm)'); 
 ylabel('Arb');
-%ylim([-0.1 1.05]); 
-ylim([-5 40]*1e-6); 
-xlim([-20 20]);
+ylim([-0.1 1.05]); 
+%ylim([-5 40]*1e-6); 
+xlim([-4 4]);
 %xlim([0 1.5]);
 fh.Units = 'inches';
 fh.Position = [5 5 3 2.5];

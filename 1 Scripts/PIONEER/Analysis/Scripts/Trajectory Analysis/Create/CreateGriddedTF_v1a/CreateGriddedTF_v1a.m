@@ -143,36 +143,48 @@ INPUT.INVF = INVF;
 if err.flag
     return
 end
+clear INPUT;
+TF = CREATE;
+
+%--------------------------------------------
+% Output to TextBox
+%--------------------------------------------
+%TF.ExpDisp = PanelStruct2Text(TF.PanelOutput);
+TF.ExpDisp = '';
+global FIGOBJS
+FIGOBJS.(SCRPTGBL.RWSUI.tab).Info.String = TF.ExpDisp;
 
 %--------------------------------------------
 % Name
 %--------------------------------------------
+name0 = '';
 if isfield(IMP,'name')
-    name = ['PSF_',IMP.name(5:end)];
-else
-    name = 'PSF_';
+    name0 = IMP.name(5:end);
 end
-
-%--------------------------------------------
-% Return
-%--------------------------------------------
-name = inputdlg('Name PSF:','Name',1,{name});
+name = inputdlg('Name TF:','Name TF',1,{['TF_',name0]});
+name = cell2mat(name);
 if isempty(name)
-    SCRPTGBL.RWSUI.SaveGlobal = 'no';
+    SCRPTGBL.RWSUI.SaveVariables = {TF};
+    SCRPTGBL.RWSUI.KeepEdit = 'yes';
     return
 end
-IMP.name = name{1};
+TF.name = name;
+TF.path = IMP.path;
+TF.type = 'Data';   
+TF.structname = 'TF';
 
+%---------------------------------------------
+% Return
+%---------------------------------------------
 SCRPTipt(indnum).entrystr = name;
-SCRPTGBL.RWSUI.SaveVariables = {CREATE};
-SCRPTGBL.RWSUI.SaveVariableNames = {'PSF'};
+SCRPTGBL.RWSUI.SaveVariables = TF;
+SCRPTGBL.RWSUI.SaveVariableNames = 'TF';
 SCRPTGBL.RWSUI.SaveGlobal = 'yes';
 SCRPTGBL.RWSUI.SaveGlobalNames = name;
 SCRPTGBL.RWSUI.SaveScriptOption = 'yes';
-SCRPTGBL.RWSUI.SaveScriptPath = 'outloc';
+SCRPTGBL.RWSUI.SaveScriptPath = TF.path;
 SCRPTGBL.RWSUI.SaveScriptName = name;
 
 Status('done','');
 Status2('done','',2);
 Status2('done','',3);
-

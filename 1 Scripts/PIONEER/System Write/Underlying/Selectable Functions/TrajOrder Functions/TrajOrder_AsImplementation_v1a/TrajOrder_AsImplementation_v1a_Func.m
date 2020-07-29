@@ -19,6 +19,9 @@ clear INPUT
 %-------------------------------------------------
 % Select/Order Trajectories
 %-------------------------------------------------
+if not(isfield(IMP,'PSMP'))
+    IMP.PSMP = struct();
+end
 if isfield(IMP.PSMP,'projsampscnr')
     TORD.projsampscnr = IMP.PSMP.projsampscnr;
 else

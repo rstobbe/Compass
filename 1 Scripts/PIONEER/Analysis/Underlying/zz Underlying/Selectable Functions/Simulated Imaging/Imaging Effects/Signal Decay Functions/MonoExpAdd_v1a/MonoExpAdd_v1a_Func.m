@@ -38,4 +38,14 @@ SampDat = DatMat2Arr(Datmat.*T2decaymat,PROJimp.nproj,PROJimp.npro);
 %---------------------------------------------
 SIGDEC.SampDat = SampDat;
 
+%---------------------------------------------
+% Panel
+%---------------------------------------------
+Panel(1,:) = {'','','Output'};
+Panel(2,:) = {'Method',SIGDEC.method,'Output'};
+PanelOutput = cell2struct(Panel,{'label','value','type'},2);   
+
+SIGDEC.Panel = Panel;
+SIGDEC.PanelOutput = PanelOutput;
+
 Status2('done','',3);

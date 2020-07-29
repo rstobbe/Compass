@@ -35,13 +35,17 @@ rad = squeeze(mean(rad,1));
 rad = rad/PROJdgn.kmax;
 %rad = rad*PROJdgn.kmax;
 
+
+T2star = 10;
+Sig = exp(-samp/T2star);
+
 fh = figure(1000); hold on; box on;
-plot(samp,rad,'k-');
+plot(rad,Sig,'k-');
 %title('Radial Evolution');
-xlabel('(ms)','fontsize',10,'fontweight','bold');
-ylabel('Relative k-Space Radius','fontsize',10,'fontweight','bold');
+ylabel('Relative Signal','fontsize',10,'fontweight','bold');
+xlabel('Relative k-Space Radius','fontsize',10,'fontweight','bold');
 ylim([0 1.0]);
-xlim([0 round(samp(end))]);
+xlim([0 1.0]);
 fh.Units = 'inches';
 fh.Position = [5 5 3 2.4];
 hAx = gca;
@@ -76,9 +80,9 @@ hFig = fh;
 %---------------------------------------------
 % Return
 %---------------------------------------------
-PLOT.Name = 'RadEvo';
+PLOT.Name = 'TransFuncDecay';
 fig = 1;
-PLOT.Figure(fig).Name = 'RadEvo';
+PLOT.Figure(fig).Name = 'TransFuncDecay';
 PLOT.Figure(fig).Type = 'Graph';
 PLOT.Figure(fig).hFig = hFig;
 PLOT.Figure(fig).hAx = hAx;

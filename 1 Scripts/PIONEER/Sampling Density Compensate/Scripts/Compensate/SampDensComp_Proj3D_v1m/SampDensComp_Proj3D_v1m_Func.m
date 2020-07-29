@@ -73,7 +73,9 @@ IMP.PROJimp.npro = sz(2);               % hack
 %----
 
 for n = 1:Echos
-    IMP.Kmat = squeeze(Kmat0(:,:,:,n));
+    if Echos > 1
+        IMP.Kmat = squeeze(Kmat0(:,:,:,n));
+    end
     
     %--------------------------------------
     % Load Desired Output Transfer Function

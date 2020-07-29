@@ -83,8 +83,12 @@ Iteration = (j-1)
 MeanAbsErrTot = ANLZ.MeanAbsErrTot(j)
 Eff = ANLZ.Eff(j)
 TrajAveSDC = mean(SDC0mat(:,1:12))
-MeanAbsErrTrajArr = ANLZ.MeanAbsErrTrajArr(1:12)
-
+if length(ANLZ.MeanAbsErrTrajArr) > 1
+    MeanAbsErrTrajArr = ANLZ.MeanAbsErrTrajArr(1:12)
+else
+    MeanAbsErrTrajArr = ANLZ.MeanAbsErrTrajArr(1)
+end
+    
 %--------------------------------------
 % Figures
 %--------------------------------------

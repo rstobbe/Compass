@@ -240,6 +240,8 @@ GWFM.GmaxSncrChan = max(abs(Gcomp(:)));
 GWFM.GmaxScnrChan = max(abs(Gcomp(:)));
 GabsTraj = sqrt(G0(:,:,1).^2 + G0(:,:,2).^2 + G0(:,:,3).^2);   
 GWFM.GmaxTraj = max(GabsTraj(:));
+test = GabsTraj(:,end);
+GWFM.GmaxTrajEnd = mean(test);
 GWFM.tgwfm = qTcomp(end);
 GWFM.sampend = PROJdgn.tro + SYSRESP.efftrajdel;   
 if isfield(TST,'traj')
