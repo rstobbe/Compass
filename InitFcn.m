@@ -1,13 +1,12 @@
-function InitFcn(doCuda,doPaths)
+function InitFcn(doFull,doCuda,doPaths)
 
 %-----------------------------------
 % Local Paths
 %-----------------------------------
-curfolder = pwd;
-ind = strfind(curfolder,'\');
-softwarefolder = curfolder(1:ind(end)-1);
-addpath(genpath(softwarefolder));
+disp('Setup Paths');
+softwarefolder = pwd;
 ind = strfind(softwarefolder,'\');
+addpath(genpath(softwarefolder));
 compassfolder = softwarefolder(1:ind(end));
 addpath(compassfolder);
 
@@ -16,7 +15,18 @@ addpath(compassfolder);
 %-----------------------------------
 global COMPASSINFO
 COMPASSINFO.USERGBL.epssave = 'No';
-COMPASSINFO.USERGBL = CompassUserInfo;
+COMPASSINFO.USERGBL.setup = 'ImageAnalysis';
+COMPASSINFO.USERGBL.experimentsloc = compassfolder;
+COMPASSINFO.USERGBL.defloc = compassfolder;
+COMPASSINFO.USERGBL.defrootloc = compassfolder;
+COMPASSINFO.USERGBL.trajdevloc = compassfolder;
+COMPASSINFO.USERGBL.tempdataloc = compassfolder;
+COMPASSINFO.USERGBL.invfiltloc = compassfolder;
+COMPASSINFO.USERGBL.imkernloc = compassfolder;
+COMPASSINFO.USERGBL.sysresploc = compassfolder; 
+if exist('CompassUserInfo','file')
+    COMPASSINFO.USERGBL = CompassUserInfo(doFull);
+end
 if not(strcmp(COMPASSINFO.USERGBL.setup,'ImageAnalysis'))
     COMPASSINFO.CUDA = GraphicCard_Info(doCuda);
 end
@@ -38,14 +48,14 @@ global RWSUIGBL
 RWSUIGBL.errfunc = 'CompassErrDisp';
 RWSUIGBL.statusfunc = 'CompassStatus2';
 RWSUIGBL.status2func = 'CompassStatus2';
-RWSUIGBL.outputfunc = 'CompassPanel';
+RWSUIGBL.outputfunc = 'CompassPanel4K';
 RWSUIGBL.numwid = 10;
-RWSUIGBL.editwid = 100;
-RWSUIGBL.textwid = 205;
-RWSUIGBL.fullwid = 49;
+RWSUIGBL.editwid = 0.4;
+RWSUIGBL.textwid = 0.55;
+RWSUIGBL.fullwid = 45;
 RWSUIGBL.Character = '';
 RWSUIGBL.Key = '';
-RWSUIGBL.AllTabs = {'Imaging','Imaging2','Imaging3','Imaging4','Script1','Script2','Script3','Script4'};
+RWSUIGBL.AllTabs = {'One Image','Two Images','Ortho','Four Images','Script1','Script2','Script3','Script4'};
 if not(strcmp(COMPASSINFO.USERGBL.setup,'ImageAnalysis'))
     RWSUIGBL.TabArray = {'IM','IM2','IM3','IM4','ACC','ACC2','ACC3','ACC4'};
 else
@@ -59,24 +69,6 @@ RWSUIGBL.ActiveScript.tab = '';
 RWSUIGBL.ActiveScript.panelnum = 0; 
 
 %-----------------------------------
-% Set Paths
-%-----------------------------------
-if not(strcmp(COMPASSINFO.USERGBL.setup,'ImageAnalysis'))
-    if doPaths
-        disp('Loading Paths');
-        addpath(genpath(COMPASSINFO.USERGBL.defrootloc));
-        addpath(genpath(LOCS.newhorizonsloc));
-        addpath(genpath(LOCS.pioneerloc));
-        addpath(genpath(LOCS.voyagerloc));
-        addpath(genpath(LOCS.galileoloc));
-        addpath(genpath(LOCS.mercuryloc));
-        addpath(genpath(LOCS.apolloloc));
-        addpath(genpath(LOCS.vikingloc));
-        addpath(genpath(LOCS.scrptshareloc));
-    end
-end
-
-%-----------------------------------
 % Software Globals
 %-----------------------------------
 global SCRPTPATHS
@@ -85,8 +77,8 @@ for tab = 1:length(Tabs)
     for n = 1:5
         SCRPTPATHS.(Tabs{tab})(n).loc = LOCS.scriptloc;
         SCRPTPATHS.(Tabs{tab})(n).rootloc = LOCS.scriptloc;
-        SCRPTPATHS.(Tabs{tab})(n).defloc = COMPASSINFO.USERGBL.defloc;
-        SCRPTPATHS.(Tabs{tab})(n).defrootloc = COMPASSINFO.USERGBL.defrootloc;
+        SCRPTPATHS.(Tabs{tab})(n).defloc = '';
+        SCRPTPATHS.(Tabs{tab})(n).defrootloc = COMPASSINFO.USERGBL.lastdefloc;
         SCRPTPATHS.(Tabs{tab})(n).pioneerloc = LOCS.pioneerloc;
         SCRPTPATHS.(Tabs{tab})(n).newhorizonsloc = LOCS.newhorizonsloc;
         SCRPTPATHS.(Tabs{tab})(n).voyagerloc = LOCS.voyagerloc;
@@ -94,8 +86,8 @@ for tab = 1:length(Tabs)
         SCRPTPATHS.(Tabs{tab})(n).apolloloc = LOCS.apolloloc;
         SCRPTPATHS.(Tabs{tab})(n).mercuryloc = LOCS.mercuryloc;
         SCRPTPATHS.(Tabs{tab})(n).vikingloc = LOCS.vikingloc;
-        SCRPTPATHS.(Tabs{tab})(n).outloc = COMPASSINFO.USERGBL.trajdevloc;
-        SCRPTPATHS.(Tabs{tab})(n).outrootloc = COMPASSINFO.USERGBL.trajdevloc;
+        SCRPTPATHS.(Tabs{tab})(n).outloc = '';
+        SCRPTPATHS.(Tabs{tab})(n).outrootloc = COMPASSINFO.USERGBL.lastscriptloc;
         SCRPTPATHS.(Tabs{tab})(n).scrptshareloc = LOCS.scrptshareloc;
         SCRPTPATHS.(Tabs{tab})(n).experimentsloc = COMPASSINFO.USERGBL.experimentsloc;
         SCRPTPATHS.(Tabs{tab})(n).tempdataloc = COMPASSINFO.USERGBL.tempdataloc;
@@ -109,8 +101,8 @@ for tab = 1:length(Tabs)
     for n = 1:4
         SCRPTPATHS.(Tabs{tab})(n).loc = LOCS.scriptloc;
         SCRPTPATHS.(Tabs{tab})(n).rootloc = LOCS.scriptloc;
-        SCRPTPATHS.(Tabs{tab})(n).defloc = COMPASSINFO.USERGBL.defloc;
-        SCRPTPATHS.(Tabs{tab})(n).defrootloc = COMPASSINFO.USERGBL.defrootloc;
+        SCRPTPATHS.(Tabs{tab})(n).defloc = '';
+        SCRPTPATHS.(Tabs{tab})(n).defrootloc = COMPASSINFO.USERGBL.lastdefloc;
         SCRPTPATHS.(Tabs{tab})(n).pioneerloc = LOCS.pioneerloc;
         SCRPTPATHS.(Tabs{tab})(n).newhorizonsloc = LOCS.newhorizonsloc;
         SCRPTPATHS.(Tabs{tab})(n).voyagerloc = LOCS.voyagerloc;
@@ -118,8 +110,8 @@ for tab = 1:length(Tabs)
         SCRPTPATHS.(Tabs{tab})(n).mercuryloc = LOCS.mercuryloc;
         SCRPTPATHS.(Tabs{tab})(n).apolloloc = LOCS.apolloloc;
         SCRPTPATHS.(Tabs{tab})(n).vikingloc = LOCS.vikingloc;
-        SCRPTPATHS.(Tabs{tab})(n).outloc = COMPASSINFO.USERGBL.experimentsloc;
-        SCRPTPATHS.(Tabs{tab})(n).outrootloc = COMPASSINFO.USERGBL.experimentsloc;
+        SCRPTPATHS.(Tabs{tab})(n).outloc = '';
+        SCRPTPATHS.(Tabs{tab})(n).outrootloc = COMPASSINFO.USERGBL.lastscriptloc;
         SCRPTPATHS.(Tabs{tab})(n).scrptshareloc = LOCS.scrptshareloc;
         SCRPTPATHS.(Tabs{tab})(n).experimentsloc = COMPASSINFO.USERGBL.experimentsloc;
         SCRPTPATHS.(Tabs{tab})(n).roisloc = COMPASSINFO.USERGBL.experimentsloc;
