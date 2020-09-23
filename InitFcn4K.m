@@ -4,13 +4,8 @@ function InitFcn4K(doFull,doCuda,doPaths)
 % Local Paths
 %-----------------------------------
 disp('Setup Paths');
-curfolder = pwd;
-ind = strfind(curfolder,'\');
-softwarefolder = curfolder(1:ind(end)-1);
+softwarefolder = pwd;
 ind = strfind(softwarefolder,'\');
-if isempty(ind)
-    error('Navigate to Compass\Software Folder');
-end
 addpath(genpath(softwarefolder));
 compassfolder = softwarefolder(1:ind(end));
 addpath(compassfolder);
@@ -72,24 +67,6 @@ RWSUIGBL.ActiveScript.curpanipt = 0;
 RWSUIGBL.ActiveScript.treecellarray = [0 0 0 0 0];
 RWSUIGBL.ActiveScript.tab = '';
 RWSUIGBL.ActiveScript.panelnum = 0; 
-
-%-----------------------------------
-% Set Paths
-%-----------------------------------
-if not(strcmp(COMPASSINFO.USERGBL.setup,'ImageAnalysis'))
-    if doPaths
-        disp('Loading Paths');
-        addpath(genpath(COMPASSINFO.USERGBL.defrootloc));
-        addpath(genpath(LOCS.newhorizonsloc));
-        addpath(genpath(LOCS.pioneerloc));
-        addpath(genpath(LOCS.voyagerloc));
-        addpath(genpath(LOCS.galileoloc));
-        addpath(genpath(LOCS.mercuryloc));
-        addpath(genpath(LOCS.apolloloc));
-        addpath(genpath(LOCS.vikingloc));
-        addpath(genpath(LOCS.scrptshareloc));
-    end
-end
 
 %-----------------------------------
 % Software Globals

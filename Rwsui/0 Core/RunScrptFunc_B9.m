@@ -47,7 +47,8 @@ gbldata.AllTrees = AllTrees;
 gbldata.RWSUI = RWSUI;
 if not(exist(RWSUI.runfunc,'file'))
     err.flag = 1;
-    err.msg = 'Reload Script';
+    err.msg = [RWSUI.runfunc,' function not present'];
+    ErrDisp(err);
     return
 end   
 runfunc = str2func(RWSUI.runfunc);

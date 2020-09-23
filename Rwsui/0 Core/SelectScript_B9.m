@@ -26,7 +26,23 @@ if path == 0
     ErrDisp(err);
     return
 end
+
+%----------------------------------------------------
+% Update SCRPTPATHS
+%----------------------------------------------------
 SCRPTPATHS.(tab)(panelnum).loc = path;
+ind = strfind(path,'\Scripts');
+temppath = path(1:ind(1)-1);
+ind = strfind(temppath,'\');
+Container = temppath(1:ind(end));
+
+SCRPTPATHS.(tab)(panelnum).pioneerloc = Container;
+SCRPTPATHS.(tab)(panelnum).newhorizonsloc = Container;
+SCRPTPATHS.(tab)(panelnum).voyagerloc = Container;
+SCRPTPATHS.(tab)(panelnum).galileoloc = Container;
+SCRPTPATHS.(tab)(panelnum).apolloloc = Container;
+SCRPTPATHS.(tab)(panelnum).mercuryloc = Container;
+SCRPTPATHS.(tab)(panelnum).vikingloc = Container;
 
 %----------------------------------------------------
 % Test
