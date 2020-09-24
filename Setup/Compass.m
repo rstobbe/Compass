@@ -1,10 +1,9 @@
-function Compass(doFull,doCuda,doPaths)
+function Compass(SoftwareFolder,Setup)
 
-%================================================================
+%------------------------------------------------
 % Initialize
-%================================================================
+%------------------------------------------------
 disp('Starting');
-%clear global
 clear global COMPASSINFO
 clear global DEFFILEGBL
 clear global FIGOBJS
@@ -19,16 +18,8 @@ test = findobj;
 if length(test) > 1
     delete(test)
 end
-if nargin==0
-    doFull = 0;
-    doCuda = 0;
-    doPaths = 1;
-elseif nargin==1
-    doCuda = 1;
-    doPaths = 1;
-end
 global COMPASSINFO
-InitFcn(doFull,doCuda,doPaths);
+InitFcn(SoftwareFolder,Setup);
 
 %------------------------------------------------
 % Figure Properties
@@ -54,12 +45,6 @@ Compass.WindowButtonMotionFcn = @RWSUI_MouseMoveControl;
 Compass.HitTest = 'off';
 Compass.Visible = 'off';
 FIGOBJS.Compass = Compass;
-
-%------------------------------------------------
-% Menu Properties
-%------------------------------------------------
-%Menu = uimenu(Compass,'Label','Run');
-%RunMenu = uimenu(Menu,'Label','Select Composite Script',
 
 %------------------------------------------------
 % Tab Properties
@@ -98,6 +83,9 @@ FIGOBJS.ACC4.Tab = ACC4;
 if strcmp(COMPASSINFO.USERGBL.setup,'ImageAnalysis')
     tablabs = {'IM2','IM3'};
     tabs = {IM2,IM3};
+elseif strcmp(COMPASSINFO.USERGBL.setup,'Scripts')
+    tablabs = {'ACC','ACC2','ACC3','ACC4'};
+    tabs = {ACC,ACC2,ACC3,ACC4};
 else
     tablabs = {'IM','IM2','IM3','IM4','ACC','ACC2','ACC3','ACC4'};
     tabs = {IM,IM2,IM3,IM4,ACC,ACC2,ACC3,ACC4};
@@ -165,7 +153,6 @@ for n = 1:10
     FIGOBJS.IM.ImTab(n) = uitab(FIGOBJS.IM.TabGroup,'Title',['Image',num2str(n)],'Tag',['ImTab',num2str(n)]);
     FIGOBJS.IM.ImPan(n) = uipanel('Parent',FIGOBJS.IM.ImTab(n));
     FIGOBJS.IM.ImPan(n).BackgroundColor = BGcolour2;
-    %FIGOBJS.IM.ImPan.Position = [0.005 0.01 0.795 0.98];
     FIGOBJS.IM.ImPan(n).Position = [0 0 1 1];
     FIGOBJS.IM.ImPan(n).HitTest = 'off';
     FIGOBJS.IM.ImageName(n) = uicontrol('Parent',FIGOBJS.IM.ImPan(n),'Style','text','BackgroundColor',BGcolour2,'ForegroundColor',[1,1,0.5],'String','','HorizontalAlignment','left','Fontsize',8,'Units','normalized','Position',[0.01 0.98 0.12 0.015],'Enable','inactive','ButtonDownFcn',@ResetFocus);
@@ -552,12 +539,10 @@ tabs = {IM,IM2,IM3,IM4};
 N = [10 2 1 4]; 
 for p = 1:length(tabs)
     FIGOBJS.(tablabs{p}).UberTabGroup = uitabgroup(tabs{p},'Position',[0.805 0.34 0.190 0.65]);             
-    %FIGOBJS.(tablabs{p}).UberTabGroup.SelectionChangedFcn = @UberTabChangeControl;
     if p == 1
         FIGOBJS.(tablabs{p}).TopScriptTab = uitab(FIGOBJS.(tablabs{p}).UberTabGroup,'Title','Script');
         FIGOBJS.(tablabs{p}).TopScriptTab.ButtonDownFcn = @ResetFocus;           
         FIGOBJS.(tablabs{p}).ScriptTabGroup = uitabgroup(FIGOBJS.(tablabs{p}).TopScriptTab,'Position',[0 0 1 1]);            
-        %FIGOBJS.(tablabs{p}).ScriptTabGroup.SelectionChangedFcn = @ScriptTabChangeControl;
     end
     if p~=2 && p~=3
         FIGOBJS.(tablabs{p}).TopGeneralTab = uitab(FIGOBJS.(tablabs{p}).UberTabGroup,'Title','General');
@@ -573,7 +558,6 @@ for p = 1:length(tabs)
         FIGOBJS.(tablabs{p}).TopScriptTab = uitab(FIGOBJS.(tablabs{p}).UberTabGroup,'Title','Script');
         FIGOBJS.(tablabs{p}).TopScriptTab.ButtonDownFcn = @ResetFocus;           
         FIGOBJS.(tablabs{p}).ScriptTabGroup = uitabgroup(FIGOBJS.(tablabs{p}).TopScriptTab,'Position',[0 0 1 1]);            
-        %FIGOBJS.(tablabs{p}).ScriptTabGroup.SelectionChangedFcn = @ScriptTabChangeControl;
     end
     FIGOBJS.(tablabs{p}).PanelLengths = [30 30 30 30];           
     FIGOBJS.(tablabs{p}).TopInfoTab = uitab(FIGOBJS.(tablabs{p}).UberTabGroup,'Title','Info');
@@ -804,9 +788,6 @@ end
 %================================================================
 % Options
 %================================================================
-%load('mycolormap3','mycmap');
-%FIGOBJS.Options.ColorMap = mycmap;
-%load('ColorMap5','mycolormap');
 load('ColorMap4','mycolormap');
 FIGOBJS.Options.ColorMap = mycolormap;
 cmap = linspace(0,1,256);
@@ -824,10 +805,12 @@ if not(strcmp(COMPASSINFO.USERGBL.setup,'ImageAnalysis'))
         end
     end
 end
-Tabs = {'IM','IM2','IM3','IM4'};
-for tab = 1:length(Tabs)
-    for n = 1:4
-        AddScriptSelect(Tabs{tab},n);
+if not(strcmp(COMPASSINFO.USERGBL.setup,'Scripts'))
+    Tabs = {'IM','IM2','IM3','IM4'};
+    for tab = 1:length(Tabs)
+        for n = 1:4
+            AddScriptSelect(Tabs{tab},n);
+        end
     end
 end
 
@@ -836,34 +819,38 @@ end
 %================================================================
 if strcmp(COMPASSINFO.USERGBL.setup,'ImageAnalysis')
     FIGOBJS.TABGP.SelectedTab = FIGOBJS.('IM3').Tab;
+elseif strcmp(COMPASSINFO.USERGBL.setup,'Scripts')
+    FIGOBJS.TABGP.SelectedTab = FIGOBJS.('ACC').Tab;
 end
 
 %================================================================
 % Class Setup
 %================================================================
-global IMAGEANLZ
-if not(strcmp(COMPASSINFO.USERGBL.setup,'ImageAnalysis'))
-    for n = 1:10
-        IMAGEANLZ.('IM')(n) = ImageAnlzClass(FIGOBJS,'IM',n);
+if not(strcmp(COMPASSINFO.USERGBL.setup,'Scripts'))
+    global IMAGEANLZ
+    if not(strcmp(COMPASSINFO.USERGBL.setup,'ImageAnalysis'))
+        for n = 1:10
+            IMAGEANLZ.('IM')(n) = ImageAnlzClass(FIGOBJS,'IM',n);
+        end
     end
+    IMAGEANLZ.('IM2')(1) = ImageAnlzClass(FIGOBJS,'IM2',1); 
+    IMAGEANLZ.('IM2')(2) = ImageAnlzClass(FIGOBJS,'IM2',2);
+    IMAGEANLZ.('IM3')(1) = ImageAnlzClass(FIGOBJS,'IM3',1); 
+    IMAGEANLZ.('IM3')(2) = ImageAnlzClass(FIGOBJS,'IM3',2);
+    IMAGEANLZ.('IM3')(3) = ImageAnlzClass(FIGOBJS,'IM3',3);
+    if not(strcmp(COMPASSINFO.USERGBL.setup,'ImageAnalysis'))
+        IMAGEANLZ.('IM4')(1) = ImageAnlzClass(FIGOBJS,'IM4',1);  
+        IMAGEANLZ.('IM4')(2) = ImageAnlzClass(FIGOBJS,'IM4',2); 
+        IMAGEANLZ.('IM4')(3) = ImageAnlzClass(FIGOBJS,'IM4',3);  
+        IMAGEANLZ.('IM4')(4) = ImageAnlzClass(FIGOBJS,'IM4',4);
+    end
+    if not(strcmp(COMPASSINFO.USERGBL.setup,'ImageAnalysis'))
+        TabReset('IM');
+        TabReset('IM4');
+    end
+    TabReset('IM2');
+    TabReset('IM3');
 end
-IMAGEANLZ.('IM2')(1) = ImageAnlzClass(FIGOBJS,'IM2',1); 
-IMAGEANLZ.('IM2')(2) = ImageAnlzClass(FIGOBJS,'IM2',2);
-IMAGEANLZ.('IM3')(1) = ImageAnlzClass(FIGOBJS,'IM3',1); 
-IMAGEANLZ.('IM3')(2) = ImageAnlzClass(FIGOBJS,'IM3',2);
-IMAGEANLZ.('IM3')(3) = ImageAnlzClass(FIGOBJS,'IM3',3);
-if not(strcmp(COMPASSINFO.USERGBL.setup,'ImageAnalysis'))
-    IMAGEANLZ.('IM4')(1) = ImageAnlzClass(FIGOBJS,'IM4',1);  
-    IMAGEANLZ.('IM4')(2) = ImageAnlzClass(FIGOBJS,'IM4',2); 
-    IMAGEANLZ.('IM4')(3) = ImageAnlzClass(FIGOBJS,'IM4',3);  
-    IMAGEANLZ.('IM4')(4) = ImageAnlzClass(FIGOBJS,'IM4',4);
-end
-if not(strcmp(COMPASSINFO.USERGBL.setup,'ImageAnalysis'))
-    TabReset('IM');
-    TabReset('IM4');
-end
-TabReset('IM2');
-TabReset('IM3');
 
 %================================================================
 % Limit Scope
@@ -875,6 +862,11 @@ if strcmp(COMPASSINFO.USERGBL.setup,'ImageAnalysis')
       delete(FIGOBJS.ACC2.Tab);
       delete(FIGOBJS.ACC3.Tab);  
       delete(FIGOBJS.ACC4.Tab); 
+elseif strcmp(COMPASSINFO.USERGBL.setup,'Scripts')
+      delete(FIGOBJS.IM.Tab);
+      delete(FIGOBJS.IM2.Tab);
+      delete(FIGOBJS.IM3.Tab);
+      delete(FIGOBJS.IM4.Tab);
 end
 
 %================================================================

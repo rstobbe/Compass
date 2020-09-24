@@ -42,6 +42,7 @@ if not(isempty(indnum))
     SCRPTipt(indnum).entrystr = file(1:end-4);
     SCRPTipt(indnum).entrystruct.entrytype = 'ScriptName';
 end
+SCRPTipt(2).entrystr = '';
 
 %----------------------------------------------------
 % Update

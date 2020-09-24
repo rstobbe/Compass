@@ -1,14 +1,10 @@
-function InitFcn(doFull,doCuda,doPaths)
+function InitFcn(softwarefolder,Setup)
 
 %-----------------------------------
-% Local Paths
+% Container Folder
 %-----------------------------------
-disp('Setup Paths');
-softwarefolder = pwd;
 ind = strfind(softwarefolder,'\');
-addpath(genpath(softwarefolder));
 compassfolder = softwarefolder(1:ind(end));
-addpath(compassfolder);
 
 %-----------------------------------
 % General
@@ -25,21 +21,14 @@ COMPASSINFO.USERGBL.invfiltloc = compassfolder;
 COMPASSINFO.USERGBL.imkernloc = compassfolder;
 COMPASSINFO.USERGBL.sysresploc = compassfolder; 
 if exist('CompassUserInfo','file')
-    COMPASSINFO.USERGBL = CompassUserInfo(doFull);
+    COMPASSINFO.USERGBL = CompassUserInfo(Setup);
 end
 if not(strcmp(COMPASSINFO.USERGBL.setup,'ImageAnalysis'))
-    COMPASSINFO.CUDA = GraphicCard_Info(doCuda);
+    COMPASSINFO.CUDA = GraphicCard_Info(COMPASSINFO.USERGBL.doCuda);
 end
 COMPASSINFO.USERGBL.softwaredrive = compassfolder(1:3);
 LOCS = ScriptPath_Info([softwarefolder,'\']);
 COMPASSINFO.LOCS = LOCS;
-
-if not(isfield(COMPASSINFO.USERGBL,'trajdevloc'))
-    COMPASSINFO.USERGBL.trajdevloc = COMPASSINFO.USERGBL.experimentsloc;
-end
-if not(isfield(COMPASSINFO.USERGBL,'trajreconloc'))
-    COMPASSINFO.USERGBL.trajreconloc = [COMPASSINFO.USERGBL.softwaredrive,'3 ReconFiles\'];
-end
 
 %-----------------------------------
 % RWSUI Global

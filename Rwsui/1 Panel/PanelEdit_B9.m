@@ -11,7 +11,7 @@ global SCRPTGBL
 % Clear Naming
 %---------------------------------------------
 [SCRPTipt] = LabelGet(tab,panelnum);
-inds = strcmp('Name',{SCRPTipt.selstr});
+inds = strcmp('Design_Name',{SCRPTipt.labelstr});
 indnum = find(inds==1);
 if length(indnum) > 1
     indnum = indnum(indnum < curpanipt);

@@ -7,22 +7,34 @@ function ScriptOptions(panelnum,tab,scrptnum)
 global SCRPTGBL
 global DEFFILEGBL
 global SCRPTPATHS
+global COMPASSINFO
+
 
 [SCRPTipt] = LabelGet(tab,panelnum);
-if length(SCRPTipt) == 1
-    if panelnum == 1
-        [s,v] = listdlg('PromptString','Script Action:','SelectionMode','single','ListString',{'Load From File','Load From Panel','Build Script','','','Load Composite'});
-    else
-        [s,v] = listdlg('PromptString','Script Action:','SelectionMode','single','ListString',{'Load From File','Load From Panel','Build Script','','',''});
+if strcmp(COMPASSINFO.USERGBL.setup,'Dev')
+    if length(SCRPTipt) == 1
+        if panelnum == 1
+            [s,v] = listdlg('PromptString','Script Action:','SelectionMode','single','ListString',{'Load From File','Load From Panel','Build Script','','','Load Composite'});
+        else
+            [s,v] = listdlg('PromptString','Script Action:','SelectionMode','single','ListString',{'Load From File','Load From Panel','Build Script','','',''});
+        end
+    else 
+        if panelnum == 1
+            [s,v] = listdlg('PromptString','Script Action:','SelectionMode','single','ListString',{'Load From File','Load From Panel','Build Script','Save Script','Remove','Load Composite','Save Composite'});
+        else
+            [s,v] = listdlg('PromptString','Script Action:','SelectionMode','single','ListString',{'Load From File','Load From Panel','Build Script','Save Script','Remove'});
+        end
     end
-else 
-    if panelnum == 1
-        [s,v] = listdlg('PromptString','Script Action:','SelectionMode','single','ListString',{'Load From File','Load From Panel','Build Script','Save Script','Remove','Load Composite','Save Composite'});
-    else
-        [s,v] = listdlg('PromptString','Script Action:','SelectionMode','single','ListString',{'Load From File','Load From Panel','Build Script','Save Script','Remove'});
+else
+    if length(SCRPTipt) == 1
+        [s,v] = listdlg('PromptString','Script Action:','SelectionMode','single','ListString',{'Load From File','Load From Panel'});
+    else 
+        [s,v] = listdlg('PromptString','Script Action:','SelectionMode','single','ListString',{'Load From File','Load From Panel','Save Script','Remove'});
     end
+    sarr = [1 2 4 5];
+    s = sarr(s);
 end
-    
+
 if isempty(s)
     return
 end

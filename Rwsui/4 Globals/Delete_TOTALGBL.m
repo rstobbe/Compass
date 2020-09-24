@@ -27,6 +27,8 @@ if not(strcmp(COMPASSINFO.USERGBL.setup,'ImageAnalysis'))
 end
 if strcmp(COMPASSINFO.USERGBL.setup,'ImageAnalysis')
     tablabs = {'IM2','IM3'};
+elseif strcmp(COMPASSINFO.USERGBL.setup,'Scripts')
+    tablabs = {};
 else
     tablabs = {'IM','IM2','IM3','IM4'};
 end

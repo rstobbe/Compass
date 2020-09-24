@@ -17,7 +17,7 @@ val = FIGOBJS.(tab).GblList.Value;
 if isempty(val) || val == 0
     err.flag = 1;
     err.msg = 'No Scripts in Global Memory';
-    ErrDist(err);
+    ErrDisp(err);
     return  
 end
 totgblnum = FIGOBJS.(tab).GblList.UserData(val).totgblnum;

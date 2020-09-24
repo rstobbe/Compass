@@ -22,6 +22,8 @@ end
 tab = strcmp(FIGOBJS.TABGP.SelectedTab.Title,RWSUIGBL.AllTabs);
 if strcmp(COMPASSINFO.USERGBL.setup,'ImageAnalysis')
     arr = [0 1 2 0 0 0 0 0];
+elseif strcmp(COMPASSINFO.USERGBL.setup,'Scripts')
+    arr = [0 0 0 0 1 2 3 4];
 else
     arr = (1:10);
 end
