@@ -47,7 +47,7 @@ gbldata.AllTrees = AllTrees;
 gbldata.RWSUI = RWSUI;
 if not(exist(RWSUI.runfunc,'file'))
     err.flag = 1;
-    err.msg = [RWSUI.runfunc,' function not present'];
+    err.msg = [RWSUI.runfunc,' function not on path'];
     ErrDisp(err);
     return
 end   

@@ -43,6 +43,9 @@ for a = 1:length(CellArray(:,1))
             end
         end
         if strcmp(CellArray{a,2}{b,1}.entrytype,'RunExtFunc')
+            if not(isfield(CellArray{a,2}{b,1},'path'))
+                continue
+            end
             path0 = CellArray{a,2}{b,1}.path;
             script = CellArray{a,2}{b,1}.runfunc1;
             [pathschanged,path,err] = TestReplaceRoot(script,path0,SCRPTPATHS);
@@ -75,6 +78,9 @@ for a = 1:length(CellArray(:,1))
                 end 
             end
             if strcmp(CellArray{a,2}{b,2}{c,1}.entrytype,'RunExtFunc')
+                if not(isfield(CellArray{a,2}{b,2}{c,1},'path'))
+                    continue
+                end
                 path0 = CellArray{a,2}{b,2}{c,1}.path;
                 script = CellArray{a,2}{b,2}{c,1}.runfunc1;
                 [pathschanged,path,err] = TestReplaceRoot(script,path0,SCRPTPATHS);
@@ -103,6 +109,9 @@ for a = 1:length(CellArray(:,1))
                     end 
                 end
                 if strcmp(CellArray{a,2}{b,2}{c,2}{d,1}.entrytype,'RunExtFunc')
+                    if not(isfield(CellArray{a,2}{b,2}{c,2}{d,1},'path'))
+                        continue
+                    end
                     path0 = CellArray{a,2}{b,2}{c,2}{d,1}.path;
                     script = CellArray{a,2}{b,2}{c,2}{d,1}.runfunc1;
                     [pathschanged,path,err] = TestReplaceRoot(script,path0,SCRPTPATHS);

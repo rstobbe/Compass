@@ -52,7 +52,7 @@ script = path(tok(length(tok))+1:length(path));
 if not(exist([script,'_Default2'],'file'))
     rmpath(genpath(path));
     err.flag = 1;
-    err.msg = 'Folder Does Not Contain Selectable Script';
+    err.msg = 'Check if script on path';
     ErrDisp(err);
     return 
 end
