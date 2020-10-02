@@ -6,6 +6,10 @@ function ResetFocus(src,event)
 global FIGOBJS
 global IMAGEANLZ
 
+if isempty(IMAGEANLZ)
+    return
+end
+
 currentax = gca;
 FIGOBJS.Compass.CurrentObject = currentax;
 

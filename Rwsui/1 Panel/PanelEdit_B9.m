@@ -142,11 +142,11 @@ for a = 1:length(SCRPTipt)
                     if not(isempty(SCRPTGBL.(tab){panelnum,treecellarray(1)}))
                         if isfield(SCRPTGBL.(tab){panelnum,treecellarray(1)},([RWSUI.callingfuncs{1},'_Data']))
                             if isfield(SCRPTGBL.(tab){panelnum,treecellarray(1)}.([RWSUI.callingfuncs{1},'_Data']),([RWSUI.funclabel,'_Data']))
-                                SCRPTIPTGBL.(tab)(panelnum).default{m,2}{n,2}(p,:) = Current{m,2}{n,2}(p,:);
                                 SCRPTGBL.(tab){panelnum,treecellarray(1)}.([RWSUI.callingfuncs{1},'_Data']) = rmfield(SCRPTGBL.(tab){panelnum,treecellarray(1)}.([RWSUI.callingfuncs{1},'_Data']),([RWSUI.funclabel,'_Data']));
                             end
                         end
                     end
+                    SCRPTIPTGBL.(tab)(panelnum).default{m,2}{n,2}(p,:) = Current{m,2}{n,2}(p,:);
                 end
                 Current{m,2}{n,2}{p,1}.altval = 1;
             elseif altscrptfunc1 == 1
@@ -198,12 +198,12 @@ for a = 1:length(SCRPTipt)
                         if isfield(SCRPTGBL.(tab){panelnum,treecellarray(1)},([RWSUI.callingfuncs{1},'_Data']))
                             if isfield(SCRPTGBL.(tab){panelnum,treecellarray(1)}.([RWSUI.callingfuncs{1},'_Data']),[RWSUI.callingfuncs{2},'_Data'])
                                 if isfield(SCRPTGBL.(tab){panelnum,treecellarray(1)}.([RWSUI.callingfuncs{1},'_Data']).([RWSUI.callingfuncs{2},'_Data']),([RWSUI.funclabel,'_Data']))
-                                    SCRPTIPTGBL.(tab)(panelnum).default{m,2}{n,2}{p,2}(d,:) = Current{m,2}{n,2}{p,2}(d,:);
                                     SCRPTGBL.(tab){panelnum,treecellarray(1)}.([RWSUI.callingfuncs{1},'_Data']).([RWSUI.callingfuncs{2},'_Data']) = rmfield(SCRPTGBL.(tab){panelnum,treecellarray(1)}.([RWSUI.callingfuncs{1},'_Data']).([RWSUI.callingfuncs{2},'_Data']),([RWSUI.funclabel,'_Data']));
                                 end
                             end
                         end
                     end
+                    SCRPTIPTGBL.(tab)(panelnum).default{m,2}{n,2}{p,2}(d,:) = Current{m,2}{n,2}{p,2}(d,:);
                 end
                 Current{m,2}{n,2}{p,2}{d,1}.altval = 1;
             elseif altscrptfunc1 == 1 || altscrptfunc2 == 1

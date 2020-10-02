@@ -37,7 +37,8 @@ elseif strcmp(RWSUIGBL.Key,'d')
         curloc = Struct.(Func).defloc;
     end    
 else
-    curloc = Struct.(Func).curloc;
+    RWSUIGBL.Key = '';
+    return
 end
 RWSUIGBL.Key = '';
 

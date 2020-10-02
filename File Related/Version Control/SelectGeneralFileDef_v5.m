@@ -26,16 +26,18 @@ if isempty(RWSUIGBL.Key)
     defaultfunc = 'Display';
 elseif strcmp(RWSUIGBL.Key,'shift')
     defaultfunc = 'Load From Global';
-elseif strcmp(RWSUIGBL.Key,'control')
-    defaultfunc = 'Make';
-    if isfield(Struct,Func)
-        defloc = Struct.(Func).defloc;
-    else
-        defloc = [];
-    end
+% elseif strcmp(RWSUIGBL.Key,'control')
+%     defaultfunc = 'Make';
+%     if isfield(Struct,Func)
+%         defloc = Struct.(Func).defloc;
+%     else
+%         defloc = [];
+%     end
 else
-    defaultfunc = 'Load From File';
-    curloc = Struct.(Func).defloc;
+    RWSUIGBL.Key = '';
+    return
+%     defaultfunc = 'Load From File';
+%     curloc = Struct.(Func).defloc;
 end
 RWSUIGBL.Key = '';
 
@@ -43,29 +45,30 @@ RWSUIGBL.Key = '';
 % Select File
 %------------------------------------------
 switch defaultfunc
-    case 'Make'
-        Status('busy','Select Folder to Make Default');
-        path = uigetdir(defloc,'Select Folder to Make Default');
-        if path == 0
-            err.flag = 4;
-            err.msg = 'Default Folder Not Selected';
-            return
-        end
-        SCRPTipt(SCRPTGBL.RWSUI.curpanipt).entrystruct.(Func).defloc = path;
-        SCRPTipt(SCRPTGBL.RWSUI.curpanipt).entrystruct.(INPUT.CurFunc).curloc = path;
-        Status('done','Default Directory Selected');
-        return
-
-    case 'Load From File'        
-        if curloc == 0
-            curloc = [];
-        end
-        [file,path] = uigetfile(INPUT.Search,'Select File',curloc);
-        if path == 0
-            err.flag = 4;
-            err.msg = 'File Not Selected';
-            return
-        end
+%
+%     case 'Make'
+%         Status('busy','Select Folder to Make Default');
+%         path = uigetdir(defloc,'Select Folder to Make Default');
+%         if path == 0
+%             err.flag = 4;
+%             err.msg = 'Default Folder Not Selected';
+%             return
+%         end
+%         SCRPTipt(SCRPTGBL.RWSUI.curpanipt).entrystruct.(Func).defloc = path;
+%         SCRPTipt(SCRPTGBL.RWSUI.curpanipt).entrystruct.(INPUT.CurFunc).curloc = path;
+%         Status('done','Default Directory Selected');
+%         return
+% 
+%     case 'Load From File'        
+%         if curloc == 0
+%             curloc = [];
+%         end
+%         [file,path] = uigetfile(INPUT.Search,'Select File',curloc);
+%         if path == 0
+%             err.flag = 4;
+%             err.msg = 'File Not Selected';
+%             return
+%         end
         
     case 'Load From Global' 
         val = FIGOBJS.(tab).GblList.Value;

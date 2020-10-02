@@ -26,6 +26,10 @@ if FIGOBJS.Compass ~= test
     return
 end
 
+if isempty(IMAGEANLZ)
+    return
+end
+
 currentax = gca;
 tab = currentax.Parent.Parent.Tag;
 if not(isfield(IMAGEANLZ,tab))
