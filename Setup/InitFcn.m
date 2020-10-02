@@ -26,6 +26,7 @@ end
 if not(strcmp(COMPASSINFO.USERGBL.setup,'ImageAnalysis'))
     COMPASSINFO.CUDA = GraphicCard_Info(COMPASSINFO.USERGBL.doCuda);
 end
+disp('Initialize Structures');
 COMPASSINFO.USERGBL.softwaredrive = compassfolder(1:3);
 LOCS = ScriptPath_Info([softwarefolder,'\']);
 COMPASSINFO.LOCS = LOCS;

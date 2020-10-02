@@ -6,8 +6,8 @@ function CompassScripts
 disp('Setup Paths');
 SoftwareFolder = pwd;
 
-ind = strfind(SoftwareFolder,'\');
-if(not(strcmp(SoftwareFolder(ind(end)+1:end),'Compass')))
+file = [SoftwareFolder,'\',mfilename,'.m'];
+if(not(isfile(file)))
     disp('Navigate to Compass folder');
     disp('Exiting');
     return
