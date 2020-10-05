@@ -67,8 +67,10 @@ for a = 1:length(SCRPTipt)
                 if isfield(Current{m,2}{n,1},'path')
                     if not(exist(Current{m,2}{n,1}.path,'dir'))
                         path = which([Current{m,2}{n,1}.entrystr,'.m']);
-                        ind = strfind(path,'\');
-                        path = path(1:ind(end));
+                        if not(isempty(path))
+                            ind = strfind(path,'\');
+                            path = path(1:ind(end));
+                        end
                         Current{m,2}{n,1}.path = path;
                     end
                     path = uigetdir(Current{m,2}{n,1}.path,'Select Function');
@@ -120,8 +122,10 @@ for a = 1:length(SCRPTipt)
                     if isfield(Current{m,2}{n,2}{p,1},'path')
                         if not(exist(Current{m,2}{n,2}{p,1}.path,'dir'))
                             path = which([Current{m,2}{n,2}{p,1}.entrystr,'.m']);
-                            ind = strfind(path,'\');
-                            path = path(1:ind(end));
+                            if not(isempty(path))
+                                ind = strfind(path,'\');
+                                path = path(1:ind(end));
+                            end
                             Current{m,2}{n,2}{p,1}.path = path;
                         end
                         path = uigetdir(Current{m,2}{n,2}{p,1}.path,'Select Function');
@@ -176,8 +180,10 @@ for a = 1:length(SCRPTipt)
                     if isfield(Current{m,2}{n,2}{p,2}{d,1},'path')
                         if not(exist(Current{m,2}{n,2}{p,2}{d,1}.path,'dir'))
                             path = which([Current{m,2}{n,2}{p,2}{d,1}.entrystr,'.m']);
-                            ind = strfind(path,'\');
-                            path = path(1:ind(end));
+                            if not(isempty(path))
+                                ind = strfind(path,'\');
+                                path = path(1:ind(end));
+                            end
                             Current{m,2}{n,2}{p,2}{d,1}.path = path;
                         end
                         path = uigetdir(Current{m,2}{n,2}{p,2}{d,1}.path,'Select Function');
