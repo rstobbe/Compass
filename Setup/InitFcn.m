@@ -24,7 +24,7 @@ if exist('CompassUserInfo','file')
     COMPASSINFO.USERGBL = CompassUserInfo(Setup);
 end
 if not(strcmp(COMPASSINFO.USERGBL.setup,'ImageAnalysis'))
-    COMPASSINFO.CUDA = GraphicCard_Info(COMPASSINFO.USERGBL.doCuda);
+    COMPASSINFO.CUDA = GraphicCard_Info(COMPASSINFO.USERGBL);
 end
 disp('Initialize Structures');
 COMPASSINFO.USERGBL.softwaredrive = compassfolder(1:3);
