@@ -879,8 +879,11 @@ DropListener(jAxis,'DropFcn',@(s,e)onDrop(Compass,s,e));
 %================================================================
 % Done
 %================================================================
-FIGOBJS.Compass.Units = 'normalized';
-FIGOBJS.Compass.Position = [0 0 1 1];
+Screen = get(0,'screensize');
+if Screen(3)~= 2560
+    FIGOBJS.Compass.Units = 'normalized';
+    FIGOBJS.Compass.Position = [0 0 1 1];
+end
 FIGOBJS.Compass.Visible = 'on';
 if strcmp(COMPASSINFO.USERGBL.setup,'ImageAnalysis')
     SetFocus('IM3',1);
