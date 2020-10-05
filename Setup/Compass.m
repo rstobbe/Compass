@@ -872,9 +872,11 @@ end
 %================================================================
 % Drag N Drop
 %================================================================
+warning('off')
 jFrame = get(Compass, 'JavaFrame');
 jAxis = jFrame.getAxisComponent();
 DropListener(jAxis,'DropFcn',@(s,e)onDrop(Compass,s,e));
+warning('on')
 
 %================================================================
 % Done

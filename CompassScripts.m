@@ -4,14 +4,7 @@ function CompassScripts
 % Setup Paths
 %------------------------------------------
 disp('Setup Paths');
-SoftwareFolder = pwd;
-
-file = [SoftwareFolder,'\',mfilename,'.m'];
-if(not(isfile(file)))
-    disp('Navigate to Compass folder');
-    disp('Exiting');
-    return
-end
+[SoftwareFolder,file]=fileparts(mfilename('fullpath')); 
 addpath(genpath(SoftwareFolder));
 
 Setup = 'Scripts';
