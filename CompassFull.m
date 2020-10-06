@@ -4,14 +4,7 @@ function CompassFull(opt)
 % Setup Paths
 %------------------------------------------
 disp('Setup Paths');
-SoftwareFolder = pwd;
-
-ind = strfind(SoftwareFolder,'\');
-if(not(strcmp(SoftwareFolder(ind(end)+1:end),'Compass')))
-    disp('Navigate to Compass folder');
-    disp('Exiting');
-    return
-end
+[SoftwareFolder,file]=fileparts(mfilename('fullpath')); 
 addpath(genpath(SoftwareFolder));
 
 if nargin==0

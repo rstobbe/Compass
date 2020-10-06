@@ -724,7 +724,7 @@ if not(strcmp(COMPASSINFO.USERGBL.setup,'ImageAnalysis'))
             for n = 1:60
                 FIGOBJS.(acclabs{p}).Select(m,n) = uicontrol('Parent',FIGOBJS.(acclabs{p}).Pan(m),'Style','pushbutton');
                 FIGOBJS.(acclabs{p}).Select(m,n).Units = 'normalized';
-                FIGOBJS.(acclabs{p}).Select(m,n).Position = [0.03 0.99-n*0.015 0.11 0.0125];
+                FIGOBJS.(acclabs{p}).Select(m,n).Position = [0.03 0.989-n*0.015 0.11 0.0125];
                 FIGOBJS.(acclabs{p}).Select(m,n).String = 'Select';
                 FIGOBJS.(acclabs{p}).Select(m,n).Visible = 'off';
             end

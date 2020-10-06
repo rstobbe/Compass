@@ -1,9 +1,9 @@
-function [User] = CompassUserInfo(Setup)
+function [User] = CompassUserInfo(softwarefolder,Setup)
 
 
 User.defloc = 'D:\CompassRelated\2 Defaults\';
 User.defrootloc = 'D:\CompassRelated\2 Defaults\';
-User.lastdefloc = 'D:\SampDensComp\Scripts\';
+User.lastdefloc = 'D:\CompassScripts\PIONEER\MriSysWrite\Scripts\';
 User.siemensdefaultloc = 'D:\CompassRelated\2 Defaults\Protocols\PRISMA';
 
 User.trajreconloc = 'D:\CompassRelated\3 ReconFiles';  
@@ -14,7 +14,7 @@ User.varianshimcalfile = 'D:\CompassRelated\4 OtherFiles\Scanner\Shimming\NaHBC_
 
 User.tempdataloc = 'E:\';
 User.lastscriptloc = 'Y:\2 Trajectories\QuinnPaper\Breath hold minimal spoiling\';
-User.experimentsloc = 'E:\Studies\MSYB Paper\Trajectories\F100_V0010_E100_T020_N3528_SU100_SEO\Testing\';
+User.experimentsloc = 'Y:\2 Trajectories\QuinnPaper\Breath hold minimal spoiling\Testing\';
 User.trajdevloc = 'Y:\2 Trajectories\0 TempHolding\MSYB\ConesComp'; 
 User.varianloc = 'V:\sodium\';
 User.variandataloc = 'V:\sodium\vnmrsys\data\studies';
@@ -27,4 +27,4 @@ if strcmp(Setup,'Full') || strcmp(Setup,'Dev') || strcmp(Setup,'Scripts')
 end
 
 User.epssave = 'Yes';
-User.userinfofile = [pwd,'\Setup\CompassUserInfo.m']; 
+User.userinfofile = [softwarefolder,'\Setup\CompassUserInfo.m']; 

@@ -12,7 +12,7 @@ global SCRPTPATHS
 global SCRPTGBL
 
 if isempty(SCRPTPATHS.(tab)(panelnum).defloc)
-    User = CompassUserInfo(0);
+    User = CompassUserInfo('',0);
     SCRPTPATHS.(tab)(panelnum).defloc = User.lastdefloc;
 end
 if SCRPTPATHS.(tab)(panelnum).defloc == 0

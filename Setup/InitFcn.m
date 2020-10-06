@@ -21,7 +21,7 @@ COMPASSINFO.USERGBL.invfiltloc = compassfolder;
 COMPASSINFO.USERGBL.imkernloc = compassfolder;
 COMPASSINFO.USERGBL.sysresploc = compassfolder; 
 if exist('CompassUserInfo','file')
-    COMPASSINFO.USERGBL = CompassUserInfo(Setup);
+    COMPASSINFO.USERGBL = CompassUserInfo(softwarefolder,Setup);
 end
 if not(strcmp(COMPASSINFO.USERGBL.setup,'ImageAnalysis'))
     COMPASSINFO.CUDA = GraphicCard_Info(COMPASSINFO.USERGBL);

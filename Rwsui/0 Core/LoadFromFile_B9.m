@@ -15,7 +15,7 @@ global SCRPTPATHS
 % Select Output Data
 %----------------------------------------------------
 if isempty(SCRPTPATHS.(tab)(panelnum).outloc)
-    User = CompassUserInfo(0);
+    User = CompassUserInfo('',0);
     SCRPTPATHS.(tab)(panelnum).outloc = User.lastscriptloc;
 end
 [file,path] = uigetfile('*.mat','Select Saved Script',SCRPTPATHS.(tab)(panelnum).outloc);

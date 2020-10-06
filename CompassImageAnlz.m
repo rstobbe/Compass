@@ -4,7 +4,7 @@ function CompassImageAnlz
 % Setup Paths
 %------------------------------------------
 disp('Setup Paths');
-SoftwareFolder = pwd;
+[SoftwareFolder,file]=fileparts(mfilename('fullpath')); 
 addpath(genpath(SoftwareFolder));
 
 Setup = 'ImageAnalysis';
