@@ -336,6 +336,12 @@ classdef ImageRoiClass < handle
             end
             IMAGEROI.roimask = zeros(IMAGEROI.roiimsize);                % to ensure start from scratch
             for m = 1:IMAGEROI.locnum                               
+                if isempty(IMAGEROI.drawroiorientarray)
+                	IMAGEROI.drawroiorientarray{m} = 'Axial';
+                end
+                if length(IMAGEROI.drawroiorientarray) < m
+                    IMAGEROI.drawroiorientarray{m} = 'Axial';
+                end
                 if strcmp(IMAGEROI.drawroiorientarray{m},'Axial')
                     drawroiimsize = IMAGEROI.roiimsize;
                     temproimask = IMAGEROI.roimask;
@@ -352,6 +358,12 @@ classdef ImageRoiClass < handle
                     continue
                 end
                 roimask2d = roipoly(ones(drawroiimsize(1),drawroiimsize(2)),IMAGEROI.xloc0arr{m},IMAGEROI.yloc0arr{m});
+                if isempty(IMAGEROI.eventarr)
+                    IMAGEROI.eventarr{m} = 'Add';
+                end
+                if length(IMAGEROI.eventarr) < m
+                    IMAGEROI.eventarr{m} = 'Add';
+                end
                 if strcmp(IMAGEROI.eventarr(m),'Add') 
                     newtemproimask2d = or(temproimask(:,:,IMAGEROI.zloc0arr{m}),roimask2d);
                     IMAGEROI.roimasksarr2d{m} = newtemproimask2d - temproimask(:,:,IMAGEROI.zloc0arr{m}); 

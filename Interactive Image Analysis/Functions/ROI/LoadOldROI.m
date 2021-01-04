@@ -35,12 +35,13 @@ else
 end
 
 for r = start:stop
-    if IMAGEANLZ.(tab)(r).TestAxisActive;
+    if IMAGEANLZ.(tab)(r).TestAxisActive
         IMAGEANLZ.(tab)(r).SAVEDROISFLAG = 1;
         IMAGEANLZ.(tab)(r).CreateEmptySavedROI(roinum);
         IMAGEANLZ.(tab)(r).SAVEDROIS(roinum).SetROIName(ROINAME);
         IMAGEANLZ.(tab)(r).SAVEDROIS(roinum).AddNewRegion('');
         IMAGEANLZ.(tab)(r).SAVEDROIS(roinum).LoadOldROIs(SAVEDXLOC,SAVEDYLOC,SAVEDZLOC);
+        IMAGEANLZ.(tab)(r).ActivateROI(roinum);
         IMAGEANLZ.(tab)(r).DrawSavedROIs([]);
         IMAGEANLZ.(tab)(r).SAVEDROIS(roinum).CreateBaseROIMask;
         IMAGEANLZ.(tab)(r).SAVEDROIS(roinum).ComputeROI(IMAGEANLZ.(tab)(r));
