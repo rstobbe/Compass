@@ -39,6 +39,10 @@ if (data.IsTransferableAsFileList)
                 else
                     [IMG,Name,ImType,err] = Import_Image(path,file);
                     if err.flag
+                        if strcmp(ImType,'Dicom2')
+                            ErrDisp(err); 
+                            return 
+                        end
                         panelnum = str2double(FIGOBJS.(tab).ScriptTabGroup.SelectedTab.Title(7));
                         scrptnum = 1;
                         [saveData,saveSCRPTcellarray,saveGlobalNames,err] = LoadSelectedFile_B9(panelnum,tab,scrptnum,path,file);
