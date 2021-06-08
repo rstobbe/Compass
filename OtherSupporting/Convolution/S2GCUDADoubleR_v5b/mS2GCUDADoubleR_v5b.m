@@ -35,7 +35,7 @@ end
 % CUDA Specifics
 %------------------------------------
 ComputeCapability = str2double(CUDA.ComputeCapability);
-if ComputeCapability == 6.1 || ComputeCapability == 6.2 
+if ComputeCapability == 6.1 || ComputeCapability == 6.2 || ComputeCapability == 8.6 
     CoresPerMultiProcessor = 128;
 elseif ComputeCapability == 7.5
     CoresPerMultiProcessor = 64;       % Number of ALU lanes for integer and single-precision floating-point arithmetic operations	
@@ -125,6 +125,8 @@ if ComputeCapability == 6.1 || ComputeCapability == 6.2
     [CDat,Test,Error] = S2GCUDADoubleR61_v5b(SampDat,Kx,Ky,Kz,Kern,iKern,chW,Ksz,chunklen,Stathands);
 elseif ComputeCapability == 7.5
     [CDat,Test,Error] = S2GCUDADoubleR75_v5b(SampDat,Kx,Ky,Kz,Kern,iKern,chW,Ksz,chunklen,Stathands);
+elseif ComputeCapability == 8.6
+    [CDat,Test,Error] = S2GCUDADoubleR86_v5b(SampDat,Kx,Ky,Kz,Kern,iKern,chW,Ksz,chunklen,Stathands);
 end
 toc
 %Test
