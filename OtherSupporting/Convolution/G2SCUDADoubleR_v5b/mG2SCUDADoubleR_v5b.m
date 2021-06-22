@@ -24,7 +24,7 @@ end
 Status2('busy','CUDA',StatLev);
 
 %------------------------------------
-% Function Hardcoded for 2 GPUs
+% Function Hardcoded for max 2 GPUs
 %------------------------------------
 NumberGpus = CUDA.Index;
 if NumberGpus > 2

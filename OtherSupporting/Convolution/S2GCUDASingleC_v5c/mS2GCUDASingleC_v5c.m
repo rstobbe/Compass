@@ -24,16 +24,24 @@ end
 Status2('busy','CUDA',StatLev);
 
 %------------------------------------
-% CUDA Specifics
+% Function Hardcoded for max 2 GPUs
 %------------------------------------
 NumberGpus = CUDA.Index;
-ComputeCapability = str2double(CUDA.ComputeCapability);
-if ComputeCapability == 6.1 || ComputeCapability == 6.2
-    CoresPerMultiProcessor = 128;
+if NumberGpus > 2
+    NumberGpus = 2;
 end
+
+%------------------------------------
+% CUDA Specifics
+%------------------------------------
+ComputeCapability = str2double(CUDA.ComputeCapability);
+if ComputeCapability == 6.1 || ComputeCapability == 6.2 || ComputeCapability == 8.6 
+    CoresPerMultiProcessor = 128;
+elseif ComputeCapability == 7.5
+    CoresPerMultiProcessor = 64; 
+end  
 MultiprocessorCount = CUDA.MultiprocessorCount;
 TotalCoresInPlay = CoresPerMultiProcessor*MultiprocessorCount*NumberGpus;
-%GpuThreadsAtATime = MultiprocessorCount*2048;
 
 %------------------------------------
 % CUDA optimization (emperical testing)
@@ -81,7 +89,13 @@ Kz(1:Len0) = Kz0;
 % Convolve
 %------------------------------------
 tic
-[CDat,Test,Error] = S2GCUDASingleC_v5c(SampDat,Kx,Ky,Kz,Kern,iKern,chW,Ksz,chunklen,Stathands);
+if ComputeCapability == 6.1 || ComputeCapability == 6.2 
+    [CDat,Test,Error] = S2GCUDASingleC61_v5c(SampDat,Kx,Ky,Kz,Kern,iKern,chW,Ksz,chunklen,Stathands);
+elseif ComputeCapability == 7.5
+    [CDat,Test,Error] = S2GCUDASingleC75_v5c(SampDat,Kx,Ky,Kz,Kern,iKern,chW,Ksz,chunklen,Stathands);    
+elseif ComputeCapability == 8.6
+    [CDat,Test,Error] = S2GCUDASingleC86_v5c(SampDat,Kx,Ky,Kz,Kern,iKern,chW,Ksz,chunklen,Stathands);   
+end
 toc
 %Test
 %DataSumTest = sum(CDat(:))/1e6
