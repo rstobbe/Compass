@@ -320,6 +320,11 @@ classdef ImageAnlzClass < handle
             global TOTALGBL
             ImName = TOTALGBL{1,IMAGEANLZ.totgblnum};
         end
+        % GetImagePath
+        function ImPath = GetImagePath(IMAGEANLZ)
+            global TOTALGBL
+            ImPath = TOTALGBL{2,IMAGEANLZ.totgblnum}.path;
+        end
         % GetImageInfo
         function ImInfo = GetImageInfo(IMAGEANLZ)
             global TOTALGBL
@@ -2159,7 +2164,7 @@ classdef ImageAnlzClass < handle
                     IMAGEANLZ.OverlayObject(n) = ho;
                 end
             end
-            drawnow;
+            %drawnow;       % this makes 4th dimesion scrolling slow - not sure why here
         end
         % SetDataAspectRatio
         function SetDataAspectRatio(IMAGEANLZ)

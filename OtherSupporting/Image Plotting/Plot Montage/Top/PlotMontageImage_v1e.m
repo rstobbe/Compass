@@ -119,10 +119,10 @@ end
 %---------------------------------------------
 % General
 %---------------------------------------------
-IMSTRCT.start = MSTRCT.start; IMSTRCT.step = MSTRCT.step; IMSTRCT.stop = MSTRCT.stop; 
-IMSTRCT.rows = ncolumns; IMSTRCT.SLab = slclbl; IMSTRCT.fhand = MSTRCT.fhand; IMSTRCT.ahand = MSTRCT.ahand; 
-%IMSTRCT.ColorMap = 'ColorMap6'; IMSTRCT.figsize = MSTRCT.imsize;
-IMSTRCT.ColorMap = 'ColorMap4'; IMSTRCT.figsize = MSTRCT.imsize;
+% IMSTRCT.start = MSTRCT.start; IMSTRCT.step = MSTRCT.step; IMSTRCT.stop = MSTRCT.stop; 
+% IMSTRCT.rows = ncolumns; IMSTRCT.SLab = slclbl; IMSTRCT.fhand = MSTRCT.fhand; IMSTRCT.ahand = MSTRCT.ahand; 
+% IMSTRCT.ColorMap = 'ColorMap6'; IMSTRCT.figsize = MSTRCT.imsize;
+% IMSTRCT.ColorMap = 'ColorMap4'; IMSTRCT.figsize = MSTRCT.imsize;
 
 %---------------------------------------------
 % Plot Image
@@ -130,8 +130,8 @@ IMSTRCT.ColorMap = 'ColorMap4'; IMSTRCT.figsize = MSTRCT.imsize;
 IMSTRCT.type = MSTRCT.type; IMSTRCT.start = MSTRCT.start; IMSTRCT.step = MSTRCT.step; IMSTRCT.stop = MSTRCT.stop; 
 IMSTRCT.rows = ncolumns; 
 IMSTRCT.SLab = slclbl; IMSTRCT.lblvals = MSTRCT.lblvals; IMSTRCT.fhand = MSTRCT.fhand; IMSTRCT.ahand = MSTRCT.ahand; 
-IMSTRCT.docolor = clr; IMSTRCT.ColorMap = 'mycolormap3'; IMSTRCT.figsize = MSTRCT.imsize;
-%IMSTRCT.docolor = clr; IMSTRCT.ColorMap = 'ColorMap4'; IMSTRCT.figsize = MSTRCT.imsize;
+%IMSTRCT.docolor = clr; IMSTRCT.ColorMap = 'mycolormap3'; IMSTRCT.figsize = MSTRCT.imsize;
+IMSTRCT.docolor = clr; IMSTRCT.ColorMap = 'ColorMap7'; IMSTRCT.figsize = MSTRCT.imsize;
 if strcmp(MSTRCT.useimagecolour,'No')
     IMSTRCT.lvl = [MSTRCT.dispwid(1) MSTRCT.dispwid(2)]; 
     [handles,ImSz,Img] = ImageMontage_v2b(Image,IMSTRCT);

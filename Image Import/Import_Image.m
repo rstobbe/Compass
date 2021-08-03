@@ -35,11 +35,6 @@ for n = 1:Num
         [IMG{n},ImInfo{n},err] = Load_Nifti([impath,imfile]); 
         ImType{n} = 'Nifti';
         Name{n} = imfile;
-%     elseif strcmp(fileext,'IMA')
-%         [IMG{n},ImInfo{n},err] = Load_Dicom(impath,imfile);
-%         inds = strfind(impath,'\');
-%         Name{n} = impath(inds(end-1)+1:inds(end)-1);
-%         ImType{n} = 'Dicom';
     elseif strcmp(fileext,'dcm')
         [IMG{n},ImInfo{n},err] = Load_Dicom2b(impath,imfile);
         inds = strfind(impath,'\');
@@ -49,11 +44,6 @@ for n = 1:Num
         [IMG{n},ImInfo{n},ImType{n},err] = Load_Mat([impath,imfile]);
         %[Name,~] = strtok(imfile,'.');
         Name{n} = imfile;
-%     elseif strcmp(fileext,'fdf')
-%         [IMG{n},ImInfo{n},err] = Load_FDF(impath,imfile);
-%         ImType{n} = 'FDF';
-%         %[Name,~] = strtok(imfile,'.');
-%         Name{n} = imfile;
     else
         %---
         [IMG{n},ImInfo{n},err] = Load_Dicom2b(impath,imfile);
