@@ -43,9 +43,10 @@ for n = 1:numfiles
                 ind = strfind(file,'\');
                 filenameplusext = file(ind(end)+1:end);
                 [IMG,~,~,err] = Import_Image(path,filenameplusext);
-                saveData.IMG = IMG;
+                saveData.IMG = IMG{1};
                 saveData.path = file;
                 IMLDipt.([CallingLabel,'_Data']).([PanelLabel{n},'_Data']) = saveData;
+                SCRPTGBL.([CallingLabel,'_Data']).([PanelLabel{n},'_Data']) = saveData;
             end
         else
             err.flag = 1;

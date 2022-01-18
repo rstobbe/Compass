@@ -131,7 +131,8 @@ IMSTRCT.type = MSTRCT.type; IMSTRCT.start = MSTRCT.start; IMSTRCT.step = MSTRCT.
 IMSTRCT.rows = ncolumns; 
 IMSTRCT.SLab = slclbl; IMSTRCT.lblvals = MSTRCT.lblvals; IMSTRCT.fhand = MSTRCT.fhand; IMSTRCT.ahand = MSTRCT.ahand; 
 %IMSTRCT.docolor = clr; IMSTRCT.ColorMap = 'mycolormap3'; IMSTRCT.figsize = MSTRCT.imsize;
-IMSTRCT.docolor = clr; IMSTRCT.ColorMap = 'ColorMap7'; IMSTRCT.figsize = MSTRCT.imsize;
+%IMSTRCT.docolor = clr; IMSTRCT.ColorMap = 'ColorMap8'; IMSTRCT.figsize = MSTRCT.imsize;
+IMSTRCT.docolor = clr; IMSTRCT.ColorMap = 'ColorMap11'; IMSTRCT.figsize = MSTRCT.imsize;
 if strcmp(MSTRCT.useimagecolour,'No')
     IMSTRCT.lvl = [MSTRCT.dispwid(1) MSTRCT.dispwid(2)]; 
     [handles,ImSz,Img] = ImageMontage_v2b(Image,IMSTRCT);

@@ -22,7 +22,7 @@ if isempty(val) || val == 0
 end
 totgblnum = FIGOBJS.(tab).GblList.UserData(val).totgblnum;
 saveData = TOTALGBL{2,totgblnum};
-if not(isfield(saveData,'saveSCRPTcellarray'))
+if not(isfield(saveData,'saveSCRPTcellarray')) && not(isprop(saveData,'saveSCRPTcellarray'))
     Status('error','Not a loadable script');
     return
 end

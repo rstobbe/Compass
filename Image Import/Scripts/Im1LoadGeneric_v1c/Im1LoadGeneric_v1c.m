@@ -64,6 +64,7 @@ else
                 saveData.IMG = IMG{1};
                 saveData.path = path;
                 IMLDipt.([CallingLabel,'_Data']).([PanelLabel1,'_Data']) = saveData;
+                SCRPTGBL.([CallingLabel,'_Data']).([PanelLabel1,'_Data']) = saveData;
             end
         else
             err.flag = 1;

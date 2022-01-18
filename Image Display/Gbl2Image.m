@@ -136,11 +136,13 @@ end
 %-----------------------------------
 % Contrast
 %-----------------------------------
-IMAGEANLZ.(tab)(axnum).SaveContrast;
-if IMAGEANLZ.(tab)(axnum).contrasthold == 0
-    IMAGEANLZ.(tab)(axnum).InitializeContrast;
+if ~colourimage
+    IMAGEANLZ.(tab)(axnum).SaveContrast;
+    if IMAGEANLZ.(tab)(axnum).contrasthold == 0
+        IMAGEANLZ.(tab)(axnum).InitializeContrast;
+    end
+    IMAGEANLZ.(tab)(axnum).LoadContrast
 end
-IMAGEANLZ.(tab)(axnum).LoadContrast
 
 %-----------------------------------
 % Delete 'uicontextmenu' build-up

@@ -16,7 +16,7 @@ for n = 1:length(labels)
 end
 Figure.hAx.XTickLabels = labels;
 
-export_fig([pathfile,'.eps']);
+export_fig([pathfile,'.eps'],'-nocrop','-transparent');
 
 fid = fopen([pathfile,'.eps'],'r');
 txt = fread(fid,'*char').';

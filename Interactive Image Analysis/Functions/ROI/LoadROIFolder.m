@@ -62,12 +62,14 @@ for p = 1:(sz(1)-2)
                 stop = axnum;
             end
             for r = start:stop
-                IMAGEANLZ.(tab)(r).AddROI2Saved(ROI,roinum);
+                Status2('busy',['Load ROI: ',num2str(p)],1);
                 if IMAGEANLZ.(tab)(r).TestAxisActive
+                    IMAGEANLZ.(tab)(r).AddROI2Saved(ROI,roinum);
+                    IMAGEANLZ.(tab)(r).ActivateROI(roinum);
                     IMAGEANLZ.(tab)(r).DrawSavedROIs([]);
                     IMAGEANLZ.(tab)(r).ComputeSavedROI(roinum);
+                    IMAGEANLZ.(tab)(r).SetSavedROIValues;
                 end
-                IMAGEANLZ.(tab)(r).SetSavedROIValues;
             end
         case 'Ortho'
             for r = 1:3
@@ -80,4 +82,5 @@ for p = 1:(sz(1)-2)
     end
     roinum = roinum + 1;
 end
-    
+
+Status2('done','',1);
