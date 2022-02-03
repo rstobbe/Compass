@@ -58,7 +58,6 @@ ImSz = size(Img);
 %----------------------------------------
 % Display Images
 %----------------------------------------
-iptsetpref('ImshowBorder','tight');
 ihand = imshow(Img,[IMSTRCT.lvl(1) IMSTRCT.lvl(2)],'Parent',IMSTRCT.ahand);
 if IMSTRCT.docolor
     if not(isempty(IMSTRCT.ColorMap))

@@ -15,8 +15,7 @@ Status('busy','Load Siemens Data');
 Status2('done','',2);
 Status2('done','',3);
 
-Handler = ReadSiemens();
-Handler.SetSiemensDataFile(saveData.loc);
+Handler = SiemensDataObject(saveData.loc);
 Handler.ReadSiemensHeader;
 MrProt = Handler.DataHdr;
 

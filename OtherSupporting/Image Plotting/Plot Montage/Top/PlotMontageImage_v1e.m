@@ -72,6 +72,9 @@ end
 if not(isfield(MSTRCT,'useimagecolour'))
     MSTRCT.useimagecolour = 'No';
 end
+if not(isfield(MSTRCT,'colourmap'))
+    MSTRCT.colourmap = 'ColorMap6';
+end
 
 %---------------------------------------------
 % Columns
@@ -112,17 +115,14 @@ end
 %---------------------------------------------
 if strcmp(MSTRCT.colour,'Yes')
     clr = 1;
+    MSTRCT.ahand.Units = 'pixels';
+    MSTRCT.ahand.Position = [2,2,300,300];
+    defAxesPos = [0.01 0.11 1.0 0.95];
+    set(0,'DefaultAxesPosition',defAxesPos);
 else
     clr = 0;
+    MSTRCT.ahand.Position = [0,0,1,1];
 end
-
-%---------------------------------------------
-% General
-%---------------------------------------------
-% IMSTRCT.start = MSTRCT.start; IMSTRCT.step = MSTRCT.step; IMSTRCT.stop = MSTRCT.stop; 
-% IMSTRCT.rows = ncolumns; IMSTRCT.SLab = slclbl; IMSTRCT.fhand = MSTRCT.fhand; IMSTRCT.ahand = MSTRCT.ahand; 
-% IMSTRCT.ColorMap = 'ColorMap6'; IMSTRCT.figsize = MSTRCT.imsize;
-% IMSTRCT.ColorMap = 'ColorMap4'; IMSTRCT.figsize = MSTRCT.imsize;
 
 %---------------------------------------------
 % Plot Image
@@ -130,9 +130,7 @@ end
 IMSTRCT.type = MSTRCT.type; IMSTRCT.start = MSTRCT.start; IMSTRCT.step = MSTRCT.step; IMSTRCT.stop = MSTRCT.stop; 
 IMSTRCT.rows = ncolumns; 
 IMSTRCT.SLab = slclbl; IMSTRCT.lblvals = MSTRCT.lblvals; IMSTRCT.fhand = MSTRCT.fhand; IMSTRCT.ahand = MSTRCT.ahand; 
-%IMSTRCT.docolor = clr; IMSTRCT.ColorMap = 'mycolormap3'; IMSTRCT.figsize = MSTRCT.imsize;
-%IMSTRCT.docolor = clr; IMSTRCT.ColorMap = 'ColorMap8'; IMSTRCT.figsize = MSTRCT.imsize;
-IMSTRCT.docolor = clr; IMSTRCT.ColorMap = 'ColorMap11'; IMSTRCT.figsize = MSTRCT.imsize;
+IMSTRCT.docolor = clr; IMSTRCT.ColorMap = MSTRCT.colourmap; IMSTRCT.figsize = MSTRCT.imsize;
 if strcmp(MSTRCT.useimagecolour,'No')
     IMSTRCT.lvl = [MSTRCT.dispwid(1) MSTRCT.dispwid(2)]; 
     [handles,ImSz,Img] = ImageMontage_v2b(Image,IMSTRCT);
@@ -165,9 +163,14 @@ else
 end   
 figdims = figdims*scale;
 if clr
-    figdims(2) =  figdims(2)*1.4; 
+    figdims(2) =  figdims(2)*1.3;
+    truesizeRWS(handles.fhand,figdims);
+else
+    truesize(handles.fhand,figdims);
 end
-truesize(handles.fhand,figdims);
+
+defAxesPos = [0.13 0.13 0.75 0.70];
+set(0,'DefaultAxesPosition',defAxesPos);
 
 %---------------------------------------------
 % Return

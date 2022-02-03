@@ -3,7 +3,7 @@ function [User] = CompassUserInfo(softwarefolder,Setup)
 
 User.defloc = 'D:\CompassRelated\2 Defaults\';
 User.defrootloc = 'D:\CompassRelated\2 Defaults\';
-User.lastdefloc = 'D:\bTensor\Compass\Scripts\';
+User.lastdefloc = 'D:\CompassRelated\2 Defaults\CompassRecon\';
 User.siemensdefaultloc = 'D:\CompassRelated\2 Defaults\Protocols\PRISMA';
 
 User.trajreconloc = 'D:\CompassRelated\3 ReconFiles';  
@@ -13,8 +13,8 @@ User.sysresploc = 'D:\CompassRelated\4 OtherFiles\Scanner\GradSysResp';
 User.varianshimcalfile = 'D:\CompassRelated\4 OtherFiles\Scanner\Shimming\NaHBC_ShimCal_Jan2015';
 
 User.tempdataloc = 'E:\';
-User.lastscriptloc = 'E:\Trajectories\SpaceY\F230_V0080_E100_T050_N1152_SW100_SEOR\_Testing\';
-User.experimentsloc = 'I:\211026 (NaSkin3T_RT)\Proton\';
+User.lastscriptloc = 'E:\Trajectories\TPI\23NaSiemens\_Skin\F240_V1382_E010_T180_N3000_B30\';
+User.experimentsloc = 'I:\220127 (FwfTest_Butanol)\Fwfbutanol\study\_Anlz\v4x\';
 User.trajdevloc = 'Y:\2 Trajectories\0 TempHolding\MSYB\ConesComp'; 
 User.varianloc = 'V:\sodium\';
 User.variandataloc = 'V:\sodium\vnmrsys\data\studies';
