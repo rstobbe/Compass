@@ -169,7 +169,7 @@ else
     truesize(handles.fhand,figdims);
 end
 
-defAxesPos = [0.13 0.13 0.75 0.70];
+defAxesPos = [0.17 0.16 0.75 0.70];
 set(0,'DefaultAxesPosition',defAxesPos);
 
 %---------------------------------------------
