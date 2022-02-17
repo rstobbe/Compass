@@ -3,7 +3,7 @@ function [User] = CompassUserInfo(softwarefolder,Setup)
 
 User.defloc = 'D:\CompassRelated\2 Defaults\';
 User.defrootloc = 'D:\CompassRelated\2 Defaults\';
-User.lastdefloc = 'D:\CompassRelated\2 Defaults\CompassRecon\';
+User.lastdefloc = 'D:\CompassScripts\VOYAGER\MriImageGeneral\Scripts\';
 User.siemensdefaultloc = 'D:\CompassRelated\2 Defaults\Protocols\PRISMA';
 
 User.trajreconloc = 'D:\CompassRelated\3 ReconFiles';  
@@ -13,8 +13,8 @@ User.sysresploc = 'D:\CompassRelated\4 OtherFiles\Scanner\GradSysResp';
 User.varianshimcalfile = 'D:\CompassRelated\4 OtherFiles\Scanner\Shimming\NaHBC_ShimCal_Jan2015';
 
 User.tempdataloc = 'E:\';
-User.lastscriptloc = 'E:\Trajectories\TPI\23NaSiemens\_Skin\F240_V1382_E010_T180_N3000_B30\';
-User.experimentsloc = 'I:\211020 (NaStroke_vDM)\Nastroke_Dm\study\FWF_Anlz\v2\';
+User.lastscriptloc = 'Y:\2 Trajectories\TPI\F80_V05_E1200_T09_N060_B0\';
+User.experimentsloc = 'I:\220211b (23NaSkin_Loop5Saline_B1Mapping)\s_20220211_003\data\B1mapNa_Hippo4_01.fid\';
 User.trajdevloc = 'Y:\2 Trajectories\0 TempHolding\MSYB\ConesComp'; 
 User.varianloc = 'V:\sodium\';
 User.variandataloc = 'V:\sodium\vnmrsys\data\studies';

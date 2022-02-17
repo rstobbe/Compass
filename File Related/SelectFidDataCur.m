@@ -6,6 +6,7 @@ function [SCRPTipt,SCRPTGBL,err] = SelectFidDataCur(SCRPTipt,SCRPTGBL)
 
 INPUT.Extension = '*.*';
 INPUT.CurFunc = 'SelectFidDataCur';
+INPUT.AssignPath = 'Yes';
 [SCRPTipt,SCRPTGBL,saveData,err] = SelectGeneralFileCur_v5(SCRPTipt,SCRPTGBL,INPUT);
 
 if not(isempty(saveData))
