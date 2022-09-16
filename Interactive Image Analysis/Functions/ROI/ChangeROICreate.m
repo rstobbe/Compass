@@ -20,6 +20,8 @@ elseif src.Value == 3
     IMAGEANLZ.(tab)(axnum).SetROITool('ROISPHERE');
 elseif src.Value == 5 
     IMAGEANLZ.(tab)(axnum).SetROITool('ROITUBE');
+elseif src.Value == 6 
+    IMAGEANLZ.(tab)(axnum).SetROITool('ROIRECT');    
 end  
 
 %------------------------------------------

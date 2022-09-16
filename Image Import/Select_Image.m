@@ -11,7 +11,7 @@ err.msg = 0;
 % Select Image File
 %---------------------------------------------------------
 Status2('busy','Select Images',1); 
-[imfile,impath] = uigetfile(['*.nii',';*.hdr',';*.dcm',';*.mat'],'Select Images',DefPath,'MultiSelect','on');
+[imfile,impath] = uigetfile(['*.nii',';*.hdr',';*.dcm',';*.mat',';*.gz'],'Select Images',DefPath,'MultiSelect','on');
 if impath == 0
     err.flag = 4;
     err.msg = 'Image Not Selected';

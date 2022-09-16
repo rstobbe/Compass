@@ -2,30 +2,39 @@
 % 
 %=========================================================
 
-function [SCRPTipt,SCRPTGBL,err] = LoadKSampCur(SCRPTipt,SCRPTGBL)
+function [SCRPTipt,SCRPTGBL,err] = LoadMfevoDef(SCRPTipt,SCRPTGBL)
 
 global FIGOBJS
 
-Status('busy','Select Simulated Sampling File');
+Status('busy','Load MFEVO File');
 Status2('done','',2); 
 Status2('done','',3); 
 
-INPUT.Extension = 'KSMP*.mat';
-INPUT.CurFunc = 'LoadKSampCur';
+INPUT.Search = 'MFEVO*.mat';
+INPUT.Assign = 'MFEVO';
+INPUT.CurFunc = 'LoadMfevoCur';
 INPUT.DropExt = 'Yes';
-INPUT.Type = 'SAMP';
+INPUT.Type = 'Mfevo';
 INPUT.AssignPath = 'Yes';
-[SCRPTipt,SCRPTGBL,saveData0,err] = SelectGeneralFileCur_v5(SCRPTipt,SCRPTGBL,INPUT);
+[SCRPTipt,SCRPTGBL,saveData0,err] = SelectGeneralFileDef_v5(SCRPTipt,SCRPTGBL,INPUT);
 if err.flag
     return
 end
 
-if not(isempty(saveData0))
+if isfield(saveData0,'MFEVO')
+    %------------------------------------------
+    % Show Info
+    %------------------------------------------
+    FIGOBJS.(SCRPTGBL.RWSUI.tab).Info.String = saveData0.MFEVO.ExpDisp;
+    SCRPTipt(SCRPTGBL.RWSUI.curpanipt).entrystruct.display = saveData0.MFEVO.ExpDisp;
+end
+
+if not(isempty(saveData0)) && not(isfield(saveData0,'MFEVO'))
     
     %------------------------------------------
     % Load
     %------------------------------------------
-    Status('busy','Load Simulated Sampling File');
+    Status('busy','Load MFEVO File');
     saveData = [];
     load(saveData0.loc);
     if not(exist('saveData','var'))
@@ -33,33 +42,29 @@ if not(isempty(saveData0))
         err.msg = 'Not an RWS Script Output File';
         return
     end
-    if not(isfield(saveData,'SAMP'))
+    if not(isfield(saveData,'MFEVO'))
         err.flag = 1;
-        err.msg = 'Not an Simulated Sampling File';
+        err.msg = 'Not an Trajectory Design File';
         return
     end
-    saveData0.SAMP = saveData.SAMP;
+    saveData0.MFEVO = saveData.MFEVO;
     saveData = saveData0;
     
     %------------------------------------------
     % Show Info
     %------------------------------------------
-    if strcmp(SCRPTGBL.RWSUI.tab(1:2),'IM')
-        FIGOBJS.(SCRPTGBL.RWSUI.tab).InfoL.String = saveData.SAMP.ExpDisp;
-    else
-        FIGOBJS.(SCRPTGBL.RWSUI.tab).Info.String = saveData.SAMP.ExpDisp;
-    end
-    
+    FIGOBJS.(SCRPTGBL.RWSUI.tab).Info.String = saveData.MFEVO.ExpDisp;
+
     %------------------------------------------
     % Update Name/Path
     %------------------------------------------
-    saveData.SAMP.name = saveData.file(1:end-4);
-    saveData.SAMP.path = saveData.path;
+    saveData.MFEVO.name = saveData.file(1:end-4);
+    saveData.MFEVO.path = saveData.path;
 
     %--------------------------------------------
     % Save
     %--------------------------------------------
-    SCRPTipt(SCRPTGBL.RWSUI.curpanipt).entrystruct.display = saveData.SAMP.ExpDisp;
+    SCRPTipt(SCRPTGBL.RWSUI.curpanipt).entrystruct.display = saveData.MFEVO.ExpDisp;
     
     funclabel = SCRPTGBL.RWSUI.funclabel;
     callingfuncs = SCRPTGBL.RWSUI.callingfuncs;
@@ -75,4 +80,5 @@ end
 Status('done','');
 Status2('done','',2); 
 Status2('done','',3); 
+
 

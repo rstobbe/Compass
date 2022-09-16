@@ -177,6 +177,8 @@ classdef ImageRoiClass < handle
                     IMAGEROI.CREATEMETHOD{IMAGEROI.locnum+n} = RoiCircleClass;
                 case 5
                     IMAGEROI.CREATEMETHOD{IMAGEROI.locnum+n} = RoiTubeClass;
+                case 6
+                    IMAGEROI.CREATEMETHOD{IMAGEROI.locnum+n} = RoiRectClass;
                 end
                 IMAGEROI.CREATEMETHOD{IMAGEROI.locnum+n}.Copy(IMAGEROI2.CREATEMETHOD{n});
             end

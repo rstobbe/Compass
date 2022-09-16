@@ -27,6 +27,14 @@ for n = 1:Num
             break
         end
     end
+    didgunzip = 0;
+    if strcmp(fileext,'gz')
+        gunzip([impath,imfile]);
+        [~,imfile,ext] = fileparts([impath,imfile]);
+        [~,~,fileext] = fileparts(imfile);
+        fileext = fileext(2:end);
+        didgunzip = 1;
+    end
     if strcmp(fileext,'hdr')
         [IMG{n},ImInfo{n},err] = Load_Analyze([impath,imfile]); 
         ImType{n} = 'Analyze';
@@ -58,6 +66,9 @@ for n = 1:Num
         %ErrDisp(err);
         return
     end
+    if didgunzip
+        delete([impath,imfile]);
+    end    
     IMG{n}.name = Name{n};
     IMG{n}.path = impath;
 

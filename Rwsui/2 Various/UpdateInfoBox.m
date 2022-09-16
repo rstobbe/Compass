@@ -11,4 +11,8 @@ if isfield(TOTALGBL{2,totgblnum},'ExpDisp')
     FIGOBJS.(tab).Info.String = TOTALGBL{2,totgblnum}.ExpDisp;
 end
 
+if isprop(TOTALGBL{2,totgblnum},'ExpDisp')
+    FIGOBJS.(tab).Info.String = TOTALGBL{2,totgblnum}.ExpDisp;
+end
+
 drawnow;

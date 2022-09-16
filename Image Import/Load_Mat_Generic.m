@@ -15,6 +15,12 @@ if isfield(Data,'img')
 elseif isfield(Data,'im')
     IMG.Im = Data.im;
     found = 1;
+else
+    names = fieldnames(Data);
+    if size(names) == 1
+        IMG.Im = Data.(names{1});
+    end
+    found = 1;
 end
 ImInfo.pixdim = [1,1,1];                    % Finish
 ImInfo.vox = 1;
@@ -24,6 +30,7 @@ ImInfo.baseorient = 'Axial';
 if found == 0
     err.flag = 1;
     err.msg = 'Put image matrix in ''im''';
+    IMG = struct();
     return
 end
 

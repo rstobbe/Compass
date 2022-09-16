@@ -13,8 +13,8 @@ User.sysresploc = 'D:\CompassRelated\4 OtherFiles\Scanner\GradSysResp';
 User.varianshimcalfile = 'D:\CompassRelated\4 OtherFiles\Scanner\Shimming\NaHBC_ShimCal_Jan2015';
 
 User.tempdataloc = 'E:\';
-User.lastscriptloc = 'Y:\2 Trajectories\TPI\F80_V05_E1200_T09_N060_B0\';
-User.experimentsloc = 'I:\220211b (23NaSkin_Loop5Saline_B1Mapping)\s_20220211_003\data\B1mapNa_Hippo4_01.fid\';
+User.lastscriptloc = 'E:\Trajectories\CalfSkin47\F80_V04_E1500_T093_N060_B0\';
+User.experimentsloc = 'M:\BeaulieuLab\Stroke\NaStroke3T_Study\220106Nastroke_Mlm\study\HIPPO_DTI_1mm_TRACEW_62\';
 User.trajdevloc = 'Y:\2 Trajectories\0 TempHolding\MSYB\ConesComp'; 
 User.varianloc = 'V:\sodium\';
 User.variandataloc = 'V:\sodium\vnmrsys\data\studies';

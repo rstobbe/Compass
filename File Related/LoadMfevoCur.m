@@ -2,18 +2,18 @@
 % 
 %=========================================================
 
-function [SCRPTipt,SCRPTGBL,err] = LoadKSampCur(SCRPTipt,SCRPTGBL)
+function [SCRPTipt,SCRPTGBL,err] = LoadMfevoCur(SCRPTipt,SCRPTGBL)
 
 global FIGOBJS
 
-Status('busy','Select Simulated Sampling File');
+Status('busy','Select MFEVO File');
 Status2('done','',2); 
 Status2('done','',3); 
 
-INPUT.Extension = 'KSMP*.mat';
-INPUT.CurFunc = 'LoadKSampCur';
+INPUT.Extension = {'MFEVO*.mat'};
+INPUT.CurFunc = 'LoadMfevoCur';
 INPUT.DropExt = 'Yes';
-INPUT.Type = 'SAMP';
+INPUT.Type = 'Mfevo';
 INPUT.AssignPath = 'Yes';
 [SCRPTipt,SCRPTGBL,saveData0,err] = SelectGeneralFileCur_v5(SCRPTipt,SCRPTGBL,INPUT);
 if err.flag
@@ -25,41 +25,36 @@ if not(isempty(saveData0))
     %------------------------------------------
     % Load
     %------------------------------------------
-    Status('busy','Load Simulated Sampling File');
-    saveData = [];
+    Status('busy','Load MFEVO File');
     load(saveData0.loc);
     if not(exist('saveData','var'))
         err.flag = 1;
         err.msg = 'Not an RWS Script Output File';
         return
     end
-    if not(isfield(saveData,'SAMP'))
+    if not(isfield(saveData,'MFEVO'))
         err.flag = 1;
-        err.msg = 'Not an Simulated Sampling File';
+        err.msg = 'Not an Trajectory Design File';
         return
     end
-    saveData0.SAMP = saveData.SAMP;
+    saveData0.MFEVO = saveData.MFEVO;
     saveData = saveData0;
     
     %------------------------------------------
     % Show Info
     %------------------------------------------
-    if strcmp(SCRPTGBL.RWSUI.tab(1:2),'IM')
-        FIGOBJS.(SCRPTGBL.RWSUI.tab).InfoL.String = saveData.SAMP.ExpDisp;
-    else
-        FIGOBJS.(SCRPTGBL.RWSUI.tab).Info.String = saveData.SAMP.ExpDisp;
-    end
-    
+    FIGOBJS.(SCRPTGBL.RWSUI.tab).Info.String = saveData.MFEVO.ExpDisp;
+
     %------------------------------------------
     % Update Name/Path
     %------------------------------------------
-    saveData.SAMP.name = saveData.file(1:end-4);
-    saveData.SAMP.path = saveData.path;
+    saveData.MFEVO.name = saveData.file(1:end-4);
+    saveData.MFEVO.path = saveData.path;
 
     %--------------------------------------------
     % Save
     %--------------------------------------------
-    SCRPTipt(SCRPTGBL.RWSUI.curpanipt).entrystruct.display = saveData.SAMP.ExpDisp;
+    SCRPTipt(SCRPTGBL.RWSUI.curpanipt).entrystruct.display = saveData.MFEVO.ExpDisp;
     
     funclabel = SCRPTGBL.RWSUI.funclabel;
     callingfuncs = SCRPTGBL.RWSUI.callingfuncs;

@@ -132,7 +132,12 @@ IMSTRCT.rows = ncolumns;
 IMSTRCT.SLab = slclbl; IMSTRCT.lblvals = MSTRCT.lblvals; IMSTRCT.fhand = MSTRCT.fhand; IMSTRCT.ahand = MSTRCT.ahand; 
 IMSTRCT.docolor = clr; IMSTRCT.ColorMap = MSTRCT.colourmap; IMSTRCT.figsize = MSTRCT.imsize;
 if strcmp(MSTRCT.useimagecolour,'No')
-    IMSTRCT.lvl = [MSTRCT.dispwid(1) MSTRCT.dispwid(2)]; 
+    IMSTRCT.lvl = [MSTRCT.dispwid(1) MSTRCT.dispwid(2)];
+    if isfield(IMSTRCT,'dozeronan')
+        if IMSTRCT.dozeronan
+            Image(Image == 0) = NaN;
+        end
+    end
     [handles,ImSz,Img] = ImageMontage_v2b(Image,IMSTRCT);
 else
     [handles,ImSz,Img] = ColouredImageMontage_v2b(Image,IMSTRCT);

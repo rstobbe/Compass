@@ -34,6 +34,8 @@ if (data.IsTransferableAsFileList)
         end
         path = [path0,'\'];
         file = [file0,ext];
+        ind = strfind(path,'\');
+        folder = path(ind(end-2)+1:end);
         if strcmp(tab(1),'I')            
             if strcmp(file(1:3),'ROI')
                 roinum = IMAGEANLZ.(tab)(1).FindNextAvailableROI;
@@ -52,6 +54,10 @@ if (data.IsTransferableAsFileList)
                         ErrDisp(err); 
                         return 
                     end
+                    if strcmp(ImType,'MatOther')
+                        ErrDisp(err); 
+                        return 
+                    end
                     panelnum = str2double(FIGOBJS.(tab).ScriptTabGroup.SelectedTab.Title(7));
                     scrptnum = 1;
                     [saveData,saveSCRPTcellarray,saveGlobalNames,err] = LoadSelectedFile_B9(panelnum,tab,scrptnum,path,file);
@@ -67,7 +73,7 @@ if (data.IsTransferableAsFileList)
                     err.flag = 0;
                     ErrDisp(err); 
                 else
-                    totalgbl{1} = Name{1};
+                    totalgbl{1} = [folder,Name{1}];
                     totalgbl{2} = IMG{1};
                     from = 'CompassLoad';
                     Load_TOTALGBL(totalgbl,'IM',from);

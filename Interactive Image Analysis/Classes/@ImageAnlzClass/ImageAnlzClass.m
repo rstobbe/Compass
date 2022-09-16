@@ -104,6 +104,7 @@ classdef ImageAnlzClass < handle
         ROISPHERE;        
         ROICIRCLE;    
         ROITUBE;
+        ROIRECT;
         CURRENTLINE;
         SAVEDLINES;
         GlobalSavedLinesInd;
