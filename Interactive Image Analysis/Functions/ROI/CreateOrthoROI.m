@@ -21,7 +21,29 @@ if strcmp(OUT.buttonfunc,'return')
 elseif strcmp(OUT.buttonfunc,'updatestatus')
     % do nothing
 elseif strcmp(OUT.buttonfunc,'draw')
-    IMAGEANLZ.(tab)(axnum).SetMoveFunction('DrawROI');  
+    IMAGEANLZ.(tab)(axnum).SetMoveFunction('DrawROI'); 
+elseif strcmp(OUT.buttonfunc,'startline')
+    Data.xpt = x;
+    Data.ypt = y;
+    Data.zpt = 0;
+    Data.zpt = IMAGEANLZ.(tab)(axnum).SLICE;
+    pixdim = IMAGEANLZ.(tab)(axnum).GetPixelDimensions;
+    Data.xloc = (Data.xpt-0.5)*pixdim(2);
+    Data.yloc = (Data.ypt-0.5)*pixdim(1);
+    Data.zloc = (Data.zpt-0.5)*pixdim(3);
+    IMAGEANLZ.(tab)(axnum).NewLineCreateOrthoRoi(Data);
+elseif strcmp(OUT.buttonfunc,'restartline')
+    IMAGEANLZ.(tab)(1).ClearCurrentLine;
+    IMAGEANLZ.(tab)(1).ClearCurrentLineData;
+    Data.xpt = x;
+    Data.ypt = y;
+    Data.zpt = 0;
+    Data.zpt = IMAGEANLZ.(tab)(axnum).SLICE;
+    pixdim = IMAGEANLZ.(tab)(axnum).GetPixelDimensions;
+    Data.xloc = (Data.xpt-0.5)*pixdim(2);
+    Data.yloc = (Data.ypt-0.5)*pixdim(1);
+    Data.zloc = (Data.zpt-0.5)*pixdim(3);
+    IMAGEANLZ.(tab)(axnum).NewLineCreateOrthoRoi(Data);
 elseif strcmp(OUT.buttonfunc,'updateregion')
     for r = 1:3
         IMAGEANLZ.(tab)(r).UpdateTempROI(OUT);
@@ -46,6 +68,8 @@ elseif strcmp(OUT.buttonfunc,'updatefinish')
     end
     IMAGEANLZ.(tab)(1).TestUpdateCurrentROIValue;
     IMAGEANLZ.(tab)(axnum).FIGOBJS.ReturnPanelFunctions; 
+    IMAGEANLZ.(tab)(1).ClearCurrentLine;
+    IMAGEANLZ.(tab)(1).ClearCurrentLineData;
 elseif strcmp(OUT.buttonfunc,'addregion')
     error;   %update
     IMAGEANLZ.(tab)(axnum).TEMPROI.AddNewRegion(IMAGEANLZ.(tab)(axnum).(IMAGEANLZ.(tab)(axnum).activeroi));

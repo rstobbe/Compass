@@ -106,7 +106,15 @@ classdef ImageLineClass < handle
                 IMAGELINE.state = 'Start';
             end   
         end
-  
+
+%==================================================================
+% AssignDataPoint
+%==================================================================          
+        % AssignDataPoint
+        function AssignDataPoint(IMAGELINE,datapoint)
+            IMAGELINE.datapoint = datapoint;  
+        end        
+        
 %==================================================================
 % Draw Line
 %==================================================================          

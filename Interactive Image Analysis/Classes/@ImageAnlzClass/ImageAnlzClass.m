@@ -1647,10 +1647,18 @@ classdef ImageAnlzClass < handle
         function NewLineCreateOrtho(IMAGEANLZ)
             ImAnlz_NewLineCreateOrtho(IMAGEANLZ);
         end
+        % NewLineCreateOrthoRoi
+        function NewLineCreateOrthoRoi(IMAGEANLZ,datapoint)
+            IMAGEANLZ.CURRENTLINE = ImageLineClass(IMAGEANLZ);
+            IMAGEANLZ.CURRENTLINE.AssignDataPoint(datapoint);
+            IMAGEANLZ.SetMoveFunction('DrawLine'); 
+        end
         % BuildLine
         function OUT = BuildLine(IMAGEANLZ,x,y,event)
-            Data.xpt = round(x);
-            Data.ypt = round(y);
+%             Data.xpt = round(x);
+%             Data.ypt = round(y);
+            Data.xpt = x;
+            Data.ypt = y;
             Data.zpt = IMAGEANLZ.SLICE;
             pixdim = GetPixelDimensions(IMAGEANLZ);
             Data.xloc = (Data.xpt-0.5)*pixdim(2);
@@ -1661,8 +1669,10 @@ classdef ImageAnlzClass < handle
         end
         % RecordLineInfo
         function RecordLineInfo(IMAGEANLZ,x,y)
-            Data.xpt = round(x);
-            Data.ypt = round(y);
+%             Data.xpt = round(x);
+%             Data.ypt = round(y);
+            Data.xpt = x;
+            Data.ypt = y;
             Data.zpt = IMAGEANLZ.SLICE;
             pixdim = GetPixelDimensions(IMAGEANLZ);
             Data.xloc = (Data.xpt-0.5)*pixdim(2);
