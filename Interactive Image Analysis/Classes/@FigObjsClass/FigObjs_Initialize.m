@@ -35,6 +35,7 @@ for n = 1:sz(1)
         IMOBJS.LINELAB(n).ForegroundColor = [0.8 0.8 0.8];
     end
     IMOBJS.DeleteLine(n).Visible = 'off';
+    IMOBJS.PlotLine(n).Visible = 'off';
 end
 
 IMOBJS.ImageName.Visible = 'Off';

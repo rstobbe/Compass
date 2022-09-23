@@ -1740,7 +1740,8 @@ classdef ImageAnlzClass < handle
             set(IMAGEANLZ.FIGOBJS.SAVEDLINES(SavedLine,2),'visible','on','string',num2str(SAVEDLINES(SavedLine).lengthIP,'%3.3f'),'foregroundcolor',IMAGEANLZ.LineClrOrder(SavedLine));
             set(IMAGEANLZ.FIGOBJS.SAVEDLINES(SavedLine,3),'visible','on','string',num2str(SAVEDLINES(SavedLine).anglePol,'%3.3f'),'foregroundcolor',IMAGEANLZ.LineClrOrder(SavedLine));
             set(IMAGEANLZ.FIGOBJS.SAVEDLINES(SavedLine,4),'visible','on','string',num2str(SAVEDLINES(SavedLine).angleAzi,'%2.5f'),'foregroundcolor',IMAGEANLZ.LineClrOrder(SavedLine)); 
-            set(IMAGEANLZ.FIGOBJS.DeleteLine(SavedLine),'visible','on'); 
+            set(IMAGEANLZ.FIGOBJS.DeleteLine(SavedLine),'visible','on');
+            set(IMAGEANLZ.FIGOBJS.PlotLine(SavedLine),'visible','on'); 
         end
         % ClearCurrentLine
         function ClearCurrentLine(IMAGEANLZ)
@@ -1785,14 +1786,29 @@ classdef ImageAnlzClass < handle
             IMAGEANLZ.SavedLinesInd(SavedLine) = 0;
             IMAGEANLZ.GlobalSavedLinesInd(SavedLine) = 0;
             GlobalSavedLinesInd = IMAGEANLZ.GlobalSavedLinesInd;
-        end    
+        end   
+        % PlotSavedLine
+        function PlotSavedLine(IMAGEANLZ,SavedLine)
+            x1 = IMAGEANLZ.CURRENTLINE.datapoint(1).xpt;
+            y1 = IMAGEANLZ.CURRENTLINE.datapoint(1).ypt;
+            x2 = IMAGEANLZ.CURRENTLINE.datapoint(2).xpt;
+            y2 = IMAGEANLZ.CURRENTLINE.datapoint(2).ypt;
+            len = sqrt((x1-x2).^2 + (y1-y2).^2);
+            %pts = round(len*2+1);
+            pts = round(len+1);            
+            x = linspace(x1,x2,pts);
+            y = linspace(y1,y2,pts);
+            Vals = interp2(IMAGEANLZ.imslice,x,y)
+            plot(Vals);
+        end   
         % DeleteSavedLineData
         function DeleteSavedLineData(IMAGEANLZ,SavedLine)
             set(IMAGEANLZ.FIGOBJS.SAVEDLINES(SavedLine,1),'visible','off');
             set(IMAGEANLZ.FIGOBJS.SAVEDLINES(SavedLine,2),'visible','off');
             set(IMAGEANLZ.FIGOBJS.SAVEDLINES(SavedLine,3),'visible','off');
             set(IMAGEANLZ.FIGOBJS.SAVEDLINES(SavedLine,4),'visible','off');
-            set(IMAGEANLZ.FIGOBJS.DeleteLine(SavedLine),'visible','off'); 
+            set(IMAGEANLZ.FIGOBJS.DeleteLine(SavedLine),'visible','off');
+            set(IMAGEANLZ.FIGOBJS.PlotLine(SavedLine),'visible','off');
         end  
         % EndLineTool
         function EndLineTool(IMAGEANLZ)

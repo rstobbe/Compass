@@ -60,6 +60,7 @@ classdef FigObjsClass < handle
         CURRENTLINE;
         SAVEDLINES;
         DeleteLine;
+        PlotLine;
         ActivateLineTool;
         ROICreateSel;
         ROITab;

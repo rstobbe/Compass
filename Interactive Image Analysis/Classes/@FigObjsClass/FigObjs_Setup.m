@@ -268,6 +268,11 @@ if isfield(FIGOBJS.(tab),'DeleteLine')
     if axnum <= length(FIGOBJS.(tab).DeleteLine(:,1))
         IMOBJS.DeleteLine = FIGOBJS.(tab).DeleteLine(axnum,:);
     end
+end 
+if isfield(FIGOBJS.(tab),'PlotLine')
+    if axnum <= length(FIGOBJS.(tab).PlotLine(:,1))
+        IMOBJS.PlotLine = FIGOBJS.(tab).PlotLine(axnum,:);
+    end
 end  
 if isfield(FIGOBJS.(tab),'ROICreateSel')
     if axnum <= length(FIGOBJS.(tab).ROICreateSel)
