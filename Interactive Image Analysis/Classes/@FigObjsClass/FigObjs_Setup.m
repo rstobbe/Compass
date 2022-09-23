@@ -245,8 +245,8 @@ if isfield(FIGOBJS.(tab),'LINELAB')
     end
 end
 if isfield(FIGOBJS.(tab),'ActivateLineTool')
-    if axnum <= length(FIGOBJS.(tab).ActivateLineTool(:,1))
-        IMOBJS.ActivateLineTool = FIGOBJS.(tab).ActivateLineTool(axnum,:);
+    if axnum <= length(FIGOBJS.(tab).ActivateLineTool)
+        IMOBJS.ActivateLineTool = FIGOBJS.(tab).ActivateLineTool(axnum);
     end
 end
 if isfield(FIGOBJS.(tab),'CURRENT')

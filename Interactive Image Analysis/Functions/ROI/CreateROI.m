@@ -36,7 +36,33 @@ if strcmp(OUT.buttonfunc,'return')
 elseif strcmp(OUT.buttonfunc,'updatestatus')
     % do nothing
 elseif strcmp(OUT.buttonfunc,'draw')
-    IMAGEANLZ.(tab)(axnum).SetMoveFunction('DrawROI');  
+    IMAGEANLZ.(tab)(axnum).SetMoveFunction('DrawROI');
+elseif strcmp(OUT.buttonfunc,'startline')
+    Data.xpt = x;
+    Data.ypt = y;
+    Data.zpt = 0;
+    Data.zpt = IMAGEANLZ.(tab)(axnum).SLICE;
+    pixdim = IMAGEANLZ.(tab)(axnum).GetPixelDimensions;
+    Data.xloc = (Data.xpt-0.5)*pixdim(2);
+    Data.yloc = (Data.ypt-0.5)*pixdim(1);
+    Data.zloc = (Data.zpt-0.5)*pixdim(3);
+    for r = start:stop
+        IMAGEANLZ.(tab)(r).NewLineCreateRoi(Data);
+    end
+elseif strcmp(OUT.buttonfunc,'restartline')
+    Data.xpt = x;
+    Data.ypt = y;
+    Data.zpt = 0;
+    Data.zpt = IMAGEANLZ.(tab)(axnum).SLICE;
+    pixdim = IMAGEANLZ.(tab)(axnum).GetPixelDimensions;
+    Data.xloc = (Data.xpt-0.5)*pixdim(2);
+    Data.yloc = (Data.ypt-0.5)*pixdim(1);
+    Data.zloc = (Data.zpt-0.5)*pixdim(3);
+    for r = start:stop
+        IMAGEANLZ.(tab)(r).ClearCurrentLine;
+        IMAGEANLZ.(tab)(r).ClearCurrentLineData;
+        IMAGEANLZ.(tab)(r).NewLineCreateRoi(Data);
+    end
 elseif strcmp(OUT.buttonfunc,'updateregion')
     if showcurrentroionall == 1
         for r = start:stop
@@ -81,6 +107,12 @@ elseif strcmp(OUT.buttonfunc,'updatefinish')
         IMAGEANLZ.(tab)(axnum).DrawCurrentROI([]); 
     end
     IMAGEANLZ.(tab)(axnum).FIGOBJS.ReturnPanelFunctions;
+    for r = start:stop
+        if IMAGEANLZ.(tab)(r).TestForCurrentLine
+            IMAGEANLZ.(tab)(r).ClearCurrentLine;
+            IMAGEANLZ.(tab)(r).ClearCurrentLineData;
+        end
+    end
 elseif strcmp(OUT.buttonfunc,'addregion')
     error;   %update
     IMAGEANLZ.(tab)(axnum).TEMPROI.AddNewRegion(IMAGEANLZ.(tab)(axnum).(IMAGEANLZ.(tab)(axnum).activeroi));

@@ -14,19 +14,15 @@ end
 if IMAGEANLZ.complexaverageroi
     Image = IMAGEANLZ.GetComplexOriented3DImage(tempdrawroiorient);
     vals = Image(logical(IMAGEROI.roimask));
-    %meanvals = mean(vals);
-    meanvals = nanmean(vals);
-    %stdvals = std(vals);
-    stdvals = nanstd(vals);
+    meanvals = mean(vals,'omitnan');
+    stdvals = std(vals,'omitnan');
     meanvals = ImageTypeCreate(IMAGEANLZ,meanvals);
     stdvals = ImageTypeCreate(IMAGEANLZ,stdvals);
 else
     Image = IMAGEANLZ.GetOriented3DImage(tempdrawroiorient);
     vals = Image(logical(IMAGEROI.roimask));
-    %meanvals = mean(vals);
-    meanvals = nanmean(vals);
-    %stdvals = std(vals);
-    stdvals = nanstd(vals);
+    meanvals = mean(vals,'omitnan');
+    stdvals = std(vals,'omitnan');
 end
 
 if not(isempty(vals))

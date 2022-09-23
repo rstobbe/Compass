@@ -1643,12 +1643,22 @@ classdef ImageAnlzClass < handle
 %==================================================================
 % Line
 %==================================================================
+        % NewLineCreate
+        function NewLineCreate(IMAGEANLZ)
+            ImAnlz_NewLineCreateOrtho(IMAGEANLZ);
+        end
         % NewLineCreateOrtho
         function NewLineCreateOrtho(IMAGEANLZ)
             ImAnlz_NewLineCreateOrtho(IMAGEANLZ);
         end
         % NewLineCreateOrthoRoi
         function NewLineCreateOrthoRoi(IMAGEANLZ,datapoint)
+            IMAGEANLZ.CURRENTLINE = ImageLineClass(IMAGEANLZ);
+            IMAGEANLZ.CURRENTLINE.AssignDataPoint(datapoint);
+            IMAGEANLZ.SetMoveFunction('DrawLine'); 
+        end
+        % NewLineCreateRoi
+        function NewLineCreateRoi(IMAGEANLZ,datapoint)
             IMAGEANLZ.CURRENTLINE = ImageLineClass(IMAGEANLZ);
             IMAGEANLZ.CURRENTLINE.AssignDataPoint(datapoint);
             IMAGEANLZ.SetMoveFunction('DrawLine'); 
@@ -1736,6 +1746,10 @@ classdef ImageAnlzClass < handle
         function ClearCurrentLine(IMAGEANLZ)
             IMAGEANLZ.CURRENTLINE.DeleteGraphicObjects;
             IMAGEANLZ.GETLINE = 0;
+        end
+        % TestForCurrentLine
+        function bool = TestForCurrentLine(IMAGEANLZ)
+            bool = ~isempty(IMAGEANLZ.CURRENTLINE);
         end
         % ClearCurrentLineData
         function ClearCurrentLineData(IMAGEANLZ)

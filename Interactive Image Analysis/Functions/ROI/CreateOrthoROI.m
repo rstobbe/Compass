@@ -68,8 +68,10 @@ elseif strcmp(OUT.buttonfunc,'updatefinish')
     end
     IMAGEANLZ.(tab)(1).TestUpdateCurrentROIValue;
     IMAGEANLZ.(tab)(axnum).FIGOBJS.ReturnPanelFunctions; 
-    IMAGEANLZ.(tab)(1).ClearCurrentLine;
-    IMAGEANLZ.(tab)(1).ClearCurrentLineData;
+    if IMAGEANLZ.(tab)(1).TestForCurrentLine
+        IMAGEANLZ.(tab)(1).ClearCurrentLine;
+        IMAGEANLZ.(tab)(1).ClearCurrentLineData;
+    end
 elseif strcmp(OUT.buttonfunc,'addregion')
     error;   %update
     IMAGEANLZ.(tab)(axnum).TEMPROI.AddNewRegion(IMAGEANLZ.(tab)(axnum).(IMAGEANLZ.(tab)(axnum).activeroi));

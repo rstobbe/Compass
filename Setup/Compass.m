@@ -317,6 +317,29 @@ for n = 1:2
     uicontrol('Parent',FIGOBJS.IM2.ROIOptTab(n),'Style','text','BackgroundColor',BGcolour,'ForegroundColor',[0.8 0.8 0.8],'String','ComplexAverage','HorizontalAlignment','right','Fontsize',7,'Units','normalized','Position',[0.02 0.39 0.09 0.14],'Enable','inactive','ButtonDownFcn',@ResetFocus);
     FIGOBJS.IM2.ComplexAverage(n) = uicontrol('Parent',FIGOBJS.IM2.ROIOptTab(n),'Style','checkbox','tag',num2str(n),'BackgroundColor',BGcolour,'ForegroundColor',[0.8 0.8 0.8],'Fontsize',6,'Units','normalized','Position',[0.12 0.4 0.07 0.14],'CallBack',@ComplexAverageROIChange);
 end
+FIGOBJS.IM2.LineTab(1) = uitab(tg1,'Title','Line Data','BackgroundColor',BGcolour,'ButtonDownFcn',@ResetFocus);
+FIGOBJS.IM2.LineTab(2) = uitab(tg2,'Title','Line Data','BackgroundColor',BGcolour,'ButtonDownFcn',@ResetFocus);
+for n = 1:2
+    FIGOBJS.IM2.ActivateLineTool(n) = uicontrol('Parent',FIGOBJS.IM2.LineTab(n),'Style','pushbutton','tag',num2str(n),'BackgroundColor',[0.8 0.8 0.8],'ForegroundColor',BGcolour,'String','Activate','HorizontalAlignment','left','Fontsize',7,'Units','normalized','Position',[0.05 0.59 0.06 0.16],'CallBack',@ButtonActivateLineTool);    
+    FIGOBJS.IM2.DeActivateLineTool(n) = uicontrol('Parent',FIGOBJS.IM2.LineTab(n),'Style','pushbutton','tag',num2str(n),'BackgroundColor',[0.8 0.8 0.8],'ForegroundColor',BGcolour,'String','DeActivate','HorizontalAlignment','left','Fontsize',7,'Units','normalized','Position',[0.05 0.4 0.06 0.16],'CallBack',@ButtonDeActivateLineTool);  
+    uicontrol('Parent',FIGOBJS.IM2.LineTab(n),'Style','text','BackgroundColor',BGcolour,'ForegroundColor',[0.8 0.8 0.8],'String','LengthTot (mm)','HorizontalAlignment','left','Fontsize',7,'Units','normalized','Position',[0.21 0.75 0.08 0.14],'Enable','inactive','ButtonDownFcn',@ResetFocus);
+    uicontrol('Parent',FIGOBJS.IM2.LineTab(n),'Style','text','BackgroundColor',BGcolour,'ForegroundColor',[0.8 0.8 0.8],'String','LengthIP (mm)','HorizontalAlignment','left','Fontsize',7,'Units','normalized','Position',[0.30 0.75 0.08 0.14],'Enable','inactive','ButtonDownFcn',@ResetFocus);
+    uicontrol('Parent',FIGOBJS.IM2.LineTab(n),'Style','text','BackgroundColor',BGcolour,'ForegroundColor',[0.8 0.8 0.8],'String','AnglePol (deg)','HorizontalAlignment','left','Fontsize',7,'Units','normalized','Position',[0.39 0.75 0.08 0.14],'Enable','inactive','ButtonDownFcn',@ResetFocus);
+    uicontrol('Parent',FIGOBJS.IM2.LineTab(n),'Style','text','BackgroundColor',BGcolour,'ForegroundColor',[0.8 0.8 0.8],'String','AngleAzi (deg)','HorizontalAlignment','left','Fontsize',7,'Units','normalized','Position',[0.48 0.75 0.08 0.14],'Enable','inactive','ButtonDownFcn',@ResetFocus);
+    uicontrol('Parent',FIGOBJS.IM2.LineTab(n),'Style','text','BackgroundColor',BGcolour,'ForegroundColor',[0.8 0.8 0.8],'String','Current Line','HorizontalAlignment','right','Fontsize',7,'Units','normalized','Position',[0.12 0.59 0.08 0.14],'Enable','inactive','ButtonDownFcn',@ResetFocus);
+    FIGOBJS.IM2.CURRENTLINE(n,1) = uicontrol('Parent',FIGOBJS.IM2.LineTab(n),'Style','text','BackgroundColor',BGcolour,'ForegroundColor',[0.8 0.8 0.8],'String','cdata','HorizontalAlignment','left','Fontsize',7,'Units','normalized','Position',[0.23 0.59 0.08 0.14],'Enable','inactive','ButtonDownFcn',@ResetFocus);
+    FIGOBJS.IM2.CURRENTLINE(n,2) = uicontrol('Parent',FIGOBJS.IM2.LineTab(n),'Style','text','BackgroundColor',BGcolour,'ForegroundColor',[0.8 0.8 0.8],'String','cdata','HorizontalAlignment','left','Fontsize',7,'Units','normalized','Position',[0.32 0.59 0.08 0.14],'Enable','inactive','ButtonDownFcn',@ResetFocus);
+    FIGOBJS.IM2.CURRENTLINE(n,3) = uicontrol('Parent',FIGOBJS.IM2.LineTab(n),'Style','text','BackgroundColor',BGcolour,'ForegroundColor',[0.8 0.8 0.8],'String','cdata','HorizontalAlignment','left','Fontsize',7,'Units','normalized','Position',[0.41 0.59 0.08 0.14],'Enable','inactive','ButtonDownFcn',@ResetFocus);
+    FIGOBJS.IM2.CURRENTLINE(n,4) = uicontrol('Parent',FIGOBJS.IM2.LineTab(n),'Style','text','BackgroundColor',BGcolour,'ForegroundColor',[0.8 0.8 0.8],'String','cdata','HorizontalAlignment','left','Fontsize',7,'Units','normalized','Position',[0.50 0.59 0.08 0.14],'Enable','inactive','ButtonDownFcn',@ResetFocus);
+    for m = 1:3
+        FIGOBJS.IM2.LINELAB(n,m) = uicontrol('Parent',FIGOBJS.IM2.LineTab(n),'Style','text','BackgroundColor',BGcolour,'ForegroundColor',[0.8 0.8 0.8],'String',['Line ',num2str(m)],'HorizontalAlignment','right','Fontsize',7,'Units','normalized','Position',[0.12 0.59-(m*0.15) 0.08 0.14],'ButtonDownFcn',@LineButtonControl,'UserData',[n,m]);
+        FIGOBJS.IM2.SAVEDLINES(n,m,1) = uicontrol('Parent',FIGOBJS.IM2.LineTab(n),'Style','text','BackgroundColor',BGcolour,'ForegroundColor',[0.8 0.8 0.8],'String','cdata','HorizontalAlignment','left','Fontsize',7,'Units','normalized','Position',[0.23 0.59-(m*0.15) 0.08 0.14],'Enable','inactive','ButtonDownFcn',@ResetFocus);
+        FIGOBJS.IM2.SAVEDLINES(n,m,2) = uicontrol('Parent',FIGOBJS.IM2.LineTab(n),'Style','text','BackgroundColor',BGcolour,'ForegroundColor',[0.8 0.8 0.8],'String','cdata','HorizontalAlignment','left','Fontsize',7,'Units','normalized','Position',[0.32 0.59-(m*0.15) 0.08 0.14],'Enable','inactive','ButtonDownFcn',@ResetFocus);
+        FIGOBJS.IM2.SAVEDLINES(n,m,3) = uicontrol('Parent',FIGOBJS.IM2.LineTab(n),'Style','text','BackgroundColor',BGcolour,'ForegroundColor',[0.8 0.8 0.8],'String','cdata','HorizontalAlignment','left','Fontsize',7,'Units','normalized','Position',[0.41 0.59-(m*0.15) 0.08 0.14],'Enable','inactive','ButtonDownFcn',@ResetFocus);
+        FIGOBJS.IM2.SAVEDLINES(n,m,4) = uicontrol('Parent',FIGOBJS.IM2.LineTab(n),'Style','text','BackgroundColor',BGcolour,'ForegroundColor',[0.8 0.8 0.8],'String','cdata','HorizontalAlignment','left','Fontsize',7,'Units','normalized','Position',[0.50 0.59-(m*0.15) 0.08 0.14],'Enable','inactive','ButtonDownFcn',@ResetFocus);
+        FIGOBJS.IM2.DeleteLine(n,m) = uicontrol('Parent',FIGOBJS.IM2.LineTab(n),'Style','pushbutton','tag',num2str(n),'BackgroundColor',[0.8 0.8 0.8],'ForegroundColor',BGcolour,'String','Delete','HorizontalAlignment','left','Fontsize',7,'Units','normalized','Position',[0.58 0.59-(m*0.15) 0.06 0.16],'CallBack',@ButtonDeleteLine,'UserData',[n,m]); 
+    end
+end
 FIGOBJS.IM2.OverlayTab(1) = uitab(tg1,'Title','Overlay','BackgroundColor',BGcolour,'ButtonDownFcn',@ResetFocus);
 FIGOBJS.IM2.OverlayTab(2) = uitab(tg2,'Title','Overlay','BackgroundColor',BGcolour,'ButtonDownFcn',@ResetFocus);
 for m = 1:2
@@ -336,7 +359,7 @@ for m = 1:2
         FIGOBJS.IM2.DeleteOverlay(m,n) = uicontrol('Parent',FIGOBJS.IM2.OverlayTab(m),'Style','pushbutton','tag',[num2str(m),num2str(n)],'BackgroundColor',[0.8 0.8 0.8],'ForegroundColor',BGcolour,'String','','HorizontalAlignment','left','Fontsize',7,'Units','normalized','Position',[0.95 loc(n) 0.025 0.16],'CallBack',@FocusOverlay); 
     end
 end
-
+    
 %================================================================
 % Imaging3 Tab
 %================================================================

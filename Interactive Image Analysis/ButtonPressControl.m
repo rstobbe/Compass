@@ -94,7 +94,7 @@ switch IMAGEANLZ.(tab)(axnum).buttonfunction
     case 'CreateLine'
         switch IMAGEANLZ.(tab)(axnum).presentation
             case 'Standard'
-                %CreateLine(currentax,tab,axnum,event);
+                CreateLine(currentax,tab,axnum,event);
             case 'Ortho'
                 CreateOrthoLine(currentax,tab,axnum,event);
         end

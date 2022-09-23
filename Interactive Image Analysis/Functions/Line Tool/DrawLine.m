@@ -11,6 +11,14 @@ global IMAGEANLZ
 z = IMAGEANLZ.(tab)(axnum).SLICE;
 mouseloc = [x,y,z];
 
+if IMAGEANLZ.(tab)(axnum).ROITIE == 1
+    start = 1;    
+    stop = IMAGEANLZ.(tab)(axnum).axeslen;
+else
+    start = axnum;
+    stop = axnum;
+end
+
 %----------------------------------------
 % Test Within Boundary
 %----------------------------------------
@@ -19,7 +27,11 @@ if not(IMAGEANLZ.(tab)(axnum).TestMouseInImage(mouseloc))
     IMAGEANLZ.(tab)(axnum).CurrentLineDrawError;
     switch IMAGEANLZ.(tab)(axnum).presentation
         case 'Standard'
-            IMAGEANLZ.(tab)(axnum).CurrentLineDrawErrorWrite;
+            for r = start:stop
+                IMAGEANLZ.(tab)(r).CurrentLineDrawErrorWrite;
+                IMAGEANLZ.(tab)(r).movefunction = '';
+                IMAGEANLZ.(tab)(r).CurrentLineDrawError;
+            end
         case 'Ortho'
             IMAGEANLZ.(tab)(1).CurrentLineDrawErrorWrite;
     end
@@ -29,12 +41,16 @@ end
 %----------------------------------------
 % Draw Line
 %----------------------------------------
-IMAGEANLZ.(tab)(axnum).RecordLineInfo(x,y);
-IMAGEANLZ.(tab)(axnum).DrawCurrentLine;
 switch IMAGEANLZ.(tab)(axnum).presentation
     case 'Standard'
-        IMAGEANLZ.(tab)(axnum).WriteCurrentLineData(IMAGEANLZ.(tab)(axnum).CURRENTLINE);
+        for r = start:stop
+            IMAGEANLZ.(tab)(r).RecordLineInfo(x,y);
+            IMAGEANLZ.(tab)(r).DrawCurrentLine;
+            IMAGEANLZ.(tab)(r).WriteCurrentLineData(IMAGEANLZ.(tab)(axnum).CURRENTLINE);
+        end
     case 'Ortho'
+        IMAGEANLZ.(tab)(axnum).RecordLineInfo(x,y);
+        IMAGEANLZ.(tab)(axnum).DrawCurrentLine;
         IMAGEANLZ.(tab)(1).WriteCurrentLineData(IMAGEANLZ.(tab)(axnum).CURRENTLINE);
 end
 
