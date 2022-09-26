@@ -24,7 +24,9 @@ end
 % Build ROI
 %----------------------------------------
 for r = start:stop
-    OUT = IMAGEANLZ.(tab)(r).BuildLine(x,y,event);
+    if IMAGEANLZ.(tab)(r).TestAxisActive
+        OUT = IMAGEANLZ.(tab)(r).BuildLine(x,y,event);
+    end
 end
 if strcmp(OUT.buttonfunc,'return')
     return
@@ -32,30 +34,36 @@ elseif strcmp(OUT.buttonfunc,'updatestatus')
     % do nothing
 elseif strcmp(OUT.buttonfunc,'draw')
     for r = start:stop
-        IMAGEANLZ.(tab)(r).SetMoveFunction('DrawLine');  
-        IMAGEANLZ.(tab)(r).SetInfo(OUT.info);
-        IMAGEANLZ.(tab)(r).UpdateStatus;
+        if IMAGEANLZ.(tab)(r).TestAxisActive
+            IMAGEANLZ.(tab)(r).SetMoveFunction('DrawLine');  
+            IMAGEANLZ.(tab)(r).SetInfo(OUT.info);
+            IMAGEANLZ.(tab)(r).UpdateStatus;
+        end
     end
 elseif strcmp(OUT.buttonfunc,'updatefinish')
     for r = start:stop
-        [SavedLine,SavedLinesInd] = IMAGEANLZ.(tab)(r).SaveLine;
-        IMAGEANLZ.(tab)(r).UpdateGlobalSavedLinesInd(SavedLinesInd);
-        IMAGEANLZ.(tab)(r).ClearCurrentLine;    
-        IMAGEANLZ.(tab)(r).ClearCurrentLineData;
-        IMAGEANLZ.(tab)(r).WriteSavedLineData(IMAGEANLZ.(tab)(r).SAVEDLINES,SavedLine);
-        IMAGEANLZ.(tab)(r).SetMoveFunction('');
-        IMAGEANLZ.(tab)(r).SetInfo(OUT.info);
-        IMAGEANLZ.(tab)(r).UpdateStatus;
+        if IMAGEANLZ.(tab)(r).TestAxisActive
+            [SavedLine,SavedLinesInd] = IMAGEANLZ.(tab)(r).SaveLine;
+            IMAGEANLZ.(tab)(r).UpdateGlobalSavedLinesInd(SavedLinesInd);
+            IMAGEANLZ.(tab)(r).ClearCurrentLine;    
+            IMAGEANLZ.(tab)(r).ClearCurrentLineData;
+            IMAGEANLZ.(tab)(r).WriteSavedLineData(IMAGEANLZ.(tab)(r).SAVEDLINES,SavedLine);
+            IMAGEANLZ.(tab)(r).SetMoveFunction('');
+            IMAGEANLZ.(tab)(r).SetInfo(OUT.info);
+            IMAGEANLZ.(tab)(r).UpdateStatus;
+        end
     end
 elseif strcmp(OUT.buttonfunc,'endtool')
     for r = start:stop
-        IMAGEANLZ.(tab)(r).ClearCurrentLine;    
-        IMAGEANLZ.(tab)(r).ClearCurrentLineData;
-        IMAGEANLZ.(tab)(r).EndLineTool;
-        IMAGEANLZ.(tab)(r).ResetStatus;
-        IMAGEANLZ.(tab)(r).EnableOrient;
-        IMAGEANLZ.(tab)(r).FIGOBJS.ActivateLineTool.BackgroundColor = [0.8,0.8,0.8];
-        IMAGEANLZ.(tab)(r).FIGOBJS.ActivateLineTool.ForegroundColor = [0.149 0.149 0.241];
+        if IMAGEANLZ.(tab)(r).TestAxisActive
+            IMAGEANLZ.(tab)(r).ClearCurrentLine;    
+            IMAGEANLZ.(tab)(r).ClearCurrentLineData;
+            IMAGEANLZ.(tab)(r).EndLineTool;
+            IMAGEANLZ.(tab)(r).ResetStatus;
+            IMAGEANLZ.(tab)(r).EnableOrient;
+            IMAGEANLZ.(tab)(r).FIGOBJS.ActivateLineTool.BackgroundColor = [0.8,0.8,0.8];
+            IMAGEANLZ.(tab)(r).FIGOBJS.ActivateLineTool.ForegroundColor = [0.149 0.149 0.241];
+        end
     end
 end
     

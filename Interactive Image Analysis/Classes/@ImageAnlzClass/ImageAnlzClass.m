@@ -105,6 +105,7 @@ classdef ImageAnlzClass < handle
         ROICIRCLE;    
         ROITUBE;
         ROIRECT;
+        ROIBOX;
         CURRENTLINE;
         SAVEDLINES;
         GlobalSavedLinesInd;
@@ -1789,16 +1790,15 @@ classdef ImageAnlzClass < handle
         end   
         % PlotSavedLine
         function PlotSavedLine(IMAGEANLZ,SavedLine)
-            x1 = IMAGEANLZ.CURRENTLINE.datapoint(1).xpt;
-            y1 = IMAGEANLZ.CURRENTLINE.datapoint(1).ypt;
-            x2 = IMAGEANLZ.CURRENTLINE.datapoint(2).xpt;
-            y2 = IMAGEANLZ.CURRENTLINE.datapoint(2).ypt;
+            x1 = IMAGEANLZ.SAVEDLINES(SavedLine).datapoint(1).xpt;
+            y1 = IMAGEANLZ.SAVEDLINES(SavedLine).datapoint(1).ypt;
+            x2 = IMAGEANLZ.SAVEDLINES(SavedLine).datapoint(2).xpt;
+            y2 = IMAGEANLZ.SAVEDLINES(SavedLine).datapoint(2).ypt;
             len = sqrt((x1-x2).^2 + (y1-y2).^2);
-            %pts = round(len*2+1);
             pts = round(len+1);            
             x = linspace(x1,x2,pts);
             y = linspace(y1,y2,pts);
-            Vals = interp2(IMAGEANLZ.imslice,x,y)
+            Vals = interp2(IMAGEANLZ.imslice,x,y);
             plot(Vals);
         end   
         % DeleteSavedLineData

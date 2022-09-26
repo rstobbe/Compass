@@ -48,9 +48,14 @@ elseif strcmp(OUT.buttonfunc,'updateregion')
     for r = 1:3
         IMAGEANLZ.(tab)(r).UpdateTempROI(OUT);
         IMAGEANLZ.(tab)(r).DrawTempROI([],OUT.clr);
+        IMAGEANLZ.(tab)(r).SetMoveFunction('');
     end 
     if IMAGEANLZ.(tab)(1).autoupdateroi 
         IMAGEANLZ.(tab)(1).UpdateTempROIValues;
+    end
+    if IMAGEANLZ.(tab)(1).TestForCurrentLine
+        IMAGEANLZ.(tab)(1).ClearCurrentLine;
+        IMAGEANLZ.(tab)(1).ClearCurrentLineData;
     end
 elseif strcmp(OUT.buttonfunc,'updatefinish')
     IMAGEANLZ.(tab)(axnum).UpdateTempROI(OUT);

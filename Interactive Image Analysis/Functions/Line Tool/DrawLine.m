@@ -28,9 +28,11 @@ if not(IMAGEANLZ.(tab)(axnum).TestMouseInImage(mouseloc))
     switch IMAGEANLZ.(tab)(axnum).presentation
         case 'Standard'
             for r = start:stop
-                IMAGEANLZ.(tab)(r).CurrentLineDrawErrorWrite;
-                IMAGEANLZ.(tab)(r).movefunction = '';
-                IMAGEANLZ.(tab)(r).CurrentLineDrawError;
+                if IMAGEANLZ.(tab)(r).TestAxisActive
+                    IMAGEANLZ.(tab)(r).CurrentLineDrawErrorWrite;
+                    IMAGEANLZ.(tab)(r).movefunction = '';
+                    IMAGEANLZ.(tab)(r).CurrentLineDrawError;
+                end
             end
         case 'Ortho'
             IMAGEANLZ.(tab)(1).CurrentLineDrawErrorWrite;
@@ -44,9 +46,11 @@ end
 switch IMAGEANLZ.(tab)(axnum).presentation
     case 'Standard'
         for r = start:stop
-            IMAGEANLZ.(tab)(r).RecordLineInfo(x,y);
-            IMAGEANLZ.(tab)(r).DrawCurrentLine;
-            IMAGEANLZ.(tab)(r).WriteCurrentLineData(IMAGEANLZ.(tab)(axnum).CURRENTLINE);
+            if IMAGEANLZ.(tab)(r).TestAxisActive
+                IMAGEANLZ.(tab)(r).RecordLineInfo(x,y);
+                IMAGEANLZ.(tab)(r).DrawCurrentLine;
+                IMAGEANLZ.(tab)(r).WriteCurrentLineData(IMAGEANLZ.(tab)(axnum).CURRENTLINE);
+            end
         end
     case 'Ortho'
         IMAGEANLZ.(tab)(axnum).RecordLineInfo(x,y);

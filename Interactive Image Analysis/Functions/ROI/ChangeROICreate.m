@@ -21,7 +21,9 @@ elseif src.Value == 3
 elseif src.Value == 5 
     IMAGEANLZ.(tab)(axnum).SetROITool('ROITUBE');
 elseif src.Value == 6 
-    IMAGEANLZ.(tab)(axnum).SetROITool('ROIRECT');    
+    IMAGEANLZ.(tab)(axnum).SetROITool('ROIRECT');
+elseif src.Value == 7 
+    IMAGEANLZ.(tab)(axnum).SetROITool('ROIBOX');    
 end  
 
 %------------------------------------------

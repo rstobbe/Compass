@@ -22,14 +22,12 @@ switch IMAGEANLZ.(tab)(axnum).presentation
             stop = axnum;
         end 
         for r = start:stop
-            IMAGEANLZ.(tab)(r).PlotSavedLine(linenum);
+            if IMAGEANLZ.(tab)(r).TestAxisActive
+                IMAGEANLZ.(tab)(r).PlotSavedLine(linenum);
+            end
         end
     case 'Ortho'
-        for r = 1:3
-            GlobalSavedLinesInd = IMAGEANLZ.(tab)(r).DeleteSavedLine(linenum);
-            IMAGEANLZ.(tab)(r).UpdateGlobalSavedLinesInd(GlobalSavedLinesInd); 
-        end
-        IMAGEANLZ.(tab)(1).DeleteSavedLineData(linenum);
+         IMAGEANLZ.(tab)(1).PlotSavedLine(linenum);
 end
 EndLineTool(tab,axnum);
 

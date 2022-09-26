@@ -81,7 +81,14 @@ elseif strcmp(OUT.buttonfunc,'updateregion')
                 IMAGEANLZ.(tab)(r).UpdateTempROIValues;
             end
         end
-    end   
+    end 
+    for r = start:stop
+        if IMAGEANLZ.(tab)(r).TestForCurrentLine
+            IMAGEANLZ.(tab)(r).ClearCurrentLine;
+            IMAGEANLZ.(tab)(r).ClearCurrentLineData;
+            IMAGEANLZ.(tab)(r).SetMoveFunction('');
+        end
+    end
 elseif strcmp(OUT.buttonfunc,'updatefinish')
     IMAGEANLZ.(tab)(axnum).UpdateTempROI(OUT);
     for r = start:stop

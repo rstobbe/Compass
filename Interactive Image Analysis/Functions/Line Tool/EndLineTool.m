@@ -15,13 +15,15 @@ switch IMAGEANLZ.(tab)(axnum).presentation
             stop = axnum;
         end
         for r = start:stop
-            IMAGEANLZ.(tab)(r).ClearCurrentLine;
-            IMAGEANLZ.(tab)(r).ClearCurrentLineData;
-            IMAGEANLZ.(tab)(r).EndLineTool;
-            IMAGEANLZ.(tab)(r).ResetStatus;
-            IMAGEANLZ.(tab)(r).EnableOrient;
-            IMAGEANLZ.(tab)(r).FIGOBJS.ActivateLineTool.BackgroundColor = [0.8,0.8,0.8];
-            IMAGEANLZ.(tab)(r).FIGOBJS.ActivateLineTool.ForegroundColor = [0.149 0.149 0.241];
+            if IMAGEANLZ.(tab)(r).TestAxisActive
+                IMAGEANLZ.(tab)(r).ClearCurrentLine;
+                IMAGEANLZ.(tab)(r).ClearCurrentLineData;
+                IMAGEANLZ.(tab)(r).EndLineTool;
+                IMAGEANLZ.(tab)(r).ResetStatus;
+                IMAGEANLZ.(tab)(r).EnableOrient;
+                IMAGEANLZ.(tab)(r).FIGOBJS.ActivateLineTool.BackgroundColor = [0.8,0.8,0.8];
+                IMAGEANLZ.(tab)(r).FIGOBJS.ActivateLineTool.ForegroundColor = [0.149 0.149 0.241];
+            end
         end
     case 'Ortho'
         IMAGEANLZ.(tab)(1).ClearCurrentLine;

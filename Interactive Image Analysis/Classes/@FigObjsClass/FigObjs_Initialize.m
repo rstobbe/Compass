@@ -80,9 +80,9 @@ IMOBJS.TieCursor.Enable = 'on';
 
 IMOBJS.HoldContrast.Value = 0;
 IMOBJS.HoldContrast.Enable = 'inactive';
-IMOBJS.ShadeROI.Value = 0;
+IMOBJS.ShadeROI.Value = 1;
 IMOBJS.LinesROI.Value = 1;
-IMOBJS.ShadeROIValue.Value = 0.12;
+IMOBJS.ShadeROIValue.Value = 0.10;
 IMOBJS.NewROIbutton.BackgroundColor = [0.8 0.8 0.8];
 IMOBJS.NewROIbutton.ForegroundColor = [0.149 0.149 0.241];
 IMOBJS.ActivateLineTool.BackgroundColor = [0.8 0.8 0.8];
