@@ -78,7 +78,9 @@ classdef ImageAnlzClass < handle
         colouroverlay;
         %-- line
         GETLINE;
+        GETBOX;
         LineToolActive;
+        BoxToolActive
         %-- tieing
         AllTie;
         DATVALTIE;
@@ -107,10 +109,15 @@ classdef ImageAnlzClass < handle
         ROIRECT;
         ROIBOX;
         CURRENTLINE;
+        CURRENTBOX;
         SAVEDLINES;
+        SAVEDBOXS;
         GlobalSavedLinesInd;
         SavedLinesInd;
         LineClrOrder;
+        GlobalSavedBoxsInd;
+        SavedBoxsInd;
+        BoxClrOrder;
         STATUS;
     end
 
@@ -1819,7 +1826,173 @@ classdef ImageAnlzClass < handle
             set(gcf,'pointer',IMAGEANLZ.pointer);
             IMAGEANLZ.GETLINE = 0;
         end
-        
+
+%==================================================================
+% Box
+%==================================================================
+        % NewBoxCreate
+        function NewBoxCreate(IMAGEANLZ)
+            ImAnlz_NewBoxCreateOrtho(IMAGEANLZ);
+        end
+        % NewBoxCreateOrtho
+        function NewBoxCreateOrtho(IMAGEANLZ)
+            ImAnlz_NewBoxCreateOrtho(IMAGEANLZ);
+        end
+        % BuildBox
+        function OUT = BuildBox(IMAGEANLZ,x,y,event)
+%             Data.xpt = round(x);
+%             Data.ypt = round(y);
+            Data.xpt = x;
+            Data.ypt = y;
+            Data.zpt = IMAGEANLZ.SLICE;
+            pixdim = GetPixelDimensions(IMAGEANLZ);
+            Data.xloc = (Data.xpt-0.5)*pixdim(2);
+            Data.yloc = (Data.ypt-0.5)*pixdim(1);
+            Data.zloc = (Data.zpt-0.5)*pixdim(3);
+            OUT = IMAGEANLZ.CURRENTBOX.BuildBox(Data,event);
+            IMAGEANLZ.GETBOX = 1;
+        end
+        % RecordBoxInfo
+        function RecordBoxInfo(IMAGEANLZ,x,y)
+%             Data.xpt = round(x);
+%             Data.ypt = round(y);
+            Data.xpt = x;
+            Data.ypt = y;
+            Data.zpt = IMAGEANLZ.SLICE;
+            pixdim = GetPixelDimensions(IMAGEANLZ);
+            Data.xloc = (Data.xpt-0.5)*pixdim(2);
+            Data.yloc = (Data.ypt-0.5)*pixdim(1);
+            Data.zloc = (Data.zpt-0.5)*pixdim(3);
+            IMAGEANLZ.CURRENTBOX.RecordBoxInfo(Data);
+        end
+        % DrawCurrentBox
+        function DrawCurrentBox(IMAGEANLZ)
+            axhand = IMAGEANLZ.GetAxisHandle;
+            clr = 'r';
+            IMAGEANLZ.CURRENTBOX.DrawBox(axhand,clr);
+        end
+        % WriteCurrentBoxData
+        function WriteCurrentBoxData(IMAGEANLZ,CurrentBox)
+            set(IMAGEANLZ.FIGOBJS.CURRENTBOX(1),'visible','on','string',num2str(CurrentBox.length,'%3.3f'),'foregroundcolor','r');
+            set(IMAGEANLZ.FIGOBJS.CURRENTBOX(2),'visible','on','string',num2str(CurrentBox.height,'%3.3f'),'foregroundcolor','r');
+            set(IMAGEANLZ.FIGOBJS.CURRENTBOX(3),'visible','on','string',[num2str(CurrentBox.insetH(1),'%2.0f'),',',num2str(CurrentBox.insetH(2),'%2.0f')],'foregroundcolor','r'); 
+            set(IMAGEANLZ.FIGOBJS.CURRENTBOX(4),'visible','on','string',[num2str(CurrentBox.insetV(1),'%2.0f'),',',num2str(CurrentBox.insetV(2),'%2.0f')],'foregroundcolor','r'); 
+        end
+        % CurrentBoxDrawError
+        function CurrentBoxDrawError(IMAGEANLZ) 
+            IMAGEANLZ.CURRENTBOX.DrawError;
+        end
+        % CurrentBoxDrawErrorWrite
+        function CurrentBoxDrawErrorWrite(IMAGEANLZ) 
+            set(IMAGEANLZ.FIGOBJS.CURRENTBOX(1),'visible','off');
+            set(IMAGEANLZ.FIGOBJS.CURRENTBOX(2),'visible','off');
+            set(IMAGEANLZ.FIGOBJS.CURRENTBOX(3),'visible','off');
+            set(IMAGEANLZ.FIGOBJS.CURRENTBOX(4),'visible','off');      
+        end
+        % SaveBox
+        function [n,GlobalSavedBoxsInd] = SaveBox(IMAGEANLZ)
+            for n = 1:3
+                if IMAGEANLZ.GlobalSavedBoxsInd(n) == 0
+                    sz = size(IMAGEANLZ.imvol);
+                    test = ImageBoxClass(IMAGEANLZ,sz);
+                    IMAGEANLZ.SAVEDBOXS(n) = test;
+                    IMAGEANLZ.SAVEDBOXS(n).CopyBoxInfo(IMAGEANLZ.CURRENTBOX);
+                    axhand = IMAGEANLZ.GetAxisHandle;
+                    IMAGEANLZ.SAVEDBOXS(n).DrawBox(axhand,IMAGEANLZ.BoxClrOrder(n));
+                    IMAGEANLZ.SavedBoxsInd(n) = 1;
+                    IMAGEANLZ.GlobalSavedBoxsInd(n) = 1;
+                    break
+                end
+            end
+            GlobalSavedBoxsInd = IMAGEANLZ.GlobalSavedBoxsInd;
+        end
+        % UpdateGlobalSavedBoxsInd
+        function UpdateGlobalSavedBoxsInd(IMAGEANLZ,GlobalSavedBoxsInd) 
+            IMAGEANLZ.GlobalSavedBoxsInd = GlobalSavedBoxsInd;
+        end
+        % WriteSavedBoxData
+        function WriteSavedBoxData(IMAGEANLZ,SAVEDBOXS,SavedBox)
+            set(IMAGEANLZ.FIGOBJS.SAVEDBOXS(SavedBox,1),'visible','on','string',num2str(SAVEDBOXS(SavedBox).length,'%3.3f'),'foregroundcolor',IMAGEANLZ.BoxClrOrder(SavedBox));
+            set(IMAGEANLZ.FIGOBJS.SAVEDBOXS(SavedBox,2),'visible','on','string',num2str(SAVEDBOXS(SavedBox).height,'%3.3f'),'foregroundcolor',IMAGEANLZ.BoxClrOrder(SavedBox));
+            set(IMAGEANLZ.FIGOBJS.SAVEDBOXS(SavedBox,3),'visible','on','string',[num2str(SAVEDBOXS(SavedBox).insetH(1),'%2.0f'),',',num2str(SAVEDBOXS(SavedBox).insetH(2),'%2.0f')],'foregroundcolor',IMAGEANLZ.BoxClrOrder(SavedBox));
+            set(IMAGEANLZ.FIGOBJS.SAVEDBOXS(SavedBox,4),'visible','on','string',[num2str(SAVEDBOXS(SavedBox).insetV(1),'%2.0f'),',',num2str(SAVEDBOXS(SavedBox).insetV(2),'%2.0f')],'foregroundcolor',IMAGEANLZ.BoxClrOrder(SavedBox)); 
+            set(IMAGEANLZ.FIGOBJS.DeleteBox(SavedBox),'visible','on');
+        end
+        % ClearCurrentBox
+        function ClearCurrentBox(IMAGEANLZ)
+            IMAGEANLZ.CURRENTBOX.DeleteGraphicObjects;
+            IMAGEANLZ.GETBOX = 0;
+        end
+        % TestForCurrentBox
+        function bool = TestForCurrentBox(IMAGEANLZ)
+            bool = ~isempty(IMAGEANLZ.CURRENTBOX);
+        end
+        % ClearCurrentBoxData
+        function ClearCurrentBoxData(IMAGEANLZ)
+            set(IMAGEANLZ.FIGOBJS.CURRENTBOX(1),'visible','off');
+            set(IMAGEANLZ.FIGOBJS.CURRENTBOX(2),'visible','off'); 
+            set(IMAGEANLZ.FIGOBJS.CURRENTBOX(3),'visible','off');
+            set(IMAGEANLZ.FIGOBJS.CURRENTBOX(4),'visible','off'); 
+            IMAGEANLZ.GETBOX = 0;
+        end
+        % TestSavedBoxs
+        function bool = TestSavedBoxs(IMAGEANLZ) 
+            bool = 0;
+            if sum(IMAGEANLZ.SavedBoxsInd) > 0
+                bool = 1;
+            end
+        end       
+         % DrawSavedBoxs
+        function DrawSavedBoxs(IMAGEANLZ)
+            axhand = IMAGEANLZ.GetAxisHandle;
+            for n = 1:3
+                if IMAGEANLZ.SavedBoxsInd(n) == 1
+                    if IMAGEANLZ.SAVEDBOXS(n).TestBoxInSlice(IMAGEANLZ.SLICE)
+                        IMAGEANLZ.SAVEDBOXS(n).DrawBox(axhand,IMAGEANLZ.BoxClrOrder(n));
+                    end
+                end
+            end
+        end
+        % DeleteSavedBox
+        function [GlobalSavedBoxsInd] = DeleteSavedBox(IMAGEANLZ,SavedBox)
+            if length(IMAGEANLZ.SAVEDBOXS) >= SavedBox
+                IMAGEANLZ.SAVEDBOXS(SavedBox).DeleteGraphicObjects;
+            end 
+            IMAGEANLZ.SavedBoxsInd(SavedBox) = 0;
+            IMAGEANLZ.GlobalSavedBoxsInd(SavedBox) = 0;
+            GlobalSavedBoxsInd = IMAGEANLZ.GlobalSavedBoxsInd;
+        end   
+        % PlotSavedBox
+        function PlotSavedBox(IMAGEANLZ,SavedBox)
+            x1 = IMAGEANLZ.SAVEDBOXS(SavedBox).datapoint(1).xpt;
+            y1 = IMAGEANLZ.SAVEDBOXS(SavedBox).datapoint(1).ypt;
+            x2 = IMAGEANLZ.SAVEDBOXS(SavedBox).datapoint(2).xpt;
+            y2 = IMAGEANLZ.SAVEDBOXS(SavedBox).datapoint(2).ypt;
+            len = sqrt((x1-x2).^2 + (y1-y2).^2);
+            pts = round(len+1);            
+            x = linspace(x1,x2,pts);
+            y = linspace(y1,y2,pts);
+            Vals = interp2(IMAGEANLZ.imslice,x,y);
+            plot(Vals);
+        end   
+        % DeleteSavedBoxData
+        function DeleteSavedBoxData(IMAGEANLZ,SavedBox)
+            set(IMAGEANLZ.FIGOBJS.SAVEDBOXS(SavedBox,1),'visible','off');
+            set(IMAGEANLZ.FIGOBJS.SAVEDBOXS(SavedBox,2),'visible','off');
+            set(IMAGEANLZ.FIGOBJS.SAVEDBOXS(SavedBox,3),'visible','off');
+            set(IMAGEANLZ.FIGOBJS.SAVEDBOXS(SavedBox,4),'visible','off');
+            set(IMAGEANLZ.FIGOBJS.DeleteBox(SavedBox),'visible','off');
+        end  
+        % EndBoxTool
+        function EndBoxTool(IMAGEANLZ)
+            IMAGEANLZ.BoxToolActive = 0;
+            IMAGEANLZ.buttonfunction = '';
+            IMAGEANLZ.movefunction = '';
+            IMAGEANLZ.pointer = 'arrow';
+            set(gcf,'pointer',IMAGEANLZ.pointer);
+            IMAGEANLZ.GETBOX = 0;
+        end        
+           
 %==================================================================
 % Drawing
 %==================================================================

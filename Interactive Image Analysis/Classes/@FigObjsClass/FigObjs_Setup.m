@@ -244,9 +244,19 @@ if isfield(FIGOBJS.(tab),'LINELAB')
         IMOBJS.LINELAB = FIGOBJS.(tab).LINELAB(axnum,:);
     end
 end
+if isfield(FIGOBJS.(tab),'BOXLAB')
+    if axnum <= length(FIGOBJS.(tab).BOXLAB(:,1))
+        IMOBJS.BOXLAB = FIGOBJS.(tab).BOXLAB(axnum,:);
+    end
+end
 if isfield(FIGOBJS.(tab),'ActivateLineTool')
     if axnum <= length(FIGOBJS.(tab).ActivateLineTool)
         IMOBJS.ActivateLineTool = FIGOBJS.(tab).ActivateLineTool(axnum);
+    end
+end
+if isfield(FIGOBJS.(tab),'ActivateBoxTool')
+    if axnum <= length(FIGOBJS.(tab).ActivateBoxTool)
+        IMOBJS.ActivateBoxTool = FIGOBJS.(tab).ActivateBoxTool(axnum);
     end
 end
 if isfield(FIGOBJS.(tab),'CURRENT')
@@ -254,19 +264,34 @@ if isfield(FIGOBJS.(tab),'CURRENT')
         IMOBJS.CURRENT = FIGOBJS.(tab).CURRENT(axnum,:);
     end
 end  
-if isfield(FIGOBJS.(tab),'CURRENTLINE')
+ if isfield(FIGOBJS.(tab),'CURRENTLINE')
     if axnum <= length(FIGOBJS.(tab).CURRENTLINE(:,1))
         IMOBJS.CURRENTLINE = FIGOBJS.(tab).CURRENTLINE(axnum,:);
     end
-end  
+end 
+if isfield(FIGOBJS.(tab),'CURRENTBOX')
+    if axnum <= length(FIGOBJS.(tab).CURRENTBOX(:,1))
+        IMOBJS.CURRENTBOX = FIGOBJS.(tab).CURRENTBOX(axnum,:);
+    end
+end 
 if isfield(FIGOBJS.(tab),'SAVEDLINES')
     if axnum <= length(FIGOBJS.(tab).SAVEDLINES(:,1,1))
         IMOBJS.SAVEDLINES = squeeze(FIGOBJS.(tab).SAVEDLINES(axnum,:,:));
     end
 end
+if isfield(FIGOBJS.(tab),'SAVEDBOXS')
+    if axnum <= length(FIGOBJS.(tab).SAVEDBOXS(:,1,1))
+        IMOBJS.SAVEDBOXS = squeeze(FIGOBJS.(tab).SAVEDBOXS(axnum,:,:));
+    end
+end
 if isfield(FIGOBJS.(tab),'DeleteLine')
     if axnum <= length(FIGOBJS.(tab).DeleteLine(:,1))
         IMOBJS.DeleteLine = FIGOBJS.(tab).DeleteLine(axnum,:);
+    end
+end 
+if isfield(FIGOBJS.(tab),'DeleteBox')
+    if axnum <= length(FIGOBJS.(tab).DeleteBox(:,1))
+        IMOBJS.DeleteBox = FIGOBJS.(tab).DeleteBox(axnum,:);
     end
 end 
 if isfield(FIGOBJS.(tab),'PlotLine')

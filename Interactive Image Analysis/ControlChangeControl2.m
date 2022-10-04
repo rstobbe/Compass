@@ -22,7 +22,9 @@ if strcmp(tab,'IM2')
             case 'ROI Options'
                 FIGOBJS.(tab).ControlTab(n).SelectedTab = FIGOBJS.(tab).ROIOptTab(n);
             case 'Line Data'
-                FIGOBJS.(tab).ControlTab(n).SelectedTab = FIGOBJS.(tab).LineTab(n);  
+                FIGOBJS.(tab).ControlTab(n).SelectedTab = FIGOBJS.(tab).LineTab(n);
+            case 'Draw Box'
+                FIGOBJS.(tab).ControlTab(n).SelectedTab = FIGOBJS.(tab).BoxTab(n);  
             case 'Overlay'
                 FIGOBJS.(tab).ControlTab(n).SelectedTab = FIGOBJS.(tab).OverlayTab(n);  
         end

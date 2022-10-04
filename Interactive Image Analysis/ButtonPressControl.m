@@ -98,6 +98,13 @@ switch IMAGEANLZ.(tab)(axnum).buttonfunction
             case 'Ortho'
                 CreateOrthoLine(currentax,tab,axnum,event);
         end
+    case 'CreateBox'
+        switch IMAGEANLZ.(tab)(axnum).presentation
+            case 'Standard'
+                CreateBox(currentax,tab,axnum,event);
+            case 'Ortho'
+                CreateOrthoBox(currentax,tab,axnum,event);
+        end
 end
 
 

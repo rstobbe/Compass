@@ -37,6 +37,17 @@ for n = 1:sz(1)
     IMOBJS.DeleteLine(n).Visible = 'off';
     IMOBJS.PlotLine(n).Visible = 'off';
 end
+for p = 1:4
+    IMOBJS.CURRENTBOX(p).Visible = 'off';
+end
+sz = size(IMOBJS.SAVEDBOXS);
+for n = 1:sz(1)
+    for p = 1:4
+        IMOBJS.SAVEDBOXS(n,p).Visible = 'off';
+        IMOBJS.BOXLAB(n).ForegroundColor = [0.8 0.8 0.8];
+    end
+    IMOBJS.DeleteBox(n).Visible = 'off';
+end
 
 IMOBJS.ImageName.Visible = 'Off';
 IMOBJS.POINTERlab.Visible = 'Off';

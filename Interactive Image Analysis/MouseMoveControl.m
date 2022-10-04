@@ -26,7 +26,9 @@ switch IMAGEANLZ.(tab)(axnum).movefunction
         DrawROI(tab,axnum,x,y);
     case 'DrawLine'
         DrawLine(tab,axnum,x,y);    
-    
+    case 'DrawBox'
+        DrawBox(tab,axnum,x,y);   
+        
     %===============================================
     % Build ROI
     %===============================================        

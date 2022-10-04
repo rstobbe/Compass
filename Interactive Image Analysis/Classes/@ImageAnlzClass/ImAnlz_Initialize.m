@@ -108,6 +108,8 @@ IMAGEANLZ.COLORORDER = {[0 1 1],[0.1 1 0.5],[1 1 0.5],[1 0.5 0.1],[1 0.2 1],[0.3
 %-- line
 IMAGEANLZ.GETLINE = 0;
 IMAGEANLZ.LineToolActive = 0;
+IMAGEANLZ.GETBOX = 0;
+IMAGEANLZ.BoxToolActive = 0;
 %-- tieing
 IMAGEANLZ.AllTie = 1;
 IMAGEANLZ.DATVALTIE = 1;
@@ -153,6 +155,11 @@ IMAGEANLZ.SAVEDLINES = ImageLineClass.empty;
 IMAGEANLZ.GlobalSavedLinesInd = [0 0 0];                  % only 3 saved lines;
 IMAGEANLZ.SavedLinesInd = [0 0 0];                  % only 3 saved lines;
 IMAGEANLZ.LineClrOrder = 'cgm';
+IMAGEANLZ.CURRENTBOX = ImageBoxClass.empty;
+IMAGEANLZ.SAVEDBOXS = ImageBoxClass.empty;
+IMAGEANLZ.GlobalSavedBoxsInd = [0 0 0];                  % only 3 saved lines;
+IMAGEANLZ.SavedBoxsInd = [0 0 0];                  % only 3 saved lines;
+IMAGEANLZ.BoxClrOrder = 'cgm';
 
 %---------------------------------------------
 % Status

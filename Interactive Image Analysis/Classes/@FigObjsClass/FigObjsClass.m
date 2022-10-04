@@ -56,12 +56,17 @@ classdef FigObjsClass < handle
         ROINAME;
         ROILAB;
         LINELAB;
+        BOXLAB;
         CURRENT;
         CURRENTLINE;
         SAVEDLINES;
+        CURRENTBOX;
+        SAVEDBOXS;
         DeleteLine;
+        DeleteBox;
         PlotLine;
         ActivateLineTool;
+        ActivateBoxTool;
         ROICreateSel;
         ROITab;
         Colours;

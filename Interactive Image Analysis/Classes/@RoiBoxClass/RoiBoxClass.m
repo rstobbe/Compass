@@ -28,8 +28,8 @@ classdef RoiBoxClass < handle
         function Setup(DAT,IMAGEANLZ)
             top = 69;
             horz = 180;
-            DAT.panelobs = uicontrol('Parent',IMAGEANLZ.FIGOBJS.ROITab,'Style','text','BackgroundColor',IMAGEANLZ.FIGOBJS.Colours.BGcolour,'Tag',num2str(IMAGEANLZ.axnum),'ForegroundColor',[0.8 0.8 0.8],'String','Width (pixels)','HorizontalAlignment','right','Fontsize',7,'Position',[horz+200 top-15 80 15],'Enable','inactive','ButtonDownFcn',@ResetFocus);
-            DAT.panelobs(2) = uicontrol('Parent',IMAGEANLZ.FIGOBJS.ROITab,'Style','edit','BackgroundColor',IMAGEANLZ.FIGOBJS.Colours.BGcolour,'Tag',num2str(IMAGEANLZ.axnum),'ForegroundColor',[0.8 0.8 0.8],'String',num2str(DAT.wid),'HorizontalAlignment','left','Fontsize',6,'Position',[horz+290 top-13 30 15],'CallBack',@DAT.SetWid);    
+            DAT.panelobs = uicontrol('Parent',IMAGEANLZ.FIGOBJS.ROITab,'Style','text','BackgroundColor',IMAGEANLZ.FIGOBJS.Colours.BGcolour,'Tag',num2str(IMAGEANLZ.axnum),'ForegroundColor',[0.8 0.8 0.8],'String','Width (pixels)','HorizontalAlignment','right','Fontsize',7,'Position',[horz+180 top-30 80 15],'Enable','inactive','ButtonDownFcn',@ResetFocus);
+            DAT.panelobs(2) = uicontrol('Parent',IMAGEANLZ.FIGOBJS.ROITab,'Style','edit','BackgroundColor',IMAGEANLZ.FIGOBJS.Colours.BGcolour,'Tag',num2str(IMAGEANLZ.axnum),'ForegroundColor',[0.8 0.8 0.8],'String',num2str(DAT.wid),'HorizontalAlignment','left','Fontsize',6,'Position',[horz+270 top-28 30 15],'CallBack',@DAT.SetWid);    
             DAT.pointer = 'crosshair';            
             DAT.status = 'Box Drawing Tool Active';
             DAT.info = 'Left click to start';
@@ -149,7 +149,11 @@ classdef RoiBoxClass < handle
                     tAxloc(4) = DAT.xloc(2) - sin(angle)*DAT.wid/2;
                     tAyloc(5) = tAyloc(1);
                     tAxloc(5) = tAxloc(1);
-                    SliceArray = DAT.Azloc(1):DAT.zloc;
+                    if DAT.zloc > DAT.Azloc(1)
+                        SliceArray = DAT.Azloc(1):DAT.zloc;
+                    else
+                        SliceArray = DAT.Azloc(1):-1:DAT.zloc;
+                    end
                     for m = 1:5
                         fAxloc(m,:) = linspace(DAT.Axloc(m),tAxloc(m),length(SliceArray));
                         fAyloc(m,:) = linspace(DAT.Ayloc(m),tAyloc(m),length(SliceArray));

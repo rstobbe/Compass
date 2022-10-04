@@ -189,9 +189,11 @@ FIGOBJS.IM.CurrentImage = 0;
 FIGOBJS.IM2.ImPan(1) = uipanel('Parent',IM2);
 FIGOBJS.IM2.ImPan(1).BackgroundColor = BGcolour2;
 FIGOBJS.IM2.ImPan(1).Position = [0.005 0.12 0.395 0.87];
+FIGOBJS.IM2.ImPan(1).ButtonDownFcn = @ResetFocus;
 FIGOBJS.IM2.ImPan(2) = uipanel('Parent',IM2);
 FIGOBJS.IM2.ImPan(2).BackgroundColor = BGcolour2;
 FIGOBJS.IM2.ImPan(2).Position = [0.405 0.12 0.395 0.87];
+FIGOBJS.IM2.ImPan(2).ButtonDownFcn = @ResetFocus;
 
 for n = 1:2
     FIGOBJS.IM2.ImageName(n) = uicontrol('Parent',FIGOBJS.IM2.ImPan(n),'Style','text','BackgroundColor',BGcolour2,'ForegroundColor',[1,1,0.5],'String','','HorizontalAlignment','left','Fontsize',8,'Units','normalized','Position',[0.01 0.98 0.5 0.015],'Enable','inactive','ButtonDownFcn',@ResetFocus);
@@ -341,6 +343,31 @@ for n = 1:2
         FIGOBJS.IM2.PlotLine(n,m) = uicontrol('Parent',FIGOBJS.IM2.LineTab(n),'Style','pushbutton','tag',num2str(n),'BackgroundColor',[0.8 0.8 0.8],'ForegroundColor',BGcolour,'String','Plot','HorizontalAlignment','left','Fontsize',7,'Units','normalized','Position',[0.65 0.59-(m*0.15) 0.06 0.16],'CallBack',@ButtonPlotLine,'UserData',[n,m]); 
     end
 end
+
+FIGOBJS.IM2.BoxTab(1) = uitab(tg1,'Title','Draw Box','BackgroundColor',BGcolour,'ButtonDownFcn',@ResetFocus);
+FIGOBJS.IM2.BoxTab(2) = uitab(tg2,'Title','Draw Box','BackgroundColor',BGcolour,'ButtonDownFcn',@ResetFocus);
+for n = 1:2
+    FIGOBJS.IM2.ActivateBoxTool(n) = uicontrol('Parent',FIGOBJS.IM2.BoxTab(n),'Style','pushbutton','tag',num2str(n),'BackgroundColor',[0.8 0.8 0.8],'ForegroundColor',BGcolour,'String','Activate','HorizontalAlignment','left','Fontsize',7,'Units','normalized','Position',[0.05 0.59 0.06 0.16],'CallBack',@ButtonActivateBoxTool);    
+    FIGOBJS.IM2.DeActivateBoxTool(n) = uicontrol('Parent',FIGOBJS.IM2.BoxTab(n),'Style','pushbutton','tag',num2str(n),'BackgroundColor',[0.8 0.8 0.8],'ForegroundColor',BGcolour,'String','DeActivate','HorizontalAlignment','left','Fontsize',7,'Units','normalized','Position',[0.05 0.4 0.06 0.16],'CallBack',@ButtonDeActivateBoxTool);  
+    uicontrol('Parent',FIGOBJS.IM2.BoxTab(n),'Style','text','BackgroundColor',BGcolour,'ForegroundColor',[0.8 0.8 0.8],'String','Length (mm)','HorizontalAlignment','left','Fontsize',7,'Units','normalized','Position',[0.21 0.75 0.08 0.14],'Enable','inactive','ButtonDownFcn',@ResetFocus);
+    uicontrol('Parent',FIGOBJS.IM2.BoxTab(n),'Style','text','BackgroundColor',BGcolour,'ForegroundColor',[0.8 0.8 0.8],'String','Height (mm)','HorizontalAlignment','left','Fontsize',7,'Units','normalized','Position',[0.30 0.75 0.08 0.14],'Enable','inactive','ButtonDownFcn',@ResetFocus);
+    uicontrol('Parent',FIGOBJS.IM2.BoxTab(n),'Style','text','BackgroundColor',BGcolour,'ForegroundColor',[0.8 0.8 0.8],'String','Inset (hor)','HorizontalAlignment','left','Fontsize',7,'Units','normalized','Position',[0.39 0.75 0.08 0.14],'Enable','inactive','ButtonDownFcn',@ResetFocus);
+    uicontrol('Parent',FIGOBJS.IM2.BoxTab(n),'Style','text','BackgroundColor',BGcolour,'ForegroundColor',[0.8 0.8 0.8],'String','Inset (vert)','HorizontalAlignment','left','Fontsize',7,'Units','normalized','Position',[0.48 0.75 0.08 0.14],'Enable','inactive','ButtonDownFcn',@ResetFocus);
+    uicontrol('Parent',FIGOBJS.IM2.BoxTab(n),'Style','text','BackgroundColor',BGcolour,'ForegroundColor',[0.8 0.8 0.8],'String','Current Box','HorizontalAlignment','right','Fontsize',7,'Units','normalized','Position',[0.12 0.59 0.08 0.14],'Enable','inactive','ButtonDownFcn',@ResetFocus);
+    FIGOBJS.IM2.CURRENTBOX(n,1) = uicontrol('Parent',FIGOBJS.IM2.BoxTab(n),'Style','text','BackgroundColor',BGcolour,'ForegroundColor',[0.8 0.8 0.8],'String','cdata','HorizontalAlignment','left','Fontsize',7,'Units','normalized','Position',[0.23 0.59 0.08 0.14],'Enable','inactive','ButtonDownFcn',@ResetFocus);
+    FIGOBJS.IM2.CURRENTBOX(n,2) = uicontrol('Parent',FIGOBJS.IM2.BoxTab(n),'Style','text','BackgroundColor',BGcolour,'ForegroundColor',[0.8 0.8 0.8],'String','cdata','HorizontalAlignment','left','Fontsize',7,'Units','normalized','Position',[0.32 0.59 0.08 0.14],'Enable','inactive','ButtonDownFcn',@ResetFocus);
+    FIGOBJS.IM2.CURRENTBOX(n,3) = uicontrol('Parent',FIGOBJS.IM2.BoxTab(n),'Style','text','BackgroundColor',BGcolour,'ForegroundColor',[0.8 0.8 0.8],'String','cdata','HorizontalAlignment','left','Fontsize',7,'Units','normalized','Position',[0.41 0.59 0.08 0.14],'Enable','inactive','ButtonDownFcn',@ResetFocus);
+    FIGOBJS.IM2.CURRENTBOX(n,4) = uicontrol('Parent',FIGOBJS.IM2.BoxTab(n),'Style','text','BackgroundColor',BGcolour,'ForegroundColor',[0.8 0.8 0.8],'String','cdata','HorizontalAlignment','left','Fontsize',7,'Units','normalized','Position',[0.50 0.59 0.08 0.14],'Enable','inactive','ButtonDownFcn',@ResetFocus);
+    for m = 1:3
+        FIGOBJS.IM2.BOXLAB(n,m) = uicontrol('Parent',FIGOBJS.IM2.BoxTab(n),'Style','text','BackgroundColor',BGcolour,'ForegroundColor',[0.8 0.8 0.8],'String',['Box ',num2str(m)],'HorizontalAlignment','right','Fontsize',7,'Units','normalized','Position',[0.12 0.59-(m*0.15) 0.08 0.14],'ButtonDownFcn',@BoxButtonControl,'UserData',[n,m]);
+        FIGOBJS.IM2.SAVEDBOXS(n,m,1) = uicontrol('Parent',FIGOBJS.IM2.BoxTab(n),'Style','text','BackgroundColor',BGcolour,'ForegroundColor',[0.8 0.8 0.8],'String','cdata','HorizontalAlignment','left','Fontsize',7,'Units','normalized','Position',[0.23 0.59-(m*0.15) 0.08 0.14],'Enable','inactive','ButtonDownFcn',@ResetFocus);
+        FIGOBJS.IM2.SAVEDBOXS(n,m,2) = uicontrol('Parent',FIGOBJS.IM2.BoxTab(n),'Style','text','BackgroundColor',BGcolour,'ForegroundColor',[0.8 0.8 0.8],'String','cdata','HorizontalAlignment','left','Fontsize',7,'Units','normalized','Position',[0.32 0.59-(m*0.15) 0.08 0.14],'Enable','inactive','ButtonDownFcn',@ResetFocus);
+        FIGOBJS.IM2.SAVEDBOXS(n,m,3) = uicontrol('Parent',FIGOBJS.IM2.BoxTab(n),'Style','text','BackgroundColor',BGcolour,'ForegroundColor',[0.8 0.8 0.8],'String','cdata','HorizontalAlignment','left','Fontsize',7,'Units','normalized','Position',[0.41 0.59-(m*0.15) 0.08 0.14],'Enable','inactive','ButtonDownFcn',@ResetFocus);
+        FIGOBJS.IM2.SAVEDBOXS(n,m,4) = uicontrol('Parent',FIGOBJS.IM2.BoxTab(n),'Style','text','BackgroundColor',BGcolour,'ForegroundColor',[0.8 0.8 0.8],'String','cdata','HorizontalAlignment','left','Fontsize',7,'Units','normalized','Position',[0.50 0.59-(m*0.15) 0.08 0.14],'Enable','inactive','ButtonDownFcn',@ResetFocus);
+        FIGOBJS.IM2.DeleteBox(n,m) = uicontrol('Parent',FIGOBJS.IM2.BoxTab(n),'Style','pushbutton','tag',num2str(n),'BackgroundColor',[0.8 0.8 0.8],'ForegroundColor',BGcolour,'String','Delete','HorizontalAlignment','left','Fontsize',7,'Units','normalized','Position',[0.58 0.59-(m*0.15) 0.06 0.16],'CallBack',@ButtonDeleteBox,'UserData',[n,m]); 
+    end
+end
+
 FIGOBJS.IM2.OverlayTab(1) = uitab(tg1,'Title','Overlay','BackgroundColor',BGcolour,'ButtonDownFcn',@ResetFocus);
 FIGOBJS.IM2.OverlayTab(2) = uitab(tg2,'Title','Overlay','BackgroundColor',BGcolour,'ButtonDownFcn',@ResetFocus);
 for m = 1:2
@@ -367,12 +394,15 @@ end
 FIGOBJS.IM3.ImPan(1) = uipanel('Parent',IM3);
 FIGOBJS.IM3.ImPan(1).BackgroundColor = BGcolour2;
 FIGOBJS.IM3.ImPan(1).Position = [0.405 0.12 0.395 0.87];
+FIGOBJS.IM3.ImPan(1).ButtonDownFcn = @ResetFocus;
 FIGOBJS.IM3.ImPan(2) = uipanel('Parent',IM3);
 FIGOBJS.IM3.ImPan(2).BackgroundColor = [0.1 0.1 0.1];
 FIGOBJS.IM3.ImPan(2).Position = [0.005 0.505 0.395 0.485];
+FIGOBJS.IM3.ImPan(2).ButtonDownFcn = @ResetFocus;
 FIGOBJS.IM3.ImPan(3) = uipanel('Parent',IM3);
 FIGOBJS.IM3.ImPan(3).BackgroundColor = [0.1 0.1 0.1];
 FIGOBJS.IM3.ImPan(3).Position = [0.005 0.01 0.395 0.485];
+FIGOBJS.IM3.ImPan(3).ButtonDownFcn = @ResetFocus;
 
 for n = 1:1
     FIGOBJS.IM3.ImageName(n) = uicontrol('Parent',FIGOBJS.IM3.ImPan(n),'Style','text','BackgroundColor',BGcolour2,'ForegroundColor',[1,1,0.5],'String','','HorizontalAlignment','left','Fontsize',8,'Units','normalized','Position',[0.01 0.98 0.5 0.015],'Enable','inactive','ButtonDownFcn',@ResetFocus);
@@ -509,6 +539,28 @@ for m = 1:3
     FIGOBJS.IM3.DeleteLine(1,m) = uicontrol('Parent',FIGOBJS.IM3.LineTab(1),'Style','pushbutton','tag',num2str(1),'BackgroundColor',[0.8 0.8 0.8],'ForegroundColor',BGcolour,'String','Delete','HorizontalAlignment','left','Fontsize',7,'Units','normalized','Position',[0.58 0.59-(m*0.15) 0.06 0.16],'CallBack',@ButtonDeleteLine,'UserData',[n,m]); 
     FIGOBJS.IM3.PlotLine(1,m) = uicontrol('Parent',FIGOBJS.IM3.LineTab(1),'Style','pushbutton','tag',num2str(1),'BackgroundColor',[0.8 0.8 0.8],'ForegroundColor',BGcolour,'String','Plot','HorizontalAlignment','left','Fontsize',7,'Units','normalized','Position',[0.65 0.59-(m*0.15) 0.06 0.16],'CallBack',@ButtonPlotLine,'UserData',[n,m]); 
 end
+
+FIGOBJS.IM3.BoxTab(1) = uitab(tg1,'Title','Draw Box','BackgroundColor',BGcolour,'ButtonDownFcn',@ResetFocus);
+FIGOBJS.IM3.ActivateBoxTool(n) = uicontrol('Parent',FIGOBJS.IM3.BoxTab(n),'Style','pushbutton','tag',num2str(n),'BackgroundColor',[0.8 0.8 0.8],'ForegroundColor',BGcolour,'String','Activate','HorizontalAlignment','left','Fontsize',7,'Units','normalized','Position',[0.05 0.59 0.06 0.16],'CallBack',@ButtonActivateBoxTool);    
+FIGOBJS.IM3.DeActivateBoxTool(n) = uicontrol('Parent',FIGOBJS.IM3.BoxTab(n),'Style','pushbutton','tag',num2str(n),'BackgroundColor',[0.8 0.8 0.8],'ForegroundColor',BGcolour,'String','DeActivate','HorizontalAlignment','left','Fontsize',7,'Units','normalized','Position',[0.05 0.4 0.06 0.16],'CallBack',@ButtonDeActivateBoxTool);  
+uicontrol('Parent',FIGOBJS.IM3.BoxTab(1),'Style','text','BackgroundColor',BGcolour,'ForegroundColor',[0.8 0.8 0.8],'String','Length (mm)','HorizontalAlignment','left','Fontsize',7,'Units','normalized','Position',[0.21 0.75 0.08 0.14],'Enable','inactive','ButtonDownFcn',@ResetFocus);
+uicontrol('Parent',FIGOBJS.IM3.BoxTab(1),'Style','text','BackgroundColor',BGcolour,'ForegroundColor',[0.8 0.8 0.8],'String','Height (mm)','HorizontalAlignment','left','Fontsize',7,'Units','normalized','Position',[0.30 0.75 0.08 0.14],'Enable','inactive','ButtonDownFcn',@ResetFocus);
+uicontrol('Parent',FIGOBJS.IM3.BoxTab(1),'Style','text','BackgroundColor',BGcolour,'ForegroundColor',[0.8 0.8 0.8],'String','Inset (hor)','HorizontalAlignment','left','Fontsize',7,'Units','normalized','Position',[0.39 0.75 0.08 0.14],'Enable','inactive','ButtonDownFcn',@ResetFocus);
+uicontrol('Parent',FIGOBJS.IM3.BoxTab(1),'Style','text','BackgroundColor',BGcolour,'ForegroundColor',[0.8 0.8 0.8],'String','Inset (vert)','HorizontalAlignment','left','Fontsize',7,'Units','normalized','Position',[0.48 0.75 0.08 0.14],'Enable','inactive','ButtonDownFcn',@ResetFocus);
+uicontrol('Parent',FIGOBJS.IM3.BoxTab(n),'Style','text','BackgroundColor',BGcolour,'ForegroundColor',[0.8 0.8 0.8],'String','Current Box','HorizontalAlignment','right','Fontsize',7,'Units','normalized','Position',[0.12 0.59 0.08 0.14],'Enable','inactive','ButtonDownFcn',@ResetFocus);
+FIGOBJS.IM3.CURRENTBOX(1,1) = uicontrol('Parent',FIGOBJS.IM3.BoxTab(1),'Style','text','BackgroundColor',BGcolour,'ForegroundColor',[0.8 0.8 0.8],'String','cdata','HorizontalAlignment','left','Fontsize',7,'Units','normalized','Position',[0.23 0.59 0.08 0.14],'Enable','inactive','ButtonDownFcn',@ResetFocus);
+FIGOBJS.IM3.CURRENTBOX(1,2) = uicontrol('Parent',FIGOBJS.IM3.BoxTab(1),'Style','text','BackgroundColor',BGcolour,'ForegroundColor',[0.8 0.8 0.8],'String','cdata','HorizontalAlignment','left','Fontsize',7,'Units','normalized','Position',[0.32 0.59 0.08 0.14],'Enable','inactive','ButtonDownFcn',@ResetFocus);
+FIGOBJS.IM3.CURRENTBOX(1,3) = uicontrol('Parent',FIGOBJS.IM3.BoxTab(1),'Style','text','BackgroundColor',BGcolour,'ForegroundColor',[0.8 0.8 0.8],'String','cdata','HorizontalAlignment','left','Fontsize',7,'Units','normalized','Position',[0.41 0.59 0.08 0.14],'Enable','inactive','ButtonDownFcn',@ResetFocus);
+FIGOBJS.IM3.CURRENTBOX(1,4) = uicontrol('Parent',FIGOBJS.IM3.BoxTab(1),'Style','text','BackgroundColor',BGcolour,'ForegroundColor',[0.8 0.8 0.8],'String','cdata','HorizontalAlignment','left','Fontsize',7,'Units','normalized','Position',[0.50 0.59 0.08 0.14],'Enable','inactive','ButtonDownFcn',@ResetFocus);
+for m = 1:3
+    FIGOBJS.IM3.BOXLAB(1,m) = uicontrol('Parent',FIGOBJS.IM3.BoxTab(n),'Style','text','BackgroundColor',BGcolour,'ForegroundColor',[0.8 0.8 0.8],'String',['Box ',num2str(m)],'HorizontalAlignment','right','Fontsize',7,'Units','normalized','Position',[0.12 0.59-(m*0.15) 0.08 0.14],'ButtonDownFcn',@BoxButtonControl,'UserData',[n,m]);
+    FIGOBJS.IM3.SAVEDBOXS(1,m,1) = uicontrol('Parent',FIGOBJS.IM3.BoxTab(1),'Style','text','BackgroundColor',BGcolour,'ForegroundColor',[0.8 0.8 0.8],'String','cdata','HorizontalAlignment','left','Fontsize',7,'Units','normalized','Position',[0.23 0.59-(m*0.15) 0.08 0.14],'Enable','inactive','ButtonDownFcn',@ResetFocus);
+    FIGOBJS.IM3.SAVEDBOXS(1,m,2) = uicontrol('Parent',FIGOBJS.IM3.BoxTab(1),'Style','text','BackgroundColor',BGcolour,'ForegroundColor',[0.8 0.8 0.8],'String','cdata','HorizontalAlignment','left','Fontsize',7,'Units','normalized','Position',[0.32 0.59-(m*0.15) 0.08 0.14],'Enable','inactive','ButtonDownFcn',@ResetFocus);
+    FIGOBJS.IM3.SAVEDBOXS(1,m,3) = uicontrol('Parent',FIGOBJS.IM3.BoxTab(1),'Style','text','BackgroundColor',BGcolour,'ForegroundColor',[0.8 0.8 0.8],'String','cdata','HorizontalAlignment','left','Fontsize',7,'Units','normalized','Position',[0.41 0.59-(m*0.15) 0.08 0.14],'Enable','inactive','ButtonDownFcn',@ResetFocus);
+    FIGOBJS.IM3.SAVEDBOXS(1,m,4) = uicontrol('Parent',FIGOBJS.IM3.BoxTab(1),'Style','text','BackgroundColor',BGcolour,'ForegroundColor',[0.8 0.8 0.8],'String','cdata','HorizontalAlignment','left','Fontsize',7,'Units','normalized','Position',[0.50 0.59-(m*0.15) 0.08 0.14],'Enable','inactive','ButtonDownFcn',@ResetFocus);
+    FIGOBJS.IM3.DeleteBox(1,m) = uicontrol('Parent',FIGOBJS.IM3.BoxTab(1),'Style','pushbutton','tag',num2str(1),'BackgroundColor',[0.8 0.8 0.8],'ForegroundColor',BGcolour,'String','Delete','HorizontalAlignment','left','Fontsize',7,'Units','normalized','Position',[0.58 0.59-(m*0.15) 0.06 0.16],'CallBack',@ButtonDeleteBox,'UserData',[n,m]); 
+end
+
 FIGOBJS.IM3.OverlayTab(1) = uitab(tg1,'Title','Overlay','BackgroundColor',BGcolour,'ButtonDownFcn',@ResetFocus);
 for n = 1:4
     loc = [0.7 0.5 0.3 0.1];
@@ -532,15 +584,19 @@ end
 FIGOBJS.IM4.ImPan(1) = uipanel('Parent',IM4);
 FIGOBJS.IM4.ImPan(1).BackgroundColor = [0.1 0.1 0.1];
 FIGOBJS.IM4.ImPan(1).Position = [0.005 0.505 0.395 0.485];
+FIGOBJS.IM4.ImPan(1).ButtonDownFcn = @ResetFocus;
 FIGOBJS.IM4.ImPan(2) = uipanel('Parent',IM4);
 FIGOBJS.IM4.ImPan(2).BackgroundColor = [0.1 0.1 0.1];
 FIGOBJS.IM4.ImPan(2).Position = [0.405 0.505 0.395 0.485];
+FIGOBJS.IM4.ImPan(2).ButtonDownFcn = @ResetFocus;
 FIGOBJS.IM4.ImPan(3) = uipanel('Parent',IM4);
 FIGOBJS.IM4.ImPan(3).BackgroundColor = [0.1 0.1 0.1];
 FIGOBJS.IM4.ImPan(3).Position = [0.005 0.01 0.395 0.485];
+FIGOBJS.IM4.ImPan(3).ButtonDownFcn = @ResetFocus;
 FIGOBJS.IM4.ImPan(4) = uipanel('Parent',IM4);
 FIGOBJS.IM4.ImPan(4).BackgroundColor = [0.1 0.1 0.1];
 FIGOBJS.IM4.ImPan(4).Position = [0.405 0.01 0.395 0.485];
+FIGOBJS.IM4.ImPan(4).ButtonDownFcn = @ResetFocus;
 
 for n = 1:4
     FIGOBJS.IM4.ImAxes(n) = axes('Parent',FIGOBJS.IM4.ImPan(n));
