@@ -22,6 +22,7 @@ else
     end
     found = 1;
 end
+IMG.Im = squeeze(IMG.Im);
 ImInfo.pixdim = [1,1,1];                    % Finish
 ImInfo.vox = 1;
 ImInfo.info = '';

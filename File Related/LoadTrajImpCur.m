@@ -10,7 +10,8 @@ Status('busy','Select IMP File');
 Status2('done','',2); 
 Status2('done','',3); 
 
-INPUT.Extension = {'IMP*.mat;YB*.mat;TPI*.mat'};
+%INPUT.Extension = {'IMP*.mat;YB*.mat;TPI*.mat'};
+INPUT.Extension = {'IMP*.mat'};
 INPUT.CurFunc = 'LoadTrajImpCur';
 INPUT.DropExt = 'Yes';
 INPUT.Type = 'TrajImp';

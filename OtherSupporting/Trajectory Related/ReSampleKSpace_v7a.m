@@ -12,7 +12,10 @@ samp = [0 samp];
 samp = round(samp*1e6);
 T = round(T*1e6);
 
-if T(1) ~= 0    
+% if T(1) ~= 0    
+%     error;              % can't handle negative
+% end
+if T(1) < 0    
     error;              % can't handle negative
 end
 

@@ -122,9 +122,9 @@ MSTRCT.ImInfo = ImInfo;
 % Rotate
 %---------------------------------------------
 if strcmp(rotation,'-90')
-    Image = permute(Image,[2 1 3]);
+    Image = permute(Image,[2 1 3 4]);
 elseif strcmp(rotation,'90')
-    Image = permute(Image,[2 1 3]);
+    Image = permute(Image,[2 1 3 4]);
     Image = flip(Image,1);
 elseif strcmp(rotation,'180')
     Image = flip(Image,1);

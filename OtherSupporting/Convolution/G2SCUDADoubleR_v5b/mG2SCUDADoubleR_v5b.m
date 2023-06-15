@@ -68,11 +68,11 @@ if strcmp(context,'SphereCTFV')
         chunklen = TotalCoresInPlay*10;                
     elseif CONV.chW >= 19
         chunklen = TotalCoresInPlay*10;     
-    elseif CONV.chW == 14
+    elseif CONV.chW >= 14
         chunklen = TotalCoresInPlay*100;               
-    elseif CONV.chW == 11
+    elseif CONV.chW >= 11
         chunklen = TotalCoresInPlay*100;   
-    elseif CONV.chW == 7
+    elseif CONV.chW >= 7
         chunklen = TotalCoresInPlay*100;   
     else
         error;  % finish                        

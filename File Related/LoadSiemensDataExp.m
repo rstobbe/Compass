@@ -64,7 +64,7 @@ Seq = Seq(15:end);
 Protocol = MrProt.tProtocolName;
 Protocol = char(Protocol);
 Protocol = Protocol(1:end);
-if strcmp(twix.hdr.Config.PatientName(1:2),'xx')
+if strcmp(twix.hdr.Config.PatientName(1:2),'xx') || strcmp(twix.hdr.Config.PatientName(end),'^')
     VolunteerID = twix.hdr.Config.Patient;
 else 
     VolunteerID = twix.hdr.Config.PatientName;

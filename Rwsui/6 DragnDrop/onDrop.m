@@ -35,7 +35,11 @@ if (data.IsTransferableAsFileList)
         path = [path0,'\'];
         file = [file0,ext];
         ind = strfind(path,'\');
-        folder = path(ind(end-2)+1:end);
+        if length(ind) > 2
+            folder = path(ind(end-2)+1:end);
+        else
+            folder = path;
+        end
         if strcmp(tab(1),'I')            
             if strcmp(file(1:3),'ROI')
                 roinum = IMAGEANLZ.(tab)(1).FindNextAvailableROI;

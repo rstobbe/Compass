@@ -46,6 +46,11 @@ classdef StatusClass < handle
             STATUS.string{line} = Status.string;
             STATUS.state{line} = Status.state;
         end
+        % GetStatusLine
+        function Status = GetStatusLine(STATUS,line)
+            Status.string = STATUS.string{line};
+            Status.state = STATUS.state{line};
+        end
         % ResetStatus
         function ResetStatus(STATUS)
             for n = 1:3

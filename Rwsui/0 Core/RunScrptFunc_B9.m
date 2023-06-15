@@ -178,6 +178,9 @@ if isfield(RWSUI,'SaveScriptOption') && savescript == 0
                         savefigures = RWSUI.SaveVariables.Figure;
                         RWSUI.SaveVariables = rmfield(RWSUI.SaveVariables,'Figure');              
                     end
+                    if isprop(RWSUI.SaveVariables,'Figure')
+                        savefigures = RWSUI.SaveVariables.Figure;           
+                    end
                     RWSUI.SaveGlobalNames = strtok(file,'.');
                     saveGlobalNames = RWSUI.SaveGlobalNames;
                     if iscell(RWSUI.SaveVariableNames)

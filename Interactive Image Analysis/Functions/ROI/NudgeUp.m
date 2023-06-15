@@ -16,6 +16,12 @@ else
     stop = axnum;
 end
 
+Status0 = IMAGEANLZ.(tab)(1).STATUS.GetStatusLine(3);
+Status.state = 'info';  
+Status.string = 'Shift Up (busy)'; 
+IMAGEANLZ.(tab)(1).STATUS.SetStatusLine(Status,3)
+IMAGEANLZ.(tab)(1).STATUS.UpdateStatus;
+drawnow;
 
 switch IMAGEANLZ.(tab)(axnum).presentation
     case 'Standard'
@@ -26,7 +32,7 @@ switch IMAGEANLZ.(tab)(axnum).presentation
             for r = start:stop
                 if IMAGEANLZ.(tab)(r).TestAxisActive
                     IMAGEANLZ.(tab)(r).CURRENTROI.NudgeUp;
-                    if IMAGEANLZ.(tab)(r).shaderoi
+                    if IMAGEANLZ.(tab)(r).shaderoi || IMAGEANLZ.(tab)(r).autoupdateroi
                         IMAGEANLZ.(tab)(r).CURRENTROI.CreateBaseROIMask;
                     end
                     IMAGEANLZ.(tab)(r).DrawCurrentROI([]);
@@ -39,6 +45,7 @@ switch IMAGEANLZ.(tab)(axnum).presentation
                 IMAGEANLZ.(tab)(axnum).CURRENTROI.CreateBaseROIMask;
             end
             IMAGEANLZ.(tab)(axnum).DrawCurrentROI([]);
+            IMAGEANLZ.(tab)(axnum).TestUpdateCurrentROIValue;
         end
     case 'Ortho'
         for r = 1:3
@@ -51,5 +58,6 @@ switch IMAGEANLZ.(tab)(axnum).presentation
         IMAGEANLZ.(tab)(1).TestUpdateCurrentROIValue;
 end
 
-
+IMAGEANLZ.(tab)(1).STATUS.SetStatusLine(Status0,3)
+IMAGEANLZ.(tab)(1).STATUS.UpdateStatus;
 
