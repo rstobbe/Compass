@@ -5,6 +5,11 @@ global TOTALGBL
 global FIGOBJS
 global COMPASSINFO
 
+if isempty(IMAGEANLZ)
+    totgblnum = 0;
+    return
+end
+    
 %----------------------------------------------------
 % Update TOTALGBL
 %----------------------------------------------------
