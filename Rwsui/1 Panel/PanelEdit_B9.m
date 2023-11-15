@@ -73,7 +73,14 @@ for a = 1:length(SCRPTipt)
                         end
                         Current{m,2}{n,1}.path = path;
                     end
-                    path = uigetdir(Current{m,2}{n,1}.path,'Select Function');
+                    func = str2func(Current{m,2}{n,1}.entrystr);
+                    try
+                        test = func();
+                        [file,path] = uigetfile(Current{m,2}{n,1}.path,'Select Function');
+                    catch
+                        file = 0
+                        path = uigetdir(Current{m,2}{n,1}.path,'Select Function');
+                    end
                 else
                     error;   % delete case
                     path = uigetdir(Current{m,2}{n,1}.searchpath,'Select Function');
@@ -82,13 +89,19 @@ for a = 1:length(SCRPTipt)
                     Status2('done','Function Not Selected',1);
                     return
                 end
-                [Func,~] = strtok(flipdim(path,2),filesep);
-                Current{m,2}{n,1}.entrystr = flipdim(Func,2);
-                Current{m,2}{n,1}.path = path;
-                Current{m,2}(n,:) = GetSingleSubFunction_B9(Current{m,2}(n,:),tab,panelnum);
+                if file == 0
+                    [Func,~] = strtok(flipdim(path,2),filesep);
+                    Current{m,2}{n,1}.entrystr = flipdim(Func,2);
+                    Current{m,2}{n,1}.path = path;
+                    Current{m,2}(n,:) = GetSingleSubFunction_B9(Current{m,2}(n,:),tab,panelnum);
+                else
+                    Current{m,2}{n,1}.entrystr = strtok(file,'.');
+                    Current{m,2}{n,1}.path = path;
+                    Current{m,2}(n,:) = GetSingleSubFunction_B9(Current{m,2}(n,:),tab,panelnum);
+                end
                 altscrptfunc1 = 1;
                 altscrptfunc2 = 1;
-                altscrptfunc3 = 1;
+                altscrptfunc3 = 1;   
                 SCRPTIPTGBL.(tab)(panelnum).default{m,2}(n,:) = Current{m,2}(n,:);
                 if not(isempty(SCRPTGBL.(tab){panelnum,treecellarray(1)}))
                     if isfield(SCRPTGBL.(tab){panelnum,treecellarray(1)},([RWSUI.funclabel,'_Data']))

@@ -3,7 +3,7 @@ function [User] = CompassUserInfo(softwarefolder,Setup)
 
 User.defloc = 'D:\CompassRelated\2 Defaults\';
 User.defrootloc = 'D:\CompassRelated\2 Defaults\';
-User.lastdefloc = 'D:\CompassScripts\VOYAGER\MriImageStitch\Scripts\';
+User.lastdefloc = 'D:\CompassScripts\VOYAGER\MriImageStitchIt\Scripts\';
 User.siemensdefaultloc = 'D:\CompassRelated\2 Defaults\Protocols\PRISMA';
 
 User.trajreconloc = 'D:\CompassRelated\3 ReconFiles';  
@@ -13,8 +13,8 @@ User.sysresploc = 'D:\CompassRelated\4 OtherFiles\Scanner\GradSysResp';
 User.varianshimcalfile = 'D:\CompassRelated\4 OtherFiles\Scanner\Shimming\NaHBC_ShimCal_Jan2015';
 
 User.tempdataloc = 'E:\';
-User.lastscriptloc = 'I:\230704 (CompYarn_BlueBottle64)\';
-User.experimentsloc = 'E:\Trajectories\CompSensYarnTest\F240_V0066_E100_T100_N450_SSD10045_1O\StitchItTesting\';
+User.lastscriptloc = 'I:\231031 (YbT1Ismrm_PS)\';
+User.experimentsloc = 'I:\231031 (YbT1Ismrm_PS)\';
 User.trajdevloc = 'Y:\2 Trajectories\0 TempHolding\MSYB\ConesComp'; 
 User.varianloc = 'V:\sodium\';
 User.variandataloc = 'V:\sodium\vnmrsys\data\studies';
