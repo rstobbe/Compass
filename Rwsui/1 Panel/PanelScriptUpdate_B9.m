@@ -40,10 +40,10 @@ for a = 1:length(SCRPTipt)
             if strcmp(Current{m,2}{n,1}.entrytype,'Choose')
                 Current{m,2}{n,1}.entryvalue = 0;
             elseif strcmp(Current{m,2}{n,1}.entrytype,'ScrptFunc')
-                path = Current{m,2}{n,1}.path;
-                [Func,~] = strtok(flipdim(path,2),filesep);
-                Current{m,2}{n,1}.entrystr = flipdim(Func,2);
-                Current{m,2}{n,1}.path = path;
+%                 path = Current{m,2}{n,1}.path;                                        % commented for doing 'numfileselect'
+%                 [Func,~] = strtok(flipdim(path,2),filesep);
+%                 Current{m,2}{n,1}.entrystr = flipdim(Func,2);
+%                 Current{m,2}{n,1}.path = path;
                 Current{m,2}(n,:) = GetSingleSubFunction_B9(Current{m,2}(n,:),tab,panelnum);
                 altscrptfunc1 = 1;
                 altscrptfunc2 = 1;

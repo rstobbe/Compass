@@ -88,7 +88,7 @@ for n = 1:length(listing)
     %------------------------------------
     % Update File Info
     %------------------------------------
-    saveData.IMG = IMG;
+    saveData.IMG = IMG{1};
     saveData.IMG.path = path;
     saveData.IMG.file = file;
 

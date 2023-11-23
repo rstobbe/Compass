@@ -49,34 +49,40 @@ end
 [~,CurrentTree,AllTrees] = BuildInputTrees_B9(SCRPTipt,RWSUI);
 CurrentScript.Func = RWSUI.runfunc;
 CurrentScript.Struct = SCRPTipt(curpanipt).entrystruct;
-
-if not(exist(RWSUI.runfunc,'file'))
-    if isfield(SCRPTipt(curpanipt).entrystruct,'searchpath')
-        [file,path] = uigetfile('*.m',['Find ''',RWSUI.runfunc,''' Function'],SCRPTipt(curpanipt).entrystruct.searchpath);
-    else
-        [file,path] = uigetfile('*.m',['Find ''',RWSUI.runfunc,''' Function'],'');
-    end
-    if path == 0
-        err.flag = 1;
-        err.msg = 'function must be found';
-        ErrDisp(err);
-        return
-    end
-    addpath(path);
-    SCRPTipt(curpanipt).entrystruct.path = path;
-    SCRPTipt(curpanipt).entrystruct.searchpath = path;
-end
-if not(isfield(SCRPTipt(curpanipt).entrystruct,'path'))
-    path = '';
-    SCRPTipt(curpanipt).entrystruct.path = path;
-end
-    
 gbldata.CurrentScript = CurrentScript;
 gbldata.CurrentTree = CurrentTree;
 gbldata.AllTrees = AllTrees;
 gbldata.RWSUI = RWSUI;
-runfunc = str2func(RWSUI.runfunc);
-[SCRPTipt,gbldata,err] = runfunc(SCRPTipt,gbldata);
+
+func = str2func(CurrentScript.Struct.callingfunc);
+Obj = [];
+try 
+    Obj = func();
+    [SCRPTipt,gbldata,err] = Obj.(RWSUI.runfunc)(SCRPTipt,gbldata);
+catch
+    if not(exist(RWSUI.runfunc,'file'))
+        if isfield(SCRPTipt(curpanipt).entrystruct,'searchpath')
+            [file,path] = uigetfile('*.m',['Find ''',RWSUI.runfunc,''' Function'],SCRPTipt(curpanipt).entrystruct.searchpath);
+        else
+            [file,path] = uigetfile('*.m',['Find ''',RWSUI.runfunc,''' Function'],'');
+        end
+        if path == 0
+            err.flag = 1;
+            err.msg = 'function must be found';
+            ErrDisp(err);
+            return
+        end
+        addpath(path);
+        SCRPTipt(curpanipt).entrystruct.path = path;
+        SCRPTipt(curpanipt).entrystruct.searchpath = path;
+    end
+    if not(isfield(SCRPTipt(curpanipt).entrystruct,'path'))
+        path = '';
+        SCRPTipt(curpanipt).entrystruct.path = path;
+    end
+    runfunc = str2func(RWSUI.runfunc);
+    [SCRPTipt,gbldata,err] = runfunc(SCRPTipt,gbldata);
+end    
 
 %--------------------------------------------
 % Display
