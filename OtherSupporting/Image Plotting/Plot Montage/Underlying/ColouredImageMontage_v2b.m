@@ -41,6 +41,9 @@ ImSz = ImSz(1:2);
 % Display Images
 %----------------------------------------
 iptsetpref('ImshowBorder','tight');
+if max(Img(:)) > 1
+    Img = Img/255;
+end
 ihand = imshow(Img,'Parent',IMSTRCT.ahand);
 drawnow;
 hold on;

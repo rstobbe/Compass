@@ -11,6 +11,8 @@ classdef RoiRectClass < handle
         panelobs;
         roicreatesel;
         pointer,status,info;
+        Ayloc,Axloc,Azloc;
+        IMAGEANLZ
     end 
     methods
         function DAT = RoiRectClass
@@ -28,6 +30,8 @@ classdef RoiRectClass < handle
             horz = 180;
             DAT.panelobs = uicontrol('Parent',IMAGEANLZ.FIGOBJS.ROITab,'Style','text','BackgroundColor',IMAGEANLZ.FIGOBJS.Colours.BGcolour,'Tag',num2str(IMAGEANLZ.axnum),'ForegroundColor',[0.8 0.8 0.8],'String','Width (pixels)','HorizontalAlignment','right','Fontsize',7,'Position',[horz+200 top-15 80 15],'Enable','inactive','ButtonDownFcn',@ResetFocus);
             DAT.panelobs(2) = uicontrol('Parent',IMAGEANLZ.FIGOBJS.ROITab,'Style','edit','BackgroundColor',IMAGEANLZ.FIGOBJS.Colours.BGcolour,'Tag',num2str(IMAGEANLZ.axnum),'ForegroundColor',[0.8 0.8 0.8],'String',num2str(DAT.wid),'HorizontalAlignment','left','Fontsize',6,'Position',[horz+290 top-13 30 15],'CallBack',@DAT.SetWid);    
+            DAT.panelobs(3) = uicontrol('Parent',IMAGEANLZ.FIGOBJS.ROITab,'Style','pushbutton','BackgroundColor',IMAGEANLZ.FIGOBJS.Colours.BGcolour,'Tag',num2str(IMAGEANLZ.axnum),'ForegroundColor',[0.8 0.8 0.8],'String','HrzAveProf','Fontsize',7,'Position',[horz+360 top-13 80 15],'CallBack',@DAT.HrzAveProf);
+            DAT.IMAGEANLZ = IMAGEANLZ;
             DAT.pointer = 'crosshair';            
             DAT.status = 'Rectangle Drawing Tool Active';
             DAT.info = 'Left click to start';
@@ -60,7 +64,11 @@ classdef RoiRectClass < handle
         end
         function SetValue(DAT,Value)
             % dummy (used elsewhere)
-        end      
+        end 
+        function HrzAveProf(DAT,src,event)
+            figure(20000); hold on;
+            DAT.IMAGEANLZ.HrzAveProf(DAT.Axloc(1:4),DAT.Ayloc(1:4));
+        end
         function OUT = BuildROI(DAT,datapoint,event,ImageSlice) 
             if event.Button == 1
                 if strcmp(DAT.state,'Start')
@@ -95,19 +103,19 @@ classdef RoiRectClass < handle
                 else
                 	angle = asin((DAT.yloc(2)-DAT.yloc(1))/Len);
                 end
-                Ayloc(1) = DAT.yloc(1) - cos(angle)*DAT.wid/2;
-                Ayloc(2) = DAT.yloc(1) + cos(angle)*DAT.wid/2;
-                Axloc(1) = DAT.xloc(1) - sin(angle)*DAT.wid/2;
-                Axloc(2) = DAT.xloc(1) + sin(angle)*DAT.wid/2;
-                Ayloc(3) = DAT.yloc(2) + cos(angle)*DAT.wid/2;
-                Ayloc(4) = DAT.yloc(2) - cos(angle)*DAT.wid/2;
-                Axloc(3) = DAT.xloc(2) + sin(angle)*DAT.wid/2;
-                Axloc(4) = DAT.xloc(2) - sin(angle)*DAT.wid/2;
-                Ayloc(5) = Ayloc(1);
-                Axloc(5) = Axloc(1);
-                Azloc(1:5) = DAT.zloc;
+                DAT.Ayloc(1) = DAT.yloc(1) - cos(angle)*DAT.wid/2;
+                DAT.Ayloc(2) = DAT.yloc(1) + cos(angle)*DAT.wid/2;
+                DAT.Axloc(1) = DAT.xloc(1) - sin(angle)*DAT.wid/2;
+                DAT.Axloc(2) = DAT.xloc(1) + sin(angle)*DAT.wid/2;
+                DAT.Ayloc(3) = DAT.yloc(2) + cos(angle)*DAT.wid/2;
+                DAT.Ayloc(4) = DAT.yloc(2) - cos(angle)*DAT.wid/2;
+                DAT.Axloc(3) = DAT.xloc(2) + sin(angle)*DAT.wid/2;
+                DAT.Axloc(4) = DAT.xloc(2) - sin(angle)*DAT.wid/2;
+                DAT.Ayloc(5) = DAT.Ayloc(1);
+                DAT.Axloc(5) = DAT.Axloc(1);
+                DAT.Azloc(1:5) = DAT.zloc;
                 OUT.clr = [0.8 0.3 0.3];
-                OUT.xloc{1} = Axloc; OUT.yloc{1} = Ayloc; OUT.zloc{1} = Azloc;
+                OUT.xloc{1} = DAT.Axloc; OUT.yloc{1} = DAT.Ayloc; OUT.zloc{1} = DAT.Azloc;
                 DAT.xloc = []; DAT.yloc = []; DAT.zloc = [];
                 OUT.buttonfunc = 'updatefinish';
                 OUT.info = 'Left click to start';

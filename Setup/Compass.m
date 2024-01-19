@@ -196,7 +196,7 @@ FIGOBJS.IM2.ImPan(2).Position = [0.405 0.12 0.395 0.87];
 FIGOBJS.IM2.ImPan(2).ButtonDownFcn = @ResetFocus;
 
 for n = 1:2
-    FIGOBJS.IM2.ImageName(n) = uicontrol('Parent',FIGOBJS.IM2.ImPan(n),'Style','text','BackgroundColor',BGcolour2,'ForegroundColor',[1,1,0.5],'String','','HorizontalAlignment','left','Fontsize',8,'Units','normalized','Position',[0.01 0.98 0.5 0.015],'Enable','inactive','ButtonDownFcn',@ResetFocus);
+    FIGOBJS.IM2.ImageName(n) = uicontrol('Parent',FIGOBJS.IM2.ImPan(n),'Style','text','BackgroundColor',BGcolour2,'ForegroundColor',[1,1,0.5],'String','','HorizontalAlignment','left','Fontsize',8,'Units','normalized','Position',[0.01 0.98 0.98 0.015],'Enable','inactive','ButtonDownFcn',@ResetFocus);
 end
 for n = 1:2
     FIGOBJS.IM2.VALUElab(n) = uicontrol('Parent',FIGOBJS.IM2.ImPan(n),'Style','text','BackgroundColor',BGcolour2,'ForegroundColor',[0.8 0.8 0.8],'String','Value','HorizontalAlignment','left','Fontsize',8,'Units','normalized','Position',[0.10 0.02 0.1 0.015],'Enable','inactive','ButtonDownFcn',@ResetFocus,'Visible','Off');
@@ -405,7 +405,7 @@ FIGOBJS.IM3.ImPan(3).Position = [0.005 0.01 0.395 0.485];
 FIGOBJS.IM3.ImPan(3).ButtonDownFcn = @ResetFocus;
 
 for n = 1:1
-    FIGOBJS.IM3.ImageName(n) = uicontrol('Parent',FIGOBJS.IM3.ImPan(n),'Style','text','BackgroundColor',BGcolour2,'ForegroundColor',[1,1,0.5],'String','','HorizontalAlignment','left','Fontsize',8,'Units','normalized','Position',[0.01 0.98 0.5 0.015],'Enable','inactive','ButtonDownFcn',@ResetFocus);
+    FIGOBJS.IM3.ImageName(n) = uicontrol('Parent',FIGOBJS.IM3.ImPan(n),'Style','text','BackgroundColor',BGcolour2,'ForegroundColor',[1,1,0.5],'String','','HorizontalAlignment','left','Fontsize',8,'Units','normalized','Position',[0.01 0.98 0.98 0.015],'Enable','inactive','ButtonDownFcn',@ResetFocus);
 end
 for n = 1:1
     FIGOBJS.IM3.VALUElab(n) = uicontrol('Parent',FIGOBJS.IM3.ImPan(n),'Style','text','BackgroundColor',BGcolour2,'ForegroundColor',[0.8 0.8 0.8],'String','Value','HorizontalAlignment','left','Fontsize',8,'Units','normalized','Position',[0.10 0.02 0.1 0.015],'Enable','inactive','ButtonDownFcn',@ResetFocus,'Visible','Off');

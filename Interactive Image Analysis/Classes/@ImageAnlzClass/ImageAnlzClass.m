@@ -983,6 +983,9 @@ classdef ImageAnlzClass < handle
             IMAGEANLZ.FIGOBJS.CMinVal.ForegroundColor = [0.8 0.8 0.8];
             IMAGEANLZ.FIGOBJS.CMaxVal.ForegroundColor = [0.8 0.8 0.8];
             ImAnlz_UpdateContrastTypeChange(IMAGEANLZ); 
+            if IMAGEANLZ.MaxContrastCurrent > IMAGEANLZ.MaxContrastMax
+                IMAGEANLZ.MaxContrastMax = IMAGEANLZ.MaxContrastCurrent;
+            end
             if abs(IMAGEANLZ.MaxContrastMax) < abs(IMAGEANLZ.MinContrastMin)
                 IMAGEANLZ.FullContrast = abs(IMAGEANLZ.MinContrastMin);
             else
@@ -1807,7 +1810,39 @@ classdef ImageAnlzClass < handle
             y = linspace(y1,y2,pts);
             Vals = interp2(IMAGEANLZ.imslice,x,y);
             plot(Vals);
-        end   
+        end  
+        % HrzAveProf
+        function HrzAveProf(IMAGEANLZ,xloc,yloc)
+            len = sqrt((xloc(4)-xloc(1)).^2 + (yloc(4)-yloc(1)).^2);            % points should got clockwise around box
+            wid = sqrt((xloc(2)-xloc(1)).^2 + (yloc(2)-yloc(1)).^2);
+            lpts = round(len); 
+            wpts = round(wid*4);
+            
+            x1 = linspace(xloc(1),xloc(2),wpts);
+            x2 = linspace(xloc(4),xloc(3),wpts);
+            y1 = linspace(yloc(1),yloc(2),wpts);
+            y2 = linspace(yloc(4),yloc(3),wpts);            
+                 
+            for n = 1:wpts    
+                x = linspace(x1(n),x2(n),lpts);
+                y = linspace(y1(n),y2(n),lpts);
+                Vals(n,:) = interp2(IMAGEANLZ.imslice,x,y);
+            end
+            AveVals = mean(Vals,2);
+            AveVals = AveVals/max(AveVals);
+            TopLoc = find(AveVals == 1);
+            StartLoc = find(AveVals(1:TopLoc) == min(AveVals(1:TopLoc)));
+            
+            WidLevel = 0.6;
+            PixDim = IMAGEANLZ.GetPixelDimensions;
+            dim = (1:wpts) * (PixDim(2)/4);
+            S1 = interp1(AveVals(StartLoc:TopLoc),dim(StartLoc:TopLoc),WidLevel);
+            S2 = interp1(AveVals(TopLoc:wpts),dim(TopLoc:wpts),WidLevel); 
+            plot(dim,AveVals);
+            plot([S1 S2],[WidLevel WidLevel],'k:');
+            xlabel('mm');
+            Width = S2 - S1
+        end
         % DeleteSavedLineData
         function DeleteSavedLineData(IMAGEANLZ,SavedLine)
             set(IMAGEANLZ.FIGOBJS.SAVEDLINES(SavedLine,1),'visible','off');
@@ -2343,6 +2378,11 @@ classdef ImageAnlzClass < handle
 %==================================================================        
         % PlotImage
         function PlotImage(IMAGEANLZ)
+            if strcmp(IMAGEANLZ.ImType,'colour')
+                if IMAGEANLZ.FullContrast == 255                        % should test for 'double' here
+                    IMAGEANLZ.imslice = IMAGEANLZ.imslice/255;
+                end
+            end
             h = image(IMAGEANLZ.imslice,'Parent',IMAGEANLZ.FIGOBJS.ImAxes);                 % note children deleted as part of call
             h.BusyAction = 'cancel';
             h.Interruptible = 'off';
