@@ -14,6 +14,10 @@ if isempty(IMAGEANLZ.(tab)(axnum).totgblnumhl)
     return
 end
 
+global TOTALGBL
+global TOTALGBLHOLD
+TOTALGBL{2,IMAGEANLZ.(tab)(axnum).totgblnumhl} = TOTALGBLHOLD{2,IMAGEANLZ.(tab)(axnum).totgblnumhl};
+
 %--------------------------------------------
 % Load
 %--------------------------------------------

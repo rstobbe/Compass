@@ -195,6 +195,13 @@ classdef ImageLineClass < handle
             elseif Slice <= IMAGELINE.datapoint(1).zpt && Slice >= IMAGELINE.datapoint(2).zpt
                 bool = 1;
             end
-        end        
+        end   
+        % TestSavedLine
+        function bool = TestSavedLine(IMAGELINE)
+            bool = 1;
+            if isempty(IMAGELINE.lengthIP)
+                bool = 0;
+            end
+        end 
     end
 end

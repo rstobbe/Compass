@@ -27,7 +27,9 @@ switch IMAGEANLZ.(tab)(axnum).presentation
             end
         end
     case 'Ortho'
-         IMAGEANLZ.(tab)(1).PlotSavedLine(linenum);
+        for r = 1:3 
+            IMAGEANLZ.(tab)(r).PlotSavedLine(linenum);
+        end
 end
 EndLineTool(tab,axnum);
 

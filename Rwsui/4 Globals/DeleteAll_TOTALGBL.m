@@ -1,11 +1,13 @@
 function DeleteAll_TOTALGBL
 
 global TOTALGBL
+global TOTALGBLHOLD
 global FIGOBJS
 global IMAGEANLZ
 global COMPASSINFO
 
 TOTALGBL = cell(2,0);
+TOTALGBLHOLD = cell(2,0);
 if not(strcmp(COMPASSINFO.USERGBL.setup,'ImageAnalysis'))
     tablabs = {'ACC','ACC2','ACC3','ACC4'};
     for n = 1:length(tablabs)

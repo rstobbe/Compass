@@ -489,6 +489,11 @@ classdef ImageAnlzClass < handle
             IMAGEANLZ.SLICE = round(imsize(3)/2);
             IMAGEANLZ.FIGOBJS.SLICE.String = num2str(IMAGEANLZ.SLICE); 
         end
+        % SetFirstSlice
+        function SetFirstSlice(IMAGEANLZ)
+            IMAGEANLZ.SLICE = 1;
+            IMAGEANLZ.FIGOBJS.SLICE.String = num2str(IMAGEANLZ.SLICE); 
+        end
         % SetSlice
         function SetSlice(IMAGEANLZ,slice)
             IMAGEANLZ.SLICE = slice;
@@ -1793,6 +1798,7 @@ classdef ImageAnlzClass < handle
         function [GlobalSavedLinesInd] = DeleteSavedLine(IMAGEANLZ,SavedLine)
             if length(IMAGEANLZ.SAVEDLINES) >= SavedLine
                 IMAGEANLZ.SAVEDLINES(SavedLine).DeleteGraphicObjects;
+                IMAGEANLZ.SAVEDLINES(SavedLine).Initialize;
             end 
             IMAGEANLZ.SavedLinesInd(SavedLine) = 0;
             IMAGEANLZ.GlobalSavedLinesInd(SavedLine) = 0;
@@ -1800,6 +1806,12 @@ classdef ImageAnlzClass < handle
         end   
         % PlotSavedLine
         function PlotSavedLine(IMAGEANLZ,SavedLine)
+            if length(IMAGEANLZ.SAVEDLINES) < SavedLine
+                return
+            end
+            if IMAGEANLZ.SAVEDLINES(SavedLine).TestSavedLine == 0
+                return
+            end
             x1 = IMAGEANLZ.SAVEDLINES(SavedLine).datapoint(1).xpt;
             y1 = IMAGEANLZ.SAVEDLINES(SavedLine).datapoint(1).ypt;
             x2 = IMAGEANLZ.SAVEDLINES(SavedLine).datapoint(2).xpt;
@@ -2233,11 +2245,6 @@ classdef ImageAnlzClass < handle
         % SetImage        
         function SetImage(IMAGEANLZ)
             IMAGEANLZ.imvol = GetCurrent3DImage(IMAGEANLZ);
-%             if not(isempty(IMAGEANLZ.overtotgblnum))
-%                 IMAGEANLZ.overimvol = GetCurrent3DImageOverlay(IMAGEANLZ);
-%                 IMAGEANLZ.overimvolalpha = ones(size(IMAGEANLZ.overimvol));
-%                 IMAGEANLZ.overimvolalpha(IMAGEANLZ.overimvol == 0) = 0;
-%             end
         end
         % SetOverlay       
         function SetOverlay(IMAGEANLZ,overlaynum)
@@ -2306,7 +2313,7 @@ classdef ImageAnlzClass < handle
                 Image = Image(:,:,:,IMAGEANLZ.DIM4,IMAGEANLZ.DIM5,IMAGEANLZ.DIM6);
             end
             Image = ImageTypeCreate(IMAGEANLZ,Image);  
-        end
+        end       
         % GetCurrent3DImageOverlay
         function Image = GetCurrent3DImageOverlay(IMAGEANLZ,overlaynum)
             global TOTALGBL

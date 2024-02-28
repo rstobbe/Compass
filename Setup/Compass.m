@@ -493,6 +493,7 @@ for n = 1
     FIGOBJS.IM3.Dim6(n) = uicontrol('Parent',FIGOBJS.IM3.DimsTab(n),'Style','slider','tag',num2str(n),'BackgroundColor',[0.8 0.8 0.8],'ForegroundColor',BGcolour,'Units','normalized','Position',[0.08 0.2 0.25 0.14],'Value',0,'CallBack',@Dim6ChangeControl,'SliderStep',[1 1],'Enable','off');
     uicontrol('Parent',FIGOBJS.IM3.DimsTab(n),'Style','text','tag',num2str(n),'BackgroundColor',BGcolour,'ForegroundColor',[0.8 0.8 0.8],'String','Orient','HorizontalAlignment','right','Fontsize',7,'Units','normalized','Position',[0.38 0.39 0.04 0.14],'Enable','inactive','ButtonDownFcn',@ResetFocus);
     FIGOBJS.IM3.Orientation(n) = uicontrol('Parent',FIGOBJS.IM3.DimsTab(n),'Style','popupmenu','tag',num2str(n),'BackgroundColor',[0.8 0.8 0.8],'ForegroundColor',BGcolour,'String',{'Axial','Sagittal','Coronal'},'HorizontalAlignment','right','Fontsize',6,'Units','normalized','Position',[0.43 0.4 0.07 0.15],'CallBack',@ChangeOrientationOrtho);
+    FIGOBJS.IM3.ReSlice(n) = uicontrol('Parent',FIGOBJS.IM3.DimsTab(n),'Style','pushbutton','tag',num2str(n),'BackgroundColor',[0.8 0.8 0.8],'ForegroundColor',BGcolour,'String','ReSlice','HorizontalAlignment','left','Fontsize',7,'Units','normalized','Position',[0.50 0.39 0.06 0.16],'CallBack',@ReSlice);   
 end
 FIGOBJS.IM3.ROITab(1) = uitab(tg1,'Title','ROI Creation','BackgroundColor',BGcolour,'ButtonDownFcn',@ResetFocus);
 for n = 1

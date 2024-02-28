@@ -12,11 +12,12 @@ IMAGEANLZ.(tab)(axnum0).SetDim4(val);
 
 %----------------------------------------
 % Do Contrast Hold Update Stuff...
+%    don't like it.
 %----------------------------------------
-if IMAGEANLZ.(tab)(axnum0).contrasthold == 0
-    IMAGEANLZ.(tab)(axnum0).InitializeContrast;
-end
-IMAGEANLZ.(tab)(axnum0).SetContrast;
+% if IMAGEANLZ.(tab)(axnum0).contrasthold == 0
+%     IMAGEANLZ.(tab)(axnum0).InitializeContrast;
+% end
+% IMAGEANLZ.(tab)(axnum0).SetContrast;
 
 %----------------------------------------
 % Update Image

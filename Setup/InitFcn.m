@@ -133,6 +133,8 @@ end
 
 global TOTALGBL
 TOTALGBL = cell(2,0);
+global TOTALGBLHOLD
+TOTALGBLHOLD = cell(2,0);
 
 
 
