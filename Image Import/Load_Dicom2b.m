@@ -13,66 +13,68 @@ init = 0;
 files = dir(impath);
 imnoarr = [];
 series = 0;
-for n = 3:length(files)
-    if files(n).isdir
-        continue
-    end
-    if not(isdicom([impath,'\',files(n).name]))
-        continue
-    end        
+numimages = 1;
+for n = 3:length(files)     
     dinfo = dicominfo([impath,'\',files(n).name]);
     imno = dinfo.InstanceNumber;
     ind = find(imnoarr == imno,1);
     if not(isempty(ind))
-        err.flag = 1; 
-        err.msg = 'Images from multiple series in folder';
-        return
-    end
-    if init == 1 && series ~= dinfo.SeriesNumber
-        err.flag = 1; 
-        err.msg = 'Images from multiple series in folder';
-        return
-    end
-    if init == 0
-        %instance0 = dinfo.InstanceNumber
-        %series0 = dinfo.SeriesNumber
-        if dinfo.InstanceNumber ~= 1
-            err.flag = 1; 
-            err.msg = 'Folder missing beginning images';
-            return
-        end
-        series = dinfo.SeriesNumber;
-        if isfield(dinfo,'Private_0051_100e')
-            orient = dinfo.Private_0051_100e;                       % Not sure about this always existing
+        numimages = numimages + 1;
+    else
+        if n == 3
+            imnoarr = 1;
+            continue
         else
-            orient = 'Tra';
+            break
         end
-        Im = zeros(dinfo.Rows,dinfo.Columns,500);
-        if isfield(dinfo,'PixelSpacing')
-            pix = dinfo.PixelSpacing;
-        else
-            pix = [1;1];
-        end
-        if isfield(dinfo,'SpacingBetweenSlices')
-            wid = dinfo.SpacingBetweenSlices;
-        elseif isfield(dinfo,'SliceThickness')
-            wid = dinfo.SliceThickness;
-        else
-            error;
-            %wid = dinfo.Private_0051_1017;
-        end
-        pixdim = [pix' wid];
-        ImInfo.vox = pixdim(1)*pixdim(2)*pixdim(3);
-        init = 1;
     end
-    Im(:,:,imno) = dicomread([impath,'\',files(n).name]);
-    imnoarr = cat(1,imnoarr,imno);
-end 
-
-if max(imnoarr) ~= length(imnoarr)
-    error;  %fix for error handling
 end
-Im = Im(:,:,1:max(imnoarr));
+
+dinfo = dicominfo([impath,'\',files(3).name]);
+if dinfo.InstanceNumber ~= 1
+    err.flag = 1; 
+    err.msg = 'Folder missing beginning images';
+    return
+end
+series = dinfo.SeriesNumber;
+if isfield(dinfo,'Private_0051_100e')
+    orient = dinfo.Private_0051_100e;                       % Not sure about this always existing
+else
+    orient = 'Tra';
+end
+if isfield(dinfo,'PixelSpacing')
+    pix = dinfo.PixelSpacing;
+else
+    pix = [1;1];
+end
+if isfield(dinfo,'SpacingBetweenSlices')
+    wid = dinfo.SpacingBetweenSlices;
+elseif isfield(dinfo,'SliceThickness')
+    wid = dinfo.SliceThickness;
+else
+    wid = 1;
+    %error;
+    %wid = dinfo.Private_0051_1017;
+end
+pixdim = [pix' wid];
+ImInfo.vox = pixdim(1)*pixdim(2)*pixdim(3);
+
+%------------
+Image = 2;
+%------------
+dinfo = dicominfo([impath,'\',files(Image+2).name]);
+if strcmp(dinfo.ColorType,'truecolor')
+    Im = zeros(dinfo.Rows,dinfo.Columns,500,3);
+else
+    Im = zeros(dinfo.Rows,dinfo.Columns,500);
+end
+
+for n = Image+2:numimages:length(files)       
+    dinfo = dicominfo([impath,'\',files(n).name]);
+    imno = dinfo.InstanceNumber;
+    Im(:,:,imno,:) = dicomread([impath,'\',files(n).name]);
+end 
+Im = Im(:,:,1:imno,:);
 
 %----------------------------------------------
 % Orient Properly
@@ -122,22 +124,30 @@ Panel(5,:) = {'Age',dinfo.PatientAge,'Output'};
 Panel(6,:) = {'Date',dinfo.AcquisitionDate,'Output'};
 Panel(7,:) = {'Time',dinfo.AcquisitionTime,'Output'};
 Panel(8,:) = {'Protocol Name',dinfo.ProtocolName,'Output'};
-Panel(9,:) = {'Sequence Name',dinfo.SequenceName,'Output'};
+Panel(9,:) = {'Series Description',dinfo.SeriesDescription,'Output'};
 Panel(10,:) = {'Acq Orientation',ImInfo.acqorient,'Output'};
 Panel(11,:) = {'Voxel (mm)',[num2str(pixdim(1),'%2.2f'),' x ',num2str(pixdim(2),'%2.2f'),' x ',num2str(pixdim(3),'%2.2f')],'Output'};
-Panel(12,:) = {'TR',dinfo.RepetitionTime,'Output'};
-Panel(13,:) = {'TE',dinfo.EchoTime,'Output'};
-m = 14;
+m = 12;
+if isfield(dinfo,'RepetitionTime')
+    Panel(m,:) = {'TR',dinfo.RepetitionTime,'Output'};
+    m = m+1; 
+end
+if isfield(dinfo,'EchoTime')
+    Panel(m,:) = {'TE',dinfo.EchoTime,'Output'};
+    m = m+1; 
+end
 if isfield(dinfo,'FlipAngle')
     Panel(m,:) = {'Flip',dinfo.FlipAngle,'Output'};
     m = m+1; 
 end
 if isfield(dinfo,'InversionTime')
-    Panel(12,:) = {'TI',dinfo.InversionTime,'Output'};
+    Panel(m,:) = {'TI',dinfo.InversionTime,'Output'};
     m = m+1; 
 end
-Panel(m,:) = {'PixelBandwidth',dinfo.PixelBandwidth,'Output'};
-m = m+1;
+if isfield(dinfo,'PixelBandwidth')
+    Panel(m,:) = {'PixelBandwidth',dinfo.PixelBandwidth,'Output'};
+    m = m+1; 
+end
 %Panel(m,:) = {'Coil',dinfo.Private_0051_100f,'Output'};
 PanelOutput = cell2struct(Panel,{'label','value','type'},2);
 
