@@ -996,16 +996,16 @@ classdef ImageAnlzClass < handle
             else
                 IMAGEANLZ.FullContrast = abs(IMAGEANLZ.MaxContrastMax);
             end
-            IMAGEANLZ.FIGOBJS.ContrastMax.Min = IMAGEANLZ.MinContrastMin/IMAGEANLZ.FullContrast;
-            IMAGEANLZ.FIGOBJS.ContrastMin.Min = IMAGEANLZ.MinContrastMin/IMAGEANLZ.FullContrast;
-            IMAGEANLZ.RelContrast(1) = IMAGEANLZ.MinContrastCurrent/IMAGEANLZ.FullContrast;
-            IMAGEANLZ.RelContrast(2) = IMAGEANLZ.MaxContrastCurrent/IMAGEANLZ.FullContrast;
-            IMAGEANLZ.FIGOBJS.ContrastMin.Value = IMAGEANLZ.RelContrast(1);
-            IMAGEANLZ.FIGOBJS.ContrastMax.Value = IMAGEANLZ.RelContrast(2);
-            IMAGEANLZ.FIGOBJS.CMaxVal.String = num2str(IMAGEANLZ.MaxContrastCurrent,6);
-            IMAGEANLZ.FIGOBJS.CMinVal.String = num2str(IMAGEANLZ.MinContrastCurrent,6);
-            IMAGEANLZ.FIGOBJS.MaxCMaxVal.String = num2str(IMAGEANLZ.MaxContrastMax,6);
-            IMAGEANLZ.FIGOBJS.MinCMinVal.String = num2str(IMAGEANLZ.MinContrastMin,6);
+            IMAGEANLZ.FIGOBJS.ContrastMax.Min = gather(IMAGEANLZ.MinContrastMin/IMAGEANLZ.FullContrast);
+            IMAGEANLZ.FIGOBJS.ContrastMin.Min = gather(IMAGEANLZ.MinContrastMin/IMAGEANLZ.FullContrast);
+            IMAGEANLZ.RelContrast(1) = gather(IMAGEANLZ.MinContrastCurrent/IMAGEANLZ.FullContrast);
+            IMAGEANLZ.RelContrast(2) = gather(IMAGEANLZ.MaxContrastCurrent/IMAGEANLZ.FullContrast);
+            IMAGEANLZ.FIGOBJS.ContrastMin.Value = gather(IMAGEANLZ.RelContrast(1));
+            IMAGEANLZ.FIGOBJS.ContrastMax.Value = gather(IMAGEANLZ.RelContrast(2));
+            IMAGEANLZ.FIGOBJS.CMaxVal.String = num2str(gather(IMAGEANLZ.MaxContrastCurrent,6));
+            IMAGEANLZ.FIGOBJS.CMinVal.String = num2str(gather(IMAGEANLZ.MinContrastCurrent,6));
+            IMAGEANLZ.FIGOBJS.MaxCMaxVal.String = num2str(gather(IMAGEANLZ.MaxContrastMax),6);
+            IMAGEANLZ.FIGOBJS.MinCMinVal.String = num2str(gather(IMAGEANLZ.MinContrastMin),6);
             IMAGEANLZ.FIGOBJS.EnableContrast;
             IMAGEANLZ.SetContrast;
         end

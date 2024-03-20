@@ -30,4 +30,9 @@ elseif strcmp(IMAGEANLZ.ImType,'map')
     IMAGEANLZ.MinContrastMin = ContrastSettings.MinMapMinCurrent;
     IMAGEANLZ.MinContrastCurrent = ContrastSettings.MapMin;
 end
+
+IMAGEANLZ.MaxContrastMax = gather(IMAGEANLZ.MaxContrastMax);
+IMAGEANLZ.MaxContrastCurrent = gather(IMAGEANLZ.MaxContrastCurrent);
+IMAGEANLZ.MinContrastMin = gather(IMAGEANLZ.MinContrastMin);
+IMAGEANLZ.MinContrastCurrent = gather(IMAGEANLZ.MinContrastCurrent);
     

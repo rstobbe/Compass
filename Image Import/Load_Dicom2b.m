@@ -60,7 +60,8 @@ pixdim = [pix' wid];
 ImInfo.vox = pixdim(1)*pixdim(2)*pixdim(3);
 
 %------------
-Image = 2;
+Image = 1;
+%Image = 2;          % ASL
 %------------
 dinfo = dicominfo([impath,'\',files(Image+2).name]);
 if strcmp(dinfo.ColorType,'truecolor')
@@ -70,6 +71,10 @@ else
 end
 
 for n = Image+2:numimages:length(files)       
+    [path,name,ext] = fileparts(files(n).name);
+    if ~strcmp(ext,'.dcm')
+        continue
+    end
     dinfo = dicominfo([impath,'\',files(n).name]);
     imno = dinfo.InstanceNumber;
     Im(:,:,imno,:) = dicomread([impath,'\',files(n).name]);

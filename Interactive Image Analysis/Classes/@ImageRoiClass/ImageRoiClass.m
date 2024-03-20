@@ -120,10 +120,10 @@ classdef ImageRoiClass < handle
             for n = 1:length(zloc)
                 IMAGEROI.xloc0arr{IMAGEROI.locnum} = xloc{n};  
                 IMAGEROI.yloc0arr{IMAGEROI.locnum} = yloc{n}; 
-                IMAGEROI.zloc0arr{IMAGEROI.locnum} = zloc{n};
+                IMAGEROI.zloc0arr{IMAGEROI.locnum} = gather(zloc{n});
                 IMAGEROI.xlocarr{IMAGEROI.locnum} = xloc{n};                % cannot change orientation during roi drawing
                 IMAGEROI.ylocarr{IMAGEROI.locnum} = yloc{n}; 
-                IMAGEROI.zlocarr{IMAGEROI.locnum} = zloc{n};
+                IMAGEROI.zlocarr{IMAGEROI.locnum} = gather(zloc{n});
                 IMAGEROI.eventarr{IMAGEROI.locnum} = event;
                 IMAGEROI.drawroiorientarray{IMAGEROI.locnum} = orient;
                 if n < length(zloc)
