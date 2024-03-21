@@ -58,7 +58,7 @@ switch IMAGEANLZ.(tab)(axnum).presentation
         end
         for r = start:stop
             if IMAGEANLZ.(tab)(r).TestAxisActive
-                if ~IMAGEANLZ.(tab)(r).autoupdateroi
+                if ~IMAGEANLZ.(tab)(r).autoupdateroi || ~IMAGEANLZ.(tab)(r).shaderoi
                     Status.state = 'info';  
                     Status.string = ['Calculate ROI for Panel ',num2str(r)];
                     IMAGEANLZ.(tab)(r).STATUS.SetStatusLine(Status,3)
@@ -86,7 +86,7 @@ switch IMAGEANLZ.(tab)(axnum).presentation
         end
     case 'Ortho'
         for r = 1:3
-            if ~IMAGEANLZ.(tab)(r).autoupdateroi
+            if ~IMAGEANLZ.(tab)(r).autoupdateroi || ~IMAGEANLZ.(tab)(r).shaderoi
                 Status.state = 'info';  
                 Status.string = ['Calculate ROI for Panel ',num2str(r)];
                 IMAGEANLZ.(tab)(r).STATUS.SetStatusLine(Status,3)

@@ -51,15 +51,15 @@ elseif not(isempty(RWSUIGBL.Key))
     RWSUIGBL.Key = '';
     return
 elseif strcmp(tab,'IM')
-    list = {'Display Current','Display New','Delete','Delete All','Import Images'};
+    list = {'Display Current','Display New','Delete','Delete All','Import Images','ReloadGpu'};
 elseif strcmp(tab,'IM2')
     %list = {'Display1','Display2','Display1Overlay','Display2Overlay','Delete','Delete All','Load Image'}; 
-    list = {'Display1','Display2','Delete','Delete All','Import Images'}; 
+    list = {'Display1','Display2','Delete','Delete All','Import Images','ReloadGpu'}; 
 elseif strcmp(tab,'IM3')
     %list = {'OrthoDisplay','OrthoDisplayOverlay','Delete','Delete All','Load Image'};
-    list = {'OrthoDisplay','Delete','Delete All','Import Images'};
+    list = {'OrthoDisplay','Delete','Delete All','Import Images','ReloadGpu'};
 elseif strcmp(tab,'IM4')
-    list = {'Display1','Display2','Display3','Display4','Delete','Delete All','Import Images'}; 
+    list = {'Display1','Display2','Display3','Display4','Delete','Delete All','Import Images','ReloadGpu'}; 
 end
 [s,v] = listdlg('PromptString','Action:','SelectionMode','single','ListString',list);   
 if isempty(s)
@@ -80,6 +80,8 @@ end
 %--------------------------------------------------
 if strcmp(list{s},'Import Images')
     Load_Image(tab);
+elseif strcmp(list{s},'ReloadGpu')
+    ReloadGpu(totgblnum);    
 elseif strcmp(list{s},'Import Folder')
     Load_ImageFolder(tab);
 elseif strcmp(list{s},'Delete')

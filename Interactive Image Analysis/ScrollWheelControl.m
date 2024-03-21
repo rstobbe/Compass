@@ -56,9 +56,9 @@ switch RWSUIGBL.Key
         imsize = IMAGEANLZ.(tab)(axnum).GetBaseImageSize([]);
         dim4 = IMAGEANLZ.(tab)(axnum).DIM4 - event.VerticalScrollCount;
         if dim4 > imsize(4)
-            dim4 = imsize(4);
+            dim4 = dim4 - imsize(4);
         elseif dim4 < 1
-            dim4 = 1;
+            dim4 = imsize(4) - dim4;
         end
         Dim4_Change(currentax,tab,axnum,dim4);
         if strcmp(IMAGEANLZ.(tab)(axnum).presentation,'Ortho')
@@ -70,9 +70,9 @@ switch RWSUIGBL.Key
         imsize = IMAGEANLZ.(tab)(axnum).GetBaseImageSize([]);
         dim5 = IMAGEANLZ.(tab)(axnum).DIM5 - event.VerticalScrollCount;
         if dim5 > imsize(5)
-            dim5 = imsize(5);
+            dim5 = dim5 - imsize(5);
         elseif dim5 < 1
-            dim5 = 1;
+            dim5 = imsize(5) - dim5;
         end
         Dim5_Change(currentax,tab,axnum,dim5);
         if strcmp(IMAGEANLZ.(tab)(axnum).presentation,'Ortho')
@@ -84,9 +84,9 @@ switch RWSUIGBL.Key
         imsize = IMAGEANLZ.(tab)(axnum).GetBaseImageSize([]);
         dim6 = IMAGEANLZ.(tab)(axnum).DIM6 - event.VerticalScrollCount;
         if dim6 > imsize(6)
-            dim6 = imsize(6);
+            dim6 = dim6 - imsize(6);
         elseif dim6 < 1
-            dim6 = 1;
+            dim6 = imsize(6) - dim6;
         end
         Dim6_Change(currentax,tab,axnum,dim6);
         if strcmp(IMAGEANLZ.(tab)(axnum).presentation,'Ortho')
