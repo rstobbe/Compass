@@ -267,7 +267,10 @@ if isfield(RWSUI,'SaveGlobal')
             saveData = saveData.(names{1});
         end
         saveData.saveSCRPTcellarray = saveSCRPTcellarray;
-        put gpuArray here
+        if isfield(saveData,'Im')
+            saveData.ImRam = saveData.Im;
+            saveData.Im = gpuArray(saveData.Im);
+        end
         totalgbl = [saveGlobalNames;{saveData}];
         from = 'Script';
         totgblnum = Load_TOTALGBL(totalgbl,tab,from);
