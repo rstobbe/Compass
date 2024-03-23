@@ -25,8 +25,10 @@ if samedims == 0
         Status('done','');
         return
     end
-    DiscardCurrentROI(tab,axnum);
-    DeleteAllROIs(tab,axnum)
+    %DiscardCurrentROI(tab,axnum);
+    IMAGEANLZ.(tab)(axnum).DiscardCurrentROI;
+    %DeleteAllROIs(tab,axnum)
+    IMAGEANLZ.(tab)(axnum).DeleteAllSavedROIs;
     if IMAGEANLZ.(tab)(axnum).TestForAnyOverlay
         button = questdlg('Image Dimensions/Orientation Incompatible with Overlays: Continue and Delete Overlays?');
         if strcmp(button,'Yes') || strcmp(button,'Cancel') 

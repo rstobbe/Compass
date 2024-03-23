@@ -2269,6 +2269,11 @@ classdef ImageAnlzClass < handle
             end
             for n = 1:4
                 if not(isempty(IMAGEANLZ.overimvol{n}))
+                    if isgpuarray(IMAGEANLZ.overimvol{n})
+                        if ~existsOnGPU(IMAGEANLZ.overimvol{n})
+                        	IMAGEANLZ.overimvol{n} = GetCurrent3DImageOverlay(IMAGEANLZ,n);
+                        end
+                    end
                     if IMAGEANLZ.colouroverlay(n)
                         IMAGEANLZ.overimslice{n} = squeeze(IMAGEANLZ.overimvol{n}(:,:,IMAGEANLZ.SLICE,:));
                     else
@@ -2290,6 +2295,11 @@ classdef ImageAnlzClass < handle
         % GetCurrent3DImageComplex
         function Image = GetCurrent3DImageComplex(IMAGEANLZ)
             global TOTALGBL
+            if isgpuarray(TOTALGBL{2,IMAGEANLZ.totgblnum}.Im)
+                if ~existsOnGPU(TOTALGBL{2,IMAGEANLZ.totgblnum}.Im)
+                    TOTALGBL{2,IMAGEANLZ.totgblnum}.Im = gpuArray(TOTALGBL{2,IMAGEANLZ.totgblnum}.ImRam);
+                end
+            end
             Image = TOTALGBL{2,IMAGEANLZ.totgblnum}.Im;
             Image = ImageOrient(IMAGEANLZ,Image);
             Image = Image(:,:,:,IMAGEANLZ.DIM4,IMAGEANLZ.DIM5,IMAGEANLZ.DIM6);
@@ -2297,6 +2307,11 @@ classdef ImageAnlzClass < handle
         % GetCurrent3DImageComplexOverlay
         function Image = GetCurrent3DImageComplexOverlay(IMAGEANLZ,overlaynum)
             global TOTALGBL
+            if isgpuarray(TOTALGBL{2,IMAGEANLZ.overtotgblnum(overlaynum)}.Im)
+                if ~existsOnGPU(TOTALGBL{2,IMAGEANLZ.overtotgblnum(overlaynum)}.Im)
+                    TOTALGBL{2,IMAGEANLZ.overtotgblnum(overlaynum)}.Im = gpuArray(TOTALGBL{2,IMAGEANLZ.overtotgblnum(overlaynum)}.ImRam);
+                end
+            end
             Image = TOTALGBL{2,IMAGEANLZ.overtotgblnum(overlaynum)}.Im;
             Image = ImageOrient(IMAGEANLZ,Image);
             Image = Image(:,:,:,1,1,1);                     % for now
@@ -2304,6 +2319,11 @@ classdef ImageAnlzClass < handle
         % GetCurrent3DImage
         function Image = GetCurrent3DImage(IMAGEANLZ)
             global TOTALGBL
+            if isgpuarray(TOTALGBL{2,IMAGEANLZ.totgblnum}.Im)
+                if ~existsOnGPU(TOTALGBL{2,IMAGEANLZ.totgblnum}.Im)
+                    TOTALGBL{2,IMAGEANLZ.totgblnum}.Im = gpuArray(TOTALGBL{2,IMAGEANLZ.totgblnum}.ImRam);
+                end
+            end
             Image = TOTALGBL{2,IMAGEANLZ.totgblnum}.Im;
             Image = ImageOrient(IMAGEANLZ,Image);
             if IMAGEANLZ.colourimage
@@ -2317,6 +2337,11 @@ classdef ImageAnlzClass < handle
         % GetCurrent3DImageOverlay
         function Image = GetCurrent3DImageOverlay(IMAGEANLZ,overlaynum)
             global TOTALGBL
+            if isgpuarray(TOTALGBL{2,IMAGEANLZ.overtotgblnum(overlaynum)}.Im)
+                if ~existsOnGPU(TOTALGBL{2,IMAGEANLZ.overtotgblnum(overlaynum)}.Im)
+                    TOTALGBL{2,IMAGEANLZ.overtotgblnum(overlaynum)}.Im = gpuArray(TOTALGBL{2,IMAGEANLZ.overtotgblnum(overlaynum)}.ImRam);
+                end
+            end
             Image = TOTALGBL{2,IMAGEANLZ.overtotgblnum(overlaynum)}.Im;
             Image = ImageOrient(IMAGEANLZ,Image);
             if IMAGEANLZ.colouroverlay(overlaynum)
@@ -2332,6 +2357,11 @@ classdef ImageAnlzClass < handle
         % GetOriented3DImage
         function Image = GetOriented3DImage(IMAGEANLZ,orient)
             global TOTALGBL
+            if isgpuarray(TOTALGBL{2,IMAGEANLZ.totgblnum}.Im)
+                if ~existsOnGPU(TOTALGBL{2,IMAGEANLZ.totgblnum}.Im)
+                    TOTALGBL{2,IMAGEANLZ.totgblnum}.Im = gpuArray(TOTALGBL{2,IMAGEANLZ.totgblnum}.ImRam);
+                end
+            end
             Image = TOTALGBL{2,IMAGEANLZ.totgblnum}.Im;
             Image = ImageOrientDefined(IMAGEANLZ,Image,orient);
             Image = Image(:,:,:,IMAGEANLZ.DIM4,IMAGEANLZ.DIM5,IMAGEANLZ.DIM6);
@@ -2340,6 +2370,11 @@ classdef ImageAnlzClass < handle
         % GetComplexOriented3DImage
         function Image = GetComplexOriented3DImage(IMAGEANLZ,orient)
             global TOTALGBL
+            if isgpuarray(TOTALGBL{2,IMAGEANLZ.totgblnum}.Im)
+                if ~existsOnGPU(TOTALGBL{2,IMAGEANLZ.totgblnum}.Im)
+                    TOTALGBL{2,IMAGEANLZ.totgblnum}.Im = gpuArray(TOTALGBL{2,IMAGEANLZ.totgblnum}.ImRam);
+                end
+            end
             Image = TOTALGBL{2,IMAGEANLZ.totgblnum}.Im;
             Image = ImageOrientDefined(IMAGEANLZ,Image,orient);
             Image = Image(:,:,:,IMAGEANLZ.DIM4,IMAGEANLZ.DIM5,IMAGEANLZ.DIM6);
