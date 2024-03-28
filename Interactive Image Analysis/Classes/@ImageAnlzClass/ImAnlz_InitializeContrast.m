@@ -11,6 +11,8 @@ if isreal(Image)
     MaxVal = max(Image(:));
     MinVal = min(Image(:));
 else
+    %MaxVal = max(abs(Image(:)));           % this gives me a GPU error
+    Image = gather(Image);
     MaxVal = max(abs(Image(:)));
     MinVal = -MaxVal;
 end
