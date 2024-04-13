@@ -2,7 +2,6 @@ function totgblnum = Load_TOTALGBL(totalgbl,tab,from)
 
 global IMAGEANLZ
 global TOTALGBL
-%global TOTALGBLHOLD
 global FIGOBJS
 global COMPASSINFO
 
@@ -16,7 +15,6 @@ end
 %----------------------------------------------------
 N = length(TOTALGBL(1,:));
 TOTALGBL(:,N+1) = totalgbl;
-%TOTALGBLHOLD(:,N+1) = totalgbl;
 totgblnum = N+1;
 
 %----------------------------------------------------
@@ -89,7 +87,6 @@ if loadACCtabs == 1
             totalgbl{2}.IMDISP = IMDISP;
         end
         TOTALGBL(:,N+1) = totalgbl;
-        %TOTALGBLHOLD(:,N+1) = totalgbl;
         writeImtab = 1;
         writeAcctab = 0;
     end

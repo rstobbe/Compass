@@ -46,7 +46,7 @@ if strcmp(IMAGEROI.baseroiorient,'Axial')
         drawroiimsize = IMAGEROI.roiimsize([3 2 1]);
     end
 end
-IMAGEROI.roimask = zeros(drawroiimsize);                        
+IMAGEROI.roimask = gpuArray(zeros(drawroiimsize,'single'));                        
 IMAGEROI.roimasksarr2d = cell(0);
 
 

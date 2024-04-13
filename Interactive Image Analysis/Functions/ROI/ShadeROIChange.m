@@ -45,8 +45,10 @@ switch IMAGEANLZ.(tab)(axnum).presentation
                 IMAGEANLZ.(tab)(axnum).DrawTempROI([],[]);
             end
         end
-        if src.Value == 1
-            IMAGEANLZ.(tab)(1).TestUpdateCurrentROIValue;
+        if IMAGEANLZ.(tab)(1).GETROIS == 1
+            if src.Value == 1
+                IMAGEANLZ.(tab)(1).TestUpdateCurrentROIValue;
+            end
         end
 end
 

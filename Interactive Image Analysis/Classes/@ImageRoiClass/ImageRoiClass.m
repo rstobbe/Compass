@@ -337,8 +337,8 @@ classdef ImageRoiClass < handle
         function CreateBaseROIMask(IMAGEROI) 
             if not(strcmp(IMAGEROI.baseroiorient,'Axial'))
                 error;
-            end
-            IMAGEROI.roimask = zeros(IMAGEROI.roiimsize);                % to ensure start from scratch
+            end            
+            IMAGEROI.roimask = gpuArray(zeros(IMAGEROI.roiimsize,'single'));        % to ensure start from scratch 
             for m = 1:IMAGEROI.locnum                               
                 if isempty(IMAGEROI.drawroiorientarray)
                 	IMAGEROI.drawroiorientarray{m} = 'Axial';

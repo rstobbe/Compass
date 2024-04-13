@@ -85,6 +85,7 @@ for n = 1:Num
     %---------------------------------------------------------
     % GpuArray
     %---------------------------------------------------------
+    IMG{n}.Im = single(IMG{n}.Im);              % ensure single to save memory
     IMG{n}.ImRam = IMG{n}.Im;                   % save a copy in Ram
     IMG{n}.Im = gpuArray(IMG{n}.Im);       
     
