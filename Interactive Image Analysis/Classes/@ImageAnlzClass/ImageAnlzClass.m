@@ -2148,6 +2148,7 @@ classdef ImageAnlzClass < handle
         end
         % SetCurrentPointInfoOrtho
         function SetCurrentPointInfoOrtho(IMAGEANLZ,Data)
+            Data.val = gather(Data.val);        % seems to be a problem with 'abs' if I do not do this
             if length(Data.val) > 1
                 IMAGEANLZ.FIGOBJS.CURVAL.String = [num2str(Data.val(1),'%3.2f'),',',num2str(Data.val(2),'%3.2f'),',',num2str(Data.val(3),'%3.2f')];
             else
