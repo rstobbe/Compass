@@ -66,7 +66,7 @@ elseif strcmp(OUT.buttonfunc,'updatefinish')
     end
     drawnow
     for r = 1:3
-        IMAGEANLZ.(tab)(r).Add2CurrentROIMask;
+        IMAGEANLZ.(tab)(r).Add2CurrentROIMask(IMAGEANLZ.(tab)(axnum));
         IMAGEANLZ.(tab)(r).DrawCurrentROIShade([]);
         IMAGEANLZ.(tab)(r).ResetTempROI;
         IMAGEANLZ.(tab)(r).SetMoveFunction('');

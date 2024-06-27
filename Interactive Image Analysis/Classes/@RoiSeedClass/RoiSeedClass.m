@@ -13,6 +13,8 @@ classdef RoiSeedClass < handle
         roicreatesel;
         pointer,status,info;
         maxval; minval;
+        maskinside;
+        redrawactive;
     end
     
     methods
@@ -27,6 +29,8 @@ classdef RoiSeedClass < handle
             DAT.pointer = 'cross';
             DAT.status = 'Seed Drawing Tool Active';
             DAT.info = 'Left click';
+            DAT.maskinside = 1;
+            DAT.redrawactive = 0;
         end
         function DAT = Setup(DAT,IMAGEANLZ)
             horz = 0.38;
@@ -52,6 +56,7 @@ classdef RoiSeedClass < handle
             DAT.xloc = []; DAT.yloc = []; DAT.zloc = [];
             DAT.status = 'Seeding Redraw Tool Active';
             DAT.info = 'Left click';
+            DAT.redrawactive = 1;
         end
         function Initialize(DAT)
             DAT.state = 'Start';
@@ -62,6 +67,8 @@ classdef RoiSeedClass < handle
         function Copy(DAT,DAT2)
             DAT.seed = DAT2.seed;
             DAT.seeddir = DAT2.seeddir;
+            DAT.maskinside = DAT2.maskinside;
+            DAT.redrawactive = DAT2.redrawactive;
         end
         function ResetPanel(DAT) 
         end
@@ -84,7 +91,7 @@ classdef RoiSeedClass < handle
             if err == 0
                 OUT.buttonfunc = 'updatefinish';
                 OUT.info = 'Left click';
-                OUT.xloc{1} = [DAT.xloc DAT.xloc(1)]; OUT.yloc{1} = [DAT.yloc DAT.yloc(1)]; OUT.zloc{1} = DAT.zloc;
+                OUT.xloc{1} = gather([DAT.xloc DAT.xloc(1)]); OUT.yloc{1} = gather([DAT.yloc DAT.yloc(1)]); OUT.zloc{1} = gather(DAT.zloc);
             else
                 OUT.buttonfunc = 'return';
                 OUT.info = 'Left click';
@@ -114,6 +121,21 @@ classdef RoiSeedClass < handle
         end
         function DAT = IndSeedEdit(DAT,src,event) 
             DAT.panelobs(3).ForegroundColor = [0.8 0.5 0.3];
+        end
+        function DAT = SetNoInsideMask(DAT)
+            DAT.maskinside = 0;
+        end
+        function roimask2d = DoMask(DAT,roimask2d,IMAGEANLZ) 
+            if DAT.maskinside
+                if DAT.seeddir == 1
+                    roimask2d(IMAGEANLZ.imslice < DAT.seed) = 0;
+                else
+                    roimask2d(IMAGEANLZ.imslice > DAT.seed) = 0;
+                end
+            end
+        end
+        function roimask2d = DoRedrawMask(DAT,roimask2d,temproimask) 
+                roimask2d(gather(temproimask) < 0.5) = 0;
         end
     end
 end

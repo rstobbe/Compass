@@ -229,12 +229,14 @@ classdef ImageRoiClass < handle
             ImRoi_OutsideDrawROI(IMAGEROI,slice,axhand,clr);
         end        
         % OutsideOffsetsDrawROI
-        function OutsideOffsetsDrawROI(IMAGEROI,voff,hoff,slice,axhand,clr) 
-            ImRoi_OutsideOffsetsDrawROI(IMAGEROI,voff,hoff,slice,axhand,clr);
+        function OutsideOffsetsDrawROI(IMAGEROI,voff,hoff,slice,axhand,clr,linewidth) 
+            ImRoi_OutsideOffsetsDrawROI(IMAGEROI,voff,hoff,slice,axhand,clr,linewidth);
         end  
         % ChangeShadeAlpha
         function ChangeShadeAlpha(IMAGEROI,alpha)  
-            IMAGEROI.shadehandle.AlphaData = alpha*IMAGEROI.alphadata;
+            if isvalid(IMAGEROI.shadehandle)
+                IMAGEROI.shadehandle.AlphaData = alpha*IMAGEROI.alphadata;
+            end
         end 
         
 %==================================================================
@@ -287,7 +289,7 @@ classdef ImageRoiClass < handle
 % Compute ROI
 %==================================================================           
         % AddROIMask
-        function AddROIMask(IMAGEROI) 
+        function AddROIMask(IMAGEROI,IMAGEANLZ) 
             if not(strcmp(IMAGEROI.baseroiorient,'Axial'))
                 error;
             end
@@ -313,6 +315,13 @@ classdef ImageRoiClass < handle
                     continue
                 end
                 roimask2d = roipoly(ones(drawroiimsize(1),drawroiimsize(2)),IMAGEROI.xloc0arr{m},IMAGEROI.yloc0arr{m});
+                if ismethod(IMAGEROI.CREATEMETHOD{m},'DoMask')
+                    if IMAGEROI.CREATEMETHOD{m}.redrawactive
+                        roimask2d = IMAGEROI.CREATEMETHOD{m}.DoRedrawMask(roimask2d,IMAGEANLZ.REDRAWROI.roimask(:,:,IMAGEROI.zloc0arr{m}));
+                    else
+                        roimask2d = IMAGEROI.CREATEMETHOD{m}.DoMask(roimask2d,IMAGEANLZ);
+                    end
+                end
                 if strcmp(IMAGEROI.eventarr(m),'Add') 
                     newtemproimask2d = or(temproimask(:,:,IMAGEROI.zloc0arr{m}),roimask2d);
                     IMAGEROI.roimasksarr2d{m} = newtemproimask2d - temproimask(:,:,IMAGEROI.zloc0arr{m}); 
@@ -320,6 +329,11 @@ classdef ImageRoiClass < handle
                 elseif strcmp(IMAGEROI.eventarr(m),'Erase')
                     IMAGEROI.roimasksarr2d{m} = and(temproimask(:,:,IMAGEROI.zloc0arr{m}),roimask2d);
                     temproimask(:,:,IMAGEROI.zloc0arr{m}) = temproimask(:,:,IMAGEROI.zloc0arr{m}) - IMAGEROI.roimasksarr2d{m};
+                elseif strcmp(IMAGEROI.eventarr(m),'And')
+                    roimask2d = and(IMAGEANLZ.ANDROI.roimask(:,:,IMAGEROI.zloc0arr{m}),roimask2d);
+                    newtemproimask2d = or(temproimask(:,:,IMAGEROI.zloc0arr{m}),roimask2d);
+                    IMAGEROI.roimasksarr2d{m} = newtemproimask2d - temproimask(:,:,IMAGEROI.zloc0arr{m}); 
+                    temproimask(:,:,IMAGEROI.zloc0arr{m}) = newtemproimask2d;
                 end
                 if strcmp(IMAGEROI.drawroiorientarray{m},'Axial')
                     IMAGEROI.roimask = temproimask;
@@ -362,6 +376,13 @@ classdef ImageRoiClass < handle
                     continue
                 end
                 roimask2d = roipoly(ones(drawroiimsize(1),drawroiimsize(2)),IMAGEROI.xloc0arr{m},IMAGEROI.yloc0arr{m});
+                if ismethod(IMAGEROI.CREATEMETHOD{m},'DoMask')
+                    if IMAGEROI.CREATEMETHOD{m}.redrawactive
+                        roimask2d = IMAGEROI.CREATEMETHOD{m}.DoRedrawMask(roimask2d,IMAGEANLZ.REDRAWROI.roimask(:,:,IMAGEROI.zloc0arr{m}));
+                    else
+                        roimask2d = IMAGEROI.CREATEMETHOD{m}.DoMask(roimask2d,IMAGEANLZ);
+                    end
+                end
                 if isempty(IMAGEROI.eventarr)
                     IMAGEROI.eventarr{m} = 'Add';
                 end
@@ -375,6 +396,11 @@ classdef ImageRoiClass < handle
                 elseif strcmp(IMAGEROI.eventarr(m),'Erase')
                     IMAGEROI.roimasksarr2d{m} = and(temproimask(:,:,IMAGEROI.zloc0arr{m}),roimask2d);
                     temproimask(:,:,IMAGEROI.zloc0arr{m}) = temproimask(:,:,IMAGEROI.zloc0arr{m}) - IMAGEROI.roimasksarr2d{m};
+                elseif strcmp(IMAGEROI.eventarr(m),'And')
+                    roimask2d = and(IMAGEANLZ.ANDROI.roimask(:,:,IMAGEROI.zloc0arr{m}),roimask2d);
+                    newtemproimask2d = or(temproimask(:,:,IMAGEROI.zloc0arr{m}),roimask2d);
+                    IMAGEROI.roimasksarr2d{m} = newtemproimask2d - temproimask(:,:,IMAGEROI.zloc0arr{m}); 
+                    temproimask(:,:,IMAGEROI.zloc0arr{m}) = newtemproimask2d;
                 end
                 if strcmp(IMAGEROI.drawroiorientarray{m},'Axial')
                     IMAGEROI.roimask = temproimask;
@@ -429,6 +455,8 @@ classdef ImageRoiClass < handle
             if strcmp(IMAGEROI.eventarr(m),'Erase') 
                 temproimask(:,:,IMAGEROI.zloc0arr{m}) = temproimask(:,:,IMAGEROI.zloc0arr{m}) + IMAGEROI.roimasksarr2d{m};
             elseif strcmp(IMAGEROI.eventarr(m),'Add')
+                temproimask(:,:,IMAGEROI.zloc0arr{m}) = temproimask(:,:,IMAGEROI.zloc0arr{m}) - IMAGEROI.roimasksarr2d{m};
+            elseif strcmp(IMAGEROI.eventarr(m),'And')
                 temproimask(:,:,IMAGEROI.zloc0arr{m}) = temproimask(:,:,IMAGEROI.zloc0arr{m}) - IMAGEROI.roimasksarr2d{m};
             end
             if strcmp(IMAGEROI.drawroiorientarray{m},'Axial')

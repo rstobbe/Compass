@@ -77,7 +77,7 @@ classdef RoiFreeHandClass < handle
                 if not(isempty(DAT.linehandle))
                     delete(DAT.linehandle);
                 end
-                OUT.xloc{1} = [DAT.xloc DAT.xloc(1)]; OUT.yloc{1} = [DAT.yloc DAT.yloc(1)]; OUT.zloc{1} = DAT.zloc;
+                OUT.xloc{1} = [DAT.xloc DAT.xloc(1)]; OUT.yloc{1} = [DAT.yloc DAT.yloc(1)]; OUT.zloc{1} = gather(DAT.zloc);
                 DAT.Initialize;
                 OUT.info = DAT.info;
                 OUT.buttonfunc = 'updatefinish';

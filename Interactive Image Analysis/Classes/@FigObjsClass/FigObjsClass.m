@@ -95,6 +95,7 @@ classdef FigObjsClass < handle
         DrawROIonAll;
         ComplexAverage;
         NewROIbutton;
+        AndROIbutton;        
         EraseROIbutton;
         RedrawROIbutton;
         OverlayColour;

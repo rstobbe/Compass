@@ -23,20 +23,24 @@ switch IMAGEANLZ.(tab)(axnum).presentation
             stop = axnum;
         end
         for r = start:stop
-            if not(IMAGEANLZ.(tab)(r).TestEmptyTempROI)
-                IMAGEANLZ.(tab)(r).ResetTempROI;
-                if IMAGEANLZ.(tab)(r).TestROIToolActive
-                    IMAGEANLZ.(tab)(r).RestartROITool;
+            if IMAGEANLZ.(tab)(r).TestAxisActive
+                if not(IMAGEANLZ.(tab)(r).TestEmptyTempROI)
+                    IMAGEANLZ.(tab)(r).ResetTempROI;
+                    if IMAGEANLZ.(tab)(r).TestROIToolActive
+                        IMAGEANLZ.(tab)(r).RestartROITool;
+                    end
+                else
+                    IMAGEANLZ.(tab)(r).DeleteLastRegion;
+                    IMAGEANLZ.(tab)(r).DrawCurrentROI([]);
+                    IMAGEANLZ.(tab)(r).TestUpdateCurrentROIValue;
                 end
-            else
-                IMAGEANLZ.(tab)(r).DeleteLastRegion;
-                IMAGEANLZ.(tab)(r).DrawCurrentROI([]);
-                IMAGEANLZ.(tab)(r).TestUpdateCurrentROIValue;
-            end
-            if IMAGEANLZ.(tab)(r).TestEmptyCurrentROI
-                IMAGEANLZ.(tab)(r).SetROIEvent('Add')
-                IMAGEANLZ.(tab)(r).FIGOBJS.EraseROIbutton.BackgroundColor = [0.8 0.8 0.8];
-                IMAGEANLZ.(tab)(r).FIGOBJS.EraseROIbutton.ForegroundColor = [0.149 0.149 0.241];
+                if IMAGEANLZ.(tab)(r).TestEmptyCurrentROI
+                    IMAGEANLZ.(tab)(r).SetROIEvent('Add')
+                    IMAGEANLZ.(tab)(r).FIGOBJS.EraseROIbutton.BackgroundColor = [0.8 0.8 0.8];
+                    IMAGEANLZ.(tab)(r).FIGOBJS.EraseROIbutton.ForegroundColor = [0.149 0.149 0.241];
+                    IMAGEANLZ.(tab)(r).FIGOBJS.AndROIbutton.BackgroundColor = [0.8 0.8 0.8];
+                    IMAGEANLZ.(tab)(r).FIGOBJS.AndROIbutton.ForegroundColor = [0.149 0.149 0.241];
+                end
             end
         end
         IMAGEANLZ.(tab)(axnum).TestUpdateCurrentROIValue;               % retain this focus
@@ -57,6 +61,8 @@ switch IMAGEANLZ.(tab)(axnum).presentation
                 IMAGEANLZ.(tab)(r).SetROIEvent('Add')
                 IMAGEANLZ.(tab)(1).FIGOBJS.EraseROIbutton.BackgroundColor = [0.8 0.8 0.8];
                 IMAGEANLZ.(tab)(1).FIGOBJS.EraseROIbutton.ForegroundColor = [0.149 0.149 0.241];
+                IMAGEANLZ.(tab)(1).FIGOBJS.AndROIbutton.BackgroundColor = [0.8 0.8 0.8];
+                IMAGEANLZ.(tab)(1).FIGOBJS.AndROIbutton.ForegroundColor = [0.149 0.149 0.241];
             end
         end
         IMAGEANLZ.(tab)(1).TestUpdateCurrentROIValue;

@@ -33,6 +33,8 @@ switch IMAGEANLZ.(tab)(axnum).presentation
                 IMAGEANLZ.(tab)(r).FIGOBJS.NewROIbutton.ForegroundColor = [0.149 0.149 0.241];
                 IMAGEANLZ.(tab)(r).FIGOBJS.EraseROIbutton.BackgroundColor = [0.8,0.8,0.8];
                 IMAGEANLZ.(tab)(r).FIGOBJS.EraseROIbutton.ForegroundColor = [0.149 0.149 0.241];
+                IMAGEANLZ.(tab)(r).FIGOBJS.AndROIbutton.BackgroundColor = [0.8,0.8,0.8];
+                IMAGEANLZ.(tab)(r).FIGOBJS.AndROIbutton.ForegroundColor = [0.149 0.149 0.241];
                 IMAGEANLZ.(tab)(r).FIGOBJS.RedrawROIbutton.BackgroundColor = [0.8,0.8,0.8];
                 IMAGEANLZ.(tab)(r).FIGOBJS.RedrawROIbutton.ForegroundColor = [0.149 0.149 0.241];
             end
@@ -57,6 +59,8 @@ switch IMAGEANLZ.(tab)(axnum).presentation
         IMAGEANLZ.(tab)(1).FIGOBJS.NewROIbutton.ForegroundColor = [0.149 0.149 0.241];
         IMAGEANLZ.(tab)(1).FIGOBJS.EraseROIbutton.BackgroundColor = [0.8,0.8,0.8];
         IMAGEANLZ.(tab)(1).FIGOBJS.EraseROIbutton.ForegroundColor = [0.149 0.149 0.241];
+        IMAGEANLZ.(tab)(1).FIGOBJS.AndROIbutton.BackgroundColor = [0.8,0.8,0.8];
+        IMAGEANLZ.(tab)(1).FIGOBJS.AndROIbutton.ForegroundColor = [0.149 0.149 0.241];
         IMAGEANLZ.(tab)(1).FIGOBJS.RedrawROIbutton.BackgroundColor = [0.8,0.8,0.8];
         IMAGEANLZ.(tab)(1).FIGOBJS.RedrawROIbutton.ForegroundColor = [0.149 0.149 0.241];
         DrawOrthoLines(tab);

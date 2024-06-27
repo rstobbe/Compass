@@ -9,7 +9,10 @@ end
 
 delete(IMAGEROI.linehandles)
 delete(IMAGEROI.contextmenu)
-zlocarr = cell2mat(IMAGEROI.zlocarr);
+%zlocarr = cell2mat(IMAGEROI.zlocarr);              % different number types...
+for n = 1:length(IMAGEROI.zlocarr)
+    zlocarr(n) = IMAGEROI.zlocarr{n};
+end
 for n = 1:length(IMAGEROI.xlocarr)
     if isprop(IMAGEROI,'drawroiorientarray')
         if length(IMAGEROI.drawroiorientarray) == 0

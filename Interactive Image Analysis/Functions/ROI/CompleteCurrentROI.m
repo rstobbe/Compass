@@ -58,14 +58,6 @@ switch IMAGEANLZ.(tab)(axnum).presentation
         end
         for r = start:stop
             if IMAGEANLZ.(tab)(r).TestAxisActive
-                if ~IMAGEANLZ.(tab)(r).autoupdateroi || ~IMAGEANLZ.(tab)(r).shaderoi
-                    Status.state = 'info';  
-                    Status.string = ['Calculate ROI for Panel ',num2str(r)];
-                    IMAGEANLZ.(tab)(r).STATUS.SetStatusLine(Status,3)
-                    IMAGEANLZ.(tab)(r).STATUS.UpdateStatus;
-                    drawnow;
-                    IMAGEANLZ.(tab)(r).CURRENTROI.CreateBaseROIMask;
-                end
                 IMAGEANLZ.(tab)(r).CompleteCurrentROI(roi,roiname);
                 IMAGEANLZ.(tab)(r).PlotImage;
                 IMAGEANLZ.(tab)(r).DrawSavedROIs([]);
@@ -78,6 +70,8 @@ switch IMAGEANLZ.(tab)(axnum).presentation
                 IMAGEANLZ.(tab)(r).FIGOBJS.EraseROIbutton.ForegroundColor = [0.149 0.149 0.241];
                 IMAGEANLZ.(tab)(r).FIGOBJS.RedrawROIbutton.BackgroundColor = [0.8,0.8,0.8];
                 IMAGEANLZ.(tab)(r).FIGOBJS.RedrawROIbutton.ForegroundColor = [0.149 0.149 0.241];
+                IMAGEANLZ.(tab)(r).FIGOBJS.AndROIbutton.BackgroundColor = [0.8,0.8,0.8];
+                IMAGEANLZ.(tab)(r).FIGOBJS.AndROIbutton.ForegroundColor = [0.149 0.149 0.241];
                 IMAGEANLZ.(tab)(r).FIGOBJS.MakeCurrentInvisible;
             end
         end

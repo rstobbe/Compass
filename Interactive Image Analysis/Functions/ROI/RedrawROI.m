@@ -9,6 +9,9 @@ if not(IMAGEANLZ.(tab)(axnum).TestFinishedCurrentROI)
     Status2('warn','No ROI to Redraw',3);
     return
 end
+if IMAGEANLZ.(tab)(axnum).androi == 1
+    return
+end
 
 currentax = gca;
 switch IMAGEANLZ.(tab)(axnum).presentation
@@ -21,15 +24,17 @@ switch IMAGEANLZ.(tab)(axnum).presentation
             stop = axnum;
         end
         for r = start:stop
-            IMAGEANLZ.(tab)(r).InitiateRedrawROI;
-            IMAGEANLZ.(tab)(r).UpdateStatus;
-            IMAGEANLZ.(tab)(r).FIGOBJS.NewROIbutton.BackgroundColor = [0.8,0.8,0.8];
-            IMAGEANLZ.(tab)(r).FIGOBJS.NewROIbutton.ForegroundColor = [0.149 0.149 0.241];
-            IMAGEANLZ.(tab)(r).FIGOBJS.EraseROIbutton.BackgroundColor = [0.8,0.8,0.8];
-            IMAGEANLZ.(tab)(r).FIGOBJS.EraseROIbutton.ForegroundColor = [0.149 0.149 0.241];
-            IMAGEANLZ.(tab)(r).FIGOBJS.RedrawROIbutton.BackgroundColor = [0.6,0.2,0.2];
-            IMAGEANLZ.(tab)(r).FIGOBJS.RedrawROIbutton.ForegroundColor = [1 1 1];
-            Slice_Change(currentax,tab,r,0);
+            if IMAGEANLZ.(tab)(r).TestAxisActive
+                IMAGEANLZ.(tab)(r).InitiateRedrawROI;
+                IMAGEANLZ.(tab)(r).UpdateStatus;
+                IMAGEANLZ.(tab)(r).FIGOBJS.NewROIbutton.BackgroundColor = [0.8,0.8,0.8];
+                IMAGEANLZ.(tab)(r).FIGOBJS.NewROIbutton.ForegroundColor = [0.149 0.149 0.241];
+                IMAGEANLZ.(tab)(r).FIGOBJS.EraseROIbutton.BackgroundColor = [0.8,0.8,0.8];
+                IMAGEANLZ.(tab)(r).FIGOBJS.EraseROIbutton.ForegroundColor = [0.149 0.149 0.241];
+                IMAGEANLZ.(tab)(r).FIGOBJS.RedrawROIbutton.BackgroundColor = [0.6,0.2,0.2];
+                IMAGEANLZ.(tab)(r).FIGOBJS.RedrawROIbutton.ForegroundColor = [1 1 1];
+                Slice_Change(currentax,tab,r,0);
+            end
         end
     case 'Ortho'
         for r = 1:1

@@ -42,7 +42,7 @@ if (data.IsTransferableAsFileList)
         end
         if strcmp(tab(1),'I')            
             if strcmp(file(1:3),'ROI')
-                roinum = IMAGEANLZ.(tab)(1).FindNextAvailableROI;
+                roinum = IMAGEANLZ.(tab)(axnum).FindNextAvailableROI;
                 LoadROI(tab,axnum,roinum,path,file);
                 panelnum = str2double(FIGOBJS.(tab).ScriptTabGroup.SelectedTab.Title(7));
                 scrptnum = 1;

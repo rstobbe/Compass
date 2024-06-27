@@ -52,6 +52,8 @@ switch RWSUIGBL.Key
                 Zoom_In3(currentax,tab,axnum);
             end
         end
+    case 's'
+        ShadeROIScrollChange(tab,axnum,event);
     case '4'
         imsize = IMAGEANLZ.(tab)(axnum).GetBaseImageSize([]);
         dim4 = IMAGEANLZ.(tab)(axnum).DIM4 - event.VerticalScrollCount;

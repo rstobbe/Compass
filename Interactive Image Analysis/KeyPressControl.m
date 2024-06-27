@@ -13,7 +13,8 @@ if not(isempty(IMAGEANLZ.(tab)(axnum).movefunction))
     return
 end
 
-switch event.Key  
+%switch event.Key
+switch event.Character  
     case 'z'                                        % New current ROI
         if GETROIS == 1 || LineToolActive == 1
             return
@@ -39,9 +40,9 @@ switch event.Key
         end
         EraseROI(tab,axnum);
     case 's'                                        % Toggle Shading
-        %ToggleShadeROI(tab,axnum);
-    case 'd'                                        % Toggle ROI Line Drawing
-        %ToggleLinesROI(tab,axnum);
+        ToggleShadeROI(tab,axnum);
+    case 'a'                                        % Toggle ROI Line Drawing
+        ToggleLinesROI(tab,axnum);
     case 'c'                                        % Complete current ROI / save
         if GETROIS == 0
             return

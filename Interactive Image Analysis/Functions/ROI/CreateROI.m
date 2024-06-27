@@ -98,6 +98,7 @@ elseif strcmp(OUT.buttonfunc,'updatefinish')
     end
     for r = start:stop
         if IMAGEANLZ.(tab)(r).TestAxisActive
+            IMAGEANLZ.(tab)(r).Add2CurrentROIMask(IMAGEANLZ.(tab)(axnum));
             IMAGEANLZ.(tab)(r).ResetTempROI;
             IMAGEANLZ.(tab)(r).SetMoveFunction('');
         end

@@ -74,6 +74,7 @@ classdef ImageAnlzClass < handle
         complexaverageroi;
         roievent;
         redrawroi;
+        androi;
         colourimage;
         colouroverlay;
         %-- line
@@ -100,6 +101,7 @@ classdef ImageAnlzClass < handle
         TEMPROI;
         CURRENTROI;
         REDRAWROI;
+        ANDROI;
         SAVEDROIS;
         ROIFREEHAND;                 
         ROISEED;
@@ -626,16 +628,19 @@ classdef ImageAnlzClass < handle
         function SetDim4(IMAGEANLZ,dim4)
             IMAGEANLZ.DIM4 = dim4;
             IMAGEANLZ.FIGOBJS.DIM4.String = num2str(IMAGEANLZ.DIM4); 
+            IMAGEANLZ.FIGOBJS.Dim4.Value = IMAGEANLZ.DIM4;
         end
         % SetDim5
         function SetDim5(IMAGEANLZ,dim5)
             IMAGEANLZ.DIM5 = dim5;
-            IMAGEANLZ.FIGOBJS.DIM5.String = num2str(IMAGEANLZ.DIM5); 
+            IMAGEANLZ.FIGOBJS.DIM5.String = num2str(IMAGEANLZ.DIM5);
+            IMAGEANLZ.FIGOBJS.Dim5.Value = IMAGEANLZ.DIM5;
         end
         % SetDim6
         function SetDim6(IMAGEANLZ,dim6)
             IMAGEANLZ.DIM6 = dim6;
             IMAGEANLZ.FIGOBJS.DIM6.String = num2str(IMAGEANLZ.DIM6); 
+            IMAGEANLZ.FIGOBJS.Dim6.Value = IMAGEANLZ.DIM6;
         end
         
 %==================================================================
@@ -1168,6 +1173,11 @@ classdef ImageAnlzClass < handle
                 z = IMAGEANLZ.SLICE;
                 datapoint = [x,y,z,val];
                 OUT = IMAGEANLZ.TEMPROI.BuildROI(datapoint,event,maskslice);
+            elseif IMAGEANLZ.androi == 1
+                val = IMAGEANLZ.imslice(round(y),round(x));
+                z = IMAGEANLZ.SLICE;
+                datapoint = [x,y,z,val];
+                OUT = IMAGEANLZ.TEMPROI.BuildROI(datapoint,event,IMAGEANLZ.imslice);
             else
                 val = IMAGEANLZ.imslice(round(y),round(x));
                 z = IMAGEANLZ.SLICE;
@@ -1297,22 +1307,17 @@ classdef ImageAnlzClass < handle
         % Add2CurrentROI
         function Add2CurrentROI(IMAGEANLZ,TEMPROI)
             IMAGEANLZ.CURRENTROI.Concatenate(TEMPROI,IMAGEANLZ.roievent,IMAGEANLZ.ORIENT);
-            if IMAGEANLZ.shaderoi || IMAGEANLZ.autoupdateroi
-                IMAGEANLZ.CURRENTROI.AddROIMask;
-            end
         end
         % Add2CurrentROIOrtho
         function Add2CurrentROIOrtho(IMAGEANLZ,TEMPROI,DrawOrient)
             IMAGEANLZ.CURRENTROI.Concatenate(TEMPROI,IMAGEANLZ.roievent,DrawOrient);
-%             if IMAGEANLZ.shaderoi || IMAGEANLZ.autoupdateroi      % move below
-%                 IMAGEANLZ.CURRENTROI.AddROIMask;
-%             end
         end
         % Add2CurrentROIMask
-        function Add2CurrentROIMask(IMAGEANLZ)
-            if IMAGEANLZ.shaderoi || IMAGEANLZ.autoupdateroi
-                IMAGEANLZ.CURRENTROI.AddROIMask;
-            end
+        function Add2CurrentROIMask(IMAGEANLZ,IMAGEANLZDRAWING)
+%             if IMAGEANLZ.shaderoi || IMAGEANLZ.autoupdateroi
+%                 IMAGEANLZ.CURRENTROI.AddROIMask(IMAGEANLZDRAWING);
+%             end
+            IMAGEANLZ.CURRENTROI.AddROIMask(IMAGEANLZDRAWING);      % do always
         end  
         % TestUpdateCurrentROIValue
         function TestUpdateCurrentROIValue(IMAGEANLZ)
@@ -1339,6 +1344,8 @@ classdef ImageAnlzClass < handle
         function DrawCurrentROI(IMAGEANLZ,axhand)
             if IMAGEANLZ.redrawroi
                 IMAGEANLZ.REDRAWROI.ShadeROI(IMAGEANLZ,axhand,[0 0.3 0.8],IMAGEANLZ.shaderoivalue);
+            elseif IMAGEANLZ.androi
+                IMAGEANLZ.ANDROI.ShadeROI(IMAGEANLZ,axhand,[0 0.8 0.3],IMAGEANLZ.shaderoivalue);
             end
             if isempty(IMAGEANLZ.CURRENTROI) 
                 return
@@ -1589,10 +1596,21 @@ classdef ImageAnlzClass < handle
         end   
         % ToggleROIEvent
         function Event = ToggleROIEvent(IMAGEANLZ)
-            if strcmp(IMAGEANLZ.roievent,'Add')
+            if ~strcmp(IMAGEANLZ.roievent,'Erase')
                 IMAGEANLZ.roievent = 'Erase';
             else
                 IMAGEANLZ.roievent = 'Add';
+            end
+            Event = IMAGEANLZ.roievent;
+        end
+        % ToggleROIAndEvent
+        function Event = ToggleROIAndEvent(IMAGEANLZ)
+            if ~strcmp(IMAGEANLZ.roievent,'And')
+                IMAGEANLZ.roievent = 'And';
+                IMAGEANLZ.androi = 1;
+            else
+                IMAGEANLZ.roievent = 'Add';
+                IMAGEANLZ.androi = 0;
             end
             Event = IMAGEANLZ.roievent;
         end
@@ -1641,7 +1659,8 @@ classdef ImageAnlzClass < handle
             IMAGEANLZ.REDRAWROI.CopyRoiInfo(IMAGEANLZ.CURRENTROI);
             IMAGEANLZ.CURRENTROI = ImageRoiClass(IMAGEANLZ);
             IMAGEANLZ.TEMPROI = ImageRoiClass(IMAGEANLZ);
-            IMAGEANLZ.TEMPROI.AddNewRegion(IMAGEANLZ.ROISEED);
+            RoiMeth = IMAGEANLZ.ROISEED;
+            IMAGEANLZ.TEMPROI.AddNewRegion(RoiMeth);
             IMAGEANLZ.TEMPROI.CREATEMETHOD{1}.RedrawSetup;
             IMAGEANLZ.buttonfunction = 'CreateROI';
             IMAGEANLZ.movefunction = '';
@@ -1649,6 +1668,40 @@ classdef ImageAnlzClass < handle
             IMAGEANLZ.FIGOBJS.MakeCurrentVisible;
             Status(1).state = 'busy';
             Status(1).string = 'Redraw ROI';       
+            Status(2).state = 'busy';  
+            Status(2).string = IMAGEANLZ.TEMPROI.GetStatus;   
+            Status(3).state = 'info';  
+            Status(3).string = IMAGEANLZ.TEMPROI.GetInfo;        
+            IMAGEANLZ.STATUS.SetStatus(Status)                    
+        end
+        % InitiateAndROI
+        function InitiateAndROI(IMAGEANLZ)
+            IMAGEANLZ.androi = 1;
+            IMAGEANLZ.roievent = 'And';
+            IMAGEANLZ.ANDROI = ImageRoiClass(IMAGEANLZ);
+            IMAGEANLZ.ANDROI.CopyRoiInfo(IMAGEANLZ.CURRENTROI);
+            IMAGEANLZ.CURRENTROI = ImageRoiClass(IMAGEANLZ);
+            IMAGEANLZ.TEMPROI = ImageRoiClass(IMAGEANLZ);
+            IMAGEANLZ.TEMPROI.AddNewRegion(IMAGEANLZ.GetROITool);
+            IMAGEANLZ.TEMPROI.CREATEMETHOD{1}.Setup(IMAGEANLZ);
+            IMAGEANLZ.buttonfunction = 'CreateROI';
+            IMAGEANLZ.movefunction = '';
+            IMAGEANLZ.pointer = IMAGEANLZ.TEMPROI.GetPointer;
+            IMAGEANLZ.FIGOBJS.MakeCurrentVisible;
+            Status(1).state = 'busy';
+            Status(1).string = 'And ROI';       
+            Status(2).state = 'busy';  
+            Status(2).string = IMAGEANLZ.TEMPROI.GetStatus;   
+            Status(3).state = 'info';  
+            Status(3).string = IMAGEANLZ.TEMPROI.GetInfo;        
+            IMAGEANLZ.STATUS.SetStatus(Status)                    
+        end
+        % ReturnAndROI
+        function ReturnAndROI(IMAGEANLZ)
+            IMAGEANLZ.androi = 0;
+            IMAGEANLZ.roievent = 'Add';
+            Status(1).state = 'busy';
+            Status(1).string = 'ROI Active';       
             Status(2).state = 'busy';  
             Status(2).string = IMAGEANLZ.TEMPROI.GetStatus;   
             Status(3).state = 'info';  
@@ -1848,9 +1901,9 @@ classdef ImageAnlzClass < handle
             WidLevel = 0.6;
             PixDim = IMAGEANLZ.GetPixelDimensions;
             dim = (1:wpts) * (PixDim(2)/4);
+            plot(dim,AveVals);
             S1 = interp1(AveVals(StartLoc:TopLoc),dim(StartLoc:TopLoc),WidLevel);
             S2 = interp1(AveVals(TopLoc:wpts),dim(TopLoc:wpts),WidLevel); 
-            plot(dim,AveVals);
             plot([S1 S2],[WidLevel WidLevel],'k:');
             xlabel('mm');
             Width = S2 - S1

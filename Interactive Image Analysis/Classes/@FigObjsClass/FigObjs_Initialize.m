@@ -100,6 +100,8 @@ IMOBJS.ActivateLineTool.BackgroundColor = [0.8 0.8 0.8];
 IMOBJS.ActivateLineTool.ForegroundColor = [0.149 0.149 0.241];
 IMOBJS.EraseROIbutton.BackgroundColor = [0.8 0.8 0.8];
 IMOBJS.EraseROIbutton.ForegroundColor = [0.149 0.149 0.241];
+IMOBJS.AndROIbutton.BackgroundColor = [0.8 0.8 0.8];
+IMOBJS.AndROIbutton.ForegroundColor = [0.149 0.149 0.241];
 IMOBJS.RedrawROIbutton.BackgroundColor = [0.8 0.8 0.8];
 IMOBJS.RedrawROIbutton.ForegroundColor = [0.149 0.149 0.241];
 

@@ -39,7 +39,7 @@ classdef RoiRectClass < handle
         function Initialize(DAT)
             DAT.state = 'Start';
             DAT.xloc = []; DAT.yloc = []; DAT.zloc = [];
-            DAT.status = 'Tube Drawing Tool Active';
+            DAT.status = 'Rectangle Drawing Tool Active';
             DAT.info = 'Left click to start';
         end
         function Copy(DAT,DAT2)
@@ -115,7 +115,8 @@ classdef RoiRectClass < handle
                 DAT.Axloc(5) = DAT.Axloc(1);
                 DAT.Azloc(1:5) = DAT.zloc;
                 OUT.clr = [0.8 0.3 0.3];
-                OUT.xloc{1} = DAT.Axloc; OUT.yloc{1} = DAT.Ayloc; OUT.zloc{1} = DAT.Azloc;
+                %OUT.xloc{1} = DAT.Axloc; OUT.yloc{1} = DAT.Ayloc; OUT.zloc{1} = DAT.Azloc;
+                OUT.xloc{1} = DAT.Axloc; OUT.yloc{1} = DAT.Ayloc; OUT.zloc{1} = DAT.Azloc(1);
                 DAT.xloc = []; DAT.yloc = []; DAT.zloc = [];
                 OUT.buttonfunc = 'updatefinish';
                 OUT.info = 'Left click to start';

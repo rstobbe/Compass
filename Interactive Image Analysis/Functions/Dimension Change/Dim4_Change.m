@@ -11,15 +11,6 @@ global IMAGEANLZ
 IMAGEANLZ.(tab)(axnum0).SetDim4(val);
 
 %----------------------------------------
-% Do Contrast Hold Update Stuff...
-%    don't like it.
-%----------------------------------------
-% if IMAGEANLZ.(tab)(axnum0).contrasthold == 0
-%     IMAGEANLZ.(tab)(axnum0).InitializeContrast;
-% end
-% IMAGEANLZ.(tab)(axnum0).SetContrast;
-
-%----------------------------------------
 % Update Image
 %----------------------------------------
 if IMAGEANLZ.(tab)(axnum0).DIMSTIE == 1
@@ -30,11 +21,26 @@ else
     stop = axnum0;
 end
 for axnum = start:stop
-    IMAGEANLZ.(tab)(axnum).SetDim4(IMAGEANLZ.(tab)(axnum0).DIM4);
     if IMAGEANLZ.(tab)(axnum).TestAxisActive
+        IMAGEANLZ.(tab)(axnum).SetDim4(IMAGEANLZ.(tab)(axnum0).DIM4); 
         IMAGEANLZ.(tab)(axnum).SetImage;
         IMAGEANLZ.(tab)(axnum).SetImageSlice;
         IMAGEANLZ.(tab)(axnum).PlotImage;
+        if IMAGEANLZ.(tab)(axnum).contrasthold == 0
+            MaxVal = max(IMAGEANLZ.(tab)(axnum).imvol(:));
+            maxcmax = IMAGEANLZ.(tab)(axnum).MaxCMaxValTest(num2str(MaxVal));
+            if strcmp(IMAGEANLZ.(tab)(axnum).presentation,'Standard')
+                IMAGEANLZ.(tab)(axnum).MaxContrastMaxUpdate(maxcmax); 
+                IMAGEANLZ.(tab)(axnum).ChangeMaxContrastVal(MaxVal);
+                IMAGEANLZ.(tab)(axnum).UpdateMaxContrastSlider;    
+            elseif strcmp(IMAGEANLZ.(tab)(axnum).presentation,'Ortho')
+                for n = 1:3
+                    IMAGEANLZ.(tab)(n).MaxContrastMaxUpdate(maxcmax);
+                    IMAGEANLZ.(tab)(n).ChangeMaxContrastVal(str2double(src.String));
+                end
+                IMAGEANLZ.(tab)(axnum).UpdateMaxContrastSlider; 
+            end
+        end
     end
 end
 
