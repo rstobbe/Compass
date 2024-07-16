@@ -96,5 +96,9 @@ switch RWSUIGBL.Key
         else
             FIGOBJS.(tab).Dim6(axnum).Value = dim6;
         end
+    case 'backquote'
+        MaxContrastScrollChange(tab, axnum, event);
+    case 'control'
+        MinContrastScrollChange(tab, axnum, event);
 end
 

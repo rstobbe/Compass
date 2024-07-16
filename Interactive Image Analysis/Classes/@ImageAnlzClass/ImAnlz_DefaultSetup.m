@@ -25,6 +25,8 @@ IMAGEANLZ.linesroi = 1;
 IMAGEANLZ.FIGOBJS.LinesROI.Value = 1;
 IMAGEANLZ.shaderoivalue = 0.10;
 IMAGEANLZ.FIGOBJS.ShadeROIValue.Value = 0.10;
+IMAGEANLZ.ColourBool = 0;
+IMAGEANLZ.TieContrast = 0;
 
 IMAGEANLZ.FIGOBJS.ImAxes.YDir = 'reverse';                              % copy 'image' command
 IMAGEANLZ.FIGOBJS.ImAxes.XTick = [];

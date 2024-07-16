@@ -40,6 +40,7 @@ classdef FigObjsClass < handle
         TieDatVals;
         TieCursor;
         HoldContrast;
+        TieContrast;
         Options;    
         ImColour;
         ImType;

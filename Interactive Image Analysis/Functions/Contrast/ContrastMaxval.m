@@ -23,6 +23,16 @@ IMAGEANLZ.(tab)(axnum).CMaxValUserEdit;
 maxcmax = IMAGEANLZ.(tab)(axnum).MaxCMaxValTest(src.String);
 
 if strcmp(IMAGEANLZ.(tab)(axnum).presentation,'Standard')
+    for r = 1:2
+        if IMAGEANLZ.(tab)(r).TieContrast == 1
+            IMAGEANLZ.(tab)(1).MaxContrastMaxUpdate(maxcmax); 
+            IMAGEANLZ.(tab)(1).ChangeMaxContrastVal(str2double(src.String));
+            IMAGEANLZ.(tab)(1).UpdateMaxContrastSlider; 
+            IMAGEANLZ.(tab)(2).MaxContrastMaxUpdate(maxcmax); 
+            IMAGEANLZ.(tab)(2).ChangeMaxContrastVal(str2double(src.String));
+            IMAGEANLZ.(tab)(2).UpdateMaxContrastSlider; 
+        end
+    end
     IMAGEANLZ.(tab)(axnum).MaxContrastMaxUpdate(maxcmax); 
     IMAGEANLZ.(tab)(axnum).ChangeMaxContrastVal(str2double(src.String));
     IMAGEANLZ.(tab)(axnum).UpdateMaxContrastSlider;    

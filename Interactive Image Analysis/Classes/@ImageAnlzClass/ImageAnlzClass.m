@@ -35,7 +35,9 @@ classdef ImageAnlzClass < handle
         MinContrastMin;
         MinContrastCurrent;
         ContrastSettings;
+        TieContrast;
         ImageObject;
+        ColourBool
         %-- overlay contrast
         OImType;
         ORelContrast;
@@ -2529,10 +2531,23 @@ classdef ImageAnlzClass < handle
         function ChangeColour(IMAGEANLZ,colour)
             if strcmp(colour,'on')
                 colormap(IMAGEANLZ.FIGOBJS.ImAxes,IMAGEANLZ.FIGOBJS.Options.ColorMap);
+                IMAGEANLZ.ColourBool = 1;
             else
                 colormap(IMAGEANLZ.FIGOBJS.ImAxes,IMAGEANLZ.FIGOBJS.Options.GrayMap);
+                IMAGEANLZ.ColourBool = 0;
             end
         end
+
+        function ToggleColour(IMAGEANLZ)
+            if  IMAGEANLZ.ColourBool == 1
+                colormap(IMAGEANLZ.FIGOBJS.ImAxes,IMAGEANLZ.FIGOBJS.Options.GrayMap);
+                IMAGEANLZ.ColourBool = 0;
+            else
+                colormap(IMAGEANLZ.FIGOBJS.ImAxes,IMAGEANLZ.FIGOBJS.Options.ColorMap);
+                IMAGEANLZ.ColourBool = 1;
+            end
+        end
+        
         % SetScale
         function SetScale(IMAGEANLZ)
             IMAGEANLZ.FIGOBJS.ImAxes.XLim = [IMAGEANLZ.SCALE.xmin IMAGEANLZ.SCALE.xmax];
@@ -2662,6 +2677,14 @@ classdef ImageAnlzClass < handle
             IMAGEANLZ.contrasthold = value;
         end
 
+        function ToggleTieContrast(IMAGEANLZ,value)
+            IMAGEANLZ.TieContrast = value;
+
+        end
+
+        function CopyTieContrast(IMAGEANLZ, IMAGEANLZ2)
+            IMAGEANLZ.FIGOBJS.TieContrast.Value = IMAGEANLZ2.FIGOBJS.TieContrast.Value;
+        end
 %==================================================================
 % Status
 %==================================================================   
@@ -2675,7 +2698,7 @@ classdef ImageAnlzClass < handle
         end  
         % SetInfo
         function SetInfo(IMAGEANLZ,String)  
-        	Status.string = String;
+        	Status.string = String; 
             Status.state = 'info';
             IMAGEANLZ.STATUS.SetStatusLine(Status,3);  
         end  

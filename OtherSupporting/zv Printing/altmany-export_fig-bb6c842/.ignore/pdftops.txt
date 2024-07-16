@@ -1,1 +1,1 @@
-D:\Compass\OtherSupporting\zv Printing\xpdf-tools-win-4.00\bin32\pdftops.exe
+C:\Compass\OtherSupporting\zv Printing\xpdf-tools-win-4.00\bin64\pdftops.exe
