@@ -15,12 +15,11 @@ switch IMAGEANLZ.(tab)(axnum).presentation
         elseif newcontrastvalue > 1
             newcontrastvalue = 1;
         end
-        if IMAGEANLZ.(tab)(axnum).TieContrast
-            otherax = 1;
-            if axnum == 1
-                otherax = 2;
+        for r = 1:2
+            if IMAGEANLZ.(tab)(r).TieContrast == 1
+                IMAGEANLZ.(tab)(1).ChangeMaxContrastRel(newcontrastvalue);
+                IMAGEANLZ.(tab)(2).ChangeMaxContrastRel(newcontrastvalue);
             end
-            IMAGEANLZ.(tab)(otherax).ChangeMaxContrastRel(newcontrastvalue);
         end
         IMAGEANLZ.(tab)(axnum).ChangeMaxContrastRel(newcontrastvalue);
     case 'Ortho'

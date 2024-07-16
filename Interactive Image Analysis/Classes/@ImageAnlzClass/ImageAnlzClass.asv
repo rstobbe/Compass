@@ -1017,7 +1017,6 @@ classdef ImageAnlzClass < handle
             IMAGEANLZ.SetContrast;
         end
         % OverlayLoadContrast
-        function OverlayLoadContrast(IMAGEANLZ,overlaynum)
             ImAnlz_OverlayUpdateContrastTypeChange(IMAGEANLZ,overlaynum);
             n = overlaynum;
             if abs(IMAGEANLZ.OMaxContrastMax(n)) < abs(IMAGEANLZ.OMinContrastMin(n))
@@ -2685,6 +2684,8 @@ classdef ImageAnlzClass < handle
         function CopyTieContrast(IMAGEANLZ, IMAGEANLZ2)
             IMAGEANLZ.FIGOBJS.TieContrast.Value = IMAGEANLZ2.FIGOBJS.TieContrast.Value;
             IMAGEANLZ.TieContrast = IMAGEANLZ2.TieContrast;
+            IMAGEANLZ.TieContrast
+            IMAGEANLZ2.TieContrast
         end
 %==================================================================
 % Status
