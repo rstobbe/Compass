@@ -1017,6 +1017,7 @@ classdef ImageAnlzClass < handle
             IMAGEANLZ.SetContrast;
         end
         % OverlayLoadContrast
+        function OverlayLoadContrast(IMAGEANLZ,overlaynum)
             ImAnlz_OverlayUpdateContrastTypeChange(IMAGEANLZ,overlaynum);
             n = overlaynum;
             if abs(IMAGEANLZ.OMaxContrastMax(n)) < abs(IMAGEANLZ.OMinContrastMin(n))
