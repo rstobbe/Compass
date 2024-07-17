@@ -161,6 +161,11 @@ if isfield(FIGOBJS.(tab),'HoldContrast')
         IMOBJS.HoldContrast = FIGOBJS.(tab).HoldContrast(axnum);
     end
 end
+if isfield(FIGOBJS.(tab),'TieContrast') 
+    if axnum <= length(FIGOBJS.(tab).TieContrast)
+        IMOBJS.TieContrast = FIGOBJS.(tab).TieContrast(axnum);
+    end
+end
 if isfield(FIGOBJS.(tab),'ImColour') 
     if axnum <= length(FIGOBJS.(tab).ImColour)
         IMOBJS.ImColour = FIGOBJS.(tab).ImColour(axnum);

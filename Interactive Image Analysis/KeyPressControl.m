@@ -100,4 +100,6 @@ switch event.Character
             return
         end  
         NewLine(tab,axnum);
+    case 'p'
+        ToggleColour(tab,axnum,event)
 end

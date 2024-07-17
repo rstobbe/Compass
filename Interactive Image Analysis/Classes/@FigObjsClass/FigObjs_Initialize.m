@@ -90,7 +90,9 @@ IMOBJS.TieDatVals.Enable = 'on';
 IMOBJS.TieCursor.Enable = 'on';
 
 IMOBJS.HoldContrast.Value = 0;
-IMOBJS.HoldContrast.Enable = 'inactive';
+% IMOBJS.HoldContrast.Enable = 'inactive';
+IMOBJS.TieContrast.Value = 0;
+% IMOBJS.TieContrast.Enable = 'inactive';
 IMOBJS.ShadeROI.Value = 1;
 IMOBJS.LinesROI.Value = 1;
 IMOBJS.ShadeROIValue.Value = 0.10;

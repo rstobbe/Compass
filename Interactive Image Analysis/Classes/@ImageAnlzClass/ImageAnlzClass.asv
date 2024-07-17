@@ -2685,6 +2685,8 @@ classdef ImageAnlzClass < handle
         function CopyTieContrast(IMAGEANLZ, IMAGEANLZ2)
             IMAGEANLZ.FIGOBJS.TieContrast.Value = IMAGEANLZ2.FIGOBJS.TieContrast.Value;
             IMAGEANLZ.TieContrast = IMAGEANLZ2.TieContrast;
+            IMAGEANLZ.TieContrast
+            IMAGEANLZ2.TieContrast
         end
 %==================================================================
 % Status
