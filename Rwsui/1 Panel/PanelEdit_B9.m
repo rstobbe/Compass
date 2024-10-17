@@ -78,7 +78,7 @@ for a = 1:length(SCRPTipt)
                         test = func();
                         [file,path] = uigetfile(Current{m,2}{n,1}.path,'Select Function');
                     catch
-                        file = 0
+                        file = 0;
                         path = uigetdir(Current{m,2}{n,1}.path,'Select Function');
                     end
                 else
@@ -141,7 +141,14 @@ for a = 1:length(SCRPTipt)
                             end
                             Current{m,2}{n,2}{p,1}.path = path;
                         end
-                        path = uigetdir(Current{m,2}{n,2}{p,1}.path,'Select Function');
+                        func = str2func(Current{m,2}{n,2}{p,1}.entrystr);
+                        try
+                            test = func();
+                            [file,path] = uigetfile(Current{m,2}{n,2}{p,1}.path,'Select Function');
+                        catch
+                            file = 0;
+                            path = uigetdir(Current{m,2}{n,2}{p,1}.path,'Select Function');
+                        end
                     else
                         error;   % delete case
                         path = uigetdir(Current{m,2}{n,2}{p,1}.searchpath,'Select Function');
@@ -150,24 +157,27 @@ for a = 1:length(SCRPTipt)
                         Status('done','Function Not Selected');
                         return
                     end
-                    [Func,~] = strtok(flipdim(path,2),filesep);
-                    Current{m,2}{n,2}{p,1}.entrystr = flipdim(Func,2);
-                    Current{m,2}{n,2}{p,1}.path = path;
-                    Current{m,2}{n,2}(p,:) = GetSingleSubFunction_B9(Current{m,2}{n,2}(p,:),tab,panelnum);
+                    if file == 0
+                        [Func,~] = strtok(flipdim(path,2),filesep);
+                        Current{m,2}{n,2}{p,1}.entrystr = flipdim(Func,2);
+                        Current{m,2}{n,2}{p,1}.path = path;
+                        Current{m,2}{n,2}(p,:) = GetSingleSubFunction_B9(Current{m,2}{n,2}(p,:),tab,panelnum);
+                    else
+                        Current{m,2}{n,2}{p,1}.entrystr = strtok(file,'.');
+                        Current{m,2}{n,2}{p,1}.path = path;
+                        Current{m,2}{n,2}(p,:) = GetSingleSubFunction_B9(Current{m,2}{n,2}(p,:),tab,panelnum);
+                    end
+                    altscrptfunc1 = 1;
                     altscrptfunc2 = 1;
-                    altscrptfunc3 = 1;
+                    altscrptfunc3 = 1;   
+                    SCRPTIPTGBL.(tab)(panelnum).default{m,2}{n,2}(p,:) = Current{m,2}{n,2}(p,:);
                     if not(isempty(SCRPTGBL.(tab){panelnum,treecellarray(1)}))
-                        if isfield(SCRPTGBL.(tab){panelnum,treecellarray(1)},([RWSUI.callingfuncs{1},'_Data']))
-                            if isfield(SCRPTGBL.(tab){panelnum,treecellarray(1)}.([RWSUI.callingfuncs{1},'_Data']),([RWSUI.funclabel,'_Data']))
-                                SCRPTGBL.(tab){panelnum,treecellarray(1)}.([RWSUI.callingfuncs{1},'_Data']) = rmfield(SCRPTGBL.(tab){panelnum,treecellarray(1)}.([RWSUI.callingfuncs{1},'_Data']),([RWSUI.funclabel,'_Data']));
-                            end
+                        if isfield(SCRPTGBL.(tab){panelnum,treecellarray(1)},([RWSUI.funclabel,'_Data']))
+                            SCRPTGBL.(tab){panelnum,treecellarray(1)} = rmfield(SCRPTGBL.(tab){panelnum,treecellarray(1)},([RWSUI.funclabel,'_Data']));
                         end
                     end
-                    SCRPTIPTGBL.(tab)(panelnum).default{m,2}{n,2}(p,:) = Current{m,2}{n,2}(p,:);
                 end
                 Current{m,2}{n,2}{p,1}.altval = 1;
-            elseif altscrptfunc1 == 1
-                Current{m,2}{n,2}{p,1}.altval = 0;
             end
         end
         d = 0;
@@ -199,7 +209,14 @@ for a = 1:length(SCRPTipt)
                             end
                             Current{m,2}{n,2}{p,2}{d,1}.path = path;
                         end
-                        path = uigetdir(Current{m,2}{n,2}{p,2}{d,1}.path,'Select Function');
+                        func = str2func(Current{m,2}{n,2}{p,2}{d,1}.entrystr);
+                        try
+                            test = func();
+                            [file,path] = uigetfile(Current{m,2}{n,2}{p,2}{d,1}.path,'Select Function');
+                        catch
+                            file = 0;
+                            path = uigetdir(Current{m,2}{n,2}{p,2}{d,1}.path,'Select Function');
+                        end
                     else
                         error;   % delete case
                         path = uigetdir(Current{m,2}{n,2}{p,2}{d,1}.searchpath,'Select Function');
@@ -208,25 +225,27 @@ for a = 1:length(SCRPTipt)
                         Status('done','Function Not Selected');
                         return
                     end
-                    [Func,~] = strtok(flipdim(path,2),filesep);
-                    Current{m,2}{n,2}{p,2}{d,1}.entrystr = flipdim(Func,2);
-                    Current{m,2}{n,2}{p,2}{d,1}.path = path;
-                    Current{m,2}{n,2}{p,2}(d,:) = GetSingleSubFunction_B9(Current{m,2}{n,2}{p,2}(d,:),tab,panelnum);
-                    altscrptfunc3 = 1;
+                    if file == 0
+                        [Func,~] = strtok(flipdim(path,2),filesep);
+                        Current{m,2}{n,2}{p,2}{d,1}.entrystr = flipdim(Func,2);
+                        Current{m,2}{n,2}{p,2}{d,1}.path = path;
+                        Current{m,2}{n,2}{p,2}(d,:) = GetSingleSubFunction_B9(Current{m,2}{n,2}{p,2}(d,:),tab,panelnum);
+                    else
+                        Current{m,2}{n,2}{p,2}{d,1}.entrystr = strtok(file,'.');
+                        Current{m,2}{n,2}{p,2}{d,1}.path = path;
+                        Current{m,2}{n,2}{p,2}(d,:) = GetSingleSubFunction_B9(Current{m,2}{n,2}{p,2}(d,:),tab,panelnum);
+                    end
+                    altscrptfunc1 = 1;
+                    altscrptfunc2 = 1;
+                    altscrptfunc3 = 1;   
+                    SCRPTIPTGBL.(tab)(panelnum).default{m,2}{n,2}{p,2}(d,:) = Current{m,2}{n,2}{p,2}(d,:);
                     if not(isempty(SCRPTGBL.(tab){panelnum,treecellarray(1)}))
-                        if isfield(SCRPTGBL.(tab){panelnum,treecellarray(1)},([RWSUI.callingfuncs{1},'_Data']))
-                            if isfield(SCRPTGBL.(tab){panelnum,treecellarray(1)}.([RWSUI.callingfuncs{1},'_Data']),[RWSUI.callingfuncs{2},'_Data'])
-                                if isfield(SCRPTGBL.(tab){panelnum,treecellarray(1)}.([RWSUI.callingfuncs{1},'_Data']).([RWSUI.callingfuncs{2},'_Data']),([RWSUI.funclabel,'_Data']))
-                                    SCRPTGBL.(tab){panelnum,treecellarray(1)}.([RWSUI.callingfuncs{1},'_Data']).([RWSUI.callingfuncs{2},'_Data']) = rmfield(SCRPTGBL.(tab){panelnum,treecellarray(1)}.([RWSUI.callingfuncs{1},'_Data']).([RWSUI.callingfuncs{2},'_Data']),([RWSUI.funclabel,'_Data']));
-                                end
-                            end
+                        if isfield(SCRPTGBL.(tab){panelnum,treecellarray(1)},([RWSUI.funclabel,'_Data']))
+                            SCRPTGBL.(tab){panelnum,treecellarray(1)} = rmfield(SCRPTGBL.(tab){panelnum,treecellarray(1)},([RWSUI.funclabel,'_Data']));
                         end
                     end
-                    SCRPTIPTGBL.(tab)(panelnum).default{m,2}{n,2}{p,2}(d,:) = Current{m,2}{n,2}{p,2}(d,:);
                 end
                 Current{m,2}{n,2}{p,2}{d,1}.altval = 1;
-            elseif altscrptfunc1 == 1 || altscrptfunc2 == 1
-                Current{m,2}{n,2}{p,2}{d,1}.altval = 0;
             end
         end
         e = 0;

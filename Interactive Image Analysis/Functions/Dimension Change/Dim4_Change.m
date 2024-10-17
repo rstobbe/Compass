@@ -35,8 +35,9 @@ for axnum = start:stop
                 IMAGEANLZ.(tab)(axnum).UpdateMaxContrastSlider;    
             elseif strcmp(IMAGEANLZ.(tab)(axnum).presentation,'Ortho')
                 for n = 1:3
-                    IMAGEANLZ.(tab)(n).MaxContrastMaxUpdate(maxcmax);
-                    IMAGEANLZ.(tab)(n).ChangeMaxContrastVal(str2double(src.String));
+                    IMAGEANLZ.(tab)(n).MaxContrastMaxUpdate(maxcmax); 
+                    IMAGEANLZ.(tab)(n).ChangeMaxContrastVal(MaxVal);
+                    IMAGEANLZ.(tab)(n).UpdateMaxContrastSlider;   
                 end
                 IMAGEANLZ.(tab)(axnum).UpdateMaxContrastSlider; 
             end
