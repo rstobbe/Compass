@@ -348,7 +348,7 @@ classdef ImageRoiClass < handle
             IMAGEROI.lastlocnumadded = IMAGEROI.locnum; 
         end
         % CreateBaseROIMask
-        function CreateBaseROIMask(IMAGEROI) 
+        function CreateBaseROIMask(IMAGEROI,IMAGEANLZ) 
             if not(strcmp(IMAGEROI.baseroiorient,'Axial'))
                 error;
             end            
@@ -376,13 +376,13 @@ classdef ImageRoiClass < handle
                     continue
                 end
                 roimask2d = roipoly(ones(drawroiimsize(1),drawroiimsize(2)),IMAGEROI.xloc0arr{m},IMAGEROI.yloc0arr{m});
-                if ismethod(IMAGEROI.CREATEMETHOD{m},'DoMask')
-                    if IMAGEROI.CREATEMETHOD{m}.redrawactive
-                        roimask2d = IMAGEROI.CREATEMETHOD{m}.DoRedrawMask(roimask2d,IMAGEANLZ.REDRAWROI.roimask(:,:,IMAGEROI.zloc0arr{m}));
-                    else
-                        roimask2d = IMAGEROI.CREATEMETHOD{m}.DoMask(roimask2d,IMAGEANLZ);
-                    end
-                end
+                % if ismethod(IMAGEROI.CREATEMETHOD{m},'DoMask')
+                %     if IMAGEROI.CREATEMETHOD{m}.redrawactive
+                %         roimask2d = IMAGEROI.CREATEMETHOD{m}.DoRedrawMask(roimask2d,IMAGEANLZ.REDRAWROI.roimask(:,:,IMAGEROI.zloc0arr{m}));
+                %     else
+                %         roimask2d = IMAGEROI.CREATEMETHOD{m}.DoMask(roimask2d,IMAGEANLZ);
+                %     end
+                % end
                 if isempty(IMAGEROI.eventarr)
                     IMAGEROI.eventarr{m} = 'Add';
                 end

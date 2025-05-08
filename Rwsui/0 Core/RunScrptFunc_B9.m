@@ -245,9 +245,16 @@ if savescript == 1 && not(isempty(savefigures))
             % NoExport
         else
             if strcmp(COMPASSINFO.USERGBL.epssave,'Yes')
-                SaveGraphEps(savefigures(n),pathfile);
+                if isfield(savefigures(n),'Colour')
+                    if strcmp(savefigures(n).Colour,'Yes')
+                        print(savefigures(n).hFig,pathfile,'-depsc');           % for colour
+                    else
+                        SaveGraphEps(savefigures(n),pathfile);
+                    end
+                else
+                    SaveGraphEps(savefigures(n),pathfile);
+                end
             end
-            %print(savefigures(n).hFig,pathfile,'-depsc');
         end
     end
 end

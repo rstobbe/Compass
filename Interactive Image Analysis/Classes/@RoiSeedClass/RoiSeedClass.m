@@ -48,6 +48,7 @@ classdef RoiSeedClass < handle
             DAT.panelobs(4) = uicontrol('Parent',IMAGEANLZ.FIGOBJS.ROITab,'Style','popupmenu','Tag',num2str(IMAGEANLZ.axnum),'BackgroundColor',IMAGEANLZ.FIGOBJS.Colours.BGcolour,'ForegroundColor',[0.8 0.8 0.8],'String',{'Above','Below'},'Fontsize',6,'Enable','on','Units','normalized','Position',[horz+0.44 0.4 0.07 0.14],'CallBack',@DAT.SetSeedDir,'Enable','on'); 
             DAT.status = 'Seed Drawing Tool Active';
             DAT.info = 'Left click';
+            DAT.redrawactive = 0;
         end
         function DAT = RedrawSetup(DAT)
             DAT.state = 'Start';
@@ -57,6 +58,9 @@ classdef RoiSeedClass < handle
             DAT.status = 'Seeding Redraw Tool Active';
             DAT.info = 'Left click';
             DAT.redrawactive = 1;
+        end
+        function ExitRedraw(DAT)
+            DAT.redrawactive = 0;
         end
         function Initialize(DAT)
             DAT.state = 'Start';

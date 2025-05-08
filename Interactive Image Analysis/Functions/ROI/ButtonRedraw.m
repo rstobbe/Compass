@@ -22,11 +22,6 @@ end
 if IMAGEANLZ.(tab)(axnum).GETROIS == 0
     return
 end 
-if IMAGEANLZ.(tab)(axnum).redrawroi == 1
-    DiscardCurrentROI(tab,axnum);
-    return
-end 
-
 RedrawROI(tab,axnum);
 
 

@@ -14,8 +14,14 @@ files = dir(impath);
 imnoarr = [];
 series = 0;
 numimages = 1;
+first = 3;
 for n = 3:length(files)     
-    dinfo = dicominfo([impath,'\',files(n).name]);
+    try
+        dinfo = dicominfo([impath,'\',files(n).name]);
+    catch
+        first = first+1;
+        continue
+    end
     imno = dinfo.InstanceNumber;
     ind = find(imnoarr == imno,1);
     if not(isempty(ind))
@@ -30,7 +36,7 @@ for n = 3:length(files)
     end
 end
 
-dinfo = dicominfo([impath,'\',files(3).name]);
+dinfo = dicominfo([impath,'\',files(first).name]);
 if dinfo.InstanceNumber ~= 1
     err.flag = 1; 
     err.msg = 'Folder missing beginning images';
@@ -63,7 +69,7 @@ ImInfo.vox = pixdim(1)*pixdim(2)*pixdim(3);
 Image = 1;
 %Image = 2;          % ASL
 %------------
-dinfo = dicominfo([impath,'\',files(Image+2).name]);
+dinfo = dicominfo([impath,'\',files(Image+first-1).name]);
 if strcmp(dinfo.ColorType,'truecolor')
     Im = zeros(dinfo.Rows,dinfo.Columns,500,3);
 else

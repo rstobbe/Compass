@@ -16,7 +16,15 @@ y = pt(1,2);
 if strcmp(IMAGEANLZ.(tab)(axnum).presentation,'Standard')
     CurrentPointUpdate(tab,axnum,x,y);
 elseif strcmp(IMAGEANLZ.(tab)(axnum).presentation,'Ortho')
-    CurrentPointUpdateOrtho(tab,axnum,x,y);
+    if ~isempty(IMAGEANLZ.(tab)(axnum).imvol)
+        if isgpuarray(IMAGEANLZ.(tab)(axnum).imvol)
+            if ~existsOnGPU(IMAGEANLZ.(tab)(axnum).imvol)
+                IMAGEANLZ.(tab)(axnum).SetImage;
+                IMAGEANLZ.(tab)(axnum).SetImageSlice;
+            end
+        end
+        CurrentPointUpdateOrtho(tab,axnum,x,y);
+    end
 end
 
 switch IMAGEANLZ.(tab)(axnum).movefunction 

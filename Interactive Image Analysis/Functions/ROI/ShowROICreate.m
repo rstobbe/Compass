@@ -32,6 +32,12 @@ elseif CREATEMETHOD.roicreatesel == 3
 elseif CREATEMETHOD.roicreatesel == 5 
     IMAGEANLZ.(tab)(axnum).ROITUBE.Copy(CREATEMETHOD);
     IMAGEANLZ.(tab)(axnum).SetROITool('ROITUBE');
+elseif CREATEMETHOD.roicreatesel == 6 
+    IMAGEANLZ.(tab)(axnum).ROIRECT.Copy(CREATEMETHOD);
+    IMAGEANLZ.(tab)(axnum).SetROITool('ROIRECT');
+elseif CREATEMETHOD.roicreatesel == 7 
+    IMAGEANLZ.(tab)(axnum).ROIBOX.Copy(CREATEMETHOD);
+    IMAGEANLZ.(tab)(axnum).SetROITool('ROIBOX');
 end  
 
 %------------------------------------------

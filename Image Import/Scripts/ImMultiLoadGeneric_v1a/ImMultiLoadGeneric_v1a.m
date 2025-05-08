@@ -32,7 +32,12 @@ for n = 1:numfiles
     if LoadAll == 1 || not(isfield(IMLDipt.([CallingLabel,'_Data']),[PanelLabel{n},'_Data']))
         if isfield(IMLDipt.(PanelLabel{n}).Struct,'selectedfile')
             file = IMLDipt.(PanelLabel{n}).Struct.selectedfile;
-            path = IMLDipt.(PanelLabel{n}).Struct.selectedpath;
+            if ~isfield(IMLDipt.(PanelLabel{n}).Struct,'selectedpath')
+                ind = strfind(file,'\');
+                path = file(1:ind(end));
+            else
+                path = IMLDipt.(PanelLabel{n}).Struct.selectedpath;
+            end
             if not(exist(file,'file'))
                 err.flag = 1;
                 err.msg = ['(Re) Load ',PanelLabel{n}];

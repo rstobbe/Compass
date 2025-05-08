@@ -23,6 +23,7 @@ else
     vals = Image(logical(IMAGEROI.roimask));
     meanvals = mean(vals,'omitnan');
     stdvals = std(vals,'omitnan');
+    %rmsvals = sqrt(mean(vals.^2,'omitnan'));
 end
 
 if not(isempty(vals))

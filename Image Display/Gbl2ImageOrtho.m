@@ -104,6 +104,9 @@ if IMAGEANLZ.(tab)(1).contrasthold == 0
     end
 end
 for axnum = 1:3
+    IMAGEANLZ.(tab)(axnum).LoadContrastLimits           % necessary for 'mapping' case
+end
+for axnum = 1:3
     IMAGEANLZ.(tab)(axnum).LoadContrast
 end
 

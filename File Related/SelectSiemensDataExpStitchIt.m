@@ -19,7 +19,13 @@ DataObj = SiemensStitchItDataObject(saveData.loc);
 DataObj.Initialize;
 MrProt = DataObj.DataHdr;
 
-FIGOBJS.(SCRPTGBL.RWSUI.tab).Info.String = DataObj.DataInfo.ExpDisp;
+if ~strcmp(SCRPTGBL.RWSUI.tab,'Ext')
+    if length(FIGOBJS.(SCRPTGBL.RWSUI.tab).Info) > 1
+        FIGOBJS.(SCRPTGBL.RWSUI.tab).InfoL.String = DataObj.DataInfo.ExpDisp;
+    else
+        FIGOBJS.(SCRPTGBL.RWSUI.tab).Info.String = DataObj.DataInfo.ExpDisp;
+    end
+end
 SCRPTipt(SCRPTGBL.RWSUI.curpanipt).entrystruct.display = DataObj.DataInfo.ExpDisp;
 
 saveData.DataObj = DataObj;

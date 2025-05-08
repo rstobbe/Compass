@@ -248,6 +248,9 @@ classdef RoiTubeClass < handle
             ResetFocus(src,event);
         end           
         function OUT = BuildROI(DAT,datapoint,event,ImageSlice) 
+            %-
+            datapoint = gather(datapoint);
+            %-
             if strcmp(DAT.state,'Start') || strcmp(DAT.state,'Circle1Edit') 
                 if event.Button == 1
                     if DAT.userad1 == 1 

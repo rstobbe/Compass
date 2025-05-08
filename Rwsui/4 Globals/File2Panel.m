@@ -43,7 +43,9 @@ if strcmp(LoadType,'Image')
 elseif strcmp(LoadType,'FID')
     loadfunc = 'SelectFidDataCur_v4b';    
 elseif strcmp(LoadType,'Directory')
-    loadfunc = 'SelectDirCur_v4';   
+    loadfunc = 'SelectDirCur_v4';
+elseif strcmp(LoadType,'.dat')
+    loadfunc = 'SelectSiemensDataCurStitchIt';     
 end
 
 %---------------------------------------------

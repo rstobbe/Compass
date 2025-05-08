@@ -33,7 +33,7 @@ switch IMAGEANLZ.(tab)(axnum).presentation
                 if IMAGEANLZ.(tab)(r).TestAxisActive
                     IMAGEANLZ.(tab)(r).CURRENTROI.NudgeOut;
                     if IMAGEANLZ.(tab)(r).shaderoi                          % || IMAGEANLZ.(tab)(r).autoupdateroi
-                        IMAGEANLZ.(tab)(r).CURRENTROI.CreateBaseROIMask;
+                        IMAGEANLZ.(tab)(r).CURRENTROI.CreateBaseROIMask(IMAGEANLZ.(tab)(r));
                     end
                     IMAGEANLZ.(tab)(r).DrawCurrentROI([]);
                     IMAGEANLZ.(tab)(r).TestUpdateCurrentROIValue;

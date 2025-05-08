@@ -44,7 +44,13 @@ if IMAGEANLZ.(tab)(axnum0).TestMouseInImage([x1,y1]) == 1
                 Zdim = TOTALGBL{2,IMAGEANLZ.(tab)(axnum).totgblnum}.IMDISP.ImInfo.pixdim(1);
         end
         image = TOTALGBL{2,IMAGEANLZ.(tab)(axnum).totgblnum}.Im;
-        val = image(idx(1),idx(2),idx(3),idx(4),idx(5),idx(6));
+        try
+            val = image(idx(1),idx(2),idx(3),idx(4),idx(5),idx(6));
+        catch
+            TOTALGBL{2,IMAGEANLZ.(tab)(axnum).totgblnum}.Im = gpuArray(TOTALGBL{2,IMAGEANLZ.(tab)(axnum).totgblnum}.ImRam);
+            image = TOTALGBL{2,IMAGEANLZ.(tab)(axnum).totgblnum}.Im;
+            val = image(idx(1),idx(2),idx(3),idx(4),idx(5),idx(6));
+        end
         switch IMAGEANLZ.(tab)(axnum).ImType
             case 'abs'
                 if abs(val) < 0.01

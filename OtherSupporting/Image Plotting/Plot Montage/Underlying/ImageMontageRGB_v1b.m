@@ -55,8 +55,12 @@ ImSz = size(Img);
 % Display Images
 %----------------------------------------
 if IMSTRCT.docolor
-    load(IMSTRCT.ColorMap);
-    cmap = mycolormap;
+    map = load(IMSTRCT.ColorMap);
+    if isfield(map,'mycolormap')
+        cmap = map.mycolormap;
+    elseif isfield(map,'mycmap') 
+        cmap = map.mycmap;
+    end
 else
     load('GrayColorMap');
     cmap = graycolormap;

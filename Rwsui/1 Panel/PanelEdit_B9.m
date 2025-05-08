@@ -167,7 +167,7 @@ for a = 1:length(SCRPTipt)
                         Current{m,2}{n,2}{p,1}.path = path;
                         Current{m,2}{n,2}(p,:) = GetSingleSubFunction_B9(Current{m,2}{n,2}(p,:),tab,panelnum);
                     end
-                    altscrptfunc1 = 1;
+                    % altscrptfunc1 = 1;
                     altscrptfunc2 = 1;
                     altscrptfunc3 = 1;   
                     SCRPTIPTGBL.(tab)(panelnum).default{m,2}{n,2}(p,:) = Current{m,2}{n,2}(p,:);
@@ -235,8 +235,8 @@ for a = 1:length(SCRPTipt)
                         Current{m,2}{n,2}{p,2}{d,1}.path = path;
                         Current{m,2}{n,2}{p,2}(d,:) = GetSingleSubFunction_B9(Current{m,2}{n,2}{p,2}(d,:),tab,panelnum);
                     end
-                    altscrptfunc1 = 1;
-                    altscrptfunc2 = 1;
+                    % altscrptfunc1 = 1;
+                    % altscrptfunc2 = 1;
                     altscrptfunc3 = 1;   
                     SCRPTIPTGBL.(tab)(panelnum).default{m,2}{n,2}{p,2}(d,:) = Current{m,2}{n,2}{p,2}(d,:);
                     if not(isempty(SCRPTGBL.(tab){panelnum,treecellarray(1)}))

@@ -17,6 +17,9 @@ elseif isfield(Data,'img') && isfield(Data,'par')
 elseif isfield(Data,'FTK') 
     [IMG,ImInfo,err] = Load_Mat_Old(Data); 
     ImType = 'MatOld';
+elseif isfield(Data,'lung') 
+    [IMG,ImInfo,err] = Load_Mat_RichLung(Data); 
+    ImType = 'MatOld';    
 else
     [IMG,ImInfo,err] = Load_Mat_Generic(Data); 
     ImType = 'MatOther';

@@ -15,6 +15,9 @@ else
     start = axnum;
     stop = axnum;
 end
+if IMAGEANLZ.(tab)(axnum).redrawroi == 1
+    return
+end
 
 Status0 = IMAGEANLZ.(tab)(1).STATUS.GetStatusLine(3);
 Status.state = 'info';  
@@ -33,7 +36,7 @@ switch IMAGEANLZ.(tab)(axnum).presentation
                 if IMAGEANLZ.(tab)(r).TestAxisActive
                     IMAGEANLZ.(tab)(r).CURRENTROI.NudgeUp;
                     if IMAGEANLZ.(tab)(r).shaderoi                              % Dropped this - || IMAGEANLZ.(tab)(r).autoupdateroi
-                        IMAGEANLZ.(tab)(r).CURRENTROI.CreateBaseROIMask;
+                        IMAGEANLZ.(tab)(r).CURRENTROI.CreateBaseROIMask(IMAGEANLZ.(tab)(r));
                     end
                     IMAGEANLZ.(tab)(r).DrawCurrentROI([]);
                     IMAGEANLZ.(tab)(r).TestUpdateCurrentROIValue;

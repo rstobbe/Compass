@@ -4,6 +4,11 @@
 function EraseROI(tab,axnum)
 
 global IMAGEANLZ
+
+if not(IMAGEANLZ.(tab)(axnum).TestFinishedCurrentROI) 
+    Status2('warn','No ROI to Erase',3);
+    return
+end
 if not(isempty(IMAGEANLZ.(tab)(axnum).movefunction))
     error;          % shouldn't get here
 end
@@ -11,6 +16,9 @@ if IMAGEANLZ.(tab)(axnum).GETROIS == 0
     error;          % shouldn't get here
 end
 if IMAGEANLZ.(tab)(axnum).redrawroi == 1
+    return
+end
+if IMAGEANLZ.(tab)(axnum).androi == 1
     return
 end
 if IMAGEANLZ.(tab)(axnum).TestEmptyCurrentROI

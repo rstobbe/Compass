@@ -96,7 +96,8 @@ end
 IMSTRCT.start = MSTRCT.start; IMSTRCT.step = MSTRCT.step; IMSTRCT.stop = MSTRCT.stop; 
 IMSTRCT.rows = ncolumns; IMSTRCT.SLab = slclbl; IMSTRCT.fhand = MSTRCT.fhand; IMSTRCT.ahand = MSTRCT.ahand; IMSTRCT.lblvals = MSTRCT.lblvals; 
 IMSTRCT.figsize = MSTRCT.imsize;
-IMSTRCT.ColorMap = 'ColorMap5'; 
+% IMSTRCT.ColorMap = 'ColorMap5'; 
+IMSTRCT.ColorMap = 'ColorMap6C'; 
 
 %---------------------------------------------
 % Display ColorBar

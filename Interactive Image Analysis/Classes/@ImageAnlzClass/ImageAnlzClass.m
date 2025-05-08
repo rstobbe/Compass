@@ -142,8 +142,8 @@ classdef ImageAnlzClass < handle
         end
         % Initialize
         function Initialize(IMAGEANLZ,tab,axnum)
-            ImAnlz_Initialize(IMAGEANLZ,tab,axnum);
             IMAGEANLZ.FIGOBJS.Initialize;
+            ImAnlz_Initialize(IMAGEANLZ,tab,axnum);
             ImAnlz_DefaultSetup(IMAGEANLZ);           
         end
 
@@ -538,8 +538,8 @@ classdef ImageAnlzClass < handle
             imsize = IMAGEANLZ.GetBaseImageSize([]);
             if imsize(4) > 1
                 if imsize(4) == 3
-                    %answer = questdlg('Display Image in Colour','Colour Image','Yes','No','Yes');
-                    answer = 'Yes';
+                    answer = questdlg('Display Image in Colour','Colour Image','Yes','No','Yes');
+                    %answer = 'Yes';
                     if strcmp(answer,'Yes')
                         IMAGEANLZ.colourimage = 1;
                         colourimage = 1;
@@ -988,6 +988,20 @@ classdef ImageAnlzClass < handle
         function DefaultContrast(IMAGEANLZ)
             ImAnlz_DefaultContrast(IMAGEANLZ);
         end
+        % LoadContrastLimits
+        function LoadContrastLimits(IMAGEANLZ)
+            ImAnlz_UpdateContrastTypeChange(IMAGEANLZ); 
+            if IMAGEANLZ.MaxContrastCurrent > IMAGEANLZ.MaxContrastMax
+                IMAGEANLZ.MaxContrastMax = IMAGEANLZ.MaxContrastCurrent;
+            end
+            if abs(IMAGEANLZ.MaxContrastMax) < abs(IMAGEANLZ.MinContrastMin)
+                IMAGEANLZ.FullContrast = abs(IMAGEANLZ.MinContrastMin);
+            else
+                IMAGEANLZ.FullContrast = abs(IMAGEANLZ.MaxContrastMax);
+            end
+            IMAGEANLZ.RelContrast(1) = gather(IMAGEANLZ.MinContrastCurrent/IMAGEANLZ.FullContrast);
+            IMAGEANLZ.RelContrast(2) = gather(IMAGEANLZ.MaxContrastCurrent/IMAGEANLZ.FullContrast);
+        end
         % LoadContrast
         function LoadContrast(IMAGEANLZ)
             IMAGEANLZ.FIGOBJS.MinCMinVal.ForegroundColor = [0.8 0.8 0.8];
@@ -1004,7 +1018,7 @@ classdef ImageAnlzClass < handle
                 IMAGEANLZ.FullContrast = abs(IMAGEANLZ.MaxContrastMax);
             end
             IMAGEANLZ.FIGOBJS.ContrastMax.Min = gather(IMAGEANLZ.MinContrastMin/IMAGEANLZ.FullContrast);
-            IMAGEANLZ.FIGOBJS.ContrastMin.Min = gather(IMAGEANLZ.MinContrastMin/IMAGEANLZ.FullContrast);
+            IMAGEANLZ.FIGOBJS.ContrastMin.Min = round(gather(IMAGEANLZ.MinContrastMin/IMAGEANLZ.FullContrast)*1e6)/1e6;     % for 'Map' scenario case with irrational numbers
             IMAGEANLZ.RelContrast(1) = gather(IMAGEANLZ.MinContrastCurrent/IMAGEANLZ.FullContrast);
             IMAGEANLZ.RelContrast(2) = gather(IMAGEANLZ.MaxContrastCurrent/IMAGEANLZ.FullContrast);
             IMAGEANLZ.FIGOBJS.ContrastMin.Value = gather(IMAGEANLZ.RelContrast(1));
@@ -1616,6 +1630,15 @@ classdef ImageAnlzClass < handle
             end
             Event = IMAGEANLZ.roievent;
         end
+        % ToggleROIRedrawEvent
+        function Event = ToggleROIRedrawEvent(IMAGEANLZ)
+            if ~IMAGEANLZ.redrawroi
+                IMAGEANLZ.redrawroi = 1;
+            else
+                IMAGEANLZ.redrawroi = 0;
+            end
+            Event = IMAGEANLZ.redrawroi;
+        end
         % SetROIEvent
         function SetROIEvent(IMAGEANLZ,Event)
             IMAGEANLZ.roievent = Event;
@@ -1698,8 +1721,9 @@ classdef ImageAnlzClass < handle
             Status(3).string = IMAGEANLZ.TEMPROI.GetInfo;        
             IMAGEANLZ.STATUS.SetStatus(Status)                    
         end
-        % ReturnAndROI
-        function ReturnAndROI(IMAGEANLZ)
+        % ExitAndROI
+        function ExitAndROI(IMAGEANLZ)
+            IMAGEANLZ.CURRENTROI.CopyRoiInfo(IMAGEANLZ.ANDROI);
             IMAGEANLZ.androi = 0;
             IMAGEANLZ.roievent = 'Add';
             Status(1).state = 'busy';
@@ -1710,7 +1734,39 @@ classdef ImageAnlzClass < handle
             Status(3).string = IMAGEANLZ.TEMPROI.GetInfo;        
             IMAGEANLZ.STATUS.SetStatus(Status)                    
         end
-        
+        % ExitRedrawROI
+        function ExitRedrawROI(IMAGEANLZ)
+            IMAGEANLZ.CURRENTROI.CopyRoiInfo(IMAGEANLZ.REDRAWROI);
+            IMAGEANLZ.redrawroi = 0;
+            IMAGEANLZ.roievent = 'Add';
+            Status(1).state = 'busy';
+            Status(1).string = 'ROI Active';       
+            Status(2).state = 'busy';  
+            Status(2).string = IMAGEANLZ.TEMPROI.GetStatus;   
+            Status(3).state = 'info';  
+            Status(3).string = IMAGEANLZ.TEMPROI.GetInfo;        
+            IMAGEANLZ.STATUS.SetStatus(Status)                    
+        end
+        % ReturnRedrawROI
+        function ReturnRedrawROI(IMAGEANLZ)
+            IMAGEANLZ.redrawroi = 0;
+            IMAGEANLZ.roievent = 'Add';
+            IMAGEANLZ.TEMPROI = ImageRoiClass(IMAGEANLZ);
+            IMAGEANLZ.TEMPROI.AddNewRegion(IMAGEANLZ.GetROITool);
+            IMAGEANLZ.TEMPROI.CREATEMETHOD{1}.Setup(IMAGEANLZ);
+            IMAGEANLZ.buttonfunction = 'CreateROI';
+            IMAGEANLZ.movefunction = '';
+            IMAGEANLZ.pointer = IMAGEANLZ.TEMPROI.GetPointer;
+            IMAGEANLZ.FIGOBJS.MakeCurrentVisible;
+            Status(1).state = 'busy';
+            Status(1).string = 'ROI Active';       
+            Status(2).state = 'busy';  
+            Status(2).string = IMAGEANLZ.TEMPROI.GetStatus;   
+            Status(3).state = 'info';  
+            Status(3).string = IMAGEANLZ.TEMPROI.GetInfo;        
+            IMAGEANLZ.STATUS.SetStatus(Status)                    
+        end 
+
 %==================================================================
 % Line
 %==================================================================
@@ -2318,9 +2374,19 @@ classdef ImageAnlzClass < handle
         % SetImageSlice        
         function SetImageSlice(IMAGEANLZ)
             if IMAGEANLZ.colourimage
-                IMAGEANLZ.imslice = squeeze(IMAGEANLZ.imvol(:,:,IMAGEANLZ.SLICE,:));                
+                try
+                    IMAGEANLZ.imslice = squeeze(IMAGEANLZ.imvol(:,:,IMAGEANLZ.SLICE,:));
+                catch
+                    IMAGEANLZ.SetImage;
+                    IMAGEANLZ.imslice = squeeze(IMAGEANLZ.imvol(:,:,IMAGEANLZ.SLICE,:));
+                end
             else
-                IMAGEANLZ.imslice = IMAGEANLZ.imvol(:,:,IMAGEANLZ.SLICE);
+                try
+                    IMAGEANLZ.imslice = IMAGEANLZ.imvol(:,:,IMAGEANLZ.SLICE);
+                catch
+                    IMAGEANLZ.SetImage;
+                    IMAGEANLZ.imslice = IMAGEANLZ.imvol(:,:,IMAGEANLZ.SLICE);
+                end
             end
             for n = 1:4
                 if not(isempty(IMAGEANLZ.overimvol{n}))

@@ -30,7 +30,8 @@ SCRPTPATHS.(tab)(panelnum).outloc = path;
 %----------------------------------------------------
 % Search for Scripts
 %----------------------------------------------------
-[CellArray,pathschanged,err] = SearchPaths_B9(CellArray,SCRPTPATHS.(tab)(panelnum));
+% - Not needed -
+%[CellArray,pathschanged,err] = SearchPaths_B9(CellArray,SCRPTPATHS.(tab)(panelnum));
 
 %----------------------------------------------------
 % Display
