@@ -1184,7 +1184,15 @@ classdef ImageAnlzClass < handle
         % BuildROI
         function OUT = BuildROI(IMAGEANLZ,x,y,event)
             if IMAGEANLZ.redrawroi == 1
-                maskslice = IMAGEANLZ.REDRAWROI.roimask(:,:,IMAGEANLZ.SLICE);
+                if strcmp(IMAGEANLZ.REDRAWROI.drawroiorient,'Axial')
+                    temproimask = IMAGEANLZ.REDRAWROI.roimask;
+                elseif strcmp(IMAGEANLZ.REDRAWROI.drawroiorient,'Sagittal')
+                    temproimask = permute(IMAGEANLZ.REDRAWROI.roimask,[3 1 2]);
+                elseif strcmp(IMAGEANLZ.REDRAWROI.drawroiorient,'Coronal')
+                    temproimask = permute(IMAGEANLZ.REDRAWROI.roimask,[3 2 1]);
+                    temproimask = flip(temproimask,1);
+                end
+                maskslice = temproimask(:,:,IMAGEANLZ.SLICE);
                 val = maskslice(round(y),round(x));
                 z = IMAGEANLZ.SLICE;
                 datapoint = [x,y,z,val];
@@ -1335,6 +1343,10 @@ classdef ImageAnlzClass < handle
 %             end
             IMAGEANLZ.CURRENTROI.AddROIMask(IMAGEANLZDRAWING);      % do always
         end  
+        % CopyTempROIOrtho
+        function CopyTempROIOrtho(IMAGEANLZ,TEMPROI0)
+            IMAGEANLZ.TEMPROI.CopyRoiInfo(TEMPROI0);
+        end
         % TestUpdateCurrentROIValue
         function TestUpdateCurrentROIValue(IMAGEANLZ)
             if IMAGEANLZ.autoupdateroi
@@ -1404,6 +1416,18 @@ classdef ImageAnlzClass < handle
                 IMAGEANLZ.CURRENTROI.ShadeROI(IMAGEANLZ,axhand,[1 0 0],IMAGEANLZ.shaderoivalue);
             end
         end
+        % DrawRedrawROIShade
+        function DrawRedrawROIShade(IMAGEANLZ,axhand)
+            if isempty(IMAGEANLZ.REDRAWROI) 
+                return
+            end
+            if isempty(IMAGEANLZ.REDRAWROI.xlocarr) && isempty(IMAGEANLZ.REDRAWROI.roimask)
+                return
+            end
+            if IMAGEANLZ.shaderoi
+                IMAGEANLZ.REDRAWROI.ShadeROI(IMAGEANLZ,axhand,[0 0.3 0.8],IMAGEANLZ.shaderoivalue);
+            end
+        end
         % CompleteCurrentROI
         function CompleteCurrentROI(IMAGEANLZ,roi,roiname)
             IMAGEANLZ.ActivateROI(roi);
@@ -1469,6 +1493,10 @@ classdef ImageAnlzClass < handle
         function ChangeShadeCurrentROI(IMAGEANLZ)
             IMAGEANLZ.CURRENTROI.ChangeShadeAlpha(IMAGEANLZ.shaderoivalue);
         end 
+        % ChangeShadeTempROI
+        function ChangeShadeTempROI(IMAGEANLZ)
+            IMAGEANLZ.TEMPROI.ChangeShadeAlpha(IMAGEANLZ.shaderoivalue);
+        end
         % DrawSavedROIsNoPick
         function DrawSavedROIsNoPick(IMAGEANLZ,axhand)
             if isempty(IMAGEANLZ.SAVEDROIS)
@@ -1690,7 +1718,7 @@ classdef ImageAnlzClass < handle
             IMAGEANLZ.buttonfunction = 'CreateROI';
             IMAGEANLZ.movefunction = '';
             IMAGEANLZ.pointer = IMAGEANLZ.TEMPROI.GetPointer;
-            IMAGEANLZ.FIGOBJS.MakeCurrentVisible;
+            % IMAGEANLZ.FIGOBJS.MakeCurrentVisible;
             Status(1).state = 'busy';
             Status(1).string = 'Redraw ROI';       
             Status(2).state = 'busy';  
@@ -1698,6 +1726,15 @@ classdef ImageAnlzClass < handle
             Status(3).state = 'info';  
             Status(3).string = IMAGEANLZ.TEMPROI.GetInfo;        
             IMAGEANLZ.STATUS.SetStatus(Status)                    
+        end
+        % RedrawROICopyOrtho
+        function RedrawROICopyOrtho(IMAGEANLZ,CURRENTROI,TEMPROI,REDRAWROI)
+            IMAGEANLZ.redrawroi = 1;
+            ImAnlz_RedrawROICopyOrtho(IMAGEANLZ,CURRENTROI,TEMPROI,REDRAWROI);
+        end
+        % CurrentROICopyOrtho
+        function CurrentROICopyOrtho(IMAGEANLZ,CURRENTROI,TEMPROI)
+            ImAnlz_CurrentROICopyOrtho(IMAGEANLZ,CURRENTROI,TEMPROI);
         end
         % InitiateAndROI
         function InitiateAndROI(IMAGEANLZ)
@@ -1712,7 +1749,7 @@ classdef ImageAnlzClass < handle
             IMAGEANLZ.buttonfunction = 'CreateROI';
             IMAGEANLZ.movefunction = '';
             IMAGEANLZ.pointer = IMAGEANLZ.TEMPROI.GetPointer;
-            IMAGEANLZ.FIGOBJS.MakeCurrentVisible;
+            % IMAGEANLZ.FIGOBJS.MakeCurrentVisible;
             Status(1).state = 'busy';
             Status(1).string = 'And ROI';       
             Status(2).state = 'busy';  

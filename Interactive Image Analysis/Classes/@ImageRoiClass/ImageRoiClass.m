@@ -302,14 +302,31 @@ classdef ImageRoiClass < handle
                 if strcmp(tempdrawroiorientarray,'Axial')
                     drawroiimsize = IMAGEROI.roiimsize;
                     temproimask = IMAGEROI.roimask;
+                    if ismethod(IMAGEROI.CREATEMETHOD{m},'DoMask')
+                        if IMAGEROI.CREATEMETHOD{m}.redrawactive
+                            tempredrawroimask = IMAGEANLZ.REDRAWROI.roimask;
+                        end
+                    end
                 elseif strcmp(tempdrawroiorientarray,'Sagittal')
                     drawroiimsize = IMAGEROI.roiimsize([3 1 2]);
                     temproimask = permute(IMAGEROI.roimask,[3 1 2]);
                     temproimask = flip(temproimask,1);
+                    if ismethod(IMAGEROI.CREATEMETHOD{m},'DoMask')
+                        if IMAGEROI.CREATEMETHOD{m}.redrawactive
+                            tempredrawroimask = permute(IMAGEANLZ.REDRAWROI.roimask,[3 1 2]);
+                            tempredrawroimask = flip(tempredrawroimask,1);
+                        end
+                    end
                 elseif strcmp(tempdrawroiorientarray,'Coronal')
                     drawroiimsize = IMAGEROI.roiimsize([3 2 1]);
                     temproimask = permute(IMAGEROI.roimask,[3 2 1]);
                     temproimask = flip(temproimask,1);
+                    if ismethod(IMAGEROI.CREATEMETHOD{m},'DoMask')
+                        if IMAGEROI.CREATEMETHOD{m}.redrawactive
+                            tempredrawroimask = permute(IMAGEANLZ.REDRAWROI.roimask,[3 2 1]);
+                            tempredrawroimask = flip(tempredrawroimask,1);
+                        end
+                    end
                 end
                 if isempty(IMAGEROI.zloc0arr(m))
                     continue
@@ -317,7 +334,7 @@ classdef ImageRoiClass < handle
                 roimask2d = roipoly(ones(drawroiimsize(1),drawroiimsize(2)),IMAGEROI.xloc0arr{m},IMAGEROI.yloc0arr{m});
                 if ismethod(IMAGEROI.CREATEMETHOD{m},'DoMask')
                     if IMAGEROI.CREATEMETHOD{m}.redrawactive
-                        roimask2d = IMAGEROI.CREATEMETHOD{m}.DoRedrawMask(roimask2d,IMAGEANLZ.REDRAWROI.roimask(:,:,IMAGEROI.zloc0arr{m}));
+                        roimask2d = IMAGEROI.CREATEMETHOD{m}.DoRedrawMask(roimask2d,tempredrawroimask(:,:,IMAGEROI.zloc0arr{m}));
                     else
                         roimask2d = IMAGEROI.CREATEMETHOD{m}.DoMask(roimask2d,IMAGEANLZ);
                     end
@@ -491,6 +508,9 @@ classdef ImageRoiClass < handle
         % CopyRoiInfo 
         function CopyRoiInfo(IMAGEROI,ROI)
             ImRoi_CopyRoiInfo(IMAGEROI,ROI);
+        end
+        function SetDrawOrient(IMAGEROI,Orient)
+            IMAGEROI.drawroiorient = Orient;
         end
         % DeleteLocArr
         function DeleteLocArr(IMAGEROI)

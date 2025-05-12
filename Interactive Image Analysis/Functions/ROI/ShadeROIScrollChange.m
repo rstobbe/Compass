@@ -23,6 +23,7 @@ switch IMAGEANLZ.(tab)(axnum).presentation
                     IMAGEANLZ.(tab)(n).ChangeShadeSavedROIs;
                 end
                 if IMAGEANLZ.(tab)(n).GETROIS == 1
+                    IMAGEANLZ.(tab)(n).ChangeShadeTempROI;
                     IMAGEANLZ.(tab)(n).ChangeShadeCurrentROI;
                 end
             end
@@ -39,6 +40,7 @@ switch IMAGEANLZ.(tab)(axnum).presentation
                 IMAGEANLZ.(tab)(axnum).ChangeShadeSavedROIs;
             end
             if IMAGEANLZ.(tab)(axnum).GETROIS == 1
+                IMAGEANLZ.(tab)(axnum).ChangeShadeTempROI;
                 IMAGEANLZ.(tab)(axnum).ChangeShadeCurrentROI;
             end
         end
@@ -55,6 +57,7 @@ switch IMAGEANLZ.(tab)(axnum).presentation
                 IMAGEANLZ.(tab)(axnum).ChangeShadeSavedROIs;
             end
             if IMAGEANLZ.(tab)(axnum).GETROIS == 1
+                IMAGEANLZ.(tab)(axnum).ChangeShadeTempROI;
                 IMAGEANLZ.(tab)(axnum).ChangeShadeCurrentROI;
             end
         end

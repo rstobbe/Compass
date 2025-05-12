@@ -33,10 +33,10 @@ switch IMAGEANLZ.(tab)(axnum).presentation
         end
     case 'Ortho'
         ROITOOL = IMAGEANLZ.(tab)(1).GetROITool;
-        IMAGEANLZ.(tab)(axnum).NewROICreateOrtho(ROITOOL);
+        IMAGEANLZ.(tab)(1).NewROICreateOrtho(ROITOOL);
         for r = 1:3
-            if r ~= axnum
-                IMAGEANLZ.(tab)(r).NewROICopyOrtho(IMAGEANLZ.(tab)(axnum).CURRENTROI,IMAGEANLZ.(tab)(axnum).TEMPROI);
+            if r ~= 1
+                IMAGEANLZ.(tab)(r).NewROICopyOrtho(IMAGEANLZ.(tab)(1).CURRENTROI,IMAGEANLZ.(tab)(1).TEMPROI);
             end
         end
         for r = 1:3

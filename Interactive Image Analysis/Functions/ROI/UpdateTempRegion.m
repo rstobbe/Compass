@@ -22,6 +22,9 @@ switch IMAGEANLZ.(tab)(axnum).presentation
                 if IMAGEANLZ.(tab)(r).TestAxisActive
                     IMAGEANLZ.(tab)(r).UpdateTempROI(OUT);
                     IMAGEANLZ.(tab)(r).DrawTempROI([],OUT.clr);
+                    if IMAGEANLZ.(tab)(r).autoupdateroi 
+                        IMAGEANLZ.(tab)(r).UpdateTempROIValues;
+                    end
                 end
             end
         else
@@ -29,10 +32,12 @@ switch IMAGEANLZ.(tab)(axnum).presentation
             IMAGEANLZ.(tab)(axnum).DrawTempROI([],OUT.clr);
         end
     case 'Ortho'
+        IMAGEANLZ.(tab)(axnum).UpdateTempROI(OUT);
+        IMAGEANLZ.(tab)(axnum).TEMPROI.DeleteGraphicObjects;
         for r = 1:3
-            IMAGEANLZ.(tab)(r).UpdateTempROI(OUT);
+            IMAGEANLZ.(tab)(r).CopyTempROIOrtho(IMAGEANLZ.(tab)(axnum).TEMPROI);
             IMAGEANLZ.(tab)(r).DrawTempROI([],OUT.clr);
-        end
+        end 
         if IMAGEANLZ.(tab)(1).autoupdateroi 
             IMAGEANLZ.(tab)(1).UpdateTempROIValues;
         end

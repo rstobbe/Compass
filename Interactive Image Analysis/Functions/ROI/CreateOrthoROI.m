@@ -45,8 +45,10 @@ elseif strcmp(OUT.buttonfunc,'restartline')
     Data.zloc = (Data.zpt-0.5)*pixdim(3);
     IMAGEANLZ.(tab)(axnum).NewLineCreateOrthoRoi(Data);
 elseif strcmp(OUT.buttonfunc,'updateregion')
+    IMAGEANLZ.(tab)(axnum).UpdateTempROI(OUT);
+    IMAGEANLZ.(tab)(axnum).TEMPROI.DeleteGraphicObjects;
     for r = 1:3
-        IMAGEANLZ.(tab)(r).UpdateTempROI(OUT);
+        IMAGEANLZ.(tab)(r).CopyTempROIOrtho(IMAGEANLZ.(tab)(axnum).TEMPROI);
         IMAGEANLZ.(tab)(r).DrawTempROI([],OUT.clr);
         IMAGEANLZ.(tab)(r).SetMoveFunction('');
     end 

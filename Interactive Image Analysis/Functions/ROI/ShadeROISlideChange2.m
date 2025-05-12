@@ -25,12 +25,12 @@ if strcmp(IMAGEANLZ.(tab)(axnum).presentation,'Standard')
     end
     for n = start:stop
         IMAGEANLZ.(tab)(n).ShadeROIChangeValue(event.AffectedObject.Value);
-        %IMAGEANLZ.(tab)(n).ShadeROIChangeSlider(event.AffectedObject.Value);
         if IMAGEANLZ.(tab)(n).SAVEDROISFLAG == 1
             IMAGEANLZ.(tab)(n).ChangeShadeSavedROIs;
         end
         if IMAGEANLZ.(tab)(n).GETROIS == 1
             IMAGEANLZ.(tab)(n).ChangeShadeCurrentROI;
+            IMAGEANLZ.(tab)(n).ChangeShadeTempROI;
         end
     end
 elseif strcmp(IMAGEANLZ.(tab)(axnum).presentation,'Ortho')
@@ -41,6 +41,7 @@ elseif strcmp(IMAGEANLZ.(tab)(axnum).presentation,'Ortho')
         end
         if IMAGEANLZ.(tab)(axnum).GETROIS == 1
             IMAGEANLZ.(tab)(axnum).ChangeShadeCurrentROI;
+            IMAGEANLZ.(tab)(axnum).ChangeShadeTempROI;
         end
     end
 end
