@@ -150,8 +150,22 @@ for a = 1:length(SCRPTipt)
                             path = uigetdir(Current{m,2}{n,2}{p,1}.path,'Select Function');
                         end
                     else
-                        error;   % delete case
-                        path = uigetdir(Current{m,2}{n,2}{p,1}.searchpath,'Select Function');
+                        path = which([Current{m,2}{n,2}{p,1}.entrystr,'.m']);
+                        if not(isempty(path))
+                            ind = strfind(path,'\');
+                            path = path(1:ind(end));
+                        else
+                            error('Selected Function Not Found');
+                        end
+                        Current{m,2}{n,2}{p,1}.path = path;
+                        func = str2func(Current{m,2}{n,2}{p,1}.entrystr);
+                        try
+                            test = func();
+                            [file,path] = uigetfile(Current{m,2}{n,2}{p,1}.path,'Select Function');
+                        catch
+                            file = 0;
+                            path = uigetdir(Current{m,2}{n,2}{p,1}.path,'Select Function');
+                        end
                     end
                     if path == 0
                         Status('done','Function Not Selected');
