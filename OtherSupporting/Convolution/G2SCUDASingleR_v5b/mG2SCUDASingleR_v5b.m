@@ -47,7 +47,8 @@ else
     if mean(Ky(1:50)) == mKy && mean(Kz(1:50)) == mKz
         context = 'SphereCTFV';
     else
-        context = 'Other';
+        context = 'RadSamp';        % for case of sampling late on the trajectory
+        %context = 'Other';
     end
 end
 
@@ -57,9 +58,15 @@ end
 if strcmp(context,'SphereCTFV')
     if CONV.chW >= 29
         chunklen = TotalCoresInPlay*10;                
+    elseif CONV.chW >= 19
+        chunklen = TotalCoresInPlay*10;   
     elseif CONV.chW == 14
         chunklen = TotalCoresInPlay*100;               
+    elseif CONV.chW == 12
+        chunklen = TotalCoresInPlay*100;   
     elseif CONV.chW == 11
+        chunklen = TotalCoresInPlay*100;   
+    elseif CONV.chW == 9
         chunklen = TotalCoresInPlay*100;   
     elseif CONV.chW == 7
         chunklen = TotalCoresInPlay*100;   

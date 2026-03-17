@@ -67,9 +67,10 @@ if IMSTRCT.docolor
         elseif exist('mycmap','var')
             colormap(IMSTRCT.ahand,mycmap);
         end
-        colorbar(IMSTRCT.ahand);
     else
         colormap(IMSTRCT.ahand,'jet');
+    end
+    if IMSTRCT.docolorbar
         colorbar(IMSTRCT.ahand);
     end
 else

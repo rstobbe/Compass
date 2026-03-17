@@ -115,12 +115,18 @@ end
 %---------------------------------------------
 if strcmp(MSTRCT.colour,'Yes')
     clr = 1;
+else
+    clr = 0;
+end
+%-
+IMSTRCT.docolorbar = 1;
+%-
+if IMSTRCT.docolorbar
     MSTRCT.ahand.Units = 'pixels';
     MSTRCT.ahand.Position = [2,2,300,300];
     defAxesPos = [0.01 0.11 1.0 0.95];
     set(0,'DefaultAxesPosition',defAxesPos);
 else
-    clr = 0;
     MSTRCT.ahand.Position = [0,0,1,1];
 end
 
@@ -167,7 +173,7 @@ else
     scale = str2double(MSTRCT.scale);
 end   
 figdims = figdims*scale;
-if clr
+if IMSTRCT.docolorbar
     figdims(2) =  figdims(2)*1.3;
     truesizeRWS(handles.fhand,figdims);
 else

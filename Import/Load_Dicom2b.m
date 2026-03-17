@@ -43,10 +43,16 @@ if dinfo.InstanceNumber ~= 1
     return
 end
 series = dinfo.SeriesNumber;
-if isfield(dinfo,'Private_0051_100e')
-    orient = dinfo.Private_0051_100e;                       % Not sure about this always existing
-else
-    orient = 'Tra';
+% if isfield(dinfo,'Private_0051_100e')
+%     orient = dinfo.Private_0051_100e;                       % Not sure about this always existing
+% else
+%     orient = 'Tra';
+% end
+orient = 'Tra';
+if dinfo.AcquisitionMatrix(1) == 0
+    orient = 'Sag';
+elseif dinfo.AcquisitionMatrix(1) ~= 0 && dinfo.AcquisitionMatrix(3) ~= 0 && dinfo.AcquisitionMatrix(2) == 0
+    orient = 'Cor';
 end
 if isfield(dinfo,'PixelSpacing')
     pix = dinfo.PixelSpacing;
